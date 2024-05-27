@@ -1,0 +1,792 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PyQt.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%%%%%%%%%%%%%%%%
+
+% Quelle: https://www.heise.de/ratgeber/Programmieren-mit-Python-Bedienoberflaeche-via-PyQt-erstellen-4949489.html
+
+
+\chapter{Programmieren mit Python: Bedienoberfläche via PyQt erstellen}
+
+Wir zeigen Ihnen, wie Sie mit PyQt ein grafisches Login-Programm erstellen. Dabei lernen Sie die Grundlagen des beliebten GUI-Toolkits für Python kennen.
+
+Buttons, Checkboxen, Dropdown-Menüs – was normale Nutzer lieben, kann zu einem Albtraum für den Entwickler werden. Schließlich muss er seinen gut funktionierenden Code mit Zeilen für grafische Elemente überfrachten. Das kann eine weitere Fehlerquelle sein. Trotzdem: Normalerweise muss eine anständige grafische Benutzeroberfläche (graphical user interface, GUI) her, damit jeder Nutzer das jeweilige Programm effizient bedienen kann.
+
+Wir zeigen Ihnen, wie Sie ein simples Login-Fenster mit dem GUI-Toolkit PyQt erstellen. Das Fenster besteht aus einem Hinweistext, zwei Labels für Passwort und Benutzername, zwei Eingabefeldern und einem Button. Der Nutzer soll seine Daten für heise online eingeben und nach dem Buttonklick eine Rückmeldung erhalten, ob der Login funktioniert hat. Außerdem soll es ein kleines Menü geben, über das der Nutzer das Programm beendet.
+
+\section{PyQt gegen Pyside und Tkinter}
+
+
+PyQt bindet das Open-Source-Toolkit Qt in Python ein und wird von Riverbank Computing Limited entwickelt. Qt wird schon seit 1991 entwickelt und steht als Binding für viele verschiedene Sprachen zur Verfügung, etwa für Ruby, Java oder C\#. Für PyQt finden Sie im Netz eine \HREF{https://doc.qt.io/qtforpython/}{umfangreiche Dokumentation} zu allen Elementen.
+ 
+
+Neben PyQt gibt es noch andere Möglichkeiten, ein GUI für ein Python-Skript zu erstellen. In Python eingebaut ist das Toolkit Tkinter, das wir bereits in einem anderen Artikel beleuchtet haben. Mit Tkinter können Entwickler mit wenig Aufwand relativ altbackene Bedienoberflächen erstellen. Dagegen ist PyQt eine moderne Alternative.
+    
+Neben PyQt gibt es zudem noch PySide, das ebenfalls Qt einbindet. Dieses Binding wird von der Qt Company unterstützt. Der größte Unterschied zwischen PyQt und PySide besteht in der Lizenz. PyQt nutzt unter anderem die GNU GPL (General Public License) während PySide unter der offeneren GNU Lesser General Public License (LGPL) steht. Wer kommerzielle Projekte entwickelt, sollte sich daher mit den Feinheiten dieser Modelle auseinandersetzen.
+    
+\section{Hello World mit PyQt}
+
+Anders als Tkinter ist PyQt nicht in Python enthalten. Sie müssen daher die Bibliothek installieren und einbinden. Laden Sie die Bibliothek mit der Paketverwaltung Pip herunter:
+ 
+\medskip
+   
+\SHELL{pip install PyQt5}
+
+\medskip
+
+PyQt5 ist die aktuelle Version des PyQt-Projekts. Im Netz finden Sie viele Anleitungen, die sich auf das veraltete PyQt4 beziehen -- ignorieren Sie diese. Neue und sinnvolle PyQt5-Funktionen würden Ihnen sonst entgehen.
+    
+Bei PyQt hat es sich eingebürgert, nur die Elemente einzubinden, die Sie auch wirklich brauchen. Statt \PYTHON{import PyQt5} zu verwenden, holen Sie sich die benötigten Elemente mit einem Befehl \PYTHON{from}. Das wichtigste Element ist die \PYTHON{QApplication}. Dieser Befehl verfrachtet Sie ins Programm:
+    
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets import QApplication}
+
+\section{QApplication}
+
+Mit der \PYTHON{QApplication} legen Sie die wichtigsten Eigenschaften eines Fensters fest. Das Programm beginnt damit, dass Sie die \PYTHON{QApplication} starten und es wird geschlossen, wenn Sie die \PYTHON{QApplication} beenden. \PYTHON{QApplication} hält währenddessen eine Schleife aufrecht, in der alle Ereignisse verarbeitet werden, die im Fenster passieren, den Mainloop. Kurz gesagt: Ohne \PYTHON{QApplication} gibts kein Programm.
+    
+Daher legen Sie als nächstes die \PYTHON{QApplication} fest:
+    
+\medskip
+
+\PYTHON{programm = QApplication(sys.argv)}
+
+\medskip
+
+Unser Programm heißt kreativerweise \PYTHON{programm}. Der Befehl \PYTHON{sys.argv} ist wichtig, falls Ihr Programm Argumente über die Kommandozeile verarbeiten soll: \PYTHON{sys.argv} ist quasi eine Liste, die den Dateinamen des Projekts enthält sowie alle Argumente, die über die Kommandozeile kommen.
+    
+Für \PYTHON{sys.argv} müssen Sie aber vorher noch die Bibliothek \PYTHON{sys} importieren, die systemspezifische Funktionen bereithält:
+    
+\medskip
+
+\PYTHON{import sys}
+
+\medskip
+
+Sind Ihnen die Kommandozeile und die Argumente, die darüber kommen, egal, dann können Sie \PYTHON{QApplication} einfach eine leere Liste mit \PYTHON{[]} übergeben:
+    
+\medskip
+
+\PYTHON{programm = QApplication([])}
+
+\section{Hauptfenster erstellen}
+
+Nun erstellen Sie das eigentliche Fenster. Dafür ist \PYTHON{QWidget} verantwortlich, das Sie wie \PYTHON{QApplication} erst importieren müssen:
+    
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets import QWidget}
+
+\medskip
+
+Anschließend erstellen Sie das Fenster ähnlich kreativ wie das Hauptprogramm:
+    
+\medskip
+
+\PYTHON{fenster = QWidget()}
+
+\medskip
+
+\PYTHON{QWidget} hat kein Elternelement, also kein Argument wie \PYTHON{parent=}. Daher wird es als Waise sofort zum Hauptfenster befördert. Generell funktioniert die Eltern-Kind-Beziehung in PyQt so: Zerstören Sie ein Elternelement, löschen Sie gleichzeitig alle zugehörigen Kinder. Außerdem sollte jedes Element ein Elternelement haben, außer es handelt sich um ein Hauptfenster.
+    
+\section{Fenster aufrufen, Schleife starten}
+
+Nur noch zwei zusätzliche Zeilen, und schon sehen Sie das erste Fenster. Zuerst müssen Sie das Fenster auf den Bildschirm bringen. Dafür sorgt \PYTHON{show()}:
+
+\medskip
+    
+\PYTHON{fenster.show()}
+
+\medskip
+
+Nun starten Sie die Hauptschleife des Programms mit einem \PYTHON{programm.exec()}. In der Hauptschleife finden alle Ereignisse einer GUI statt, etwa Eingaben des Nutzers oder Klicks. Sie wird so lange ausgeführt, bis jemand das Programm beendet.
+    
+\PYTHON{programm.exec()} würde alleine schon reichen, um die unendliche Schleife zu starten. Allerdings hat es sich eingebürgert, die Hauptschleife in ein \PYTHON{sys.exit()} zu packen:
+    
+\medskip
+
+\PYTHON{sys.exit(programm.exec())}
+
+\medskip
+
+Damit gibt \PYTHON{sys.exit} den Exitcode des Programms an das Elternelement weiter, wenn Sie das Programm beenden -- etwa an den Explorer oder die Kommandozeile, womit Sie das Programm gestartet haben. Ein Exitcode, der nicht Null ist, weist immer auf einen Fehler hin und kann dementsprechend interpretiert werden.
+    
+In älteren Programmbeispielen werden Sie noch auf einen zusätzlichen Unterstrich stoßen: \PYTHON{exec\_()}. Das liegt daran, dass exec ein von Python reserviertes Keyword war. Jedenfalls bis Python 3 kam, dort ist es rausgeflogen. Wenn Sie mit PyQt5 und Python 3 arbeiten, brauchen Sie den Unterstrich nicht mehr und können \PYTHON{exec()} verwenden.
+    
+\begin{figure}
+  \includegraphics[width=\textwidth]{PyQt/PyQt01}    
+  \caption{Das erste Fenster ist noch grau und leer.}\label{PyQt01}
+\end{figure}     
+
+    
+Und damit haben Sie Ihr erstes Fenster mit nur sechs Zeilen Code erstellt:
+    
+\medskip
+
+\PYTHON{import sys}
+
+\PYTHON{from PyQt5.QtWidgets import QApplication, QWidget}
+
+\PYTHON{}
+
+\PYTHON{programm = QApplication(sys.argv)}
+    
+\PYTHON{}
+
+\PYTHON{fenster = QWidget()}
+
+\PYTHON{fenster.show()}
+    
+\PYTHON{}
+
+\PYTHON{sys.exit(programm.exec())}
+
+\section{Fenstertitel ändern}
+
+
+Nur eingestellt haben Sie noch nichts. Das Fenster verfügt zwar über einen Minimieren-, Maximieren- und Schließen-Button, ist an sich jedoch grau und öde. Als Fenstertitel steht auch nur ein Nichtssagendes "Python" oben links in der Ecke.
+    
+Also weiter: Am einfachsten ist es, den Titel des Fensters zu verändern. Das geht mit \PYTHON{setWindowTitle()}:
+    
+\medskip
+
+\PYTHON{fenster.setWindowTitle("Hello World")}
+    
+\medskip
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{PyQt/PyQt02}    
+    \caption{Damit steht "Hello World" auf dem Bildschirm.}\label{PyQt02}
+\end{figure}     
+
+    
+
+Gut, damit steht nun "Hello World" auf dem Bildschirm. Nun wollen wir den Text direkt im Fenster anzeigen. Dafür holen Sie ein neues Widget ins Programm, das \PYTHON{QLabel}. Es zeigt Texte und Bilder an. Sie importieren es wie \PYTHON{QApplication} oder \PYTHON{QWidget}, indem Sie \PYTHON{QLabel} getrennt durch ein Komma hinter den bestehenden Befehl \PYTHON{Import} schreiben oder eine neue Zeile aufmachen:
+    
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets import QLabel}
+
+\medskip
+
+Unser Label bekommt den Namen \PYTHON{helloLabel} und wird mit dem Hauptfenster \PYTHON{fenster} als Elternelement erstellt:
+    
+\medskip
+
+\PYTHON{helloLabel = QLabel("Hello World", parent=fenster)}
+
+
+\section{Größe ändern und Fenster verschieben}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{PyQt/PyQt03}    
+    \caption{Etwas gestaucht, aber "Hello World" taucht nun im Fenster auf.}\label{PyQt03}
+\end{figure}     
+
+
+    
+Wenn Sie das Programm nun ausführen, steht tatsächlich "Hello World" im Fenster. Allerdings ist das Fenster zusammengestaucht. Eine feste Größe können Sie dem Fenster mit \PYTHON{resize()} geben:
+
+\medskip
+    
+\PYTHON{fenster.resize(400, 200)}
+
+\medskip
+
+Der erste Parameter ist die Breite, der zweite Parameter die Höhe. Beide Werte beziehen sich auf Pixel. Nun verschieben Sie das Fenster noch an die gewünschte Position mit \PYTHON{move()}:
+    
+\medskip
+
+\PYTHON{fenster.move(500, 500)}
+
+\medskip
+
+Dabei ist der erste Wert die X-Koordinate und der zweite Wert die Y-Koordinate. Falls Sie es etwas kompakter haben möchten, können Sie resize() und move() auch in einem Attribut zusammenfassen. Nämlich \PYTHON{setGeometry()}:
+    
+\medskip
+
+\PYTHON{fenster.setGeometry(500, 500, 400, 200)}
+
+\medskip
+
+Der erste Parameter ist die Position auf der X-Achse, der zweite die Position auf der Y-Achse, der dritte beschreibt die Breite in Pixel und der vierte die Höhe in Pixel.
+    
+Die Position des Label-Widgets im Fenster können Sie ebenfalls bestimmen. Schieben Sie es doch etwas nach rechts und nach unten:
+    
+\medskip
+
+\PYTHON{helloLabel.move(175,20)}
+
+\medskip
+
+Und schon haben Sie ein nettes Hello-World-Fenster, das sogar ein wenig gelayoutet aussieht.
+    
+    
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{PyQt/PyQt04}    
+  \caption{Nun steht "Hello World" zentriert im Fenster.}\label{PyQt04}
+\end{figure}     
+    
+
+Der Programmcode dafür ist überschaubar:
+
+\medskip
+
+\begin{code}
+  \lstinputlisting[language=Python]{../code/General/PyQt/PyQtMinimal.py}        
+  \caption{Komplettes Minimalprogramm }
+\end{code}  
+    
+ 
+\section{Login-Fenster erstellen}
+ 
+Wie schon beim Tkinter-Beispiel erstellen wir ein Login-Fenster für heise online. So lässt sich der Code der beiden GUI-Frameworks gut miteinander vergleichen und viele grundlegende Funktionen lassen sich während des Codens erklären.
+    
+Wie bei Tkinter benötigen Sie auch bei PyQt zu Beginn eine leere Hülle, nämlich das reine Fenster. Im Laufe des Codes füllen Sie es dann mit Widgets und Ereignissen. Die Hülle besteht aus der Funktion \PYTHON{programm}, die sich um Formalien kümmert und der Klasse \PYTHON{HoLoginGui}, die das grundlegende Fenster zusammenbaut.
+    
+Beginnen Sie mit den Formalien in der Funktion \PYTHON{programm}:
+ 
+\medskip
+    
+\PYTHON{def programm():}
+
+\medskip
+
+Wie schon beim Hello-World-Programm definieren Sie zu Beginn eine \PYTHON{QApplication}, diesmal mit dem Namen \PYTHON{hologin}. Das \PYTHON{sys.argv} deutet darauf hin, dass das Programm Argumente über die Kommandozeile annehmen kann:
+
+\medskip
+    
+\PYTHON{hologin = QApplication(sys.argv)}
+
+\medskip
+
+Nun definieren Sie die Variable \PYTHON{gui} und verweisen auf die Klasse \PYTHON{HoLoginGui}, die noch nicht existiert. Aber da soll ja später das grundlegende Fenster entstehen. Mit \PYTHON{show()} bringen Sie das GUI dann auf den Bildschirm der Nutzer:
+
+\medskip
+    
+\PYTHON{gui = HoLoginGui()}
+
+\PYTHON{gui.show()}
+
+\medskip
+
+Die QApplication \PYTHON{hologin} müssen Sie noch mit einem \PYTHON{exec()} ausführen und für ein standardmäßiges Auslesen des Exitcodes in ein \PYTHON{sys.exit()} packen:
+
+\medskip
+    
+\PYTHON{sys.exit(hologin.exec())}
+
+\medskip
+
+Die Funktion \PYTHON{programm} ist damit durch. Außerhalb der Funktion, im Hauptprogramm müssen Sie \PYTHON{programm} nur noch aufrufen:
+
+\medskip
+    
+\PYTHON{programm()}
+
+\medskip
+
+Nun fehlt noch die Klasse HoLoginGui, auf die Sie in der Funktion \PYTHON{programm} verweisen:
+    
+\medskip
+
+\PYTHON{class HoLoginGui(QMainWindow):}
+
+\medskip
+
+Hier nutzen Sie nicht \PYTHON{QWidget}, wie im Hello-World-Beispiel, sondern \PYTHON{QMainWindow}. Mit \PYTHON{QMainWindow} können Sie recht einfach Statusleisten, Menüs oder Toolbars hinzufügen, daher ist es für viele Programme optimal. Vor allem kann man es verwenden, um ein zentrales Widget festzulegen, das den Kern des Programms bilden soll. Ohne ein zentrales Widget können Sie \PYTHON{QMainWindow} nicht verwenden.
+    
+Die folgende Methode initialisiert das \PYTHON{QMainWindow}:
+    
+\medskip
+
+\PYTHON{def \_\_init\_\_(self):}
+
+\PYTHON{super().\_\_init\_\_()}
+
+\medskip
+
+Mit self ist immer die aktuelle Instanz einer Klasse gemeint. \PYTHON{\_\_init\_\_} ist eine Methode, die in Python bereits reserviert ist und die man verwendet, um ein Objekt zu initialisieren. Sie funktioniert ähnlich wie ein Konstruktor in C++ oder Java. Statt \PYTHON{super().\_\_init\_\_()} könnten Sie auch \PYTHON{QMainWindow}.\PYTHON{\_\_init\_\_(self)} verwenden. Allerdings vermeiden Sie es mit super(), das übergeordnete Element hart reinzucoden und sorgen für eine flexiblere Weiterverwendung des Codes.
+    
+Anschließend legen Sie den Titel des Fensters fest und definieren ein \PYTHON{QWidget} als zentrales Widget des \PYTHON{QMainWindows} mit \PYTHON{setCentralWidget()}:
+
+\medskip
+    
+\PYTHON{self.setWindowTitle("Login fuer heise online")}
+
+\PYTHON{self.zentralesWidget = QWidget(self)}
+
+\PYTHON{self.setCentralWidget(self.zentralesWidget)}
+
+\medskip
+
+\begin{figure}
+  \includegraphics[width=0.6\textwidth]{PyQt/PyQt05}    
+  \caption{Auch das Login-Fenster beginnt klein, leer und grau.}\label{PyQt05}
+\end{figure}     
+    
+    
+
+Damit steht das grundlegende Fenster. Vergessen sie nicht die nötigen Importe über \PYTHON{import sys} und \PYTHON{from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget} einzubinden.
+    
+So sieht der Code bisher aus:
+
+\medskip
+  
+\begin{code}
+  \lstinputlisting[language=Python]{../code/General/PyQt/PyQtClass.py}        
+  \caption{Komplettes Programm }
+\end{code}     
+
+ 
+\section{Widgets hinzufügen}
+
+Wenn Sie den Code ausführen, sehen Sie bereits das kleine, graue Basisfenster vor sich. Wie ein Login-Fenster sieht es allerdings noch nicht aus. Wie schon beim Tkinter-Beispiel benötigen wir einen Beschreibungstext, Eingabefelder für den Benutzernamen und das Passwort, die passenden Labels für die Eingabefelder und natürlich einen Button, auf den der Nutzer klicken kann. Das Tabellenschema ist hilfreich, um sich das fertige Programm vorzustellen und die Widgets an die passende Stelle zu packen:
+
+\begin{lstlisting}    
+                 Beschreibung-Text
+    Benutzername-Label  Benutzername-Eingabefeld
+        Passwort-Label  Passwort-Eingabefeld
+                        Login-Button
+\end{lstlisting}
+
+Um dieses Layout zu verwirklichen, müssen Sie noch einige Widgets importieren. \PYTHON{QLabel} kennen Sie ja schon, es sorgt für die Benutzername- und Passwort-Labels, außerdem können Sie es für den Beschreibungstext verwenden -- bei Tkinter war das nur über ein zusätzliches Widget namens Message möglich. Weiterhin brauchen Sie einen Button, den \PYTHON{QPushButton}, und die Eingabefelder, die bei PyQt \PYTHON{QLineEdit} heißen:
+
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit}
+
+\section{Layout verwalten}
+
+Sie können alle Widgets mit \PYTHON{setGeometry()} platzieren, wie im Hello-World-Beispiel. Allerdings ist es nicht sehr elegant, Widgets auf den Pixel genau im Fenster rumzuschieben. Wenn Sie etwa Widgets tauschen oder andere Änderungen vornehmen wollen, halsen Sie sich damit viel Arbeit auf. PyQt bringt vier Manager mit, mit denen Sie das Layout einfacher verwalten können:
+ 
+\begin{itemize}
+  \item \PYTHON{QHBoxLayout}: Mit diesem Manager platzieren Sie alle Widgets in Kästen horizontal nebeneinander, daher das H im Namen. Über addWidget() fügen Sie so von links nach rechts jeweils ein Widget hinzu.
+  \item \PYTHON{QVBoxLayout}: Das V steht diesmal für Vertikal, ansonsten arbeitet es genauso wie \PYTHON{QHBoxLayout}. Alle Widgets fügen Sie mit \PYTHON{addWidget()} von oben nach unten ein.
+  \item \PYTHON{QGridLayout}: Mit diesem Manager platzieren Sie die Widgets in einem Gitter, indem Sie jeweils Reihe und Spalte für die Widgets in \PYTHON{addWidget()} festlegen.
+  \item \PYTHON{QFormLayout}: Mit diesem Manager erstellen Sie ein einfaches Layout, das aus zwei Spalten besteht. Die erste Spalte können Sie etwa für Labels verwenden und die zweite Spalte für Eingabefelder. Von oben nach unten fügen Sie Reihen mit \PYTHON{addRow()} hinzu und definieren dort etwa die Label-Texte und mit \PYTHON{QLineEdit} die Eingabefelder.
+\end{itemize}    
+
+Das \PYTHON{QGridLayout} lässt sich flexibel für unsere Zwecke anpassen. Importieren Sie es wie die üblichen Widgets über \PYTHON{from PyQt5.QtWidgets import QGridLayout}.
+    
+Nun verweisen Sie in der Variable \PYTHON{layout} auf \PYTHON{QGridLayout} und legen es anschließend mit \PYTHON{setLayout()} als Layout für das zentrale Widget fest:
+
+\medskip
+
+\PYTHON{self.layout = QGridLayout()}
+
+\PYTHON{self.zentralesWidget.setLayout(self.layout)}
+
+\section{Widgets erstellen}
+
+Nun fügen Sie die Widgets ein. Dafür erstellen Sie eine neue Methode namens \PYTHON{widgets} und binden Sie über \PYTHON{self.widgets()} in die Methode \PYTHON{\_\_init\_\_} ein.
+    
+Jedes Widget platzieren Sie nun einzeln über \PYTHON{addWidget} in das vorher erstellte \PYTHON{layout}. Beginnen Sie mit dem Beschreibungstext. Es soll in Spalte 0 und Reihe 0 beginnen und sich über zwei Spalten ziehen. Der Text soll außerdem "Gib deine Logindaten für heise online ein und drücke dann den Button." lauten. Das erreichen sie mit diesem Code:
+ 
+\medskip
+
+\PYTHON{self.layout.addWidget(QLabel("Gib deine Logindaten fuer heise online ein und druecke dann den Button."), 0, 0, 1, 2)}
+
+\medskip
+
+
+\PYTHON{self.layout.addWidget()} fügt dem \PYTHON{QGridLayout} hinter der Variable \PYTHON{layout} ein Widget hinzu. Der erste Parameter ist das Widget, ein \PYTHON{QLabel} mit dem vorher definierten Text in Anführungszeichen. Der zweite Parameter ist die Reihe, der dritte die Spalte, in der das Widget erscheinen soll. Es soll in der ersten Spalte und der ersten Reihe erscheinen, daher werden beide Parameter mit einer Null gefüllt -- die Zählung beginnt bei Null, nicht bei Eins. Der vierte Parameter gibt an, über wie viele Reihen sich das Widget strecken soll -- in diesem Fall nur über eine. Im fünften und letzten Parameter legen Sie schließlich fest, über wie viele Spalten sich das \PYTHON{QLabel} ziehen soll, nämlich über zwei.
+    
+Nun fügen Sie die Benutzername- und Passwort-Labels hinzu:
+
+\medskip
+
+\PYTHON{self.layout.addWidget(QLabel("Benutzername:"), 1, 0)}
+
+\PYTHON{self.layout.addWidget(QLabel("Passwort:"), 2, 0)}
+
+\medskip
+
+Auch dabei handelt es sich um QLabels, sie werden im zweiten Parameter in Reihe eins beziehungsweise Reihe zwei platziert. Die Spalte ist bei beiden die erste, also ist der dritte Parameter jeweils eine Null. Da sie sich nicht über mehrere Reihen oder Spalten ziehen sollen, müssen Sie den vierten und fünften Parameter nicht ausfüllen, sie bleiben standardmäßig auf \PYTHON{1}.
+    
+Es folgen die Eingabefelder, die Sie mit einem \PYTHON{QLineEdit} in Reihe eins und zwei hinzufügen:
+    
+\medskip
+
+\PYTHON{self.layout.addWidget(QLineEdit(),1,1)}
+
+\PYTHON{self.layout.addWidget(QLineEdit(), 2,1)}
+
+\medskip
+
+Die Spalte ist diesmal auf 1 gesetzt, nicht auf Null. So erscheinen die Eingabefelder rechts neben den Labels.
+    
+Zu guter Letzt benötigen Sie noch den Button, den Sie über \PYTHON{QPushButton} einbinden:
+    
+\medskip
+
+\PYTHON{self.layout.addWidget(QPushButton("Einloggen"),3,0,1,2)}
+
+\medskip
+
+
+Er wird mit dem Text "Einloggen"{} versehen, in Reihe drei (Parameter zwei) und Reihe null (Parameter drei) platziert und streckt sich über eine Reihe (Parameter vier) und zwei Spalten (Parameter fünf). Das Strecken über zwei Spalten kennen Sie schon vom Beschreibungstext.
+    
+Wenn Sie nun das Programm starten, können Sie Ihr Layout begutachten. Der Beschreibungstext und der Button strecken sich wie beabsichtigt über zwei Spalten, die Labels mit "Benutzername:"{} und "Passwort:"{} haben jeweils ein Eingabefeld rechts daneben. Das sieht doch schon Mal nach einem Login-Fenster aus. Der Button ist zwar klickbar, tut aber noch nichts.
+    
+ 
+\begin{figure}
+  \includegraphics[width=\textwidth]{PyQt/PyQt06}    
+  \caption{Das sieht schon nach einem Login-Fenster aus.}\label{PyQt06}
+\end{figure}     
+    
+   
+
+Das Fenster ist momentan noch am Beschreibungstext ausgerichtet und daher langgezogen. Mit einem \textbackslash n im Text geben Sie dem \PYTHON{QLabel} an der passenden Stelle einen Zeilenumbruch:
+    
+\medskip
+
+\PYTHON{self.layout.addWidget(QLabel("Gib deine Logindaten fuer heise online ein \textbackslash n und druecke dann den Button."), 0, 0, 1, 2)}
+
+
+\section{Elemente ausrichten}
+
+    
+
+Der Zeilenumbruch steht nun an der passenden Stelle, aber der Text im Widget ist noch linksbündig. Um es zu zentrieren, bauen wir das \PYTHON{QLabel} etwas um und importieren neue Methoden:
+    
+\medskip
+    
+\PYTHON{from PyQt5.QtCore import Qt}
+
+\medskip
+
+Denn um den Text zu zentrieren, benötigen Sie die Ausrichtungsmethoden aus dem \PYTHON{QtCore}.
+    
+Nun lagern Sie das Widget in die Variable \PYTHON{labelBeschreibungstext} aus:
+    
+\medskip
+
+\PYTHON{self. labelBeschreibungstext = QLabel("Gib deine Logindaten fuer heise online ein \textbackslash n und druecke dann den Button.")}
+
+\medskip
+
+Anschließend wenden Sie \PYTHON{setAlignment} darauf an und richten es mit \PYTHON{Qt.AlignCenter} mittig aus:
+ 
+\medskip
+
+\PYTHON{self.labelBeschreibungstext.setAlignment(Qt.AlignCenter)}
+
+\medskip
+
+Dann platzieren Sie das Widget wieder im Gitter, verweisen aber nur noch auf die Variable:
+
+\medskip
+
+\PYTHON{self.layout.addWidget(self.labelBeschreibungstext, 0, 0, 1, 2)}
+
+\medskip
+
+Auch die Labels für den Benutzernamen und das Passwort gehören neu ausgerichtet. Sie sollen rechtsbündig an den zugehörigen Eingabefeldern kleben. Dafür packen Sie die Labels ebenfalls in neue Variablen:
+    
+\medskip
+
+\PYTHON{self.labelBenutzername = QLabel("Benutzername:")}
+
+\PYTHON{self.labelPasswort = QLabel("Passwort:")}
+
+\medskip
+
+Dieses Mal regeln Sie die Ausrichtung allerdings nicht über \PYTHON{setAlignment}, sondern verwenden einen neuen Parameter namens \PYTHON{alignment} in \PYTHON{addWidget}. Damit beeinflussen Sie die gesamte Ausrichtung des Widgets, nicht nur die Ausrichtung des Textes:
+    
+\medskip
+
+\PYTHON{self.layout.addWidget(self.labelBenutzername, 1, 0, alignment=Qt.AlignRight)}
+
+\PYTHON{self.layout.addWidget(self.labelPasswort, 2, 0, alignment=Qt.AlignRight)}
+
+\medskip
+
+Genauso verfahren Sie mit den Eingabefeldern, verpassen ihnen aber ein \PYTHON{AlignLeft}, um sie an die linke Seite zu tackern. Außerdem bekommen Sie eine feste Größe von 120 Pixel mit \PYTHON{setFixedWidth}:
+    
+\medskip
+    
+\PYTHON{self.eingabeBenutzername = QLineEdit()}
+
+\PYTHON{self.eingabeBenutzername.setFixedWidth(120)}
+
+\PYTHON{}
+
+\PYTHON{self.eingabePasswort = QLineEdit()}
+
+\PYTHON{self.eingabePasswort.setFixedWidth(120)}
+
+\PYTHON{}
+
+\PYTHON{self.layout.addWidget(self.eingabeBenutzername, 1, 1, alignment=Qt.AlignLeft)}
+
+\PYTHON{self.layout.addWidget(self.eingabePasswort, 2, 1, alignment=Qt.AlignLeft)}
+
+\medskip
+
+Zudem möchten Sie, dass der Text durch Punkte ersetzt wird, wenn ein Nutzer sein Passwort eingibt – es könnte ja jemand über die Schulter schauen. Dafür nutzen Sie \PYTHON{set.EchoMode} und \PYTHON{QLineEdit.Password}:
+    
+\medskip
+
+\PYTHON{self.eingabePasswort.setEchoMode(QLineEdit.Password)}
+
+\medskip
+   
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{PyQt/PyQt07}    
+    \caption{Jetzt hat das Fenster die passende Größe.}\label{PyQt07}
+\end{figure}     
+    
+    
+
+Der Button fehlt noch. Er benötigt zwei Ausrichtungen: Er soll nämlich mittig platziert sein und gleichzeitig oben an den anderen Elementen kleben. Ein $|$ trennt verschiedene Ausrichtungen:
+    
+\medskip
+
+\PYTHON{self.buttonEinloggen = QPushButton("Einloggen")}
+
+\PYTHON{self.buttonEinloggen.setFixedWidth(120)}
+
+\PYTHON{self.layout.addWidget(self.buttonEinloggen, 3, 0, 1, 2, alignment=Qt.AlignCenter$|$ Qt.AlignTop)}
+
+\medskip
+
+Einen letzten Parameter \PYTHON{alignment} benötigen Sie noch, nämlich für den Beschreibungstext. Er soll unten an den anderen Elementen kleben. Dafür sorgt \PYTHON{Qt.AlignBottom}:
+
+\medskip
+
+\PYTHON{self.layout.addWidget(self.labelBeschreibungstext, 0, 0, 1, 2, alignment=Qt.AlignBottom)}
+
+\medskip
+
+Und damit steht auch schon das grundlegende Layout inklusive Maskierung des Passworts:
+
+\medskip
+
+\PYTHON{self.labelBeschreibungstext = QLabel("Gib deine Logindaten fuer heise online ein \textbackslash n und druecke dann den Button.")}
+
+\PYTHON{self.labelBeschreibungstext.setAlignment(Qt.AlignCenter)}
+    
+\PYTHON{}
+    
+\PYTHON{self.labelBenutzername = QLabel("Benutzername:")}
+
+\PYTHON{self.labelPasswort = QLabel("Passwort:")}
+
+\PYTHON{}
+
+\PYTHON{self.eingabeBenutzername = QLineEdit()}
+
+\PYTHON{self.eingabeBenutzername.setFixedWidth(120)}
+
+\PYTHON{}
+
+\PYTHON{self.eingabePasswort = QLineEdit()}
+
+\PYTHON{self.eingabePasswort.setEchoMode(QLineEdit.Password)}
+
+\PYTHON{self.eingabePasswort.setFixedWidth(120)}
+
+\PYTHON{}
+
+\PYTHON{self.buttonEinloggen = QPushButton("Einloggen")}
+
+\PYTHON{self.buttonEinloggen.setFixedWidth(120)}
+
+\PYTHON{}
+    
+\PYTHON{self.layout.addWidget(self.labelBeschreibungstext, 0, 0, 1, 2, alignment=Qt.AlignBottom)}
+
+\PYTHON{self.layout.addWidget(self.labelBenutzername, 1, 0, alignment=Qt.AlignRight)}
+
+\PYTHON{self.layout.addWidget(self.labelPasswort, 2, 0, alignment=Qt.AlignRight)}
+
+\PYTHON{self.layout.addWidget(self.eingabeBenutzername, 1, 1, alignment=Qt.AlignLeft)}
+
+\PYTHON{self.layout.addWidget(self.eingabePasswort, 2, 1, alignment=Qt.AlignLeft)}
+
+\PYTHON{self.layout.addWidget(self.buttonEinloggen, 3, 0, 1, 2, alignment=Qt.AlignCenter$|$ Qt.AlignTop)}
+
+
+
+
+
+\section{Button klickbar machen}
+
+Das Fenster sieht gut aus und verhält sich auch schon recht ordentlich. Allerdings führt der Klick auf den Button noch ins Leere. Erstellen Sie eine neue Methode namens \PYTHON{buttonGeklickt}:
+
+\medskip
+    
+\PYTHON{def buttonGeklickt(self):}
+
+\medskip
+
+Nun verbinden Sie den Button aus der Methode \PYTHON{widgets} mit den noch zu erstellenden Aktionen in der Methode \PYTHON{buttonGeklickt}. Die Verbindung entsteht bei PyQt über Signale und Slots. Ein Signal kann etwa ein Buttonklick sein, ein veränderter Text, eine markierte Checkbox und noch viel mehr. Ein Slot ist etwa eine Methode, die aufgerufen wird, wenn ein Widget das Signal aussendet. Signal und Slot verbindet man mit einem simplen \PYTHON{connect()}.
+    
+Für unser Beispielprojekt sieht die Verbindung in der Widget-Methode so aus:
+    
+\medskip
+    
+\PYTHON{self.buttonEinloggen.clicked.connect(self.buttonGeklickt)}
+
+\medskip
+ 
+\PYTHON{self.buttonEinloggen} ist der QPushButton, \PYTHON{clicked} ist das Signal, nämlich ein geklickter Button, \PYTHON{connect()} ist die Verbindung und \PYTHON{self.buttonGeklickt} ist die neu erstellte Methode, in der nach dem Klick Aktionen stattfinden.
+    
+\section{Einloggen}
+
+Nun ist \PYTHON{buttonGeklickt} noch leer, das sollten Sie ändern. Als erstes benötigen Sie die Eingaben des Nutzers, also seinen Benutzernamen und das Passwort. Diese Daten holen Sie mit \PYTHON{text()} aus den QLineEdits:
+
+\medskip
+    
+\PYTHON{self.benutzername = self.eingabeBenutzername.text()}
+
+\PYTHON{self.passwort = self.eingabePasswort.text()}
+    
+\medskip
+    
+Beim weiteren Login orientieren wir uns an dem Code, der schon im Tkinter-Beispiel gut funktioniert hat. Sie definieren einen Fake-Browser in einem Dictionary, um sich einzuloggen:
+
+\medskip
+    
+\PYTHON{self.fake\_browser = \{"{}User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0"\}}
+
+\medskip    
+
+Der User-Agent enthält Daten über den Browser und dem verwendeten System, was anschließend an die Website gesendet wird. Ihren eigenen User-Agent sehen Sie etwa auf \URL{http://wieistmeinuseragent.de}.
+    
+Die Daten für den Login speichern Sie in einem weiteren Dictionary:
+
+\medskip
+    
+\PYTHON{self.login\_daten = }{"{}username":self.benutzername, "password":self.passwort, "{}action":"/sso/login/login"\}}
+    
+\medskip
+    
+Bei heise online loggen Sie sich über die Website \URL{https://www.heise.de/sso/login/login} ein. Verantwortlich für den Login ist eine Methode \PYTHON{POST} mit der Aktion \PYTHON{/sso/login/login}, daher wird auch sie im Dictionary festgelegt.
+    
+Der Login läuft dann über \PYTHON{requests}, das Sie vorher importieren müssen:
+
+\medskip
+    
+\PYTHON{import requests}
+    
+\PYTHON{}
+
+\PYTHON{self.login = requests.Session().post(url="https://www.heise.de/sso/login/login", data=self.login\_daten, headers=self.fake\_browser)}
+
+\medskip
+
+In einer \PYTHON{Session()} werden Cookies gespeichert und Sie können später mit aktivem Login andere Seiten aufrufen. \PYTHON{post()} steht für die HTML-Methode \PYTHON{POST}, die \PYTHON{url} ist die heise-Login-Seite, data enthält die vorher festgelegten Login-Daten und in headers geben Sie den Fake-Browser als User-Agent mit.
+    
+Der Login steht, beim Klick auf den Button passiert aber noch immer nichts. Kein Wunder, läuft der Login doch im Hintergrund ab. Es gibt noch keinen visuellen Hinweis, ob der Login geklappt hat. Als nächstes wollen wir daher den Beschreibungstext ändern, entweder in eine Erfolgsmeldung oder in einen Hinweis, dass der Benutzername oder das Passwort falsch war.
+    
+Falls der Login nicht geklappt hat, erkennen Sie dies, wenn in \PYTHON{self.login.text} die Zeile "Der Benutzername oder das Passwort ist falsch." auftaucht. Das nutzen Sie für eine If-Abfrage:
+
+\medskip
+    
+\PYTHON{if "Der Benutzername oder das Passwort ist falsch." in self.login.text:}
+
+\PYTHON{\qquad self.labelBeschreibungstext.setText("Fehler: Der Benutzername \textbackslash n oder das Passwort ist falsch.")}
+
+\PYTHON{\qquad  self.labelBeschreibungstext.setStyleSheet("color: red;")}
+
+\medskip    
+
+\begin{figure}
+  \centering    
+  \includegraphics[width=0.4\textwidth]{PyQt/PyQt08}    
+  \caption{Oh, da ist etwas schiefgelaufen.}\label{PyQt08}
+\end{figure}    
+
+\PYTHON{setText} ändert den Inhalt des Beschreibungstextes. Mit \PYTHON{setStyleSheet} ändern Sie die Farbe des Textes auf Rot.
+    
+Nun müssen Sie noch ein \PYTHON{else} definieren, falls der Login richtig war:
+    
+\medskip
+    
+\PYTHON{else:}
+
+\PYTHON{\qquad self.labelBeschreibungstext.setText("Sie haben sich erfolgreich eingeloggt.")}
+
+\PYTHON{\qquad self.labelBeschreibungstext.setStyleSheet("color: green;")}
+
+\medskip
+
+Auch hier ändern Sie wieder den Text, färben ihn aber dieses Mal grün ein.
+    
+\section{Menü hinzufügen}
+
+Wie schon beim Tkinter-Beispiel soll auch dieses Fenster ein kleines Menü bekommen, damit der Nutzer es einfach beenden kann. Da Sie das GUI als \PYTHON{QMainWindow} angelegt haben, kostet das kaum Codezeilen.
+    
+Erst erstellen Sie eine neue Methode namens \PYTHON{menu}:
+    
+\medskip
+    
+\PYTHON{def menu(self):}
+
+\medskip    
+
+Dort legen Sie nun ein Datei-Menü an über \PYTHON{self.menuBar().addMenu()}:
+
+\medskip
+    
+\PYTHON{self.menu = self.menuBar().addMenu("\&Datei")}
+    
+\medskip
+    
+Datei in den Anführungszeichen ist dabei der Name des Menüs, das \PYTHON{\&} macht das \PYTHON{D} zu einem Shortcut, um das Dateimenü aufzurufen, also den ersten Buchstaben. Dieses Menü ist noch leer, es fehlt eine Aktion. Mit \PYTHON{addAction()} bringen Sie Leben rein:
+
+\medskip
+    
+\PYTHON{self.menu.addAction("\&Beenden", self.close)}
+
+\medskip
+    
+Der Eintrag heißt \PYTHON{Beenden} und wenn man darauf klickt, wird \PYTHON{self.close} ausgeführt -- der Nutzer schließt damit das Programm. Die Methode \PYTHON{menu}e müssen Sie nun noch in der Methode \PYTHON{\_\_init\_\_} aufrufen:
+
+\medskip
+    
+\PYTHON{self.menu()}
+
+\medskip
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{PyQt/PyQt09}    
+    \caption{Mit einem Menü ist das Fenster komplett.}\label{PyQt09}
+\end{figure}    
+    
+    
+    Und damit haben Sie ein kleines Login-Programm gebaut, inklusive Reaktion und Menü:
+ 
+\begin{code}
+  \lstinputlisting[language=Python]{../code/General/PyQt/PyQtMenu.py}        
+  \caption{Komplettes Programm mit Menu}
+\end{code}
+
+  
+\section{Fazit}
+
+Mit PyQt lassen sich mit nur wenigen Dutzend Codezeilen kleine Programme erstellen. Tkinter-Code ist dagegen zwar noch etwas kompakter, dafür sind die einzelnen Zeilen eines PyQt-Programms besser zu verstehen. Vor allem das System aus Signalen und Slots bei PyQt macht es sehr leicht, Aktionen mit Reaktionen zu verknüpfen.
+    
+\begin{figure}
+  \includegraphics[width=\textwidth]{PyQt/PyQt10}    
+  \caption{PyQt (links) wirkt moderner als das Login-Programm mit Tkinter (rechts).}\label{PyQt10}
+\end{figure}    
+
+Während die Tkinter-Widgets von Haus aus etwas altbackener wirken, sehen die Widgets eines PyQt-Programms recht modern aus. Tkinter versucht sich immerhin mit dem Modul tkk einen modernen Look zu verpassen. Tkinter hat den Vorteil, dass Sie keine externen Bibliotheken installieren müssen. Bei PyQt sollten Sie hingegen genau darauf achten, welche Module Sie importieren, um das Programm nicht zu überlasten.
+    
+Per Hand werden Sie vermutlich bei komplexeren Programmen schnell an Grenzen stoßen. Für Qt gibt es etwa den kostenlosen Qt Designer, \HREF{https://www.qt.io/product/development-tools}{der Teil des Qt Creators ist}, einer Entwicklungsumgebung für Qt-Projekte. Wer nicht alles per Hand coden will, kommt auch so auf eine schöne Bedienoberfläche für seine Nutzer. 

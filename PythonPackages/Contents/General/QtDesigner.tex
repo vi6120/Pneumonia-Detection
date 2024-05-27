@@ -1,0 +1,516 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/QtDesigner.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%%%%%%%%%%%%%%%%
+
+% Quelle: https://www.heise.de/ratgeber/Qt-Designer-Bedienoberflaechen-fuer-Python-per-Drag-and-Drop-erstellen-6264854.html?seite=all
+
+
+\chapter{GUI für Python: Bedienoberfläche per Drag-and-Drop mit dem Qt Designer erstellen}
+
+Mit dem Qt Designer erstellen Sie schnell Bedienoberflächen für Python-Programme. Die Elemente lassen sich intuitiv anordnen, coden muss man nur noch wenig.
+
+Es ist oft recht mühsam, Bedienoberflächen für Software per Hand zu programmieren. Man muss viele Einstellungen fürs Layout festlegen und am Ende hat man ein Kuddelmuddel aus Design und Funktion im Code stehen. Gerade bei komplexen grafischen Benutzeroberflächen (Graphical User Interface/GUI) ufert der Code schnell aus und man kann die Übersicht verlieren.
+
+Mit dem Qt Designer erstellen Sie per Drag-and-drop einfache oder komplexe Layouts. Über das GUI-Toolkit PyQt kann man das erstellte Layout dann für sein Python-Programm nutzen. Dabei werden Aussehen und Logik streng getrennt: Das Design wird in einer extra UI-Datei ausgelagert, die Funktionen dafür erstellt man wie gewohnt in der Python-Datei. PyQt-Kentnisse helfen natürlich, allerdings eignet sich der Designer auch gut, um grundlegende Konzepte von PyQt und beziehungsweise Qt zu lernen.
+
+Wir zeigen, wie man ein simples Login-Fenster baut. Das Fenster besteht aus einem Hinweistext, zwei Labels für Passwort und Benutzername, zwei Eingabefeldern und einem Button. Der Nutzer soll seine Daten für heise online eingeben und nach dem Buttonklick eine Rückmeldung erhalten, ob der Login funktioniert hat. Außerdem soll es ein kleines Menü geben, über das der Nutzer das Programm beendet. Für dieses Beispiel nutzen wir PyQt5 und Python 3.8 auf Windows 10.
+
+\section{Installation}
+
+Am einfachsten holt man sich den Designer über die pyqt5-tools:
+
+\medskip
+
+\SHELL{pip install pyqt5-tools}
+
+\medskip
+
+Anschließend findet man etwa auf einem Windows-Rechner die \FILE{Designer.exe} unter \SHELL{../Lib/site-packages/qt5\_applications/Qt/bin}. Der österreichische Entwickler Michael Hermann bietet zudem Standalone-Versionen des Designers \HREF{https://build-system.fman.io/qt-designer-download}{für Windows oder MacOS auf seiner Website} an.
+
+Später benötigt man noch PyQt5, das sich per pip installieren lässt:
+
+\medskip
+
+\SHELL{pip install pyqt5}
+
+\section{Erster Start}
+
+Startet man den Designer zum ersten Mal, soll der Nutzer gleich ein neues Formular erstellen und kann aus verschiedenen Vorlagen wählen: Dialog mit Buttons unten, Dialog mit Buttons rechts, Hauptfenster, Widget und so weiter.
+
+Als erstes Beispiel wollen wir nur ein Fenster auf den Bildschirm bringen, in dem der Text ´´Hello World!'' steht. Dafür reicht die Vorlage Main Window völlig aus. Die Bildschirmgröße belässt man auf "Vorgabe" und klickt anschließend auf ``Neu von Vorlage''. Im Arbeitsbereich des Qt Designers erscheint ein Fenster mit grauem Hintergrund und schwarzen Punkten.
+
+\section{Bedienoberfläche}
+
+Der Arbeitsbereich wird von mehreren Menüs umrahmt: links findet man die Widgetbox. Nutzer können Elemente wie Listen, Checkboxen oder Dropdown-Menüs daraus per Drag-and-drop in den Arbeitsbereich ziehen. Die Widgets sind in verschiedene Gruppen unterteilt, etwa Input Widgets, Layouts oder Container. Über ein Eingabefeld am oberen Rand kann der Nutzer gezielt nach bestimmten Widgets suchen.
+
+Rechts stehen die Objektanzeige, die Eigenschaften des Layouts sowie ein Tabmenü für die genutzten Ressourcen, Aktionen und das Signale-und-Slots-System von Qt.
+
+In der Objektanzeige findet man die derzeit genutzten Widgets – das Hauptfenster besteht in diesem Fall aus dem Objekt MainWindow, das ein zentrales Widget, eine Menüleiste und eine Statusleiste enthält. In einem Hauptfenster bei Qt ist das zentrale Widget häufig umgeben von Dock Widgets, die wiederum von Toolbars eingerahmt sind. Am oberen Rand des Fensters steht dann die Menüleiste, am unteren Rand die Statusleiste.
+
+Der Qt Designer selbst ist ein schönes Beispiel für das Layout eines Hauptfensters mit zentralem Widget. Es hat Dock Widgets an den Seiten, sowie jeweils eine Menü-, Tool- und Statusleiste.:
+
+\begin{figure}
+    \begin{center}
+       \includegraphics[width=\textwidth]{QtDesigner/QtDesigner01}
+       \caption{Der Qt Designer wirkt so, als hätte man das Fensterlayout mit dem Qt Designer erstellt.}
+    \end{center}
+\end{figure}
+
+
+In den Eigenschaften findet man etwa Optionen für die Größe des Fensters – hier 800 × 600 Pixel –, das Symbol für den Mauszeiger oder die verwendete Schriftart.
+
+Unter den Eigenschaften steht schließlich das Tabmenü mit drei weiteren Menüs:
+
+\begin{itemize}
+  \item Über das Ressourcen-Menü lassen sich externe Dateien wie etwa Bilder einbinden.
+  \item Das Aktionen-Menü erleichtert es, verschiedenen Elementen eine bestimmte Aktion zuzuweisen. Ein Beispiel: In einem Programm soll der Nutzer eine neue Datei anlegen. Das geht über einen Menüeintrag, ein Tastenkürzel und über einen Button in einer Toolbar. Anstatt nun an drei verschiedenen Stellen die gleichen Befehle zu hinterlegen, erstellt man eine Aktion und verknüpft sie mit verschiedenen Objekten.
+  \item Das Signale-und-Slots-System: Ein Signal kann etwa ein Klick auf einen Button sein, ein veränderter Text, eine markierte Checkbox und noch viel mehr. Alles, was ein Widget sendet, kann ein Signal sein. Ein Slot ist etwa eine Methode, die aufgerufen wird, wenn ein Widget das Signal aussendet.
+\end{itemize}
+
+\section{Hello World!}
+
+Der einfachste Weg, ein ``Hello World!'' auf den Bildschirm zu zaubern: den Titel des Fensters verändern. In den Eigenschaften sucht man dafür nach dem Eintrag \PYTHON{windowTitle} und ändert den zugehörigen Wert zu ``Hello World!''.
+
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{QtDesigner/QtDesigner02}
+        \caption{Im Titel des Fensters steht nun "Hello World!" – das zählt.}
+    \end{center}
+\end{figure}
+
+
+
+Mit der Tastenkombination STRG+R können Sie eine Live-Vorschau der bisher erstellten Bedienoberfläche aufrufen: Ein Fenster mit grauem Hintergrund erscheint, es ist 800 × 600 Pixel groß und im Titel steht tatsächlich ``Hello World!''.
+
+Das ist für den Anfang nicht schlecht, aber der Text soll doch lieber in der Mitte des Fensters stehen, nicht nur im Titel. Schließen Sie dafür das Vorschaufenster und ziehen Sie dann ein Label-Widget in den Arbeitsbereich. Ein Label ist genau für diesen Zweck gemacht, es soll schlicht Text anzeigen.
+
+Mit einem Doppelklick im Label lässt sich der Text anpassen. Dort tippt man einfach ``Hello World!'' ein. Das Standardlabel dürfte für diesen Text zu klein sein: Ziehen Sie an den blauen Quadraten, um die Größe des Labels zu ändern. Wer lieber Zahlen mag, passt die Größe in den Eigenschaften unter geometry an. Nach einem STRG+R sieht man nun, dass der Hello-World-Text nicht nur im Titel des Fensters steht, sondern auch in der Mitte erscheint.
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{QtDesigner/QtDesigner03}
+        \caption{Ja, das ist Comic Sans.}
+    \end{center}
+\end{figure}
+
+
+
+Standardmäßig ist der Text im Label linksbündig ausgerichtet. Über die Option alignment des Bereichs QLabel in den Eigenschaften kann man das ändern. Neben linksbündig stehen hier zentriert, rechtsbündig oder Blocksatz zur Auswahl. Zusätzlich lässt sich der Text etwa am oberen oder unteren Rand ausrichten. Die Schriftart und -größe legt man im Abschnitt QWidget über die Option font fest. Hier lässt sich der Text auch kursiv gestalten, unterstreichen, durchstreichen und so weiter.
+
+\section{Bedienoberfläche in Python integrieren}
+
+    
+Momentan existiert das Hello-World-Fenster nur im Qt Designer. Damit ein Python-Skript darauf zugreifen kann, muss man es exportieren. Im Designer speichert man die Datei wie gewohnt unter ``Datei'', ``Speichern unter\ldots''; ein passender Name wäre \FILE{helloworld.ui}.
+
+Der Designer speichert die Bedienoberfläche als UI-Datei. Das ist eine Datei im XML-Format, in der alle relevanten Widgets, Einstellungen und Layout-Entscheidungen stehen. Es gibt verschiedene Möglichkeiten, wie daraus die Bedienoberfläche für ein Python-Programm wird.
+
+\section{pyuic5}
+
+Mit diesem Befehl in der Konsole wird aus der zuvor erstellten helloworld.ui-Datei eine Datei \FILE{helloworld.py}:
+
+\medskip
+
+\SHELL{pyuic5 helloworld.ui -o helloworld.py}
+
+
+\medskip
+
+
+pyuic5 haben Sie zuvor mit dem Designer über die pyqt5-tools installiert. Das \PYTHON{-o} steht schlicht für Output.
+
+In der neuen Python-Datei wird das komplette Layout nachgebildet, das vorher im Qt Designer erstellt wurde. Die ersten Zeilen von \FILE{helloworld.py} sehen in diesem Beispiel so aus:
+
+\medskip
+
+\PYTHON{\# -*- coding: utf-8 -*-}
+
+\PYTHON{}
+
+\PYTHON{\# Form implementation generated from reading ui file 'helloworld.ui'}
+
+\PYTHON{\#}
+
+\PYTHON{\# Created by: PyQt5 UI code generator 5.15.4}
+
+\PYTHON{\#}
+
+\PYTHON{\# WARNING: Any manual changes made to this file will be lost when pyuic5 is}
+
+\PYTHON{\# run again.  Do not edit this file unless you know what you are doing.}
+
+\PYTHON{}
+
+\PYTHON{from PyQt5 import QtCore, QtGui, QtWidgets}
+
+\PYTHON{}
+
+\PYTHON{class Ui\_MainWindow(object):}
+
+\PYTHON{\qquad def setupUi(self, MainWindow):}
+
+\PYTHON{\qquad \qquad MainWindow.setObjectName("MainWindow")}
+
+\PYTHON{\qquad \qquad MainWindow.resize(800, 600)}
+
+\PYTHON{\qquad \qquad self.centralwidget = QtWidgets.QWidget(MainWindow)}
+
+\PYTHON{\qquad \qquad self.centralwidget.setObjectName("centralwidget")}
+
+\PYTHON{\qquad \qquad self.label = QtWidgets.QLabel(self.centralwidget)}
+
+\medskip
+
+
+Die Python-Datei auszuführen bringt noch nicht das Hello-World-Fenster auf den Bildschirm. Aber Sie können nun in einer weiteren Python-Datei auf die Funktion \PYTHON{setupUi} in der Klasse \PYTHON{Ui\_MainWindow} verweisen und so die Bedienoberfläche aufrufen.
+
+Dafür erstellt man etwa eine Datei namens main.py im selben Ordner und importiert zu Beginn die Widgets von PyQT5 sowie die Datei \FILE{helloworld.py}:
+
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets inport QApplication, QMainWindow}
+
+\PYTHON{import sys}
+
+\PYTHON{import helloworld}
+
+\medskip
+
+Ein kleines Programm, dass das Fenster anzeigt, kann dann etwa so aussehen:
+
+\PYTHON{class HelloworldProgramm(QMainWindow, helloworld.Ui\_MainWindow):}
+
+\PYTHON{\qquad def \_\_init\_\_(self, parent=None):}
+
+\PYTHON{\qquad \qquad super(HelloworldProgramm, self).\_\_init\_\_(parent)}
+
+\PYTHON{\qquad \qquad self.setupUi(self)}
+
+\PYTHON{}
+
+\PYTHON{programm = QApplication(sys.argv)}
+
+\PYTHON{fenster = HelloworldProgramm()}
+
+\PYTHON{fenster.show()}
+
+\PYTHON{sys.exit(programm.exec())}
+
+\medskip
+
+Mit \PYTHON{QApplication} legen Sie die wichtigsten Eigenschaften eines Fensters fest. Das Programm beginnt damit, dass \PYTHON{QApplication} startet und es wird geschlossen, wenn \PYTHON{QApplication} beendet wird. \PYTHON{QApplication} hält währenddessen eine Schleife aufrecht, in der alle Ereignisse verarbeitet werden, die im Fenster passieren, den Mainloop. Kurz gesagt: Ohne \PYTHON{QApplication} gibts kein Programm.
+
+\PYTHON{programm.exec()} würde alleine schon reichen, um die unendliche Schleife zu starten. Allerdings hat es sich eingebürgert, die Hauptschleife in ein \PYTHON{sys.exit()} zu packen. Damit gibt \PYTHON{sys.exit} den Exitcode des Programms an das Elternelement weiter, wenn Sie das Programm beenden -- etwa an den Explorer oder die Kommandozeile, womit Sie das Programm gestartet haben.
+
+Der Befehl \PYTHON{sys.argv} ist wichtig, falls Ihr Programm Argumente über die Kommandozeile verarbeiten soll: \PYTHON{sys.argv} ist quasi eine Liste, die den Dateinamen des Projekts enthält sowie alle Argumente, die über die Kommandozeile kommen. Für \PYTHON{argv} und \PYTHON{exit} wird die Bibliothek \PYTHON{sys} importiert, die systemspezifische Funktionen bereithält.
+
+\PYTHON{fenster} ist hier ein Verweis auf die Klasse \PYTHON{HelloworldProgramm}, die schließlich mit \PYTHON{fenster.show()} startet. In \PYTHON{HelloworldProgramm} wird dann \PYTHON{self.setupUi(self)} aufgerufen, das auf die Funktion \PYTHON{setupUi()} in der Klasse \PYTHON{Ui\_MainWindow()} verweist, die in der Datei \FILE{helloworld.py} steht -- das ist die Python-Datei, die Sie vorher aus der UI-Datei generiert haben und die alle Elemente enthält.
+
+Mit \PYTHON{self} ist immer die aktuelle Instanz einer Klasse gemeint. \PYTHON{\_\_init\_\_} ist eine Methode, die in Python bereits reserviert ist und die man verwendet, um ein Objekt zu initialisieren. Sie funktioniert ähnlich wie ein Konstruktor in C++ oder Java.
+
+Wenn man nun die \FILE{main.py} startet, dann erscheint auch das Fenster auf dem Bildschirm, das vorher nur im Qt Designer gelebt hat.
+
+
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\textwidth]{QtDesigner/QtDesigner04}
+     \caption{Keine Sorge, auch die gewählte Schriftart aus dem Designer wird vom Python-Skript passend angezeigt.}
+  \end{center}
+\end{figure}
+
+
+
+\section{\PYTHON{loadUi()}}
+
+Die Umwandlung der UI-Datei in eine-Python-Datei durch pyuic5 ist nicht sehr aufwendig. Trotzdem ist es ein extra Schritt, an den der Entwickler denken muss. Verändert man zudem die UI-Datei, dann muss man die Umwandlung erneut anstoßen, sonst werden die Änderungen im Python-Programm nicht übernommen.
+
+Es gibt noch eine andere Möglichkeit, über die PyQt direkt mit der UI-Datei arbeiten kann: uci.loadUi(). Damit verlässt man allerdings den puren Python-Weg und das Programm muss sich mit der externen UI-Datei herumschlagen. Python-IDEs wie Pycharm können mit einer UI-Datei zudem wenig anfangen und so etwa keine Autovervollständigungen für Widget-Namen anbieten.
+
+Der Code für die Lösung \PYTHON{loadUi()} ist ähnlich kompakt wie beim vorherigen Beispiel:
+
+
+\medskip
+
+\PYTHON{from PyQt5.QtWidgets import QApplication, QMainWindow}
+
+\PYTHON{from PyQt5.uic import loadUi}
+
+\PYTHON{import sys}
+
+\PYTHON{}
+
+\PYTHON{class HelloworldProgramm(QMainWindow):}
+
+\PYTHON{\qquad def \_\_init\_\_(self, parent=None):}
+
+\PYTHON{\qquad \qquad super(HelloworldProgramm, self).\_\_init\_\_(parent) }
+
+\PYTHON{\qquad \qquad loadUi("helloworld.ui", self)}
+
+\PYTHON{}
+
+\PYTHON{programm = QApplication(sys.argv)}
+
+\PYTHON{}
+
+\PYTHON{fenster = HelloworldProgramm()}
+
+\PYTHON{fenster.show()}
+
+\PYTHON{}
+
+\PYTHON{sys.exit(programm.exec())}
+
+\medskip
+
+Zu Beginn wird die Funktion \PYTHON{loadUi} importiert:
+
+\medskip
+
+\PYTHON{from PyQt5.uic import loadUi}
+
+\medskip
+
+In der Klasse \PYTHON{HelloworldProgramm} wird anschließend die UI-Datei mit einem \PYTHON{loadUi("helloworld.ui", self)} geladen. Startet man nun dieses Programm, erscheint wieder das Hello-World-Fenster.
+
+\section{Passendes Widget}
+
+Sowohl bei der vorherigen Umwandlung durch pyuic5 als auch bei der Nutzung von \PYTHON{loadUi()} ist es wichtig, in der Klasse \PYTHON{HelloworldProgramm} auf das passende Widget zu verweisen. Im Qt Designer hat man vorher ein \PYTHON{QMainWindow} erstellt. Das \PYTHON{MainWindow} ist auch das Root-Element im XML-Baum der gespeicherten UI-Datei:
+
+\medskip
+
+\PYTHON{<?xml version="1.0" encoding="{}UTF-8"?>}
+
+\PYTHON{<ui version="4.0">}
+
+\PYTHON{\quad <class>MainWindow</class>}
+
+\PYTHON{quad <widget name="MainWindow">}
+
+\medskip
+
+Daher wird die Klasse \PYTHON{HelloworldProgramm}\ immer als QMainWindow-Objekt definiert, egal welche Methode man verwendet, um die UI-Datei ins Python-Programm zu bekommen:
+
+\medskip
+
+\PYTHON{class HelloworldProgramm(QMainWindow):}
+
+
+\section{Login-Fenster erstellen}
+
+Nun ist klar, wie man ein Fenster mit dem Qt Designer erstellt und wie man das Layout in einem Python-Programm nutzen kann. Aber nur ein Hello-World-Fenster ist doch etwas langweilig – selbst wenn es mit einer feschen Schriftart wie Comic Sans daherkommt.
+
+Als Nächstes zeigen wir, wie man ein kleines Login-Fenster für heise online bastelt. Der Nutzer soll seinen Benutzernamen und sein Passwort für heise online eingeben und auf einen Login-Button klicken können. Das Programm sagt ihm dann, ob die Daten korrekt waren oder nicht. Eine Menüleiste rundet das Programm ab.
+
+Dieses Login-Fenster haben wir schon per Hand mit Tkinter und mit PyQt gebastelt. So kann man den Code einfach vergleichen. Im PyQt-Beitrag gehen wir zudem stärker auf die Grundlagen von Qt ein.
+
+Im Qt Designer startet man mit einem neuen Projekt und holt sich wieder ein MainWindow aus den Vorlagen – das war auch der Startpunkt beim handgecodeten PyQt-Fenster. Eine Statusleiste benötigt man für dieses Projekt nicht. Das Element können Sie mit einem Rechtsklick auf Statusbar in der Objektanzeige oben rechts löschen. Als Titel für das Fenster ist etwa "Login für heise online" passend.
+
+\section{Layout}
+
+Qt arbeitet mit Layouts, etwa vertikalen Layouts, horizontalen Layouts oder Gitterlayouts. Das sind quasi Konzepte, wie Widgets angeordnet sein sollen. In einem vertikalen Layout stehen sie nebeneinander, in einem Gitter werden sie nach Zeilen und Spalten in Zellen angeordnet.
+
+Für das Login-Fenster eignet sich ein Gitterlayout. Ziehen Sie es aus dem Bereich Layout in das Fenster. Ein roter Kasten erscheint, in dem man nun Widgets platzieren kann. Ist bereits ein Widget im Layout-Kasten, ziehen Sie ein neues Widget an die Ränder des bestehenden Widgets, um es vertikal oder horizontal daneben zu platzieren.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics{QtDesigner/QtDesigner05}
+    \caption{So sollen die Widgets später im Gitter platziert werden.}
+  \end{center}
+\end{figure}
+
+
+Grüne Linien zwischen den Widgets zeigen die Ränder der Gitterzellen an. Soll ein Widget etwa über zwei Spalten gehen, dann zieht man es einfach so lang, bis es in die Zelle daneben ragt. Qt Designer passt dann automatisch das Gitter an.
+
+\section{Widgets}
+
+Für den Login benötigt man sechs Widgets: drei Labels, zwei Eingabefelder und einen Button. Die Labels stehen im Bereich der Display Widgets; als Eingabefelder kommen Line Edits aus dem Bereich der Input Widgets hinzu; der Button ist ein Push Button im Button-Bereich. Per Drag-and-drop landen sie alle im neuen Gitterlayout, genauer gesagt im gridlayout, das im zentralen Widget sitzt, das im MainWindow sitzt.
+
+Das Layout soll im Gitter so aussehen:
+
+\begin{table}
+  \begin{tabular}{ll}
+    \multicolumn{2}{c}{Beschreibung-Text} \\
+    Benutzername-Label &	Benutzername-Eingabefeld\\
+    Passwort-Label &	Passwort-Eingabefeld \\
+    \multicolumn{2}{c}{Login-Button} \\
+  \end{tabular}    
+  \caption{Das Layout soll im Gitter so aussehen.}
+\end{table}
+
+Die Objektanzeige hat mittlerweile folgende Struktur:
+
+\begin{lstlisting}
+MainWindow
+  Centralwidget
+  gridLayout
+  Label
+  Label_2
+  Label_3
+  lineEdit
+  lineEdit_2
+  pushButton
+  menubar
+\end{lstlisting}
+
+Das erste Label wird der Beschreibungstext, der über den Input-Feldern stehen soll. Hier ist das: ``Gib deine Logindaten für heise online ein \textbackslash n und drücke dann den Button.'' Diesen Text packt man in die Eigenschaft text des ersten Labels -- \textbackslash n fügt an dieser Stelle einen Zeilenumbruch ein. Wenn Sie den Text eingeben, erscheint ein kleiner Button mit drei Punkten neben dem Eingabefeld. Ein Klick darauf enthüllt einen kleinen visuellen Texteditor, mit dem Sie etwa Absätze einfügen, Teile fetten oder Zahlen hochstellen können -- so können sich auch das \textbackslash n sparen. Zurück in den Eigenschaften lässt sich der Text in den alignment-Optionen noch horizontal zentrieren.
+
+Der Objektname ist mit "Label" noch etwas generisch und sollte geändert werden, um später Verwechslungen zu vermeiden. Dafür passt man im Bereich QObject der Eigenschaften den Wert objectName an und nennt das Label etwa "Beschreibungstext".
+
+Ähnlich geht man bei den anderen beiden Labels vor und füttert sie mit dem Text ``Benutzername:'' und ``Passwort:''. Auch hier sollte der Objektname angepasst werden, genauso wie bei den Line-Edit-Objekten, in denen der Nutzer seine Daten angibt -- \PYTHON{Eingabe\_Passwort} und \PYTHON{Eingabe\_Benutzername} wären etwa passend. In der Passwort-Eingabe sollen zudem Sternchen erscheinen, wenn der Nutzer sein Passwort eingibt: Das regelt man über die Option echoMode im Bereich QLineEdit, indem man den Wert ``Password'' aus dem Dropdown-Menü wählt. Nun braucht der Button noch einen Text. Im Bereich \PYTHON{QAbstractButton} ändert man dafür den Wert von \PYTHON{text}, etwa zu ``Einloggen''.
+
+Und damit stehen auch schon die Widgets im passenden Layout. Drückt man STRG+R dann kann man Texte in die Felder eintragen, die Labeltexte werden angezeigt und der Button ist drückbar. Nur tut er noch nichts.
+
+
+\section{Button klickbar machen}
+
+Damit der Button eine Funktion erhält, wechselt man ins Signale-und-Slots-Menü. Das geht am einfachsten über das siebte Icon von links in der Toolbar, das graue Feld mit dem schwarzen Pfeil, der auf ein hellblaues Feld zeigt.
+
+Klicken Sie dann auf den Button im Fenster und halten Sie die linke Maustaste gedrückt. Anschließend ziehen Sie eine rote Linie in das Hauptfenster: Der Button erstellt so eine Verbindung mit dem MainWindow.
+
+Nun erscheint ein Menü, um die Verbindung zu bearbeiten. Links stehen die möglichen Auslöser für den Button, etwa \PYTHON{clicked()}, \PYTHON{pressed()} oder \PYTHON{released()}. Für diesen Fall ist \PYTHON{clicked()} die richtige Wahl. Im Bereich \PYTHON{MainWindow} auf der rechten Seite des neuen Menüs muss man nun ``Ändern\ldots'' auswählen und kann die Signale und Slots von \PYTHON{MainWindow} bearbeiten.
+
+\PYTHON{MainWindow} benötigt einen neuen Slot, also klickt man auf den grünen Plus-Button, um einen hinzuzufügen. Anschließend gibt man den Namen der Funktion ein, die der Button-Klick später auslösen soll, etwa \PYTHON{button\_geklickt()}. Nun bestätigt man den Vorgang mit einem ``OK'' und wählt im Verbindungsmenü die neue Funktion aus.
+
+Da der Qt Designer nicht an eine Programmiersprache gebunden ist, bietet er keinen Editor für die Funktion an. Was später genau nach einem Klick auf den Button passiert, muss man in der Python-Datei festlegen. Wie schon beim Hello-World-Programm erstellt man dafür eine Python-Datei, die das Fensterlayout aus dem Designer aufgreift: Entweder mit \PYTHON{pyuic5} oder \PYTHON{loadUi()}. Anschließend erstellt man in der Klasse des \PYTHON{MainWindow}s eine neue Funktion namens \PYTHON{button\_geklickt()}:
+
+\medskip
+
+\PYTHON{\qquad def button\_geklickt(self):}
+
+
+\PYTHON{\qquad \qquad self.benutzername = self.Eingabe\_Benutzername.text()}
+
+\PYTHON{\qquad \qquad self.passwort = self.Eingabe\_Passwort.text()}
+
+\PYTHON{\qquad \qquad self.fake\_browser = \{"{}User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0"\}}
+
+\PYTHON{\qquad \qquad self.login\_daten = \{"{}username": self.benutzername, "password": self.passwort, "{}action": "/sso/login/login"\}}
+
+\PYTHON{\qquad \qquad self.login = requests.Session().post(url="https://www.heise.de/sso/login/login", data=self.login\_daten, headers=self.fake\_browser)}
+
+\PYTHON{\qquad \qquad if "Der Benutzername oder das Passwort ist falsch." in self.login.text:}
+
+\PYTHON{\qquad \qquad \qquad self.Beschreibungstext.setText("Fehler: Der Benutzername \textbackslash n oder das Passwort ist falsch.")}
+
+\PYTHON{\qquad \qquad \qquad self.Beschreibungstext.setStyleSheet("color: red;")}
+
+\PYTHON{\qquad \qquad else:}
+
+\PYTHON{\qquad \qquad \qquad self.Beschreibungstext.setText("Sie haben sich erfolgreich eingeloggt.")}
+
+\PYTHON{\qquad \qquad self.Beschreibungstext.setStyleSheet("color: green;")}
+
+
+\medskip
+
+
+Beim Code orientieren wir uns an der Funktion aus dem PyQt-Artikel. Als Erstes benötigen Sie die Eingaben des Nutzers, also seinen Benutzernamen und das Passwort. Diese Daten holen Sie mit \PYTHON{text()} aus den QLineEdits:
+
+\medskip
+
+\PYTHON{self.benutzername = self.Eingabe\_Benutzername.text()}
+
+\PYTHON{self.passwort = self.Eingabe\_Passwort.text()}
+
+\medskip
+
+Dabei muss man darauf achten, dass man die Eingabefelder so anspricht, wie man sie auch im Qt Designer benannt hat, also \PYTHON{Eingabe\_Benutzername} und \PYTHON{Eingabe\_Passwort}.
+
+
+
+\section{User-Agent}
+
+Der User-Agent enthält Daten über den Browser und dem verwendeten System, was anschließend an die Website gesendet wird:
+
+\medskip
+
+\PYTHON{self.login\_daten = \{"username": self.benutzername, "password": self.passwort, "action": "/sso/login/login"\}}
+
+\medskip
+
+Ihren eigenen User-Agent sehen Sie etwa auf \URL{http://wieistmeinuseragent.de}.
+
+
+\section{Login-Daten}
+
+Die Daten für den Login speichern Sie in einem weiteren Dictionary:
+
+\medskip
+
+\PYTHON{import requests}
+
+\PYTHON{...}
+
+\PYTHON{self.login = requests.Session().post(url="https://www.heise.de/sso/login/login", data=self.login\_daten, headers=self.fake\_browser)}
+
+\medskip
+
+Bei heise online loggt man sich über die Website \URL{https://www.heise.de/sso/login/login} ein. Verantwortlich für den Login ist eine POST-Methode mit der Aktion \PYTHON{/sso/login/login}, daher wird auch sie im Dictionary festgelegt.
+
+Der Login läuft dann über die Bibliothek requests, die Sie vorher im Import-Bereich importieren müssen:
+
+%%%%%%%%%%%%%%%
+
+\medskip
+
+\PYTHON{if "Der Benutzername oder das Passwort ist falsch." in self.login.text:}
+
+\PYTHON{\qquad self.Beschreibungstext.setText("Fehler: Der Benutzername \textbackslash n oder das Passort ist falsch.")}
+
+\PYTHON{\qquad self.Beschreibungstext.setStyleSheet("color: red;")}
+
+\PYTHON{else:}
+
+\PYTHON{\qquad self.Beschreibungstext.setText("Sie haben sich erfolgreich eingeloggt.")}
+
+\PYTHON{\qquad self.Beschreibungstext.setStyleSheet("color: green;")}
+
+\medskip
+
+In einer \PYTHON{Session()} werden Cookies gespeichert und Sie können später mit aktivem Login andere Seiten aufrufen. \PYTHON{post()} steht für die HTML-Methode POST, die \PYTHON{url} ist die heise-Login-Seite, \PYTHON{data} enthält die vorher festgelegten Login-Daten und in \PYTHON{headers} geben Sie den Fake-Browser als User-Agent mit.
+
+Es gibt noch keinen visuellen Hinweis, ob der Login geklappt hat. Als Nächstes soll daher der Beschreibungstext geändert werden, entweder in eine Erfolgsmeldung oder in einen Hinweis, dass der Benutzername oder das Passwort falsch war.
+
+
+\section{Beschreibungstext ändern}
+
+Falls der Login nicht geklappt hat, erkennt man das, wenn in \PYTHON{self.login.text} die Zeile ``Der Benutzername oder das Passwort ist falsch.'' auftaucht. Das nutzt man für eine If-Abfrage:
+
+\medskip
+
+\PYTHON{self.actionBeenden.triggered.connect(self.close)}
+
+\medskip
+
+\PYTHON{setText} ändert den Inhalt des Beschreibungstextes. Mit \PYTHON{setStyleSheet} ändert man die Farbe des Textes in Rot oder Grün. Auch hier muss man wieder darauf achten, dass der richtige Name des Beschreibungstext-Labels aus dem Designer angegeben wird.
+
+\section{Menü hinzufügen}
+
+Das Menü ist recht schnell angelegt, da eine Menüleiste schon besteht. Im Arbeitsbereich findet man oben, unter dem Fenstertitel, ein kleines graues Feld mit dem Text ``Geben Sie Text ein''. Dieser Platzhalter ist für das erste Menü gedacht. Nach einem Doppelklick darauf kann man einen Namen für das Menü vergeben, etwa ``Datei''.
+
+Anschließend möchte Qt Designer auch schon den ersten Menüpunkt haben. Wir nennen ihn in diesem Beispiel ``Beenden'', da ein Klick darauf das Programm beenden soll. Qt Designer erstellt eine neue Aktion namens actionBeenden, die auch im Aktionseditor aufgeführt ist. Dort kann man etwa die Tastenkürzel bearbeiten.
+
+Was passiert, wenn man auf den Menüeintrag klickt, muss man wieder in der Python-Datei festlegen, etwa in der Funktion \PYTHON{\_\_init\_\_}:
+
+\medskip
+
+\PYTHON{self.actionBeenden.triggered.connect(self.close)}
+
+\medskip
+
+\PYTHON{triggered.connect()} verbindet das Aktionsobjekt \PYTHON{actionBeenden} aus dem Designer mit einer konkreten Aktion, hier \PYTHON{self.close}, das einfach das Programm beendet.
+
+\section{Ausblick}
+
+Und das war's. Alle Widgets sind durch das passende Layout an ihrem richtigen Platz. Der Button tut genau das, was er tun soll, über kleines Menü kann der Nutzer das Programm beenden. Dank des Qt Designers ist die Gestaltung von der Logik getrennt und Sie können sich voll darauf konzentrieren, die Funktionen für Ihr Programm zu erstellen.

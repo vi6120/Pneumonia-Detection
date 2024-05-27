@@ -1,0 +1,115 @@
+%%%
+%
+% $Autor: Wings $
+% $Datum: 2021-05-14 $
+% $Dateiname: 
+% $Version: 4620 $
+%
+% !TeX spellcheck = GB
+% !TeX program = pdflatex
+% !TeX encoding = utf8
+
+%%%
+
+\chapter{YOLO v5}\index{YOLO v5}
+
+
+\section{Introduction}
+
+YOLOv5 is a family of compound-scaled object detection models trained on the COCO dataset, and includes simple functionality for Test Time Augmentation (TTA), model ensembling, hyperparameter evolution, and export to ONNX, CoreML and TFLite.
+
+Yolov5 and CNN use extracted features from the input image by all the convolutional layers in the detection module. As the number of layers increases, the number of channels increases and the size of the feature map decreases progressively. \cite{Redmon:2016}
+The later feature map has higher-level features extracted and thus is more beneficial for recognizing the LP and predicting its area of interest box. \cite{Ho:2009}
+
+
+\section{Description}
+
+Hyperparameter for YOLOv5:\cite{OpeneVision:2018}
+
+\begin{enumerate}
+	
+	\item \textbf{Learning-rate start (lr0): } At each iteration, the learning rate begins to determine the step size. For example, if you set the learning rate (0.1) before training, your training progress will rise by 0.1 at each repetition.
+	\item \textbf{Learning-rate end (lr1):} Learning rate end, which is used to test the following condition,
+	\item \textbf{Momentum:} Momentum is the gradient descent algorithm's tuning parameter; its job is to replace the gradient with an aggregation of gradients.
+	\item \textbf{Mosaic:} Mosaic is used to improve model accuracy by combining many photos to generate a single image, which is then utilized for training. It is well-known for data augmentation and the discovery of optimum feature approaches.
+	\item \textbf{Degree:} Degree is used to improve model accuracy by randomly rotating pictures in the training data up to 360 degrees. This option is especially useful for detecting objects in numerous positions/angles. 
+	\item \textbf{Scaling:} Scaling is used to shrink a picture to fit the grid size or to optimize the results. 
+	\item \textbf{flipud:} flipud is used to randomly flip photos up and down from the whole dataset in order to achieve better results. This may be taken into account in the data augmentation approach. 
+	\item \textbf{fliplr:} fliplr is used to randomly flip photos left and right from the whole dataset in order to achieve better results. This may be taken into account in the data augmentation approach.
+	\item \textbf{Weight-decay:} A regularization approach that works by adding a penalty term to a network's cost function, causing the weights to shrink/compress throughout the backpropagation process. 
+	There are several more parameters, such as warmup epochs, warmup momentum, and so on, whose values may be modified according on the use case.
+\end{enumerate}
+
+\section{Installation}
+
+Prerequisite and installation of YOLOv5:
+
+PyTorch is a core dependency for installing the YOLOv5. 
+
+PyTorch 1.9.0 stable version for Windows is installed. A local python interpreter pip package is used. Conda package is used for python virtual interpreter. For GPU enabled system CUDA 10.2 compute platform is used.
+
+After having above configuration following command can be used for installation of PyTorch (1.9.0).
+
+\medskip
+
+\SHELL{conda install pytorch torchvision torchaudio cudatoolkit-10.2 -c pytorch}
+
+\medskip
+
+After instlling the PyTorch library YOLOv5 is installed with following steps:
+
+YOLO V5 is cloned from \url{https://github.com/ultralytics/yolo5} by running the command
+
+\begin{lstlisting}
+! git clone https://github.com/ultralytics/yolo5. 
+##This will create the folder structure for YOLO V5.##
+\end{lstlisting}
+
+Following is the folder sturcture for YOLOv5:
+
+
+\begin{itemize}
+  \item \FILE{/input/data/prepro/}
+  \item \FILE{/images/*.png}
+  \item \FILE{/train}
+  \item \FILE{/validation}
+  \item \FILE{/lable/*.xml}
+  \item \FILE{/Dataset/}
+  \item \FILE{/train/images}
+  \item \FILE{/train/images}
+\end{itemize}
+
+\section{Example}
+
+\subsubsection{Sample training for YOLOv5}
+
+Sample code for YOLOv5:
+
+\begin{lstlisting}
+!python train.py --img 416 --batch 16 --epochs 300 --data data/alpr.yaml --cfg models/yolov5s.yaml
+\end{lstlisting}
+
+Dataset is divided into training and validation datasets. 80\% of the data for training and 20\% data for validation.
+YOLOv5 first exploits the Box Regression layer to predict the bounding box. Then, referring to the relative position of the bounding box in each feature map, EasyOcr extracts the region of interest from several already rendered feature maps, merge them after pooling and feeds the combined features maps to the subsequent Classifiers.
+
+Images that are used for modelling are first converted from BGR to RGB. These processed images are passed to the detector. The detector will plot the boxes around the LP. The region of boxes will be called the area of interest. These functions After getting results, frames and classes, filter out the boundary boxes based on the probability threshold. All the boundary boxes which have a threshold greater than 0.55 are considered for further processing.
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{YOLOv5/YOlOv5}
+	\caption{YOLOv5 Result}
+\end{figure}
+%\nocite{Abadi:2016}
+
+
+
+
+
+
+
+
+
+
+
+

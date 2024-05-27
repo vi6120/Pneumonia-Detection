@@ -1,0 +1,235 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasWrangling.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+% iX 3/2022 S.136
+
+% Quelle: https://www.heise.de/select/ix/2022/3/2129209064878376414
+% https://www.heise.de/ratgeber/Phython-fuer-Datenanalysen-Effiziente-Aufbereitung-von-Rohdaten-mit-pandas-6479783.html
+
+
+\chapter{Eingefangen -- Data Wrangling mit pandas}
+
+Data Wrangling, das Aufbereiten von Rohdaten, macht bei Datenanalysen einen Großteil des Aufwands aus. Die Python-Bibliothek pandas bringt dafür effiziente Datenstrukturen und Funktionen mit, die die Arbeit deutlich erleichtern.
+
+Eine besonders beliebte Bibliothek für die Datenanalyse mit Python ist pandas. Sie bietet einen einfachen und dabei sehr effizienten Weg, Daten zu analysieren und zu verwerten. pandas selbst baut auf NumPy auf, einer Bibliothek, die eine hocheffiziente Arithmetik in Python implementiert. So kann NumPy mit Vektoren und Matrizen rechnen und nicht nur mit einzelnen Zahlen. Dies erlaubt eine gewaltige Steigerung der Recheneffizienz. NumPy führt die Berechnungen nicht in Python aus, sondern in C-Code und umgeht so viele Nachteile von reinem Python.
+
+Die Beispiele in diesem Artikel nutzen den Datensatz ``Customer Personality Analysis'' von \URL{www.kaggle.com}. Dank der Lizenz Creative Commons CC0 1.0 darf er beliebig genutzt werden. Es handelt sich um Personendaten einer fiktiven Marketingkampagne.
+
+\section{Jupyter-Notebook als Arbeitsumgebung}
+
+In diesem Beispiel kommt als IDE ein Jupyter-Notebook in Google Colab zum Einsatz. Wer lieber lokal arbeitet, sollte beachten, dass sich die pandas-Versionen teilweise stark voneinander unterscheiden. Dieser Artikel arbeitet mit Python 3.7.12 und pandas 1.1.5. Letzteres besitzt diverse Abhängigkeiten und es gilt, darauf zu achten, dass sie mit installiert werden, was in der Regel automatisch klappt.
+
+Die Beispiele in diesem Artikel nutzen den Datensatz „Customer Personality Analysis“ von kaggle.com. Dank der Lizenz Creative Commons CC0 1.0 darf er beliebig genutzt werden. Es handelt sich um Personendaten einer fiktiven Marketingkampagne.
+
+pandas bietet vielerlei Möglichkeiten, Daten einzulesen. Praktisch jedes Datenformat ist geeignet. Zuerst wird pandas in eine Python-Laufzeitumgebung geladen und typischerweise mit dem Kürzel \PYTHON{pd} versehen:
+
+\medskip
+
+\PYTHON{import pandas as pd}
+
+\medskip
+
+Jede Art von Datei wird in pandas mit einer Funktion eingelesen, die mit \PYTHON{read\_} beginnt, worauf ein formatspezifisches Kürzel folgt. In dieser Analyse geht es um die Datei \FILE{marketing\_campaign.csv} und somit um die Funktion \PYTHON{read\_csv}. Wären die Daten als Excel-Tabelle hinterlegt, wäre die Funktion \PYTHON{read\_excel} gefragt. Selbst SQL-Datenbanken kann man problemlos nutzen. Es eignen sich alle SQL-Dialekte, die das Projekt SQLAlchemy abdeckt (MySQL, PostgreSQL et cetera).
+
+Beim Einlesen der Daten wird \PYTHON{read\_csv} der Pfad der Daten übergeben. In diesem Fall liegen die Daten im Google Drive. Die Daten sind per Tab getrennt anstatt wie üblich mit Komma. Das berücksichtigt der Parameter \PYTHON{sep = '\t'} (für CSV-Dateien lautet der Standardwert \PYTHON{sep = ','}). Der Datensatz besteht aus 30 Spalten. Standardmäßig werden alle eingelesen. Für eine bessere Übersicht kann man das Einlesen auf bestimmte Werte oder einen Bereich beschränken: Der Parameter
+
+\medskip
+
+\PYTHON{usecols = list(range(8))}
+
+\medskip
+
+etwa spezifiziert die Liste \PYTHON{[0,1,2,3,4,5,6,7]}. Alternativ kann man direkt eine Liste übergeben: \PYTHON{[1,4]} führt zum Einlesen der zweiten und der fünften Spalte. Das Ergebnis der Funktion \PYTHON{read\_csv} wird der Variablen df zugewiesen:
+
+\medskip
+
+\PYTHON{df = pd.read\_csv('/content/drive/MyDrive/marketing\_campaign.csv', sep = '\t',usecols = list(range(8)))}
+
+\medskip
+
+
+Bei \PYTHON{df} handelt es sich um ein pandas-DataFrame-Objekt, neben pandas Series die zentrale Datenstruktur in pandas. Beide besitzen ihre eigenen, pandas-internen Attribute und Methoden. Die Methode \PYTHON{df.head(n)} zeigt die ersten \PYTHON{n} Zeilen eines \PYTHON{DataFrame} an, mit der Standardeinstellung \PYTHON{n = 5}. In einem Jupyter-Notebook wie in Google Colab wird die letzte Zeile einer jeden Zelle automatisch ausgegeben. Außerhalb von Jupyter-Notebooks muss eine Anzeigefunktion genutzt werden.
+
+Das Paket IPython enthält die in dieser Analyse durchgehend benutzte Funktion \PYTHON{display()}. Bei der Arbeit mit pandas ist sie \PYTHON{print()} vorzuziehen, da sie die Ausgaben so formatiert wie in pandas gedacht (siehe Abbildung \ref{PandasWrangling01}). In einem Jupyter-Notebook ist IPython automatisch installiert und importiert, anderenfalls muss die Funktion erst importiert werden.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling01}    
+  \caption{Die Funktion \PYTHON{display()} aus dem Paket IPython formatiert die Ausgaben im Unterschied zu \PYTHON{print()} wie in pandas vorgesehen. } \label{PandasWrangling01}
+\end{figure}
+
+
+
+Der Datensatz besteht aus Personendaten. Jede Zeile repräsentiert eine Person. Angegeben sind die ID, das Geburtsjahr, der höchste Bildungsstand, der Familienstand, das Einkommen, ob ein Kind oder Teenager zu Hause lebt und das Datum, an dem die Person Kunde wurde. Zudem hat jede Zeile einen Index: eine ganze Zahl zwischen 0 und der Anzahl der Datenpunkte. Sowohl Spaltennamen als auch Index lassen sich beliebig verändern. Der Index ist im Attribut \PYTHON{df.index} hinterlegt. Ein pandas-Index ist ein eindimensionales Array. Man kann den Index verändern, indem man df.index ein neues Array zuweist. Es bietet sich beispielsweise an, die Spalte ID oder das Datum als Index zu nutzen -- ein Thema für später.
+
+Analog zum Index sind die Spaltennamen im Attribut \PYTHON{df.columns} hinterlegt, ebenfalls ein pandas-Index. Um die Namen zu ändern, kann df.columns ein neues Array mit Namen zugewiesen werden. Die Länge des Arrays muss dabei identisch bleiben. Beispielsweise kann der Name der Spalte Income zu „Income in €“ verändert werden, um die Währung zu verdeutlichen. Beim Verändern der Spaltennamen sollte immer ein Backup der ursprünglichen Namen stattfinden. Dazu wird die Methode .copy() genutzt und ihr Output einer Variablen zugewiesen (siehe Abbildung \ref{PandasWrangling02}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling02}    
+    \caption{Vor dem Verändern der Spaltennamen sollten die ursprünglichen Spalten gesichert werden.} \label{PandasWrangling02}
+\end{figure}
+
+Die Methode \PYTHON{df.shape} gibt die Dimensionalität der Daten aus, ein Tupel aus der Anzahl der Zeilen respektive der Datenpunkte im Datensatz und der Anzahl der Spalten: \PYTHON{display(df.shape)} ergibt (2240, 8), also 2240 Zeilen und 8 Spalten. Wie viel Platz die Daten im Arbeitsspeicher belegen und weitere wichtige Eigenschaften zeigt die Methode \PYTHON{df.info()} an (siehe Abbildung \ref{PandasWrangling03}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling03}    
+    \caption{Die Methode df.info() gibt unter anderem den Speicherbedarf des Datensatzes aus.} \label{PandasWrangling03}
+\end{figure}
+
+Der Datensatz belegt rund 140 KByte Arbeitsspeicher. Zu jeder Spalte wird auch ihr Datentyp (Dtype) ausgegeben. In der mittleren Spalte steht die Anzahl an nicht fehlenden Werten (Non-Null Count). In der Spalte ``Income in \euro{}'' fehlen offenbar 24 Werte. Den Umgang mit solchen Lücken behandelt ein späterer Abschnitt. Der Datentyp wird durch drei Kategorien angegeben: int64, also eine ganze Zahl mit 64-Bit, \PYTHON{float64}, eine Fließkommazahl mit 64-Bit, und object, ein unspezifizierter Datentyp, in der Praxis häufig ein string. Keine einzige Zahlenspalte benötigt offenbar 64 Bit.
+
+Die ID ist beispielsweise eine aus wenigen Ziffern bestehende ganze Zahl. Es wird somit mehr Speicher belegt als nötig. Ähnliches gilt für die Spalte Education. Derzeit sind die Einträge als Strings gespeichert. Bei späteren Datenanalysen kann das zu erheblichen Nachteilen führen.
+
+Nicht immer ist es vermeidbar, Strings zu nutzen, und es gibt diverse fortgeschrittene Methoden, damit umzugehen. Häufig reicht es aber, sich die Daten genauer anzuschauen. Die Spalte Education kann nur einen von mehreren festgelegten Werten annehmen. Es handelt sich um kategorische Daten, wobei die Bildungsstände die Kategorien bilden. pandas bietet für solche Daten den Datentyp \PYTHON{categorical} an. Die Spalte \PYTHON{Marital\_Status}, also der Familienstand, ist ebenfalls kategorisch.
+
+Bleibt noch das Datum in der Spalte \PYTHON{Dt\_Customer}. Für Datumsangaben stellt pandas den Datentyp \PYTHON{datetime64} bereit. In der Regel bietet ein passender Datentyp Vorteile, besonders bei Datumsangaben. Die Datentypen können mit der Methode \PYTHON{.astype()} geändert werden (siehe Abbildung \ref{PandasWrangling04}). Als Argument kann ein Dictionary mit den Spaltennamen als Keys und dem gewünschten Datenformat als Values übergeben werden. Es ist sinnvoll, den Output einem neuen DataFrame zuzuweisen, um potenzielle Folgefehler besser nachvollziehen zu können. Auch die originalen Datentypen sollten in einer Variablen gespeichert werden, um Änderungen einfach rückgängig machen zu können. Die Datentypen der Spalten sind im Attribut \PYTHON{df.dtypes} hinterlegt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling04}    
+    \caption{Eine Anpassung der Datentypen spart Arbeitsspeicher und erleichtert die Weiterverarbeitung.} \label{PandasWrangling04}
+\end{figure}
+
+Mit den geänderten Typen belegen die Daten nur noch knapp ein Drittel des bisherigen Arbeitsspeichers. Daneben sind die Datentypen nun auch für diverse algorithmische Nutzungen  optimiert. Das \PYTHON{ns} in \PYTHON{datetime64[ns]} steht für eine nanosekundengenaue   Datumsangabe. Hier sind auch andere Formatierungen möglich. Die Methode \PYTHON{df.describe()} liefert eine Übersicht verschiedener statistischer Kenngrößen der DataFrames \PYTHON{df} und \PYTHON{df2} (siehe Abbildung  \ref{PandasWrangling05}). Für jede numerische Spalte (mit Datentyp \PYTHON{int} oder \PYTHON{float}) wird die Anzahl der nicht fehlenden Werte, der Mittelwert, die Standardabweichung, der minimale Wert, das untere, mittlere und obere Quantil und der maximale Wert angegeben. Aus dem maximalen und dem minimalen Wert ergibt sich die Anzahl der für die Darstellung dieser Zahl nötigen Bits und damit der passende Datentyp für die Spalte. Die Übersichten für \PYTHON{df} und \PYTHON{df2} sind identisch, obwohl die Datentypen unterschiedlich sind. Die Datentypänderung hat also keinen Fehler verursacht. Zudem zeigt sich, dass sich float16 nicht für die Spalte ``Income in \euro{}'' eignet, da die Zahl 666
+             
+666.0 nicht dargestellt werden kann.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling05}    
+    \caption{Ein Vorher-nachher-Vergleich zeigt, dass die Anpassung der Datentypen keinen Fehler produziert hat.} \label{PandasWrangling05}
+\end{figure}
+
+Die bisherige Analyse behandelte die Daten als Gesamtheit. Die Änderungen erforderten keine tiefergehende Exploration und Manipulation der Daten. Für die meisten Analysen sind jedoch fortgeschrittenere Techniken nötig. Die elementarste Fähigkeit ist das Extrahieren von Untermengen aus einem DataFrame.
+
+Einzelne Spalten lassen sich auf dreierlei Weise extrahieren. Die einfachste Möglichkeit besteht darin, das Attribut \PYTHON{df2.col\_name} zu nutzen. \PYTHON{col\_name} bezeichnet die zu extrahierende Spalte. Das Ergebnis ist eine pandas Series und hat somit andere Methoden und Attribute als ein DataFrame -- eine häufige Fehlerursache wegen der Möglichkeit einer Verwechslung.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Daten mit pandas filtern}
+
+
+Die Ausgabe von \PYTHON{display(df2.ID)} besteht aus zwei Spalten: der Indexspalte, die die zugehörige Zeile des Eintrags im originalen DataFrame anzeigt, und einer Spalte mit den dazugehörigen Einträgen. Nun kann man prüfen, ob jede ID auch wirklich nur einmal vorkommt. Mit der Methode \PYTHON{series.unique()} lassen sich alle einzigartigen Werte als Array ausgeben. Die Länge dieses Arrays stimmt mit der Anzahl der Zeilen im DataFrame überein -- also sind alle IDs einzigartig (siehe Abbildung \ref{PandasWrangling06}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling06}    
+    \caption{Die Zahl der IDs entspricht der Zeilenzahl, also sind alle IDs einzigartig.} \label{PandasWrangling06}
+\end{figure}
+
+Daneben bietet sich eine Übersicht über die Familienstände an. Wie viele Personen und wie viel Prozent sind zum Beispiel verheiratet? Die pandas-Series-Methode \PYTHON{series.value\_counts()} kann beide Fragen beantworten. In ihrer Grundeinstellung zählt sie, wie oft ein Wert in einer Spalte vorkommt, also die Frequenz der einzelnen Werte. Mit dem Parameter \PYTHON{normalize = True} kann man anstatt der Frequenz die prozentualen Anteile der einzelnen Kategorien ausgeben (siehe Abbildung \ref{PandasWrangling06}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling07}    
+    \caption{Frequenz und Anteil der Familienstände. Die größte Personengruppe ist die der Verheirateten; ihr Anteil beträgt 38 Prozent.} \label{PandasWrangling07}
+\end{figure}
+
+Eine pandas \PYTHON{Series} lässt sich immer in ihren Index und ihre Werte zerlegen. \PYTHON{series.index} extrahiert den Index und \PYTHON{series.values} die dazugehörigen Werte jeweils als Array. Ein typischer Anwendungsfall ist die grafische Darstellung der Ergebnisse. Für die prozentualen Anteile der jeweiligen Familienstände als Balkendiagramm werden für die x-Achse der Index und für die y-Achse die Werte benötigt (siehe Abbildung \ref{PandasWrangling08}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling08}    
+    \caption{Bei der grafischen Darstellung des Datensatzes fallen drei ungewöhnliche Familienstände auf.} \label{PandasWrangling08}
+\end{figure}
+
+Aber was hat es mit den seltsamen Kategorien Alone, YOLO und Absurd auf sich? Zur Aufklärung können die entsprechenden Zeilen der Daten beitragen. Um darauf zuzugreifen, bietet sich eine boolesche Maskierung des DataFrame an. Eine Maske ist eine pandas Series, die eine Spalte mit einer Bedingung abgleicht und jeder Zeile entweder ein True oder ein False zuweist. Die erste Maske bezieht sich auf die Zeilen, in denen die Familienstände dem Wert Alone entsprechen. Man weist diese Maske der Variablen \PYTHON{mask\_alone} zu und kann sie mithilfe der Spalte \PYTHON{df2.Marital\_Status} formulieren. Zu erwarten sind drei True-Werte, was sich anhand ihrer Summe mithilfe der Methode \PYTHON{series.sum()} prüfen lässt (\PYTHON{True} entspricht 1, \PYTHON{False} entspricht 0, siehe Abbildung \ref{PandasWrangling09}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling09}    
+    \caption{Die drei Zeilen mit dem Familienstand Alone lassen sich mit einer passenden Maske ermitteln.} \label{PandasWrangling09}
+\end{figure}
+
+Auf dieselbe Weise kann man die Masken für die Familienstände YOLO und Absurd bestimmen. Zuletzt werden alle Masken durch ein logisches OR zu einer großen Maske verbunden und der Methode \PYTHON{df2.loc[row\_labels, column\_labels]} übergeben. Als Resultat ergeben sich die relevanten Zeilen (siehe Abbildung \ref{PandasWrangling10}). Die Angaben Alone, Absurd und YOLO sind offenbar unsinnig und entsprechend zu markieren. Dafür ist die Methode \PYTHON{.loc[row\_labels, column\_labels]} hilfreich. Es hat diverse Nachteile, Spalten mit der Attributnotation auszuwählen. Zum einen ist sie sehr grob. Die Spalte lässt sich nicht weiter einschränken und es sind immer alle Werte einzubeziehen. Zum anderen können Spaltennamen wie ``Income in \euro{}'' Leerzeichen enthalten. Dann funktioniert die Attributnotation nicht. Sie sollte daher höchstens dann genutzt werden, wenn es mal schnell und einfach gehen muss. Für alle anderen Fälle stellt pandas die Methoden \PYTHON{.loc[row\_labels, column\_labels]} und \PYTHON{.iloc[row\_number, col\_number]} zur Verfügung. Beides sind wunderbare Werkzeuge zum Filtern von DataFrames. Sie funktionieren sehr ähnlich, unterscheiden sich jedoch in den Datentypen ihrer Argumente.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling10}    
+    \caption{Mit einer Oder-Verknüpfung werden drei Angaben aus dem DataFrame gefiltert, die einer gesonderten Weiterbehandlung bedürfen.} \label{PandasWrangling10}
+\end{figure}
+
+Die Methode \PYTHON{.loc} erwartet Label-basierte Argumente, sprich die Namen der benötigten Zeilen und Spalten. In \PYTHON{df} und \PYTHON{df2} ist der Name jeder Zeile durch den Index gegeben, also eine ganze Zahl. Somit kann man dem Argument \PYTHON{row\_labels} eine beliebige Liste der Zeilenindizes übergeben, um die jeweiligen Zeilen zu extrahieren. Mit dem Argument \PYTHON{column\_labels} wird die Ausgabe auf eine Untermenge aller Spalten beschränkt. Zum Auswählen aller Spalten kann \PYTHON{:} als Argument dienen. Die Methode \PYTHON{.iloc} funktioniert im Prinzip ebenso, nur mit numerischen Argumenten. Es gibt jedoch einen kleinen Unterschied: Die Liste 1:3 entnimmt einem DataFrame die Zeilen 1, 2, und 3 mit der Methode .loc, hingegen die Zeilen 1 und 2 mit der Methode \PYTHON{.iloc}. Im zweiten Fall bleibt das letzte Element der Liste also unberücksichtigt -- eine so subtile wie häufige Fehlerquelle. Das Argument \PYTHON{col\_number} erwartet ebenfalls eine Liste von Zahlen. Um beispielsweise die Spalten \PYTHON{Year\_Birth} und \PYTHON{Teenhome} zu extrahieren, muss man die Liste \PYTHON{[1, 6]} nutzen (siehe Abbildung \ref{PandasWrangling10}). Die Zahlen entsprechen dem Index der Spalten im Attribut \PYTHON{df.columns}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling11}    
+    \caption{Die Methoden \PYTHON{.loc} und \PYTHON{.iloc} bergen entscheidende Unterschiede hinsichtlich ihrer Argumente.} \label{PandasWrangling11}
+\end{figure}
+
+
+Sowohl \PYTHON{.loc} als auch \PYTHON{.iloc} können ein pandas \PYTHON{DataFrame} oder eine pandas \PYTHON{Series} als Output erzeugen. Der Datentyp hängt davon ab, wie viele Spalten ausgewählt werden. Bei nur einer Spalte ist die Ausgabe eine pandas \PYTHON{Series}, bei mehreren Spalten ein pandas \PYTHON{DataFrame}.
+
+Die Methoden \PYTHON{.loc} und \PYTHON{.iloc} gelten als Best Practice. Sie sind leserlicher, flexibler und erzeugen Ergebnisse fast immer schneller als andere Methoden. Insbesondere \PYTHON{.loc} ist sehr empfehlenswert, weil sich hier Daten mit einer breiten Palette an Maskierungen filtern lassen. Mit der Methode \PYTHON{.iloc} geht dies natürlich auch, aber es erfordert eine aufwendigere Konstruktion der Masken, da diese aus Zahlen bestehen müssen.
+
+\section{Werte in DataFrames ersetzen}
+
+Jetzt sind die Werte YOLO, Alone und Absurd in der Spalte \PYTHON{Marital\_Status} durch \PYTHON{NAN} (not a number) zu ersetzen, das für einen fehlenden oder falschen Wert steht. Dafür bietet sich die Methode \PYTHON{.replace()} an. Als Argument kann ein Dictionary übergeben werden. Dabei sind die zu ersetzenden Kategorien die Keys und die neuen Werte die Values. Zwei mögliche Wege sind sehr populär. Entweder kann die Spalte \PYTHON{Marital\_Status} mit dem Output der Methode \PYTHON{.replace()} überschrieben oder der Parameter \PYTHON{inplace = True} genutzt werden. Damit werden die Änderungen im DataFrame direkt gespeichert und es entsteht kein Output. Als NAN-Wert dient häufig \PYTHON{numpy.nan} aus dem Python-Paket NumPy (siehe Abbildung \ref{PandasWrangling12}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling12}    
+    \caption{Damit fehlerhafte Kategorien im weiteren Verlauf der Datenanalyse keinen Schaden anrichten, lassen sie sich durch NAN-Werte ersetzen (not a number), hier aus dem Paket NumPy.} \label{PandasWrangling12}
+\end{figure}
+
+Nun erkennt pandas automatisch, dass in der Spalte \PYTHON{Marital\_Status} sieben Werte fehlen. Doch der Datentyp der Spalte hat sich geändert, weil \PYTHON{np.nan} den Datentyp \PYTHON{float} hat und nun zwei unterschiedliche Datentypen in einer Spalte auftreten. Solche Spalten erkennt pandas immer als \PYTHON{object}. Das kann man korrigieren, indem man die NAN-Werte durch plausible Werte ersetzt oder aus dem DataFrame löscht, etwa mithilfe der Methode \PYTHON{.dropna()}: Standardmäßig entfernt sie alle Zeilen, in denen ein Wert fehlt. Schlimmstenfalls werden so 31 Zeilen gelöscht. Bei einer Gesamtgröße des DataFrame von 2240 Zeilen würden über 98 Prozent der Daten zurückbleiben und deren Repräsentativität dürfte nicht gefährdet sein. Alternativ kann die Methode \PYTHON{.fillna()} die NAN-Werte durch einen bestimmten Wert ersetzen. Bei numerischen Spalten kann dies der Median oder der Mittelwert sein. Bei kategorischen Spalten könnte man etwa den am häufigsten vorkommenden Wert nutzen. Der Output der jeweiligen Methode ist einem neuen DataFrame zuzuweisen. Als Alternative eignet sich auch hier der Parameter \PYTHON{inplace = True} (siehe Abbildung \ref{PandasWrangling13}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling13}    
+    \caption{Sofern es nur einen kleinen Bruchteil aller Daten betrifft, lassen sich fehlerhafte oder unvollständige Angaben ohne spürbare Nebenwirkungen aus einem DataFrame entfernen oder durch Mittelwerte ersetzen.} \label{PandasWrangling13}
+\end{figure}
+
+
+Der Datentyp kann nun ohne Weiteres mithilfe der Methode mit der Methode \PYTHON{.astype()} geändert werden. Zudem kann man mit \PYTHON{.value\_counts()} prüfen, ob die unerwünschten Kategorien in der Spalte \PYTHON{Marital\_Status} ersetzt wurden.
+
+Außer in kategorischen Spalten sind häufig auch in kontinuierlichen Spalten Werte zu ersetzen. Die Spalte ``Income in \euro{}'' besteht aus kontinuierlichen Zahlen. Der kleinste Wert ist  1730 \euro{}, der größte 666.666 \euro{}. Wenn über das Einkommen aber bekannt ist, dass es zwischen 25.000 \euro{} und 120.000 \euro{} liegt, ist ein Teil der Daten offenbar fehlerhaft. Die fehlerhaften Werte müssen als \PYTHON{NAN} markiert werden, damit im Laufe der weiteren Bearbeitung keine schwerwiegenden Fehler auftreten. Die Methode \PYTHON{.replace} eignet sich hier nicht: Da es sich um kontinuierliche Zahlen handelt, ist es unmöglich, fehlerhafte Kategorien zu erfassen.
+
+\section{Mit DataFrames rechnen}
+
+Eine mögliche Lösung -- und typischer Anfängerfehler -- besteht darin, mit einer for-Schleife durch die Zeilen zu iterieren und mit zwei if-Statements die fehlerhaft erscheinenden Werte zu ersetzen. Dann kommt jedoch keine pandas-interne Methode zum Einsatz, sondern Python-Code  und damit entsteht ein Bottleneck. Die pandas-interne Methode \PYTHON{.mask()} schafft hier Abhilfe. In Analogie zur Methode .loc wird ihr eine boolesche Maskierung übergeben. Dann werden alle Zeilen, für die die Maskierung \PYTHON{True} lautet, durch \PYTHON{NAN} ersetzt. Wenn \PYTHON{.mask()} auf einen DataFrame angewandt wird, füllt sich die gesamte Zeile mit \PYTHON{NAN}s. Deswegen sollte man immer nur eine einzelne Spalte verändern (siehe Abbildung \ref{PandasWrangling14}). Der Einsatz von pandas kann die Codeausführung etwa um den Faktor 150 beschleunigen.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling14}    
+    \caption{Beim Suchen und Ersetzen fehlerhafter Daten vervielfacht sich das Tempo, wenn pandas-interne Methoden zum Einsatz kommen und kein Python-Code.} \label{PandasWrangling14}
+\end{figure}
+
+
+
+Es ist häufig notwendig, neue Spalten zu erzeugen (auch Feature Engineering genannt), etwa mit der Methode \PYTHON{.loc}. Als Spaltenname dient dann einfach ein bisher nicht existierender Name, der dem Ergebnis einer Rechnung zugewiesen wird. Es muss sich aber um eine pandas Series oder ein Array handeln, mit einer Länge, die der Zeilenanzahl des DataFrame entspricht. Mit \PYTHON{:} als Zeilenparameter ist das leicht kontrollierbar.
+
+Mit DataFrames und einzelnen Spalten kann man auch Arithmetik betreiben. Um beispielsweise eine Spalte namens \PYTHON{Non\_adults\_home} zu erzeugen, lassen sich die Spalten Kidhome und Teenhome mit einem gewöhnlichen + addieren. Bei Datumsangaben wie in der Spalte \PYTHON{Dt\_Customer} ist oft eine Spalte mit den Monatsangaben für jede Zeile sinnvoll. Hier ergibt sich der Vorteil des Datentyps \PYTHON{datetime}. Mit dem Attribut \PYTHON{.month} aus dem Modul \PYTHON{datetime} werden die Monate aus der Spalte \PYTHON{Dt\_Customer} extrahiert. Es entsteht eine Spalte mit den Monaten als Zahl zwischen 1 und 12 entsprechend den Kalendermonaten. Daneben wird die Periodizität der Monate in einer neuen Spalte namens \PYTHON{Month\_Sinus} codiert. Dies ist besonders wichtig für Machine-Learning-Anwendungen. Dann muss der Algorithmus die Information ``1 ist sehr nah an 12'' umsetzen. Dafür eignet sich die Methode \PYTHON{.apply()}, mit der man eine Funktion auf jedes Element anwenden kann.
+
+Als periodische Funktion dient die Sinusfunktion \PYTHON{numpy.sin}. Hier findet sich auch die NumPy-Darstellung der Kreiszahl Pi in Gestalt von \PYTHON{numpy.pi}. Für eine schnelle Umsetzung bietet es sich an, anonyme Funktionen mit dem lambda-Mechanismus von Python zu nutzen (siehe Abbildung \ref{PandasWrangling15}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/Pandas/Wrangling/PandasWrangling15}    
+    \caption{Auch das Errechnen neuer Spalten auf der Basis bestehender Werte (Feature Engineering) ist mit pandas schnell erledigt.} \label{PandasWrangling15}
+\end{figure}
+
+
+Selbstverständlich sind auch komplexere Berechnungen möglich, etwa Multiplikation, Division und Exponentiation eines gesamten DataFrame oder einer Series.
+
+In vielen Fällen ist es sinnvoll, den Index eines DataFrame zu ändern: Die Methode \PYTHON{.set\_index()} kann ihn durch ein beliebiges NumPy-Array aus Werten ersetzen, solange dessen Länge mit der Zeilenanzahl übereinstimmt. Der Parameter \PYTHON{inplace = True} unterdrückt den Output.
+
+Den Index zu verändern kann viele Vorteile mit sich bringen. So ist es bei Zeitreihen sinnvoll, das Datum als Index zu nutzen. Dann sind Zeitintervalle einfach zu filtern -- eine gängige Technik in der Zeitreihenanalyse. Die Spalte \PYTHON{Dt\_Customer} wird als Index festgelegt. Den Index kann die Methode \PYTHON{.sort\_index()} sortieren, der optionale Parameter ascending legt fest, ob aufsteigend (\PYTHON{ascending = True}) oder absteigend (\PYTHON{ascending = False}). Anhand des Datentyps datetime erkennt pandas automatisch die zugrunde liegende Chronologie. Auch hierfür eignet sich der Parameter \PYTHON{inplace = True}.
+
+\section{Fazit}
+
+Die ersten Schritte des Data Wrangling mit pandas sind damit absolviert: das Einlesen der Daten, das Ändern von Spaltennamen und wie man sich einen Überblick über die Struktur der Daten verschafft. Es gibt mehrere Methoden, die Daten zu filtern, einzelne Werte zu ersetzen und mit fehlenden Werten umzugehen. Hinzu kommt das Feature Engineering mit pandas: das Erstellen neuer Spalten mittels Arithmetik, Extraktion und Funktionsanwendung. Es lohnt sich, dranzubleiben und sich tiefergehende Techniken anzueignen. Der nächste Schritt zur Datenanalyse könnte in der visuellen Exploration mit pandas bestehen.

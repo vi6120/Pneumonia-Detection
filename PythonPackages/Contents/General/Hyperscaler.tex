@@ -1,0 +1,263 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/Hyperscaler.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+% iX 1/2023 S. 42
+% source: https://www.heise.de/select/ix/2023/1/2208108261315352338
+
+
+\chapter{Cloud-Datenbanken der Hyperscaler}
+
+\section{Einleitung}
+
+Alle Hyperscaler ködern Kunden heute mit mehreren Datenbanken, für die sie Betrieb und Wartung übernehmen. Was haben AWS, Azure und GCP im Angebot, welche Funktionen zeichnen die Cloud-Datenbanken aus und womit können und müssen Anwender rechnen? Ein Überblick.
+
+\begin{itemize}
+  \item Mit ihren Database-as-a-Service-Angeboten wollen Provider den Admins den Aufwand für Wartung und Betrieb abnehmen.
+  \item Meist provisionieren Kunden per API oder GUI eine Datenbank, legen das Feature-Set fest und erhalten dann die Zugangsdaten für den Zugriff aus der lokalen Umgebung.
+  \item Hochverfügbarkeit, Backup und Recovery sowie andere klassische Wartungsaufgaben übernimmt der Cloud-Provider vollständig.
+  \item Die Angebote der Hyperscaler beinhalten einen unangenehmen Lock-in-Effekt: Wer einmal einen DBaaS-Dienst eines Anbieters nutzt, kann ohne großen Migrationsaufwand kaum auf eine andere Plattform umsteigen.
+\end{itemize}
+
+Set-up, Pflege und Betrieb von Datenbanken gehören üblicherweise nicht zu den Lieblingsaufgaben von Administratoren. Dennoch benötigt jede Applikation heute in irgendeiner Form eine Datenbank, meist eine relationale Variante mit SQL – auch wenn NoSQL- und andere Datenbanken hier aufgeholt haben. Die für den Betrieb und das Set-up von Datenbanken anfallenden Tasks sind über alle Typen hinweg ähnlich bis identisch: Dem initialen DB-Set-up folgt die Frage nach Hochverfügbarkeit, damit die Datenbank nicht zum Single Point of Failure wird. Ist das geklärt, stehen Backup und Restore auf der Agenda. Die sind im Datenbankkontext noch wichtiger als sonst, da die Datenbank heute in vielen Umgebungen die einzige Instanz ist, die noch persistente Daten hält.
+
+
+Schon früh haben die großen Cloud-Anbieter – allen voran Amazon mit AWS – den Reiz von Database as a Service (DBaaS) erkannt. Die Idee ist so simpel wie genial: Statt sich eine Datenbank mühsam selbst zu bauen, setzt ein Nutzer oder Administrator per API bloß noch den passenden Befehl ab oder klickt im Webinterface auf den passenden Button. Nach ein paar Minuten steht ihm dann eine Instanz von MySQL, PostgreSQL oder einer beliebigen anderen Datenbank zur Verfügung, für die er nur die IP und die Log-in-Daten kennen muss. Um den Betrieb kümmert sich in so einer Managed Database der Anbieter komplett autark und meistens per Automatisierung: Die Plattform legt Backups von den jeweiligen Datenbanken ebenso automatisch an, wie sie eine gegebenenfalls gewünschte Replikation erstellt. Geht mal etwas schief und ein Restore ist nötig, funktioniert das per GUI oder API ebenfalls in Sekundenschnelle. Kein Vergleich also mit den Klimmzügen, die Administratoren beim händischen Betrieb zu vollführen haben.
+
+\section{Auch für Anbieter praktisch}
+Weit über die Annehmlichkeiten für Nutzer hinaus reichen die Vorteile für ihre jeweiligen Anbieter. Zwar verursacht es Aufwand und Mühe, ein DBaaS-Angebot auf die Beine zu stellen. Doch läuft es erst einmal, lässt es sich ohne großen Zusatzaufwand beliebig oft verkaufen. Obendrein eignet sich ein solcher Dienst aus Sicht des Anbieters hervorragend für einen klassischen Lock-in-Effekt: Wer etwa einmal an die DBaaS-Angebote von AWS gewöhnt ist und seine Applikationen und virtuellen Set-ups so gebaut hat, dass sie mit diesen perfekt funktionieren, steigt nicht „mal eben“ auf einen anderen Anbieter um.
+
+Wie so oft gilt deshalb: Es prüfe, wer sich ewig bindet. Genau das ist vor dem Hintergrund des großen Angebots der Hyperscaler eine Herausforderung. Diese Marktübersicht schafft Abhilfe und stellt die DBaaS-Angebote von AWS, Azure und GCP gegenüber. Sie enthüllt deren Stärken, Schwächen und Eigenheiten und gibt eine ungefähre Vorstellung davon, welches Portfolio sich für welchen Einsatzzweck eignet.
+
+\section{AWS: der Platzhirsch}
+Amazons AWS rühmt sich, das Konzept DBaaS Ende der 2000er-Jahre mit erfunden zu haben. Tatsächlich gehört DBaaS nach EC2 und S3 zu den ersten auf AWS verfügbaren Diensten. Damals war die Implementierung noch durchaus rustikal: Der Start einer Instanz etwa führte dazu, dass per CloudFormation automatisch eine neue VM gestartet und mit der passenden Software betankt wurde. Gut möglich, dass heute immer noch vergleichbare Prozesse am Werk sind. Doch hat Amazon seine DBaaS-Funktionen immer stärker abstrahiert, sodass Nutzer von den Vorgängen hinter den Kulissen praktisch nichts mehr mitbekommen. Vermutlich wäre das für manchen ohnehin zu viel, denn AWS prahlt damit, DBaaS-Dienste mit elf Datenbanken im Serviceangebot zu haben. Drei davon sind relational, andere basieren auf In-Memory-Prinzipien oder sind NoSQL-Datenbanken.
+
+Wer eine klassische SQL-Datenbank etwa für den Betrieb von WordPress braucht, landet wahlweise bei AWS Aurora (Abbildung 1) oder AWS RDS (Abbildung 2). Wobei auf den ersten Blick im Grunde gar nicht ersichtlich ist, wodurch die Dienste sich unterscheiden – denn AWS bewirbt beide als gemanagte relationale Datenbanken. Ein genauerer Blick zeigt fundamentale Differenzen zwischen den Architekturen der Dienste. RDS entspricht eher dem klassischen Ansatz, wirkt also so, als startete ein Admin in einer eigenen EC2-Instanz eine eigene Datenbank. Die komplette Wartung übernimmt aber AWS. Ihre Daten legen RDS-Instanzen auf elastischen Volumes (Elastic Block Store, EBS) ab, Funktionen wie automatisches Failover und Backups lassen sich auf Wunsch aktivieren.
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler01}
+		
+		\caption[AWS Aurora]{AWS Aurora ist eine vom Backend komplett abstrahierte Datenbank, die aber trotzdem relational funktioniert. Ihre Daten sichert sie diffus ``in der Cloud'', aber dort mindestens sechsmal. Quelle: AWS}
+	\end{center} 
+\end{figure}	
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler02}
+		
+		\caption[AWS RDS]{AWS RDS ist in gewisser Weise der Gegenentwurf zu Aurora: eine in einer eigenen Instanz laufende Datenbank mit lokalem Storage, die zudem etwas günstiger als Aurora ist. Quelle: Awesome Cloud}
+	\end{center} 
+\end{figure}	
+
+
+Aurora hingegen ist deutlich stärker abstrahiert. Hier nutzt der Dienst keine EBS-Volumes, sondern einen proprietären Mechanismus, der Replikate der Daten in verschiedenen Verfügbarkeitszonen anlegt – insgesamt sechsmal. Läuft etwas schief, eröffnet das ganz andere Möglichkeiten als bei RDS: Zu den erklärten Stärken von Aurora gehört etwa die extrem schnelle Wiederanlaufzeit nach Ausfällen, die im Regelfall deutlich unter einer Minute liegen soll. Auch in Sachen Performance profitiert Aurora vom proprietären Speicher im Hintergrund. Sie leistet mehr IOPS bei gleicher Request-Größe und bietet auch eine höhere Bandbreite als das etwas in die Jahre gekommene RDS.
+
+Kaum erwähnenswerte Unterschiede ergeben sich hingegen bei den zur Verfügung stehenden SQL-Frontends. Aurora unterstützt nur PostgreSQL und MySQL, was für 95 Prozent der Anwendungen ausreichen dürfte. RDS erweitert den Protokollsupport um MariaDB, MS SQL und Oracle und gibt sich dadurch deutlich vielseitiger.
+
+Ebenfalls fortgeschrittener präsentiert sich Aurora in Sachen Skalierbarkeit. Weil er sich im geclusterten Multi-Master-Modus betreiben lässt, bietet der Datenbankdienst nahtlose Skalierbarkeit in die Breite. Das funktioniert auf Wunsch auch automatisch anhand der Auslastung, sodass Aurora unnötige Kosten verhindert. Vergleichbares fehlt bei RDS.
+
+Im Gegenzug ist Aurora bei Berücksichtigung aller Faktoren aber auch merklich teurer als RDS. Hier gilt es also, im Vorfeld die Anforderungen zu klären und das passende Produkt zu wählen. Für eine einfache WordPress-Instanz ist Aurora vermutlich zu viel des Guten. Wer global verteilte, auf hohe Performance angewiesene Anwendungen nutzt, liegt mit Aurora aber ganz richtig.
+
+\section{AWS Redshift als Data Warehouse}
+
+Ebenfalls eine relationale Datenbank ist AWS Redshift, allerdings taugt das Produkt nicht als General-Purpose-Datenbank. Denn es ist auf den Betrieb eines Data Warehouse optimiert, dessen Inhalte sich anschließend per KI oder Machine Learning automatisch analysieren lassen. Intern funktioniert es aber wie eine relationale Datenbank, zudem nutzt es für die Kommunikation mit der Außenwelt SQL. Redshift ist allerdings eher ein Nischenprodukt.
+
+\section{Key-Value Stores übernehmen}
+
+Derzeit sind Key-Value Stores ein Hauptkonkurrent relationaler Datenbanken. Hier ist die interne Struktur der Datenbank viel trivialer als bei SQL, wo jede Datenbank in Tabellen, Spalten und Reihen unterteilt ist. Klassische Key-Value Stores verfolgen das Prinzip von Nodes: Jeder Node hat einen eindeutigen Namen oder ein anderes eindeutiges Merkmal, anhand dessen er identifizierbar ist. Das soll viel schneller sein als relationale Datenbanken.
+
+Tatsächlich hat sich am Markt etwa RocksDB von Facebook, ein klassischer Key-Value Store, mittlerweile gut etabliert und ist heute Bestandteil etwa vieler Cloud-native-Datenbankdienste wie YugabyteDB [1]. Da darf Amazon natürlich nicht fehlen: Mit DynamoDB bietet man einen eigenen komplett gemanagten Key-Value Store an.
+
+\section{Weitere Optionen}
+
+Darüber hinaus finden sich in AWS etliche Datenbanken für spezielle Aufgaben. In-Memory-Datenbanken dienen meist als Cache und halten strukturierte Daten im RAM vor. Sie kommen auch für das Session-Management oder bei Onlinespielen zum Einsatz, bei denen viele Spielstände parallel zu speichern und aktuell zu halten sind, und das über die Grenzen einzelner Knoten hinweg. AWS greift Administratoren mit zwei Datenbanken dieser Art unter die Arme. ElasticCache lässt sich mit dem Key-Value-Speicher Redis kombinieren sowie mit Memcached, einem ebenso für das Caching im RAM entworfenen Werkzeug. Alternativ dazu steht in Form von MemoryDB for Redis eine weitere AWS-Datenbank zur Verfügung, die wie ElasticCache als Unterbau für Redis dienen kann.
+
+Dokumentdatenbanken sind durch ihre spezielle Struktur auf das Hosting textbasierter Inhalte wie JSON-Blobs optimiert. Amazon verspricht für seine DocumentDB Kompatibilität mit MongoDB. MongoDB-Anwendungen lassen sich darüber also in AWS sinnvoll betreiben.
+
+Die verbliebenen vier Datenbanken im AWS-Portfolio gehören in die Kategorie Sonderfall, obgleich sie nicht weniger Leistung bieten als die bislang vorgestellten Vertreter. Keyspaces ist kompatibel zu Apache Cassandra und richtet sich an Nutzer, die einen Wide-Column-Speicher brauchen. Darunter versteht man eine NoSQL-Datenbank, die im Grunde wie ein zweidimensionaler Key-Value Store funktioniert. Zwar gibt es hier auch Tabellen, Reihen und Spalten wie in relationalen Datenbanken; jedes einzelne Feld darin kann jedoch unterschiedliche Bezeichnungen und andere Formate nutzen als die direkt angrenzenden Felder.
+
+Die Graphdatenbank Diagramm ist darauf spezialisiert, anhand der Beziehungen eines großen Datensatzes mit spezifischen Parametern schnell Verbindungen zu finden und daraus Bezugsbäume zu generieren. Ein Beispiel dafür wäre die schnelle Suche nach einer Person in einer Gruppe von Menschen.
+
+Deutlich praxisnäher für die meisten Administratoren ist AWS Timestream, eine Zeitreihendatenbank, deren zentrales Element ein Zeitstrahl ist. Damit eignet sie sich besonders gut für das Aufzeichnen von Metrikdaten, die im Kontext von Monitoring, Alerting und Trending bei skalierbaren Aufgaben wichtig sind. Nicht fehlen darf schließlich Ledger, eine Datenbank mit verifizierbaren Transaktionen auf Basis kryptografischer Operationen für sicherheitstechnisch hochsensible Bereiche.
+
+AWS ist mit seinem Portfolio gemanagter Datenbanken nicht nur als Erstes am Markt gewesen, sondern bietet auch eine große Vielfalt. Für praktisch alle Datenbankbedürfnisse des Alltags gibt es einen Dienst, der sich in wenigen Sekunden ausrollen und nutzen lässt. Um Themen wie Backups, Replikation oder Restore brauchen sich Administratoren keine Gedanken zu machen – es sei denn, sie wollen aus spezifischen Gründen explizit auf die Konfiguration Einfluss nehmen. Nach den Erfahrungen während unseres Tests scheint das aber nur dann sinnvoll zu sein, wenn berechtigter Grund zur Annahme besteht, ein DBaaS-Dienst von AWS könne hinsichtlich der eigenen Konfiguration eine Fehlannahme treffen. Für die meisten Set-ups hingegen gilt, dass die AWS-DBaaS-Dienste gut und zuverlässig funktionieren und dabei noch zu den günstigeren Komponenten im Portfolio gehören. Der zu zahlende Preis hängt letztlich von den genutzten Ressourcen ab. Übrigens: AWS bietet für etliche der eigenen Dienste auch Migrationswerkzeuge an.
+
+\section{Azure: Der ewige Zweite?}
+
+Das in Azure verfügbare DBaaS-Portfolio ist nicht ganz so breit aufgefächert wie bei AWS (Abbildung 3). Das Fundament des Produktes bildet naturgemäß Microsofts SQL Server, der jetzt auch in der gerade vorgestllten Version 2022 vorliegt. Gleich drei Produkte hat Azure im Angebot, die den SQL Server in verschiedenen Spielarten bereitstellen.
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler03}
+		
+		\caption[Azure]{Azure hat in seinem Portfolio einige Datenbanken, reicht aber an das AWS-Angebot noch nicht heran. Jedoch finden Admins hier alles, was für den alltäglichen Bedarf benötigt wird. Quelle: Microsoft}
+	\end{center} 
+\end{figure}
+
+
+Den Einstieg bildet dabei Azure SQL Database. Hierbei handelt es nicht mehr um klassisches DBaaS, sondern ähnlich wie bei Azure Aurora eher um eine Art Platform as a Service (PaaS). Wer sich bei Azure SQL einmietet, bekommt keine eigene Instanz mit einer eigenen Datenbank, sondern nutzt einen vom Hersteller betriebenen Datenbankdienst. Dessen Kern ist zwar eine SQL-Datenbank, doch diese hat Microsoft um diverse Cloud-typische Funktionen erweitert. Azure SQL Database kann beispielsweise den eigenen Speicher in die Breite skalieren. Um Redundanz und Hochverfügbarkeit kümmert sich ebenso der Anbieter, den Ausfall einzelner Instanzen werden Anwender in der Regel gar nicht bemerken. Obendrein hat Microsoft seinen gehosteten Dienst um HTAP-Fähigkeiten erweitert (Hybrid Transactional and Analytics Processing); die Datenbank eignet sich laut Hersteller also besonders für Analysefunktionen. Dabei sollte man aber stets im Hinterkopf behalten, dass Microsoft SQL Server eine normale relationale Datenbank ist.
+
+Wer es etwas persönlicher will, greift stattdessen zu Microsofts Azure SQL Managed Instance, die in etwa AWS RDS entspricht. Man erhält also eine eigene, von Microsoft vollständig verwaltete Instanz mit darin installiertem MS SQL Server. Der direkte Zugriff auf die Instanz ist Anwendern allerdings verwehrt, sie erhalten wie üblich nur die Zugangsdaten zur Datenbank, nicht jedoch zum System. Auch die Azure SQL Managed Instance lässt sich hybrid betreiben, sodass beispielsweise Inhalte einer lokalen Datenbank „beinahe in Echtzeit“ in die Cloud repliziert werden. Darüber hinaus hält sich das Feature-Feuerwerk allerdings in Grenzen: Viel mehr als der klassische SQL Server beherrscht der Dienst nicht.
+
+Ähnliches gilt für das dritte Produkt der Azure-SQL-Familie, den SQL Server on Virtual Machines. Das funktioniert im Kern wie die SQL Managed Instance, hier erhält der Administrator aber vollen Zugriff auf die darunterliegende VM. Es simuliert also ein IaaS mit aufgepfropfter Datenbank. Das Management ist allerdings beschränkt: Nur wenn der IaaS Azure Agent installiert wird, übernimmt der Hersteller im Namen und Auftrag des Admins noch grundlegende Dienste für die Pflege der MS-SQL-Server-Instanz. Die verfügbaren SLAs für diese Art des Betriebs unterscheiden sich von denen der anderen beiden Produkte der Azure-SQL-Familie erheblich.
+
+\section{Auch Open Source ist möglich}
+
+Bekanntlich richtet sich Azure längst nicht mehr nur an Windows-Anwender und die, die Windows-Server in der Cloud betreiben wollen. Schon vor Jahren hat Microsoft seine Liebe zu Linux entdeckt und bewirbt sie offensiv. Für Azure pflegt der Konzern mittlerweile gar eine eigene Linux-Distribution. Da dürfen beim Thema Managed Database die Vertreter der wichtigsten Open-Source-Datenbanken selbstverständlich nicht fehlen. Obendrein ist nachvollziehbar, dass Azure auch als Deployment-Ziel für diejenigen attraktiv sein soll, die einen Webshop, eine WordPress-Instanz oder ein Forum betreiben wollen. Praktisch sämtliche freie Software für diese Aufgaben setzt jedoch nicht auf SQL Server, sondern auf MariaDB, MySQL und manchmal PostgreSQL.
+
+Entsprechend geht Azure mit DBaaS-Angeboten für diese drei OSS-Vertreter an den Start. Wenig kreativ heißen diese „Azure Database for“ MySQL,PostgreSQL und MariaDB. Beim Funktionsumfang liefern sie genau das Erwartete: eine gemanagte Instanz des jeweiligen Dienstes, die Redundanz und das Einrichten der Hochverfügbarkeit übernimmt und ansonsten die bekannte SQL-Schnittstelle exponiert. PostgreSQL hat Microsoft in der eigenen Cloud sogar noch etwas aufgebohrt: Auf der Dienstebene Hyperscale lässt es sich – anders als die MySQL- und MariaDB-Pendants – hybrid betreiben und in die Breite skalieren.
+
+\section{Cosmos für In-Memory und Cache für Redis}
+
+Die letzten beiden DBaaS-Angebote bedienen spezielle Anforderungen, doch erzwingt der Cloud-ready-Ansatz ja gerade deren Entstehung regelmäßig. Azure Cosmos DB ist ein etwas eigenartig anmutender Hybrid, eigentlich eine nicht relationale Datenbank, aber mit PostgreSQL-Schnittstelle und gedacht als Datenbank für Dokumente und Wide-Column-Anwendungen sowie als Key-Value-Speicher oder als Datenbank für Graphing. Es handelt sich also um eine Art Eier legende Wollmilchsau, die der Hersteller in höchsten Tönen lobt. Das Produkt biete beispiellose Performance aufgrund seiner Architektur und mit seinen vielfältigen Schnittstellen PostgreSQL-, MongoDB- und Apache-Cassandra-Kompatibilität.
+
+In der Tat ist das Feature-Set erstaunlich. Wie bei den anderen Hosted-Angeboten übernimmt auch hier Microsoft das Management und dem Anwender bleibt nur, die nun gegebene Datenbank sinnvoll mit Daten zu betanken. Weshalb der Ansatz einer Lösung für viele Schnittstellen allerdings besser sein soll als etwa der AWS-Ansatz, für die einzelnen Schnittstellen eigene Produkte zu definieren, darauf bleibt Microsoft die Antwort schuldig. Immerhin liefert der Hersteller für Cosmos DB ein eigenes Werkzeug mit, das die Analyse der Daten in der Datenbank erheblich erleichtert (Abbildung 4).
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler04}
+		
+		\caption[Cosmos DB]{Cosmos DB ist Microsofts Universaldatenbank für spezielle Fälle, die sich für Dokumente ebenso eignet wie für Analysedaten und zudem ein eigenes Anzeigewerkzeug mitbringt. Quelle: Microsoft}
+	\end{center} 
+\end{figure}
+
+Azure Cache for Redis schließlich ist ein Key-Value Store, der als In-Memory-Datenbank für Redis arbeitet und so dessen Performance steigern soll. Praktisch handelt es sich also um ein direktes Gegenstück zu Amazon MemoryDB.
+
+\section{Auch Azure hilft bei der Migration}
+
+Wie Amazon will auch Microsoft in Sachen Datenbankmigration in die Cloud nichts dem Zufall überlassen. Hierfür stellt der Anbieter ein eigenes Tool bereit, das sich allerdings nur auf Azure Database for MariaDB bezieht. Logisch: MS SQL Server lässt sich unmittelbar per Spiegelung in die Cloud kopieren. Nutzer von PostgreSQL oder MySQL schauen in die Röhre.
+
+Insgesamt präsentiert sich Azures Datenbankangebot auf stabilem Niveau und dürfte für die meisten Einsatzzwecke eine passende Lösung parat haben. Ganz so umfangreich wie bei AWS ist das Angebot aber nicht. Wer also für eine Nischenfunktion eine Datenbank wie eine Zeitreihendatenbank braucht, betreibt diese entweder selbst oder braucht eine andere Plattform.
+
+\section{Google: im Schatten von AWS und Azure}
+
+Wer das Cloud-Geschäft schon eine Weile verfolgt, weiß, dass sich Google mit der eigenen Position darin lange schwergetan hat. Heute reiht GCP sich neben Azure und AWS in die Riege der Hyperscaler ein. Beim Thema Cloud-Datenbanken liegt Google zumindest bei der Breite des Angebots rein zahlenmäßig mit Amazon auf Augenhöhe, denn das DBaaS-Portfolio aus Mountain View umfasst zehn verschiedene Dienste.
+
+Bei den relationalen Datenbanken sticht Google AWS dabei sogar aus. Zunächst steht Kunden in Form von Cloud SQL eine von Google betriebene Datenbank zur Verfügung. Die arbeitet intern relational und bietet Interfaces für MySQL, SQL Server und PostgreSQL (Abbildung 5). Zu Cloud SQL gehört auch ein eigener Dienst für Migrationen. Über die Datastream-Funktion lassen sich Cloud-SQL-Instanzen untereinander mit niedriger Latenz replizieren.
+
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler05}
+		
+		\caption[Google GCP]{Google GCP erfindet einerseits einen eigenen SQL-Dialekt, unterstützt bei Cloud SQL aber auch klassische Schnittstellen wie MySQL oder PostgreSQL. Quelle: Google}
+	\end{center} 
+\end{figure}
+
+
+Ein Unikum im Google-Portfolio ist Cloud Spanner, eine Cloud-native Datenbank mit SQL-Schnittstelle. Sie verspricht georeplizierte Set-ups bei einer Verfügbarkeit von 99,999 Prozent, soll dabei hochperformant sein und auch die Migration von Datenbanken wie Oracle oder DynamoDB erlauben. Allerdings nutzt Cloud Spanner mit Google Standard SQL einen Dialekt, den nur wenige Anwendungen ab Werk beherrschen. Hier zeigt sich, dass Cloud Spanner sich nicht an Allerweltskunden richtet, sondern an Konzerne, die ihre Applikationen selbst schreiben und eine Cloud-basierte Enterprise-Datenbank benötigen. An dieser Stelle schlägt der schon mehrmals erwähnte Lock-in-Effekt stärker zu: Aus einer bei Azure betriebenen MySQL-Instanz kann man immerhin noch in eine MySQL-Instanz bei AWS migrieren. Wer sich jedoch einmal auf Cloud Spanner eingeschossen hat, müsste bei einer Migration die Datenbank konvertieren. Das dürfte gerade bei großen, historisch gewachsenen Datenbanken praktisch unmöglich sein.
+
+Immerhin bietet Google für Cloud Spanner das PostgreSQL-Interface an. Das arbeitet als eine Art Proxy und verhindert, dass Endkunden ihre PostgreSQL-fähigen Anwendungen umstricken müssen. Informationen über den Grad der Kompatibilität bietet Google allerdings nicht.
+
+\section{PostgreSQL als Ersatz}
+
+Für diejenigen Administratoren oder Anwender, die mit Cloud Spanner wegen seiner proprietären Schnittstelle nicht zurechtkommen, hat Google AlloyDB for PostgreSQL im Angebot. Auch AlloyDB ist ein Google-eigenes Produkt und steht unter einer nicht freien Lizenz. Es schneidet laut Hersteller etwas schlechter als Cloud Spanner in den Kategorien Skalierbarkeit und Performance ab, bietet im Gegenzug aber eine PostgreSQL-Schnittstelle. Genau lässt Google sich aber auch hier nicht in die Karten gucken, sodass unklar bleibt, ob ein unter dem Namen AlloyDB auf GitHub firmierendes Projekt möglicherweise ein historischer Vorgänger des Google-Produktes ist. In jenem Git-Verzeichnis stammt der letzte Commit aus dem Jahr 2019. Fest dürfte aber stehen, dass auch AlloyDB im Kern kein PostgreSQL nutzt, sondern vermutlich einen Key-Value-Speicher mit einer PostgreSQL-Kompatibilitätsschnittstelle. Wo genau hier die Unterschiede zu Cloud Spanner mit seinem PostgreSQL-Frontend liegen, verrät der Hersteller ebenfalls nicht. In Summe riecht AlloyDB mithin etwas „fishy“ und könnte zu jenen Produkten gehören, die Google – wie der Hersteller es gern und häufig tut – irgendwann zugunsten von Cloud Spanner auslaufen lässt.
+
+Als relationale Alternative zu AWS Redshift bringt Google zudem das Produkt BigQuery an den Start. Das dient ebenfalls dem Aufbau von Data Warehouses zu Analysezwecken und dem Verwalten betrieblicher Echtzeitdaten. Wer aus der Oracle-Ecke kommt, kann beim Anbieter zudem eine „Bare-Metal-Lösung für Oracle“ bekommen, wobei es sich dabei um ein Built-to-order-Produkt handeln dürfte, das nicht von der Stange kommt.
+
+\section{Noch weitere DB-Arten im Angebot}
+
+Auch bei den anderen Datenbanktypen hat Google etwas zu bieten. So vermarktet das Unternehmen unter dem Namen Cloud Bigtable einen Key-Value-Speicher als gemanagten Dienst. Dies bewirbt der Hersteller wie Azure mit einer Verfügbarkeit von 99,999 Prozent, hoher Skalierbarkeit und der Fähigkeit, bis zu fünf Milliarden Anfragen pro Sekunde global verteilt zu verarbeiten. Das soll all jene Kunden ansprechen, die von HBase oder Cassandra in die Cloud migrieren wollen.
+
+Firestore richtet sich an dieselben Kunden wie Microsofts Cosmos DB oder Amazons DocumentDB. Es geht also um die Verarbeitung von viel vorformatiertem Text. In der Praxis dürfte das vor allem IoT-Anwendungen betreffen, die mit ihrem Mutterschiff telefonieren und mit diesem zu Informationszwecken große Datenmengen austauschen. Hier trifft man die Art von Inhalt am häufigsten an, für die Dokumentendatenbanken gemacht sind.
+
+Wer Daten zwischen mehreren Systemen in Echtzeit synchronisieren und speichern muss, findet im Google-Fundus mit Firebase Realtime eine weitere typische Dokumentendatenbank.
+
+Natürlich darf auch eine In-Memory-Datenbank nicht fehlen. Im Kern steckt in Googles Memorystore Redis mit Memcached für den schnellen Zugriff auf gecachte Daten, sodass jede mit Redis kompatible App auch mit Memorystore funktionieren sollte.
+
+Wer stattdessen auf MongoDB festgelegt ist, findet bei Google mit MongoDB Atlas die einzige herstellereigene Datenbank, die der Plattformbetreiber mitvermarktet. Weil es sich um MongoDB handelt, sind zur Funktionalität des gemanagten Dienstes an dieser Stelle weitere Details entbehrlich – es sei auf die diversen MongoDB-Artikel in früheren iX-Ausgaben verwiesen.
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler07a}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler07b}
+		
+		\caption{SQL-Datenbanken aus der Cloud -- Angebote der Hyperscaler}
+	\end{center} 
+\end{figure}
+
+%
+%SQL-Datenbanken aus der Cloud – Angebote der Hyperscaler
+%Anbieter	AWS	Azure	Google Cloud
+%Produktname	Aurora	RDS	Redshift	SQL	Managed SQL Instance	SQL Server on virtual Instance	PostgreSQL	MariaDB	Cloud SQL	Cloud Spanner	AlloyDB
+%Serverless	✓	–	–	✓	–	–	–	–	✓	–	–
+%SQL-Dialekt	MySQL, PostgreSQL	MySQL, MariaDB, PostgreSQL, MS SQL	Redshift SQL (PostgreSQL-Derivat, teilkompatibel)	MS SQL	MS SQL	MS SQL	PostgreSQL	MariaDB	MS SQL, MySQL, PostgreSQL	Cloud SQL, (PostGreSQL¹)	PostgreSQL
+%als Managed Service	✓	✓	✓	✓	✓	(✓, teilweise)	✓	✓	✓	✓	✓
+%Preis²	2,506 US-$	4,153 US-$	8,208 US-$	8,832 €	6,18 €	6,75 €	1,631 €	1,604 €	2,53 US-$	1,08 US-$	2,49 US-$
+%¹ mit Konnektor; ² für Instanz mit folgender Konfiguration: 6 vCPUs, 64 oder 128 GByte RAM, Standort Europa oder Deutschland, pro Stunde oder vergleichbar, Preise zum Teil zzgl. Storage
+
+\section{Andere Datenbankanbieter in der Cloud}
+
+MongoDB in der Google Cloud bietet eine schöne Überleitung zu einem letzten, plattformübergreifenden Thema. Gemanagte Datenbanken findet man in Azure, AWS und GCP nämlich nicht nur von den Plattformbetreibern selbst. Es gehört zu deren Geschäftsmodell, dass sie Partner ins Boot holen. Denn bei aller Größe wird es weder Google noch Amazon noch Microsoft gelingen, genügend Experten für jede auf dem Markt existierende kommerzielle Datenbank zu finden. Der in diesem Heft auf Seite 42 erschienene Artikel zu Cloud-nativen Datenbanken macht das schnell deutlich [1]. Denn von den dort vorgestellten fünf Kandidaten – Citus, CockroachDB, TiDB, Vitess und YugabyteDB – findet sich bei keinem der drei Hyperscaler auch nur ein Wort.
+
+Trotzdem lässt sich beispielsweise TiDB als direkt vom Hersteller PingCAP angebotener Cloud-Dienst in AWS nutzen. Beispiele für ganz ähnlich gelagerte Fälle dürfte es Tausende geben. Wer also mit dem Gedanken spielt, die eigene Workload in die Cloud zu migrieren, sollte das im Hinterkopf behalten: Auch wenn die aktuell genutzte DB in der Liste der unterstützten DBaaS-Angebote fehlt, bedeutet das nicht automatisch, dass der gemanagte Betrieb der Datenbank bei AWS und Co. unmöglich ist. Allerdings sind dann die Dritthersteller zuständig und auch verantwortlich.
+
+\begin{figure}
+	
+	\begin{center}
+		
+		\includegraphics[width=\textwidth]{Hyperscaler/Hyperscaler06}
+		
+		
+		\caption{Key-Value Stores aus der Cloud -- Angebote der Hyperscaler}
+	\end{center} 
+\end{figure}
+
+%Key-Value Stores aus der Cloud – Angebote der Hyperscaler
+%Anbieter	AWS	Azure	Google Cloud
+%Produktname	DynamoDB	Cosmos DB	Bigtable
+%Serverless	✓	✓	✓
+%Kompatibilität	Cassandra	Cassandra	Casandra, HBase
+%als Managed Service	✓	✓	✓
+%Abrechnungsfaktoren¹	on demand oder managed, danach gestaffelt nach Reads/Writes, Streams, ingress/outgoing Traffic, benutztem Storage, Menge der globalen Tabellen; Gebühren für den Export zu anderen Diensten wie S3 abhängig davon, in welcher Zone die Instanz läuft	Zone, Autoscale oder Standard Scale in Request Units (RU), zuzüglich fixer Gebühren für Traffic und genutzten Speicher; 100 RU kosten 0,0008 Euro pro Stunde	Region, dann Nodes eines Clusters (Shards) mit 0,65 US-Cent pro Stunde, zuzüglich dynamisch genutztem RAM und Traffic bei auf mehrere Regionen verteilten Nodes
+%¹ je nach Instanztyp
+
+\section{Fazit}
+
+Im Database-as-a-Service-Duell der Hyperscaler kann sich keine Plattform als klarer Sieger etablieren. Wer halbwegs normale Datenbankanforderungen hat, wird in der Regel an einer relationalen Datenbank interessiert sein, die automatisch durch die Plattform gesichert wird und nach Möglichkeit das Skalieren in die Breite und Hochverfügbarkeit bietet. Sowohl AWS als auch Azure und GCP decken diese Anforderungen bereits mit den Grunddiensten ihrer DBaaS-Angebote ab.
+
+Bei den speziellen Diensten ergibt sich jedoch ein differenzierteres Bild. Googles Cloud Spanner etwa dürfte am Markt einzigartig sein, lohnt sich aber nur für Unternehmen, die wirklich große verteilte Datenbanken mit hohen Performanceansprüchen benötigen. Allerdings birgt die Nutzung des Google-eigenen SQL-Dialekts auch die Gefahr eines Lock-in.
+
+Darüber hinaus gleichen sich die Portfolios weitgehend. Eine NoSQL-Datenbank, eine Dokumentendatenbank und ein Data Warehouse findet sich bei allen Anbietern ebenso wie In-Memory-Datenbanken für die Verwendung mit Redis. Es gilt insofern das bei Cloud-Diensten so häufig Gesagte: Technisch können Nutzer bei keinem der Anbieter etwas falsch machen. Am Ende entscheidet entweder die bereits zugunsten eines Anbieters getroffene Plattformauswahl auch über die DBaaS-Dienste oder aber der Administrator lässt das Thema DBaaS bei der Wahl einer Plattform in seine Überlegungen einfließen. Wie die Tabelle zeigt, unterscheiden sich die verschiedenen Angebote zumindest finanziell deutlich, sodass sich hier womöglich ein Anhaltspunkt ergibt. (avr@ix.de)
+
+\section{Quellen}
+
+\begin{itemize}
+  \item Martin G. Loschwitz; Fünf Cloud-native SQL-Datenbanken; iX 1/2023, S. 42
+  \item Weiter Informationen zu den DBaaS-Angeboten der Hyperscaler: ix.de/zkze
+\end{itemize}
+
+\section{Tasks}
+
+
+\begin{itemize}
+	\item Translation
+	\item Improvements
+	\item Further readings
+	\item Presentation
+\end{itemize}

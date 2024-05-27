@@ -1,0 +1,393 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/FastAPI.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%%%%%%%%%%%%%%%%
+
+% Quelle: https://www.heise.de/ratgeber/Programmieren-mit-Python-Schnittstellen-entwickeln-mit-Pycharm-und-FastAPI-4940182.html
+
+
+\chapter{Programmieren mit Python: Schnittstellen entwickeln mit Pycharm und FastAPI}
+
+IDEs wie Pycharm machen das Leben für Programmierer einfacher. Wir zeigen, wie Sie in Pycharm mit FastAPI eine Python-REST-Schnittstelle erstellen.
+
+Entwicklungsumgebungen (Integrated Development Environment, IDE) laufen auf den meisten Rechnern problemlos und bieten einen enormen Mehrwert durch die vielen Module, die sie mitbringen: Zum Beispiel die Integration von Debuggern, Module für das Refactoring, also das Umbenennen etwa von Variablennamen über Dateigrenzen hinweg, Test-Umgebungen oder Code-Revisions-Werkzeuge wie Git. Für viele IDEs existiert ein ganzes Universum an Erweiterungen, etwa für die Code-Analyse oder Virtualisierungs- beziehungsweise Cloud-Integration.
+
+In diesem Artikel zeigen wir, wie man mit FastAPI eine Python-REST-Schnittstelle schnell und einfach erstellen kann. Dazu nutzen wir mit Pycharm eine Entwicklungsumgebung, die viele Funktionen für das Entwickeln mit Python zur Verfügung bereithält.
+
+Wichtig für das Arbeiten mit Pycharm ist vor allem der Debugger, der es zur Laufzeit von Programmen ermöglicht, die Werte von Variablen auszulesen und somit die Qualität des Codes live zu begutachten. Und zwar, ohne den Code selbst mit print()-Statements zu verschönern. Mithilfe von Breakpoints können Sie den Ablauf des Programmes bei jedem Befehl stoppen, den Sie genauer betrachten wollen, etwa weil Sie auf der Suche nach einer bisher nicht beachteten Ausnahme sind.
+
+Wenn Sie die Beispiele selbst nachvollziehen möchten, \HREF{ftp://ftp.heise.de/pub/heiseplus/code_ix_fastapi.7z}{laden Sie einfach den Quellcode in einer 7Z-Datei von unserem Server herunter}, entpacken ihn und nutzen ihn in der IDE Ihrer Wahl -- es muss nicht unbedingt Pycharm sein. In der IDE müssen Sie nur ein neues Projekt anlegen und den Code reinkopieren. Und danach die Datei requirements.txt im Ordner data als Grundlage für die Python-Paket-Installationen verwenden.
+
+\section{Warum Pycharm?}
+
+
+Pycharm ist ein guter Kompromiss aus standardmäßigem Funktionsumfang und flüssiger Bedienung. Im Vergleich dazu legt etwa die IDE Spyder als Teil der Anaconda-Distribution den Schwerpunkt auf Data Science. Sie bringt mehr Module mit, um vor allem wissenschaftliche Daten zu bearbeiten.
+
+\HREF{https://www.jetbrains.com/de-de/products/compare/?product=pycharm&product=pycharm-ce}{Pycharm} gibt es in zwei Ausführungen: der kostenlosen Community Edition sowie der kostenpflichtigen Professional Edition. Die Professional Edition bietet vielfältigere Möglichkeiten wie Code-Coverage (Testabdeckung) oder Werkzeuge für die Webentwicklung mit diversen Frameworks wie Django, Flask oder aktuellen JavaScript-Entwicklungen.
+
+Pycharm installiert man etwa unter Windows mit einer heruntergeladenen EXE-Datei. Weitere Möglichkeiten, auch für andere Betriebssysteme, \HREF{https://www.jetbrains.com/help/pycharm/installation-guide.html}{finden Sie auf der Website der Entwicklerfirma Jetbrains}.
+
+\section{Warum FastAPI?}
+
+FastAPI ist für den Umgang mit REST-Schnittstellen eine sehr gute Wahl. Es ähnelt als kleines Framework Flask: Man muss etwa für das Zusammenspiel mit Datenbanken weitere Module selbst installieren. Damit grenzt es sich von einem Framework wie Django ab, das von Haus aus schon viele Komponenten mitbringt.
+
+Daher fokussiert sich FastAPI eher auf seinen Kern: nützliche Komponenten rund um REST-Schnittstellen. Dazu gehört \HREF{https://www.heise.de/hintergrund/REST-APIs-dokumentieren-nach-dem-OpenAPI-Standard-4659241.html}{das automatische Erstellen von Dokumentation via OpenAPI} und somit auch die Möglichkeit, direkt und interaktiv testen zu können. Weiterhin kann FastAPI \HREF{https://realpython.com/async-io-python/}{eingehende Anfragen nativ asynchron verarbeiten}, um etwa Wartezeiten auf Datenbank- oder Festplattenzugriffe zu minimieren.
+
+Zusätzlich beherrscht FastAPI Type Hinting - es kann also beim Aufruf von Funktionen direkt den Typ einer Variablen vorgeben und so falsche Eingaben standardmäßig erkennen. Type Hinting ist übrigens mit der Python-Version 3.9 im Standard angelangt. Zudem kann FastAPI auch mit WebSockets und GraphQL umgehen. Noch mehr Details und eine sehr gute Dokumentation finden Sie \HREF{https://fastapi.tiangolo.com/alternatives/}{auf der Webseite des FastAPI-Projekts}.
+
+\section{Projekt in Pycharm einrichten}
+
+Beim ersten Starten von Pycharm öffnet sich ein Dialogfenster, in dem Sie auf ``New Project'' klicken. Anschließend erscheint eine Konfigurationsmaske, in der Sie von oben nach unten folgendes festlegen: den Speicherort Ihres Projektes, also die ``Location'' sowie die Detaileinstellungen des Python Interpreters:
+
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI01}
+  \caption{Location.} \label{FastAPI01}
+\end{figure}
+
+
+Während Sie für den Speicherort wie gewohnt über das Ordnersymbol rechts einen Ordner Ihrer Wahl festlegen können, treffen Sie bei den Einstellungen zum Interpreter wichtige Entscheidungen für Ihr Projekt. Zum einen definieren Sie, ob und welche virtuelle Python-Umgebung Sie nutzen möchten. Damit die Pakete einzelner Projekte auch nur diesen Umgebungen zur Verfügung stehen, sollten Sie in jedem Fall eine virtuelle Umgebung auswählen. Für dieses Projekt nutzen wir Virtualenv, weiterhin kann man noch zwischen Conda und Pipenv wählen.
+
+Den Ort für die virtuelle Umgebung können Sie übernehmen und danach den Python Interpreter, also den ``Base Interpreter'', wählen, falls Sie mehrere Python-Versionen installiert haben. Das ist etwa dann sinnvoll, wenn Sie ältere Projekte pflegen und dort mit Python 2.7 arbeiten müssen.
+
+Wenn Sie den untersten Haken nicht abwählen, erstellt Pycharm eine erste Python-Datei im neuen Projekt. Ihr neues Projekt sieht dann wie folgt aus:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI02}
+    \caption{Project.} \label{FastAPI02}
+\end{figure}
+
+
+
+In dem Hauptordner ``ix'' befindet sich am Anfang nur der Ordner für die virtuelle Umgebung. Wenn Sie auf den Hauptordner mit der rechten Maustaste klicken und ``New'' auswählen, können Sie nun weitere Ordner oder Dateien anlegen. Wir haben das für die Datei \FILE{ix\_fastapi.py} schon gemacht und die ersten Zeilen in die Datei kopiert:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI03}
+    \caption{Import.} \label{FastAPI03}
+\end{figure}
+
+
+\section{Pakete installieren}
+
+Dabei fällt auf, dass Pycharm bei den Paketimporten beide Zeilen rot unterstreicht. Das bedeutet, dass in unserer virtuellen Umgebung das Paket fastapi noch nicht bekannt ist und wir es importieren oder installieren müssen. Gehen Sie oben links auf ``File'' und anschließend auf ``Settings''. Dort sehen Sie die Übersicht der Einstellungen:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI04}
+    \caption{Packages.} \label{FastAPI04}
+\end{figure}
+
+
+Wichtig sind die Informationen zum ``Project: ix'' und dort zum ``Python Interpreter'', die Sie nacheinander anklicken. Somit gelangen Sie zu der Übersicht installierter Python-Pakete oder ``Packages''. Um weitere Pakete hinzuzufügen, klicken Sie auf das Plus-Zeichen oben rechts und es öffnet sich eine Übersicht aller verfügbaren Pakete.
+
+In das anfangs leere Suchfeld oben links geben Sie ``fastapi'' neben der Lupe ein, wählen dann aus den angezeigten Paketen das richtige aus und klicken dann auf ``Install Package''. Neben dem Paket erscheint nun ein Hinweis darauf, dass es installiert wird und nach dem Abschluss des Installierens erscheint ein Hinweis unten links.
+
+Wenn Sie den aktuellen Dialog schließen, sehen Sie in der Paketübersicht jetzt neben ``fastapi'' auch ``pydantic'' und ``starlette''. Das zeigt, dass fastapi andere Paket benötigt, die automatisch mitinstalliert werden.
+
+Da FastAPI nicht wie Flask mit einem eigenen Server kommt, installieren Sie wie vorher den Server Uvicorn:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI05}
+    \caption{Unicorn.} \label{FastAPI05}
+\end{figure}
+
+Wenn Sie später alle installierten Pakete in einer Datei speichern wollen, um das Projekt etwa in einer anderen Umgebung aufzusetzen oder nur zu sichern, können Sie im Pycharm-Terminal unten einfach den Befehl \SHELL{pip freeze > data/requirements.txt} ausführen. Dieser Befehl erstellt in der Datei \FILE{data/requirements.txt} eine Übersicht der Module, die dann so aussieht:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI06}
+    \caption{requirements.txt} \label{FastAPI06}
+\end{figure}
+
+\section{Tipps und Tricks mit Pycharm}
+
+\textbf{Fehlermeldungen:} Oben rechts im Editor-Fenster zeigt Pycharm vorhandene Fehler und Warnungen an, falls vorhanden – oder ein grüner Haken, wenn alles passt. Pycharm sucht nach Programmierfehlern, aber auch nach Verstößen gegen die Python-Programmierrichtlinien wie PEP. Wenn Sie auf jetzt auf die Zahl der Fehler klicken, öffnet sich unten der "Problems Editor" und listet alle Probleme inklusive Beschreibung auf. Wenn Sie von dort auf einen Eintrag klicken, springen Sie direkt zum Fehler.
+
+\medskip
+
+\textbf{Debuggen:} Im Debugmodus kann man sich unter anderem Werte von Variablen zur Laufzeit anzeigen lassen und so das Programm prüfen. Nutzen Sie Umschalt+F9 oder klicken auf das Käfer-Symbol rechts neben dem grünen Pfeil, um den Debugger zu starten.
+
+\medskip
+
+\textbf{Code Folding:} Sie können komfortabel Ihre Methoden oder andere Elemente einklappen, um eine Übersicht über Ihren Text zu erhalten. Drücken sie die Tastenkombination STRG+Umschalt+Minustaste und alle einklappbaren Textteile werden zusammengefaltet. Mit STRG+Umschalt+Plustaste können Sie alles wieder aufklappen.
+
+\medskip
+
+\textbf{Logging:} Wenn Sie die Ausgaben eines Programms sichern wollen, können Sie Log-Dateien anlegen, in die Pycharm die normalen Konsolenausgaben schreibt. Dafür gehen Sie im Menü auf ``Run'' und dann auf ``Edit Configurations''. Im nächsten Dialog wählen Sie links Ihr zu loggendes Programm aus und klicken rechts auf den Reiter ``Logs''. Nun können Sie jetzt den Speicherort der Log-Datei festlegen
+
+\medskip
+
+\textbf{Versionsvergleich:} Den aktuellen Stand einer Datei können Sie mit früheren lokalen Versionen vergleichen. Machen Sie dazu einen Rechtsklick auf den Dateinamen in der Projektübersicht, klicken auf "Local History" und wählen "Show History" aus. Im nächsten Fenster ist rechts die aktuelle Version zu sehen, links eine vorherige. Wenn Sie die Uhrzeit im linken Fenster anklicken, legen Sie fest, welche Version Sie betrachten wollen. Außerdem hebt Pycharm die Unterschiede zwischen den beiden Dateien hervor.
+
+\section{Daten pflegen mit FastAPI}
+
+In modernen webbasierten Anwendungen trennt man oft die Frameworks, die Inhalte darstellen, von den Frameworks, die Daten bereitstellen. Außerdem tauschen Unternehmen Daten direkt über Web-Schnittstellen aus. Daher benötigt man leistungsfähige Programme, die den kompletten Lebenszyklus dieser Daten abdecken. Dieser Zyklus wird auch CRUD genannt: Create, Read, Update, Delete. FastAPI bietet diesen Umfang inklusive Sicherheit, asynchroner Verarbeitung und vielem mehr an.
+
+In diesem Beispiel geht es darum, eine Liste von Gegenständen zu verwalten: neue Gegenstände anzulegen, Details eines bestimmten oder aller Gegenstände abzufragen, diese Details zu verändern oder Gegenstände ganz zu löschen. Mit einer Liste ist das Projekt einfacher nachzuvollziehen, eine Datenbank müssten Sie erst aufsetzen.
+
+\section{Aufbau des Projekts}
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI07}
+    \caption{Aufbau des Projekts} \label{FastAPI07}
+\end{figure}
+
+Dieses Schnittstellenprojekt ist ein typisches Python-Projekt mit Konfiguration, Daten und Tests. Zudem gibt es noch den Ordner modular, in den wir einzelne Teile der REST-Schnittstelle ausgelagert haben, um den Code besser verwalten zu können. In der Datei \FILE{ix\_fastapi.py} ist der Code der Schnittstelle gespeichert.
+
+\section{Hello World mit FastAPI}
+
+Fas Hello-World-Projekt in der Datei \FILE{ix\_fastapi\_hello.py} gibt einen Überblick über den kompletten Entwicklungszyklus in Pycharm.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI07}
+    \caption{Aufbau des Projekts} \label{FastAPI07}
+\end{figure}
+
+
+Oben erscheinen die notwendigen Importe. Mit \PYTHON{app = FastAPI()} wird das Applikations-Objekt app als FastAPI-Instanz erzeugt. Darunter wird per @app auf app refenziert. Außerdem stellen Sie unter dem Pfad /hello auf dem Server eine Schnittstelle zur Verfügung, die per GET-Request abgefragt werden kann. Abgesprochen wird diese Schnittstelle dann unter \PYTHON{http://\{server-ip\}:\{port\}/hello}.
+
+Nun verknüpft man die Python-Methode \PYTHON{hello} mit dieser Schnittstelle. Da die Klammern leer sind, werden keine Parameter erwartet. Bei FastAPI werden standardmäßig JSON-Strings zurückgegeben, sodass sie nicht erst wie bei Flask in einem zusätzlichen Schritt erzeugt werden müssen. In diesem Fall gibt die Methode ein ``Hello World'' in JSON-Manier zurück.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI08}
+    \caption{`Hello World'' in JSON-Manier} \label{FastAPI08}
+\end{figure}
+
+
+In der Python-Main-Methode starten Sie den Server. Doch zuvor müssen Sie noch relevante Informationen wie Setupdaten, Ports oder Hosts aus der Konfigurationsdatei \FILE{ix\_fastapi.config.toml} auslesen.
+
+\HREF{https://hackersandslackers.com/simplify-your-python-projects-configuration/}{Weitere Informationen zum Konfigurieren mit TOML finden Sie im Netz}.
+
+\medskip
+
+Hinweis: Auch wenn dieses Projekt eine Konfiguration für eine Produktionsumgebung aufweist, so sollte sie nicht ohne entsprechende weitere Sicherheitseinstellungen produktiv eingesetzt werden.
+
+\section{Kein Coden ohne Testen}
+
+Um sicherzugehen, dass unser Code auch wie erwartet reagiert, erstellen Sie einen Unit-Test in der Datei \PYTHON{test\_ix\_fastapi\_hello.py}:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI09}
+    \caption{Datei \PYTHON{test\_ix\_fastapi\_hello.py}} \label{FastAPI09}
+\end{figure}
+
+Unit-Tests sind die erste Stufe im Entwicklungsprozess, weitere Test wie Integrations-, System- und Usability-Tests sollten in jedem Fall zusätzlich erfolgen. Oben finden Sie wieder die notwendigen Paketimporte. Dabei ist es wichtig, unter anderem die von der zu testenden Python-Datei \FILE{ix\_fastapi\_hello.py} erstellte Anwendung app zu importieren.
+
+Im nächsten Schritt erzeugen Sie den Test-Client für die Anwendung und den Unit-Test. Zuerst erstellen Sie eine Klasse als Instanz eines Testcases, in der Sie dann die eigentlichen Tests als Funktionen packen. Dabei muss jeder Test, genau wie der Datei- und der Klassenname, ebenfalls mit \PYTHON{test\_} beginnen, da ansonsten die Testwerkzeuge diese Tests nicht finden. Außerdem müssen alle Tests im Ordner tests angelegt werden.
+
+In Zeile 9 wird über \PYTHON{client} ein GET-Request mit dem Pfad \FILE{/hello} abgesetzt und die Antwort von FastAPI der Variablen response übergeben. In den drei folgenden Zeilen erfolgt dann das Testen der Antwort: assert zeigt immer eine Prüfung an, darauf folgt die Bedingung, welcher ein Aspekt der Antwort genügen muss. Etwa dass der Status-Code der FastAPI-Antwort den Wert 200 haben muss, das entspricht einem OK. Zeile 11 testet, wie der JSON-Anteil aussehen muss, Zeile 12 wie er nicht aussehen darf.
+
+Beim Testen ist es immer hilfreich, nicht nur die jeweiligen richtigen Fälle zu testen, sondern auch die negativen. Bei numerischen Variablen ist es wichtig, immer die Randfälle zu testen. Wenn eine Variable nur einen Wert von 0 bis 5 annehmen darf, sollten Sie Tests für negative Zahlen kleiner als -1, 0, 5, 6 sowie eine Zahl größer als 6 verfassen. So sind Sie auf der sicheren Seite.
+
+Um den Test nun zu starten, machen Sie einen Rechtsklick auf die Datei und wählen ``Run ‚Unittests in test\_ix\ldots'' aus:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI10}
+    \caption{``Run ‚Unittests in test\_ix\ldots''} \label{FastAPI10}
+\end{figure}
+
+
+Die Tests laufen dann links unten in Pycharm. In diesem Fall ist es nur einer. Und da überall nur grüne Haken zu sehen sind, ist der Test fehlerfrei durchgelaufen. Sollten Sie keine Details sehen, klicken Sie auf den hellgrauen Pfeil im dunkelgrauen Kasten neben dem Run-Button und sie werden eingeblendet:
+
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI11}
+  \caption{Run} \label{FastAPI11}
+\end{figure}
+
+
+Ein Vorteil von FastAPI besteht darin, dass Sie Ihre Schnittstellen interaktiv in einem Browser testen können. Starten Sie dafür Ihren Server, öffnen einen Browser und geben dort die beim Start des Servers angezeigte URL samt Port sowie den Pfad \FILE{/docs} ein. In unserem Fall \FILE{127.0.0.1:5000/docs}. Bitte beachten Sie, dass die IP 0.0.0.0 bedeutet, dass auch andere Rechner in dem Netzwerk auf Ihren Rechner zugreifen können.
+
+Im Browser erhalten Sie zuerst einen Überblick über alle Schnittstellen, hier nur \FILE{/hello}. Klicken Sie auf GET und Sie gelangen zu den Details. Klicken Sie nun auf ``Try it out''. Da für unser Beispiel keine Parameter verlangt werden, klicken Sie direkt auf ``Execute'' und führen damit den GET-Request aus. Das bedeutet, Sie senden die Abfrage - analog zum Klicken in einem Browser:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI12}
+    \caption{Klicken in einem Browser} \label{FastAPI12}
+\end{figure}
+
+Oben steht unter ``Curl'' der Text, mit dem Sie dieselbe Anfrage von einer Kommandozeile absetzen können. Oder Sie können den Text von ``Request URL'' \HREF{https://www.postman.com/}{mit Postman nutzen}. Postman ist eine Anwendung, mit der Sie REST-Schnittstellen entwickeln und testen.
+
+Darunter steht die Antwort des Servers, die ``Server response'': als erstes der Status-Code und daneben die Details, also die Header-Informationen sowie die eigentliche Antwort, der ``Response body''.
+
+\section{Gegenstände mit FastAPI verwalten}
+
+Nun wollen wir eine Liste von Gegenständen über das API verwalten. Die Gegenstände nennen wir Items. Sie verfügen jeweils über zwei Details, nämlich eine \PYTHON{item\_id} und ihren Namen in \PYTHON{name}.
+
+Die Datei \FILE{ix\_fastapi.py} ist dabei genauso aufgebaut wie die zuvor beschriebene Hello-World-Beispieldatei:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI13}
+    \caption{Datei \FILE{ix\_fastapi.py}} \label{FastAPI13}
+\end{figure}
+
+
+Nach den notwendigen Paketen folgt wieder die Instanziierung der FastAPI-Anwendung in Zeile 12. Und in Zeile 14 definiert man die Liste der Gegenstände -- zum Start sind es zwei.
+
+FastAPI bietet via OpenAPI die Möglichkeit, Nutzern direkt anzeigen zu können, welche Struktur die Antwort einer Schnittstelle hat. Diese Strukturen werden als Instanzen des BaseModels erzeugt, hier heißen sie \PYTHON{Item} und \PYTHON{Message}.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI14}
+    \caption{ie \PYTHON{Item} und \PYTHON{Message}} \label{FastAPI14}
+\end{figure}
+
+
+In der ersten Schnittstelle rufen Sie Details zu einem bestimmen Item über seine \PYTHON{item\_id} auf. Das ist wieder ein GET-Request, somit steht \PYTHON{@app.get} vor der Funktion. Der Pfad besteht aus dem Namen \PYTHON{item} und der zu übergebenden ID, die so dem Funktionsaufruf von \PYTHON{read\_item} übergeben wird. Dabei wird direkt geprüft, ob es sich bei der ID um einen numerischen Wert handelt, ansonsten wird ein Werte-Fehler zurückgegeben. In der Funktion selbst wird in Zeile 42 zuerst mittels eines Tests (\PYTHON{get\_entry\_from\_list}) geprüft, ob die ID schon in der Liste enthalten ist. Falls ja, wird der Eintrag in Zeile 43 in einen validen JSON-Ausdruck überführt, der dann als JSON-Antwort zurückgegeben wird (Zeile 44).
+
+Für die Antwort ist auch schon ein Modell vorgegeben, das responseModel in Zeile 39. Wenn man etwa Item 1 abfragt, gibt es \PYTHON{\{'item\_id': 1, 'name': 'Bar'\}} zurück.
+
+Falls das Item nicht vorhanden ist, wird zur Laufzeit des Programms ein \PYTHON{IndexError} erzeugt, den die Ausnahmebehandlung in Zeile 45 abfängt. In Zeile 46 wird dann eine HTTP-Ausnahme mit dem Fehlercode 406 erzeugt sowie einer Fehlerbeschreibung, die dann als Antwort auf den GET-Request gesendet wird.
+
+\section{Listeneinträge zurückgeben}
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI15}
+    \caption{Listeneinträge zurückgeben} \label{FastAPI15}
+\end{figure}
+
+In der zweiten Schnittstelle werden auf nach dem Aufruf des Pfades \FILE{/items} alle Listeneinträge zurückgegeben. Das Antwortmodell besteht in diesem Fall aus einer Liste der Items.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI16}
+    \caption{Das Antwortmodell besteht in diesem Fall aus einer Liste der Items.} \label{FastAPI16}
+\end{figure}
+
+Mit der dritten Aufrufmöglichkeit schicken Sie Daten, um ein neues Item anzulegen. Daher muss das ein POST-Request sein und in Zeile 64 heißt der Verweis auf die Anwendung \PYTHON{@app.post}. Diesmal werden neben der \PYTHON{item\_id} noch der Name übergeben, weshalb die Funktion in Zeile 65 beide Parameter erfordert. Innerhalb der Funktion wird zuerst geprüft, ob unter der \PYTHON{item\_id} schon ein Eintrag in der Liste existiert und falls ja, wieder eine Ausnahme in Zeile 75 und 76 erzeugt. Falls nicht, wird der Item an die Liste angehängt und zur Bestätigung zurückgeschickt.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI17}
+    \caption{ zur Bestätigung zurückgeschickt} \label{FastAPI17}
+\end{figure}
+
+
+Um ein bestehendes Item zu ändern, muss ein PUT-Request an etwa den Pfad \FILE{/item/1/neuer\_name} geschickt werden. Wenn die ID vorhanden ist, wird in Zeile76 der Name neu gesetzt und danach zurückgegeben.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI18}
+    \caption{Name neu gesetzt und danach zurückgegeben} \label{FastAPI18}
+\end{figure}
+
+Und falls ein Eintrag gelöscht werden soll, muss ein DELETE-Request an /item/1 geschickt werden. Nach dem Löschen wir eine Bestätigung in Form einer Message (Zeile 82) gesendet.
+
+\section{Daten asynchron verarbeiten}
+
+FastAPI bietet es an, den Code zu entzerren und teilweise in andere Dateien auszulagern. Das macht Sinn, wenn es sich um viele Schnittstellen handelt und eine Datei nur die Schnittstellen verwaltet. Dadurch können Entwickler ihre Schnittstellen unabhängig von den anderen pflegen und es kommt zu weniger Fehlern.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI19}
+    \caption{Schnittstellen unabhängig von den anderen pflegen} \label{FastAPI19}
+\end{figure}
+
+
+In unserem Beispiel haben wir die asynchronen Schnittstellen in eine eigene Datei ausgelagert. Deshalb muss bei den Importen zuerst die Datei bekanntgegeben werden -- hier wird die Datei \FILE{ix\_fastapi\_async.py} aus dem Unterverzeichnis modular eingetragen. Und in Zeile 94 wird dann der Anwendung ein \PYTHON{Router} für diese Datei hinzugefügt.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI20}
+    \caption{Router} \label{FastAPI20}
+\end{figure}
+
+
+In dieser Datei wird zuerst zu Vergleichszwecken in Zeile 14 eine normale Zählfunktion implementiert.
+
+Wenn der Pfad \FILE{/counter\_normal} über einen GET-Request aufgerufen wird, wird in der entsprechenden Funktion dreimal die Unter-Funktion\PYTHON{count()} aufgerufen, die aus zwei Schreibbefehlen und einem Warten für eine Sekunde besteht. Von allem wird die benötigte Zeit in den Zeilen 15 und 19 erfasst, welche zurückgeschickt wird. Da die interne Verarbeitung nacheinander erfolgt, können die einzelnen \PYTHON{count()}-Aufrufe nur nacheinander abgearbeitet werden.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI21}
+    \caption{einzelnen \PYTHON{count()}-Aufrufe} \label{FastAPI21}
+\end{figure}
+
+In der zweiten Schnittstelle der ausgelagerten Datei wird dasselbe Ziel erreicht – diesmal aber asynchron. Dafür muss dieser Aufruf Teil des laufenden Loops werden (Zeile 37). Denn der Server, der auf Anfragen wartet, ist selbst ein Loop, weshalb kein neuer Loop gestartet werden kann. Anschließend übergibt man an den erweiterten Loop in Zeile 42 eine Aufgabe und wartet in Zeile 43 auf deren Ergebnis. Diese Aufgabe sammelt ein, was asynchron erzeugt wurde: dreimal der Aufruf des asynchronen Warte-Counters
+
+\section{Testen, testen testen}
+
+Die Tests selbst folgen immer demselben Prinzip -- zuerst wird der entsprechende Request abgeschickt und die Antwort danach auf ihren Status-Code sowie ein- oder zweimal auf ihren Inhalt geprüft. Die Tests sind nummeriert, damit sie auch genau in dieser Reihenfolge ausgeführt werden. Offensichtlich schauen die Testclients nach den Namen der Tests und spulen sie alphabetisch sortiert ab.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI21}
+    \caption{Testclients} \label{FastAPI21}
+\end{figure}
+
+Als erstes führen wir die \FILE{test\_ix\_fastapi}-Tests als Unit-Tests aus. Zuerst wird ein Item hinzugefügt und danach dasselbe mit derselben Anfrage noch einmal probiert – und schlägt fehl. Das war zu erwarten.
+
+Beim sechsten Test hat der Fehlerteufel zugeschlagen und ID und Name vertauscht -- die Rückgabe meldet den Fehler, denn die Item-ID ist kein Integer. Test sieben zeigt, dass die Liste nun drei Einträge enthält.
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI22}
+    \caption{Liste nun drei Einträge enthält.} \label{FastAPI22}
+\end{figure}
+
+Im achten Test wird ein Item erfolgreich geändert, im neunten aber nicht, da die Item-ID 4 nicht existiert. Test 10 beschreibt die aktualisierte Liste. In Test Nr. 11 wird das Item mit der ID 3 gelöscht, das dann im zwölften Test nicht noch einmal gelöscht werden kann und einen Fehler erzeugt. Im finalen Test 13 wird noch einmal die Liste geprüft, die nun wieder der ursprünglichen gleicht.
+
+Um die zuvor beschriebenen Tests laufen zu lassen, machen Sie einen Rechtsklick auf \FILE{test\_ix\_fastapi.py} im Ordner \FILE{tests} und klicken danach auf ``Run‚ 'Unittests in test\_ix\ldots''':
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI23}
+    \caption{``Run‚ 'Unittests in test\_ix\ldots'''} \label{FastAPI23}
+\end{figure}
+
+
+Wieder sind alle Tests erfolgreich durchgelaufen und rechts neben den Tests sehen Sie die Durchlaufzeit. Wenn Sie wirklich zuerst die Tests und dann den Code erstellen, läuft anfangs kein Test durch und alles ist rot. Sie müssen sich also bemühen, alles schnell grün zu bekommen. Das motiviert ordentlich.
+
+Die asynchronen Tests müssen Sie als PyTest anlegen: Gehen Sie dazu noch einmal über ``Run/Debug Configurations' in die Maske und klicken dort auf das Plus-Zeichen oben links. Danach klicken Sie auf den Eintrag ``pytest'' in der Rubrik ``Python tests'', fügen die markierten Einträge ein und speichern:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI24}
+    \caption{Python tests} \label{FastAPI24}
+\end{figure}
+
+
+Jetzt starten Sie die Tests wie zuvor und sehen sehen folgendes Ergebnis:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI25}
+    \caption{Jetzt starten Sie die Tests wie zuvor und sehen sehen folgendes Ergebnis} \label{FastAPI25}
+\end{figure}
+
+
+Die asynchronen Tests laufen nur etwas mehr als eine Sekunde, während die synchronen 3 oder 9 Sekunden benötigen. Beim ersten Test wird der normale Counter aufgerufen, bei dem die Unter-Funktion nacheinander aufgerufen wird. Im Test 3 hingegen wird der asynchrone Counter angesprochen, der alle drei Aufrufe quasi gleichzeitig absetzt und dann mit \PYTHON{gather} die Ergebnisse zusammenfügt. Während das erste Vorgehen notwendigerweise etwas mehr als 3 Sekunden benötigt, wird das im zweiten Fall in nur gut 1 Sekunde erledigt – Vorteil Asynchronität!
+
+Aber es wird noch besser: Bei den \PYTHON{multi}-Tests (Nr. 2 und 4) wird über eine komplett identische Logik jeder Counter dreimal aufgerufen -- und der Unterschied wird noch deutlicher:
+
+\begin{itemize}
+  \item Synchron: 9 Sekunden.
+  \item Asynchron: immer noch etwa 1 Sekunde.
+\end{itemize}
+
+Die synchrone Schnittstelle kann zwar asynchron angesprochen werden, muss aber immer auf die dieselbe synchrone Untermethode warten. Das ist in der asynchronen Logik nicht der Fall.
+
+Sie sehen also, dass es sich lohnt, auch die nachgelagerte Verarbeitung von den Schnittstellen zu entkoppeln.
+
+\section{OpenAPI für den Item-Lebenszyklus}
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI26}
+    \caption{OpenAPI für den Item-Lebenszyklus} \label{FastAPI26}
+\end{figure}
+
+Wenn Sie den Schnittstellen-Server im Debugging-Modus starten und dann in der Datei \FILE{ix\_fastapi.py} einen Breakpoint durch einen Klick rechts neben der Nummerierung im Editor setzen, können Sie die Belegung der Variablen sehen, wenn Sie etwa über die OpenAPI-Oberfläche ein neues Item anlegen wollen.
+
+Nachdem Sie den Request ausgelöst haben, sehen Sie folgendes in Pycharm:
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{images/FastAPI/FastAPI27}
+    \caption{Nachdem Sie den Request ausgelöst haben, sehen Sie folgendes in Pycharm} \label{FastAPI27}
+\end{figure}
+
+\begin{itemize}
+  \item Der blaue Balken markiert die Zeile, in der der Debugger gerade steht.
+  \item Der Kasten unten zählt die aktuell vorhandenen Variablen inklusive Wert auf.
+  \item Die beiden Kästchen oben geben ebenfalls die Werte der Variablen aus, allerdings im Code.
+\end{itemize}
+
+Gerade der letzte Aspekt machen Pycharm attraktiv. Im Code bieten die Variablen-Ausgaben einen viel intuitiveren Zugang.
+
+\section{Ausblick}
+
+Natürlich gibt es viele IDEs und jede hat ihre eigenen Stärken und Schwächen. Mit Pycharm machen Sie wenig falsch.
+
+
+Mit Python Daten von beliebigen Websites auslesen am Beispiel Talkshows
+Dieser Artikel konnte nur einen Einstieg in die REST-Schnittstellenentwicklung mit Python geben. FastAPI bietet noch viel mehr Möglichkeiten, etwa weitere Parameter im Pfad oder Body von Anfragen, Dateiübertragung, Sicherheit und noch viel mehr. Ein Umstieg von Flask auf FastAPI lohnt sich auf jeden Fall. Gerade, wenn Sie noch nicht so viele Schnittstellen im Einsatz haben. Viel Erfolg!

@@ -1,0 +1,1831 @@
+\chapter{\textcolor{red}{Fundamentals of TinyML - Baghery}}
+
+\section{Objectives}
+
+Introduce background to TinyML and discuss the range of topics covered in this course and the follow up courses.
+
+\section{What is this specialization all about?}
+
+Welcome to TinyML.
+
+Tiny machine learning, or TinyML, is an emerging field that is at the intersection of machine learning and embedded systems.
+An embedded system is a computing device that usually is small, or tiny, like the one that I'm holding in my hand, that operates with low power, extremely low power.
+So much so that some of these devices can run for days, weeks, months, sometimes even years on something like a coin cell battery.
+And TinyML is all about taking just a small, little computing device and enabling it with machine learning smarts.
+
+Now, what is machine learning?
+
+Machine learning is a subfield within AI, or artificial intelligence, that uses a lot of data to infer interesting patterns about new data that it's seeing.
+Together, the intersection of embedded systems and machine learning is going to unlock a whole new world.
+
+
+
+Before we get started, let's level the playing field and start with a crisp definition of what is TinyML.
+
+TinyML, or tiny machine learning, is a fast-growing field of machine learning technologies and applications that include algorithms, hardware, and software that are capable of performing on-device sensor data analytics, doing so at extremely low power, typically in the order of milliwatts, so that we can enable always-on machine learning use cases on battery-powered devices.
+
+A more intuitive example:
+
+How many of you have said, OK, Google?
+What happens when you say that?
+The machine wakes up and it knows to respond to you.
+OK, fine.
+You might have said, hey, Siri.
+Same thing, the machine wakes up and responds back to you.
+All right, all right, fine.
+Perhaps you have said Alexa.
+No matter what you have said, they all represent an important application of what's in TinyML.
+
+
+It's called keyword spotting or hotword detection.
+Now, the key difference is that while they resemble the application of TinyML, these devices are largely plugged into the wall, or they require charging.
+I'm talking about putting TinyML onto these tiny, tiny little processors that are on this board and then forgetting about them.
+There's no power being given to them outside of that little battery.
+That's the difference between the applications that we're seeing today and where we're going into the future.
+Now, while this is an example application of TinyML, let me talk about some of the more forward-looking examples.
+Let's talk about autonomous drones, drones that are completely independent, that operate fully by themselves.
+Imagine autonomous drones that are able to do video surveillance in order to keep us safe by figuring out what's a threat, what's normal, and so forth.
+Or they might be able to venture really far out into places where humans cannot go.
+For instance, later on, we'll talk about how drones are being used in the Amazon forest for preserving our wildlife.
+So for instance, when the forests are deforested, we actually can go in and autonomously plant new seeds so that we can keep the forest growing.
+Or we can talk about mobile robots, which are extremely important in the service industry for taking care of the elderly in the future.
+Well, these mobile robots need to be moving around, constantly sensing the information around them.
+And machine learning is very good at that problem.
+And we need to be able to pack in lots of sensors into these robots and do so with extreme efficiency, so they can operate on battery power.
+
+Or think about smart glasses, right?
+These are passive in the sense that they don't proactively do anything.
+But imagine smart glasses in the future.
+Imagine a situation where you go out into the mall, or marketplace, or you're at a party.
+And how many times have you had to say, I'm sorry, could you repeat that again, right?
+Imagine if these glasses had contextual hearing.
+In other words, they're able to see where you're glancing.
+And then based on that, be able to pick up the voice signals or the sound signals that are coming there and then amplify them so that only the things that are in your context will actually be richer.
+That way, you have a better experience, right?
+Or imagine, for instance, you're in a new country and someone's talking to you in a language that you don't know.
+And imagine your glasses are able to do real-time machine translation and then be able to feed it into your brain.
+These are some remarkable applications.
+Or let's talk about TinyML in the medical area.
+Here, I'm showing you Micra, which is from Medtronic.
+It's the world's smallest pacemaker that goes into your heart.
+It's small, it's non-invasive, and it's completely self-contained.
+And if this device had machine learning in it, it would be able to, perhaps, proactively tell you how your heart's doing or be able to do things for you so that you have a better, healthy life choice.
+Or let's talk about what Elon Musk is doing, where he's implanting chips inside the brain so that they can send signals to understand brain activity.
+By measuring the electrical signals that are emitted by neurons, we might be able to learn things about our brain.
+And in doing so, we might be able to cure diseases like treat depression, insomnia, or any other disease.
+Now, let me take a step back and remind you that technology is not always about looking into the future.
+Sometimes it is about what you can do here and now, and I'm going to tell you that we can use TinyML to make this world a better place.
+We can use TinyML to take care wildlife.
+We can use TinyML to improve the quality of our oceans or take care of the icecaps, things that are critical to our survival.
+We might also be able to use TinyML to take care of our forests.
+Now, over the course of the program, I'm going to introduce you to a variety of these different kinds of applications where the fundamental technology that sits in the palm of my hand, for instance, has the ability to actually have impact at a global level.
+So let me be specific and give you an example.
+Here, I'm talking about an ElephantEdge project.
+There's a growing crisis in Africa right now about diminishing elephant population.
+So organizations are coming together in order to protect the gentle beast.
+Now, if we're not careful, these elephants can be wiped out in 10 years, so it's a very important thing.
+So how do we help take care of the gentle giants?
+
+Well, we need data.
+We need lots of data.
+So what if we could build some sort of intelligent device
+like a smart collar that goes on these elephants that
+is totally non-intrusive, does not harm them, but is there,
+constantly sensing interesting signals so that we can help them have a better life?
+Let me be specific.
+For instance, if we had a smart collar, we might be able to do risk monitoring from poaching.
+What if we could build machine learning models that could be put onto small, little devices where they were able to figure out if, for instance, the elephants were moving into a high-risk area and then be able to send real-time notification to park rangers to keep them safe?
+The park rangers could then react to them and to make sure that the elephants go away from that danger zone.
+Or perhaps, we can do human conflict monitoring.
+We could build intelligent machine learning models that are able to sense and alert when elephants are heading into an area where, for instance, farmers live.
+So that they can proactively get out of the way or do something in order to make sure that they're safe and the animals are safe.
+We might be able to do activity monitoring.
+We might be able to learn things about the animals.
+When are they swimming, drinking water, or sleeping, and so forth?
+And by learning all these things, we might be able to take better care of them.
+We might also be able to do communication monitoring.
+What we mean by that is that by sensing sound, we might be able to understand how these animals are actually
+communicating together.
+But in order to do all of that, we need TinyML.
+We need to be right there where the data is, where that information, those sounds, those signals, where all of that is, so that we can do real-time machine learning.
+These are all remarkable applications of TinyML.
+
+
+
+So what I'm trying to say is that when you think of TinyML, don't just think about the future.
+
+
+Think about the here and now, how this technology that's potentially in your hand, right, has the ability to transform the world.
+Now, how are we going to achieve all of this, right?
+Those are some grand applications.
+
+
+
+
+How are we going to do program embedded microcontroller devices with machine learning capabilities?
+
+
+
+\section{Who is this course aimed at?}
+
+
+
+
+
+For starters, you might be a student.
+You might be wanting to learn everything about ML.
+You might be a student in high school, you might be a student in college, or you might just be a lifelong learner.
+Either way, we want to help you expand your knowledge of ML.
+Now, if you're new to machine learning, this is a great starting point for getting your feet wet with ML.
+That said, if you know about ML, you will also learn something new.
+Because we will be focused on tiny machine learning.
+What are the aspects specifically important for deploying machine learning on tiny devices?
+I do want you to understand one thing, is that this is an applied machine learning course.
+In other words, we won't be getting caught up in theory and the math behind a lot of machine learning.
+There are a lot of wonderful courses out there, and we will point you to them.
+But in this course, we're going to focus very much on the applied side of deploying machine learning.
+How do we engineer these systems?
+Now, as a student, if you know about ML, you are definitely going to expand your knowledge.
+Now, if you don't know about ML, you are definitely going to learn about ML.
+Now, the second cohort is practitioners.
+Now, you might be a practitioner who is interested in building a TinyML application, a product, a new innovation.
+Well, if you want to be able to do that successfully, you're going to need to learn a lot about cross-layer design that's involved in TinyML.
+Ranging from the applications to the run times to the hardware.
+We're going to expose you to that vertical stack.
+And by the end of this program, you will not only have designed tiny models, and learned the software stack that is needed for them, but you would also have effectively deployed it on a tiny little computer.
+So that would give you full coverage.
+And therefore, I believe you will be able to build a TinyML application by the end of this program.
+Now, you might be an engineer working at a company.
+And you might be thinking, hey, I want to hone my skills as the industry is evolving.
+Well, this course is definitely meant for you in that case.
+You could be an ML engineer wanting to deploy TinyML so that you can learn about new hardware that's coming out.
+How do I take these big machine learning models and make them really small?
+Well, you need to have a deep appreciation for the resource constraints that these small little embedded devices tend to impose.
+Or it might be the other way around.
+You might be a hardware engineer wanting to gain exposure to machine learning.
+And you want to understand what are the concepts, and what does it mean to have a solution so that you can tackle the end to end system challenges for TinyML?
+
+
+
+When we start off the course, we're not going to make any assumptions about what level of machine learning you have, or what level of embedded systems knowledge you have.
+When we get into the fundamentals of TinyML, we're going to focus very much on just having the basic skills of scripting.
+You've got to be able to program in Python.
+Nothing too advanced, as programming is one of those things you can pick up on the fly, but you've got to know basic scripting. Where we will be focused on the applications of TinyML, we will be using a lot of what you know about Python and building applications in a Google Colab environment.
+But for now, think of it as some sort of web page where you go to write your Python code.
+
+
+Finally, this is where things change a little bit.
+You will continue to program in Python, but you will also need a little bit of C and C++ programming background.
+Nothing overly complicated like virtual functions and so forth.
+Quite simple, you know, like C and C++.
+And when things get tough, we'll be there to kind of help you nudge along the way, One other thing that we'll be introducing  is that, because we will physically be programming the microcontroller, you're going to need to use an IDE.
+And so, that's an Interactive Developer Environment, and we're going to provide you an IDE that allows you
+to program that microcontroller device.
+
+
+
+\section{What will you learn?}
+
+
+And across all threesteps, there are a certain set of fundamental principles we'll be going over.
+Now, recall that step 1 focuses on the fundamentals of TinyML, where we're focusing primarily on the language of machine learning, with an interesting twist towards timing.
+In step 2, we're going to be talking about different applications of TinyML, like keyword spotting, i.e., when you say, Alexa, or when you say, OK, Google.
+There are many other interesting applications we'll touch on.
+Step3, we're going to learn how to deploy that onto our tiny little microcontroller.
+
+Now, across all three courses, there are a set of core areas that we'll be walking through.
+And those are 
+
+\begin{itemize}
+    \item machine learning, 
+    \item applications, and 
+    \item embedded systems.
+\end{itemize}
+
+We will be touching on all three of them to the extent needed.
+But the critical thing about this program is that we'll be focusing mostly on the interactions that are going to be happening.
+For instance, you recall that we talked about ElephantEdge previously.
+In ElephantEdge, what's the application?
+The application is taking care or protecting the gentle giants.
+Now, what's the ML aspect?
+The ML aspect is actually doing risk monitoring, activity detection, and communication monitoring based on the sensors that are going to be on the caller.
+So the critical nugget, the intersection, really is this, that you need to understand the fundamental needs of the application, and understand where, and why, and how the ML is going to serve a purpose.
+In a similar way, when we're talking about TinyML applications, when we're looking at, hey, we've got this interesting thing that the application can benefit from ML, well, then the question becomes, how do I actually deploy this onto this tiny little microcontroller that has very limited capability in terms of computing and in terms of power consumption, and as long as -- they don't last forever if you keep running them with a lot of demand on the compute.
+So how do you bridge these two worlds together?
+Well, to do that, you need to understand the hardware's performance constraints and power constraints.
+And at the same time, you need to figure out how you can take that machine learning and deploy it on the device in a way that it can run all the time.
+So those interactions require you to understand not only the machine learning but also the hardware constraints, because it's that marriage that enables TinyML.
+Now, there's also the aspect of knowing what the application needs and then intersecting that with what the hardware needs to be.
+So you might have an interesting application, like the Smart Glasses that we spoke about earlier.
+Well, what does this application really need in terms of the form factor?
+Well, clearly, it's Smart Glasses.
+So it has to be really thin.
+
+But at the same time, that application demands you to have real-time characteristics.
+For instance, if you're doing real-time speech translation, where someone is talking to you and you're listening to it, and it's translating the words, and they're going into your ears, well, you want that to happen in seemingly same time.
+It cannot be like someone said something, and then 5 seconds later, it goes in your ear.
+Well, that's not going to help with the conversation.
+But all of that has to fit into the small little form factor, right?
+And that's that intersection between the application needs these characteristics and the embedded system needs to be in this form factor and so forth.
+You need to understand those interactions.
+At the end of the day, it's all about putting each and every single one of these round circles together, because these domains need to intersect.
+And that's when you actually enable TinyML.
+
+And that's what we're going to focus on.
+
+
+First and foremost, I want to say that in this class you're going to really focus on understanding the content.
+But you're also going to have to practice it.
+So in order to practice it, what we're going to be doing is a lot of hands-on learning.
+So while you are reading about the concepts, you have a lot of assignments where you will actually be going through programming things in TensorFlow, which is the key thing.
+But not only that, we will be talking about the different variants of TensorFlow.
+And you need to understand this because these machine learning frameworks are specialized to do different tasks.
+So if you want to enable TinyML, you need to understand how TensorFlow needs to be adapted in order to be able to run on a tiny little device.
+And so we'll teach you about TensorFlow, TensorFlow Lite, and TensorFlow  Micro  and then deploying it onto the device.
+Now, clearly you're going to have to solve certain tasks.
+So you will have to do programming off that.
+And you will be doing this in a Web IDE.
+And I'll talk about Google Colab later if you're not familiar with it.
+And you'll be deploying this onto a physical device by the end of the course.
+So you're going to first train all the software.
+And then finally, you will move it onto a physical hardware.
+Now, this physical hardware is also going to have you interface with a couple of sensors, which is very exciting because not only are you just getting a small computer that you'll also be physically connecting of a different part.
+So it'll give you a little bit of a taste for embedded systems.
+All this is going to come packaged in a nice little box for you.
+Or you will be able to order the parts for yourself.
+When you open up this box, there are a whole bunch of different things that'll enable you to build a bunch of different TinyML applications.
+Let's just take that small little microcontroller.
+If you look at that microcontroller, this thing is jam-packed with sensors, because TinyML is all about sensors.
+It's all about processing the data that's coming out of these sensors.
+So you have a color, brightness, proximity sensor.
+You have a digital microphone that can pick up sounds.
+You've got a motion, vibration, orientation sensor.
+You've got temperature, humidity, pressure sensor.
+All of these different sensors can enable a variety of different application use cases.
+Many of these sensors are quite critical to the kind of problems that people are trying to solve in the real world.
+So you have the right building blocks here.
+And all of this comes with an Arm Cortex-M4 microcontroller.
+And the microcontroller is effectively the processing engine, the heart of the system.
+And an Arm microcontroller is widely available in the real world.
+It is deployed nearly everywhere.
+So you will be dealing with a real microprocessor, where you could say that in the end class, that I've actually programmed this microcontroller to be able to do tiny machine learning, which is very exciting.
+Trust me on this.
+So you'll be not only dealing with the components of the board, but you'll also be packaging all of that excitement
+into interesting applications.
+For instance, we will be looking at something very similar to saying, OK, Google.
+We will train on a small little model that will respond to your words.
+And we'll use the vision sensor in order to be able to do interesting things from the camera input that's coming in, like detecting people.
+And we'll use the accelerometer data and the gyroscope data in order to get it to respond to things when your hand is moving, for instance.
+So we'll program some of these assignments in the software world.
+And then in Course 3, we'll actually take those applications and learn how to deploy them.
+Now, because it's an embedded system, you need to learn what the deployment means.
+It's not as straightforward, and that's the beauty about it.
+But once you learn the skill, you will have mastered a very, very powerful skill.
+
+
+
+
+% >>>>>>>>>>>>>> Hier weiter
+
+
+\section{What is tiny (ML) and why it's important for the future}
+
+
+Now machine learning is a subfield of artificial intelligence that's focused on developing algorithms that can learn to solve problems by analyzing data for interesting patterns.
+
+Here, we're going to specifically be looking at a very specific type of deep learning, which is a type of machine learning that leverages neural networks and big data to be able to make observations about interesting patterns in the data.
+
+
+Well, there are other applications, like when you say, "OK Google," or, "Alexa," or when you talk to these systems.
+Well, there's a lot of natural language processing going on in order to understand what you're saying.
+Something that we already take for granted.
+And then of course, there is the times when you go on social media and you give a thumbs up or you give a thumbs down.
+All of that is helping drive our interest and our patterns of behavior on the network, because these machine learning systems are learning how to give us the information that we want to see more of.
+For instance when I read the news, I tend to read a very particular type of news.
+I'm not that much interested in all kinds of news.
+But by giving a thumbs up or thumbs down, we're actually training the systems in order to help them serve us better.
+
+Now these are great applications. Right?
+
+Now, to be more specific, there are many specific subclasses of machine learning that are of interest.
+For example, image classification, being able to tell whether the picture here has got a cat or dog.
+If there's a cat a bunch of pixels are being fed in and ultimately the machine learning network says, hey, it's a cat.
+Sometimes it might look at the same exact pictures and say it's a dog, which is completely incorrect.
+So machine learning systems are statistical or stochastic in nature.
+And so they're not always guaranteed to be correct.
+This image classification, being able to say whether it's a cat or dog, is one particular type.
+But of course, there are other interesting applications, such as object detection.
+Object detection is basically taking another image, but in that image being able to precisely localize and say that it's actually an orange versus an apple.
+Or you can even do instance level detections, where for every single orange that is in there, you're able to say that it is actually an orange, rather than just put a big box around all the oranges, saying that this whole collection is a set of oranges.
+So that's another type.
+Then there is segmentation, which is very heavily used, for instance, in autonomous cars, where the cars need to know where is exactly the human being in the picture.
+Where are the lanes of the road?
+Where are the shoulders in the road, for instance.
+So segmentation is a way of kind of colorizing or pixelizing the entire image into different categories, where all the pixels for a certain thing are of the same color.
+For instance, here, the purple color indicates that the side path is all tied together.
+So that's a side path.
+Then there is, of course, machine translation.
+Here is an example that comes out of Google's pipeline, where we're looking at how machine translation is actually implemented.
+Earlier, I was talking about machine translation on smart glasses, where you might have contextual hearing.
+Well, if you want to do that, you've got to take a whole bunch of different words and then you've got to train a machine learning model.
+Think of it, for now, as a black box.
+And out of that comes this machine learning black box.
+It's able to make predictions on a particular language, and then you're able to do natural language processing with it, yet another example.
+Or recommendation systems, as I said earlier, you might be giving a thumbs up, thumbs down on different kinds of things, and that's actually driving your interactivity on the social networks.
+Now, all of these capabilities require a remarkable amount of horsepower, remarkable amount of computing capabilities, so what companies are doing, they are taking all these computers and jam packing them into data centers, that are all just being dedicated in order to provide machine learning capabilities today.
+These data centers are so big that they take up a big block.
+So if you ever see a big cement block that's kind of running around that looks about the size of a football field, well that's probably a data center.
+Now, what's really interesting is that in order to be able to provide that capability, companies like Google are building TPUs, tensor processing units.
+Or companies like NVIDIA are building GPU, graphics processing units.
+Both of these kinds of architectures, these computing systems, are capable of running machine learning extremely fast.
+And that's needed, because at the rate you and I are using those machine learning services, when we give a thumbs down or a thumbs up, for instance, that's a remarkable amount of energy that's
+being used.
+So people are having to build custom designs in order to support all of the demanding needs of machining applications.
+But building those big computing processors, packing them into big systems, and then putting them into a big giant data centers, well, big is not always better.
+
+I'll tell you why. Think about it.
+
+
+When you have a big data center like this, what can you do?
+You can't have interactivity.
+You can't carry a big data center in your pocket so you can take a picture.
+Right?
+Because when you take a picture, what do you want?
+You want that system to be able to quickly respond back to you.
+But if by the time you take a picture -- and let's say it has to go to some other computer somewhere else, well, that's going to be slow.
+Right?
+But imagine being able to put all that computer capability inside your pocket on your phone.
+Right?
+Why?
+Because if you can do that, you can enable a variety of different applications that are much more responsive and interactive.
+Like for example, when you say, "OK, Google," the machine can immediately wake up and you can say schedule a calendar appointment or something.
+Or you might be able to do things like, "Hey, where in this text is," something interesting.
+Q and A, as we call it, for instance.
+Or when you take a picture, you want to enhance or remove something out of the picture.
+Right?
+So for example, in this picture, we're seeing that you're able to enhance the image quality.
+There are all these things that you want to be able to do that are more close to you in a very responsive way.
+Now, if you compare a big computing system to a small little device, right, what are the big differences?
+If I pack a whole bunch of these big computers into a big cement block, well, that's a lot of power we're consuming.
+And if I'm looking at a smartphone, well, there's very low power, because it's a small little battery-based device.
+Now, if I look at it in terms of bandwidth, the amount of data that the data center can crunch, well, that's a lot of data that you can crunch, because all the machines are packed close to one another.
+So as long as the data is nearby, you can move things really fast, and do a lot of high performance computing.
+But if I'm on a smartphone, I don't have that much guarantee about the bandwidth, the ability to move the data off the phone or into the phone.
+How many times have you had a poor network connection?
+Where you're like, "Uh, why is this not loading?
+Let me refresh."
+Let me refresh that web page.
+Or for instance, sometimes you might have great connectivity and other times you don't.
+Right?
+So there's no guarantee about what the connectivity in the phone looks like.
+Or think about the use case, where for instance, you don't want to upload a lot of data or you don't want to download a lot of data because it costs you money.
+Right?
+So bandwidth, the amount of data you move and how quickly you can move it, is a critical concern.
+So you want, typically on a smartphone, you have low bandwidth but it's responsive.
+So in the data center, for instance, if I want to access it, it has a very high latency, because it's somewhere far away.
+So I actually have to send the data to it.
+So while I have a big amount of computational horsepower there, it's going to take me time to get there.
+Versus is if I do that machine learning on my phone, well, it's right there on my hand.
+So it can do it much faster than, imagine, moving all these bits over there and then bringing them all back.
+But of course, if I have machine learning running on my phone all the time, right, and I wanted to be on all the time-- remember that's what I said.
+The key thing is tiny ML.
+
+This is about always on machine learning.
+Well, what happens with your phone?
+How many times have you had to plug your phone into the charger?
+Sometimes I have to plug my phone in between half a day of my work, because I use my phone a lot.
+Right?
+And if it's constantly running something that is very demanding from the computing system, well, it's going to drain out of battery.
+Now, this is where things get really interesting, because we want to move from data centers to smartphones.
+But the reason we want to move that is because there's a lot of interactivity and a lot of interesting real time kind of behavioral patterns that we can exercise with machine learning, we can get even more as we make these devices completely pervasive in our homes.
+Think about a phone.
+A phone is only there wherever you are.
+There are so many times I forget where I put my phone.
+But if I have a smart device, in fact, I have about seven smart devices in my house, let alone my watches, these small little devices are increasingly becoming pervasive throughout us.
+And we want all of these devices to be intelligent, because then there's a lot of information that they can sense and gather so that they can help us.
+Certainly we have to be careful about that.
+We'll talk about that more later.
+For now I want you to understand the numerous possibilities, the kinds of devices that can all be intelligent.
+And if they can all be intelligent that means they're all processing data on them real quickly, rather than getting the data, then sending it off somewhere, and then bringing it back, which costs a lot of power, which means they're going to drain out of the energy.
+If you can process the data locally, then that's great.
+Think about your smartwatch, it does machine learning on the device.
+Think about my toothbrush.
+My toothbrush is a smart toothbrush.
+The Sonicare actually uses AI in order to help you brush better.
+You can have smart earbuds.
+Even a parking meter can be smart and tell you where to park or not park.
+Or for instance, the Nest thermostat, which controls the temperature, is actually a smart device, because it learns based on how you change and when you change the thing.
+So these devices are pervasive.
+They are everywhere.
+And imagine the possibilities if all these devices can actually be intelligent.
+And that's what's tiny ML.
+
+
+
+That's why people are so excited about tiny ML, because we're moving from thinking about all this amazing capability being some where in the cloud at some big corporation out there, versus you and I having that really rich experience right on our devices, being able to respond and interact with them in real time.
+Now the question comes, where's the big data element?
+
+Machine learning needs lots of data.
+Well, where's all this data going to come from?
+If you think about the big companies, like when you talk about Facebook or you talk about YouTube, well, yes, there are millions and billions of users all feeding the data up into them.
+So yes, there's going to be big data and out of that big data, the genie of machine learning sprinkled some pixie dust, and out of that comes a neural network, this black box that's able to make predictions.
+Well, when we go to small devices, where's the big data?
+That's a good question.
+
+If you look at the amount of data that's actually accessible at the end point, like at your watch or that toothbrush or that phone, there is an insane amount of data, because there's so many sensors that are out there at these end point devices.
+The five quintillion bytes of data produced every day by IoT devices today, less than 1\% of all the data in these devices that we have today is actually being analyzed or used.
+And if you think that today machine learning looks amazing, imagine what machine learning is going to do and look like if you analyzed that 99\% of that data that is just not being used today.
+Can imagine how different a world we would be living in?
+And that's what tiny amount is all about.
+That's why we say that the future of machine learning is tiny and it's bright.
+By being tiny, you can make it ubiquitous.
+You can have it everywhere.
+You can have it in every single endpoint device that is around you.
+Think about it.
+
+
+Sit down for a moment and think, just look around your room, find a device and think about what it would mean if that particular device was intelligent.
+What if another device was intelligent?
+What if another device was intelligent?
+Can you imagine how-- not only is it about making an individual device interesting, but maybe these now intelligent devices might actually collectively be able to do something that each one of them was not able to do.
+The possibilities are endless, and that's why the future of machine learning is tiny and it's bright.
+And with that, I want to leave you with the key nugget, that there are many diverse applications of ML already in the real world, and it's increasingly moving from being up in the cloud, where there are big data centers, to the end point, where you and I are physically interacting with these devices.
+And these end point devices, there are many, many of them around us.
+
+
+
+\section{Learn about ML and tinyML applications}
+
+\subsection{TinyML will soon be everywhere:}
+
+TinyML will soon be everywhere, powering the next generation of smart embedded devices. These devices will be in our homes and in very remote locations, enabling remote monitoring for both industry and ecology. Today, in these remote monitoring settings, 99\% of raw sensor data is discarded, which is a wealth of data for machine learning! 
+
+TinyML can provide a unique solution: by summarizing and analyzing data at the edge on low power embedded devices, TinyML can provide smart summary statistics that take these previously lost patterns, anomalies, and advanced analytics into account [1] [2].
+
+In this reading, we survey a few emerging application areas that have great potential for TinyML. This list is a tiny (no pun intended) preview into the wealth of applications on the horizon. Later in this course we will do some basic review of machine learning, which some of you will need less than others but it is still a good review. In the next two courses we will be diving in much deeper around TinyML.
+
+\subsection{Industrial Predictive Maintenance:}
+
+In the industrial setting, TinyML is already being used to provide smarter sensing that enables advanced monitoring improving productivity and safety. For example, maintenance and monitoring of remote wind turbines can be quite challenging and time-consuming. However, if we could proactively predict that the machine will have trouble, we can predictively do maintenance ahead of any failures. Such “predictive maintenance” can lead to significant cost savings due to reduced downtimes, better availability of the systems for higher reliability in the product, which leads to overall higher quality of service for end-users/customers.
+
+There are many TinyML applications for predictive maintenance. For instance, an Australian startup, Ping Services, has introduced a novel IoT device that continuously and autonomously inspects a turbine as it’s running. By magnetically attaching to the outside of any turbine (notice the small device in the image below) and analyzing detailed data at the edge and summary data in the cloud, the device can efficiently and effectively alert of any potential issues before a problem arises inside the turbine [3].
+
+\begin{figure}
+    \GRAPHICSC{1.0}{1.0}{TinyML/Fundamentals/Windturbine}
+    \caption{Ping monitor magnetically mounted on a turbine tower. The monitor is much smaller than the turbine}
+\end{figure}  
+
+\url{https://www.engineering.com/ElectronicsDesign/ElectronicsDesignArticles/ArticleID/20662/IoT-Device-Detects-Wind-Turbine-Faults-in-the-Field.aspx}
+
+\subsection{Agriculture:}
+
+Every day, the cassava crop provides food for more than 500 million African people. However, this vital stable is continuously under attack from a variety of diseases. The team at PlantVillage, led by Dr. Amanda Ramcharan, has developed the Nuru app to help farmers identify and treat these diseases. By running machine learning using TensorFlow Lite on mobile phones, the app enables real-time mitigation without the need for access to the internet -- a crucial requirement for many remote farmers (see the image below for the system in action). The next generation of this system will go farther -- leveraging tinyML and technologies like TensorFlow for Microcontrollers to deploy sensors across remote farms to enable better tracking and analysis [4].
+
+\begin{figure}
+    \GRAPHICSC{1.0}{1.0}{TinyML/Fundamentals/Agriculture}
+    \caption{Two women using the PlantVillage app while in a field with plants}
+\end{figure}  
+
+
+
+\subsection{Healthcare:}
+
+The Solar Scare Mosquito project deploys small smart Internet of Things (IoT) robotic platforms to help curb the spread of mosquito-borne epidemics such as Malaria, Dengue, and the Zika Virus. The system works by disrupting the mosquito breeding cycle by agitating water likely to contain mosquito larvae. The system uses rain and acoustic sensors to determine when it needs to agitate water to conserve battery and enable it to run on solar power indefinitely. It also sends smart summary statistics and alerts to warn of possible mosquito mass breeding events over lower power low-speed communication protocols. By making the system self-sufficient, small, and affordable, these devices can be deployed widely, preventing mosquitoes spread. All of the necessary components are included in a single component smaller than the size of a soccer ball [5].
+
+\begin{figure}
+    \GRAPHICSC{0.2}{1.0}{TinyML/Fundamentals/DeviceHealth}
+    \caption{Diagram of the Solar Scare Mosquito 2.0 device. Shows the parts including the solar power, air pump, microphone for recording wingbeat frequency, water sensor, external connectivity.}
+\end{figure}  
+
+
+
+
+\subsection{Wildlife Conservation:}
+
+\subsubsection{On the Land:}
+
+TinyML is also already being used for ecological and environmental monitoring. For example, over the past 10 years, the Siliguri-Jalapaiguri railway line in India has had over 200 fatal collisions with elephants. Researchers from the Laboratory of Applied Bioacoustics at the Polytechnic University of Catalonia designed a smart acoustic and thermal sensor system using custom machine learning models running on solar power as an early warning system (see image below—all-in-one package with self-sustained energy source allows proximity to railway without added infrastructure, e.g., power lines) [6].
+
+\begin{figure}
+    \GRAPHICSC{1.0}{1.0}{TinyML/Fundamentals/Elephant}
+    \caption{A team of researchers near train tracks testing an acoustic sensor so trains and elephants don't collide.}
+\end{figure}  
+
+
+
+\subsubsection{And In The Sea:}
+
+Similar systems are also being deployed in the waterways around Seattle and Vancouver to prevent whale strikes in busy shipping lanes. These smart ML powered sensors enable constant real time monitoring and increased density of sensor deployments improving overall system efficiency and efficacy [7].
+
+\begin{figure}
+    \GRAPHICSC{1.0}{1.0}{TinyML/Fundamentals/Orca}
+    \caption{Orca whale swimming in water}
+\end{figure}  
+
+
+
+
+
+
+
+\section{Applications that interest you?}
+
+
+We hope these case studies got you excited and thinking about all of the ways that TinyML can be used to improve the world.  Here are three questions for starters: 
+
+\begin{itemize}
+    \item What kinds of new TinyML applications do you wish existed today?
+    \item What existing applications do you think could be improved by TinyML?
+    \item What applications that others have posted about are you excited about?
+\end{itemize}
+
+
+
+
+\section{How do we enable TinyML?}
+
+
+We are  going to focus primarily on what it takes to enable TinyML.
+
+what does it take to make TinyML?
+
+The two components are necessary:
+There's an embedded systems component and then there's a machine learning component.
+This combination is really what TinyML comes out of.
+OK, well let's take an example of what that really means.
+Now, let's go back to our favorite example about OK, Google, right?
+Where we have a Google Assistant and then there's a physical device.
+The assistant, being the virtual machine learning part, the device being the physical component.
+Now, when you say "OK Google," the machine wakes up.
+Let's break this process down into the three fundamental steps that are there.
+The first step is that there is an input that's coming in.
+This input is an audio input because you're saying something and then the machine is effectively picking up your audio signals.
+Then there's a certain bit of processing that's actually happening.
+And in doing that processing is where you're actually figuring out what are you trying to communicate.
+Did you actually, in fact, mean to say, "OK Google," for instance, or "Alexa," or "hey, Siri?"
+That processing happens.
+And then there's a response that comes out where the machine physically generates some sort of output.
+It might be lighting up the lights on the device to say that it's actually heard you.
+For instance, on Alexa, you see a blue ring that goes around the top.
+In Google devices, for instance, some sort of light shows up usually.
+That's an actuation of the system responding back to you.
+The three fundamental steps are input, process, and output.
+This is fundamental to any embedded system.
+And it's also true to any machine learning system.
+That said, let's try and understand each one of these in greater detail.
+So when we talk about input, the input that's going into this TinyML device for instance, what kind of input can we have?
+Well, the critical thing about TinyML is that it's all about sensors.
+There are many, many different kinds of sensors.
+There are motion sensors.
+There are acoustic sensors.
+There are environmental sensors.
+There are biometric sensors.
+There are image sensors.
+There are four sensors, lots and lots of different kinds of sensors.
+I'm just showing you a general sprinkling of the possibilities here.
+In the particular example, "OK, Google," for instance, it's an acoustic sensor because it's a microphone that is actually picking up the signal.
+You might have biometric sensors for instance, things that detect a fingerprint, or your heart rate, and so forth.
+Here are two examples I'm showing you here.
+One is a glucose monitor from the Jacobs School at the University of California San Diego, where a simple little device just put on your skin can actually tell you what your glucose level is, which is very critical for certain patients.
+Or you could have electrocardiography kind of devices, things where, effectively, they're able to, just from a single touch, be able to pick up the EKG signal and effectively plot the voltage over time and give you a representation of what the electrical activity really looks like.
+Now, you can take that and you can couple that with much more intelligent activities like PPG.
+
+
+
+
+Effectively, PPG is a means to actually analyze a signal at your blood conditions or changes in your blood conditions just by looking at light and how the light moves through the skin and hits the blood vessels.
+It's a remarkable thing that you can do.
+But if you had those kinds of fundamental sensors, right, which are inputs, then you can take that data And, you can do intelligent things with it.
+Now, there are also other kinds of sensors, like image sensors, for instance.
+
+
+The image sensor that's coming with a kit-- we have a small little camera.
+It's a high resolution camera that actually interfaces with your microcontroller and you get vision, right?
+There are many, many different kinds of sensors.
+Now, you get all of that data that's coming in from a sensor, or sometimes multiple sensors, and you get to process it.
+How do you process it?
+Typically, in order to run machine learning, you need big processors.
+Like, you need the big GPU processors, for instance.
+Or you need something like the Google TPU that I showed you in the previous video.
+Now, that's conventionally how people have been thinking about machine learning, big systems.
+It's a complex workload and it means big computing horsepower.
+OK, well, what does big really mean?
+Let's use a proxy here for indicating what is big and what's small.
+Let's look at the amount of area that it actually takes for the processor, the brains of the actual system.
+Right?
+If you look down here, the big processors are in the [INAUDIBLE]
+for over 500 millimeters squared.
+That is the effective area off the chip that we're talking about.
+Then let's talk about something smaller, like your phone, for instance.
+If you look at your phone, the A12 biometric processor from Apple, for instance, is much, much smaller.
+Right?
+It's only 83 millimeters squares, significantly smaller than the big GPU, for instance.
+Then, of course, you have your smartwatch.
+Smartwatch processor is even smaller, for instance.
+Right?
+If you look inside, this thing is only about 30 millimeters squared.
+Oh, that's pretty tiny.
+Now we're starting to get there from big, to small, to tiny.
+But we're not there quite yet.
+Let me show you something quite fascinating.
+We're just getting started.
+You ready for this?
+Look at something really small, like this KL03 processor from Kinetis.
+It's 3.2 millimeters squared.
+I really want you to go out and get a ruler right now and try and draw an area of 3.2 millimeters squared.
+It's a really small processor.
+And it consumes very little amount of power.
+In fact, it's a very small processor because it has little memory, little compute-- we'll be talking about these things at a level deeper in the next set of videos.
+But before we get there, the context that I'm trying to get you to is that machine learning is typically thought of being run on big systems.
+And now when we're talking about tiny, these are the kind of systems we're talking about.
+Just to kind of put that into perspective here is that little processor sitting on a golf ball.
+OK?
+Do you know how big a golf ball is?
+And then do you know how small each of the circles is on a golf ball?
+It's smaller than the circle, one of those little dents that you have on a golf ball.
+So it's really, really small is the point that I'm getting to.
+And if it's that small, you can imagine putting it virtually anywhere.
+You probably won't even notice it.
+
+
+
+
+There are over 250 billion of these kinds of small, little processors everywhere in the world today.
+These are called MCUs, or microcontroller units.
+They are pervasive.
+They are here already.
+They're everywhere.
+They're inside your automotive car.
+They're inside your little iron.
+They're inside your little coffeemaker, everywhere.
+Now, the question is, can you make them smart by putting tiny machine learning on top of it?
+So, let's talk about these small, little processors.
+If there are 250 billion today, there are going to be many, many, many, many, many more in the coming few years.
+Now, this plot on the x-axis is showing you years.
+And the y-axis is showing you the millions of units that are going to get shipped, right?
+Now, look at the projected forecast values.
+These things are just going to continue growing.
+The demand for microcontrollers in the world is insatiable because we are building so many new devices now.
+So we're going to see this increasing trend.
+Now, what's going to happen?
+Is the price going to increase or decrease?
+Well, as the volume of these microcontrollers that are needed increases, it's fundamental economics.
+The price will drop because they are so pervasive.
+So the manufacturing cost, effectively, goes down.
+That's what this plot is trying to show you, that the price of a microcontroller is going to be below \$0.50.
+It's almost going to be like \$0.50, which is really, really, really cheap.
+Once you put this into the context of what these devices are capable of doing, especially when you enable TinyML on top of that.
+These devices are pervasive, these devices are going to increase in quantity, these devices are very, very cheap.
+
+
+Now, what's also interesting is that these devices consume very little power.
+To put things into perspective, a big GPU like the one we showed you consumes 300 watts.
+You need to plug that thing into a serious wall connector.
+Now, as you go into something small, like the processor that's inside your phone, for instance, well, it consumes significantly less power.
+It only consumes about three watts of power.
+That's 100x smaller.
+Well, when you go to microcontrollers like the Syntiant processor that we're looking at here, which we'll actually come back and learn a bit more about later down, their machine learning processor only consumes 140 microwatts. It's astoundingly small.
+
+
+
+And this is what tiny machine learning computers are all about.
+It's about consuming milliwatts or less.
+And so these are very specific and concrete numbers
+of what the future is holding.
+So imagine if these processors consumed so little power, then we might actually be able to run them with real coin cell batteries.
+Because the coin cell battery is going to look very, very big compared to the small, little processor.
+And that's that potential we're talking about.
+And then that's that processing part.
+Now we come into the output.
+So let's say you make some-- you take in the input, you process it, and now you generate some output.
+What kind of output can a TinyML device do?
+Well, you can have physical actuation by, like, activating servos, for instance.
+Or you might be able to trigger speakers, generate some kind of signal.
+In the case "OK, Google," that's effectively what we're doing.
+The machine is waking up and it might say "hello" or something to that effect.
+But it's not always about physical actuation of physical devices.
+You can actually also have digital actuations.
+In other words, you do some input process and you extrapolate some kind of interesting data.
+And you send that digital signal out to a screen.
+And then that's useful information.
+So what are MCUs really enabling?
+Well, fundamentally, it starts from the fact that-- MCUs are really small, so they can be completely pervasive.
+Second is that they consume very little power, which makes them really practical to be able to deploy for a long time on small, little batteries, right?
+So you don't need to tether them. You don't need to keep recharging them.
+Then, they're really cheap, which means they can be everywhere.
+And given that we're starting to build more number of devices, the demand for them is going to go up.
+And if you can put machine learning on them, you're going to uncover a whole new set of applications.
+And that's the beauty about it.
+By building these small, little, tiny embedded systems and coupling them with machine learning-- which we'll talk about soon-- by building these two things together, we're going to unlock TinyML.
+MCUs, or microcontroller units, are these small, little processors that are the fundamental building block of TinyML devices.
+
+That's number one.
+Number two, these devices are going to be pervasive or ubiquitous because they're cheap and they're going to be high in demand.
+And number three, the question is, are they capable of running machinery models in them?
+
+
+
+
+
+\section{What are the computing system challenges for TinyML?}
+
+What are the challenges for TinyML?
+Now, as always, TinyML is a composition of embedded systems and machine learning.
+I'm going to continue to focus on the embedded system aspect before we transition over to the machine learning.
+And specifically, I want to talk about what are the challenges in the embedded realm?
+Because that sets the context, the scope, for how we deploy machine learning into that box.
+So, as with any system, an embedded system is like a regular computer.
+It's got components, like the hardware and the software.
+Both of these are critical to understand at an embedded system level, in order to know how we can actually deploy TinyML on them, or what we need to do differently in order to deploy TinyML on them.
+Hardware is the first area of focus for us.
+Now typically, when you take any kind of computing system, the hardware is made up of three fundamental building blocks: the compute, the memory, and the storage.
+The compute is the brain.
+It's effectively where you do the processing.
+The memory is where you temporarily store data.
+It's like a short-term memory.
+And your storage is your permanent hard disk.
+When you take the power off, it still remembers your data.
+So these are the three fundamental building blocks of any computing system.
+Now when you put these three things together, there is a difference between what a microcontroller is and what a microprocessor is.
+Now, if you're watching this video on a laptop or something like that, you've got a microprocessor that's doing a lot of the heavy lifting.
+A microprocessor is a much bigger piece of computing engine, versus a microcontroller, the thing that we were talking about in the previous video, of which there over 250 billion of them out in the world.
+Is a very different computing system as a whole.
+Let me emphasize these differences for you.
+When you take a laptop for instance, yes, there's a small part, which is called a microprocessor, but that microprocessor interfaces with a bunch of different system components.
+It's only one part of a bigger puzzle that ties together.
+So you have to buy the microprocessor.
+And then you put all the other components together.
+That's how you build a traditional desktop, for instance.
+A microcontroller, on the other hand, is very different.
+When you buy a microcontroller, it's already integrated.
+For instance, the processor and the memory and the storage are all tightly, already coupled together.
+It's one big monolithic block.
+Big here, is relative, of course.
+Here's a complete example for a microcontroller.
+You've got your memory.
+You've got your RAM.
+You've got your processor.
+Everything is fused into one single block that you buy, which is quite unlike when you buy your parts for a regular desktop computer, where you get to cherry pick and choose these different things.
+And you can build them in any configuration you want.
+For instance, my laptop has 32 gigabytes of memory, which is something I custom ordered from Apple.
+Versus is if you buy the stock laptop, it only comes with 16 gigabytes of memory.
+So I have this option to configure what kind of system I wanted.
+But if I'm looking at a microcontroller, mm-hmm.
+It's all packaged already into one single thing.
+So it's either I buy this microcontroller, or that configuration of the controller.
+That's one fundamental difference, major difference I want you to keep in mind.
+If I was to kind of generalize these into critical bullet points, I would say the microprocessor is the heart of a general purpose computing system, where a microcontroller is the heart of an embedded system.
+
+% >>>>>>>>>>>>>> Hier weiter
+
+It's an embedded system, versus here, it's a general computer.
+A microprocessor is just one part, and it interfaces with external components of memory and storage, versus, in the context of a microcontroller, these things are all tightly integrated already into the system.
+Again, a microprocessor is more meant for general purpose systems like laptops, desktops, and servers, where you get to configure things.
+Microcontrollers are typically designed for fixed function tasks, like be able to play music on an MP3 player, or be able to answer phone calls.
+That's a very specific task.
+So microcontrollers generally tend to be quite preset in their functionality.
+And often, a big embedded system might include a phone, which is a very complex embedded system.
+Might include a whole bunch of different microcontrollers that are all fused together, in order to be able to provide different kinds of functionality.
+Now because of flexibility, a microprocessor ends up being very big, in fact, because your laptop is bigger.
+You get to put all these parts together.
+Those interfacing capabilities naturally lend themselves to being big.
+A microcontroller is all about making them tiny, because this form factor is small, so you tend to squeeze things down.
+Now, these key differences, if I was to step back up just kind of put some number ballpark numbers around, in order to kind of set the context of what a microcontroller really looks like, well let's take a look.
+From a computing perspective, if you look at what's called the frequency or the clock rate, how fast the processor can run.
+If you look at a regular microprocessor, it can run between 1 gigahertz and 4 gigahertz, versus a microcontroller can run between 1 Hertz and 4 Hertz.
+From a memory standpoint, you can have megabytes to gigabytes of memory, versus you only tend to have small little kilobytes of memory on a microcontroller.
+Storage tends to be in the order of gigabytes to terabytes, versus in a microcontroller, it tends to be kilobytes to megabytes.
+From a power consumption it's in the order of 10's of watts, versus is in the microcontroller, as I showed you in the previous video, it's in the order of microwatts or milliwatts.
+So it's a very, very big difference.
+There is stark contrast.
+It's in the order of magnitude difference, in terms of the compute, memory, storage, and the power consumption.
+
+
+
+
+and so forth.
+So the devices that we're talking about are extremely small.
+That's the key takeaway down here.
+Now what are the implications of all of this?
+What does it mean to have less amount of memory?
+What does it mean to have lower power consumption?
+Well, that means you got to think about how complicated is the task that we're running?
+We're going to learn about the interaction between the machine learning, the embattled system, and the actual application.
+Well, if you want to understand the task, if I want to have smart glasses for instance, if it needs extremely high real-time processing, that is being able to have computing capability where everything runs extremely fast, well, microcontroller might not be a good fit.
+That's not to say that it's not always a good fit.
+It depends on what task you're trying to perform.
+Secondly, it's like how much memory do I really need?
+Microcontrollers come in all sorts of different forms and sizes.
+For example here, we're looking at anything between two kilobytes and 512 kilobytes.
+If you understand the task you want to run, and you understand the requirements, then you'll be able to pick the right microcontroller.
+And the other question is, how long does a job have to perform?
+Is it something that needs to be constantly running, or is it running intermittently?
+Well that has implications in terms of the power consumption.
+
+So, the key takeaway that I'm trying to emphasize down here, is that the microcontrollers that we're talking about, which are ubiquitous, the beauty about them is that they're ubiquitous.
+But the downside is that they're very constrained, in terms of the capabilities.
+But that's OK.
+There are means and ways to which we can overcome those obstacles.
+We'll get through those things.
+But once you understand the confines, the scope, and the limits, then you will have a deeper appreciation for what it means to be able to deploy intelligence onto these heavily-resourced constrained devices.
+And in the next video, we'll go a little bit further, talking more about the software side of the constraints. 
+
+
+\section{What are more computing system challenges for TinyML?}
+
+
+I'm going to pick up on where we left off-- what are the challenges for enabling TinyML?
+Specifically, I'm going to continue to focus on the embedded systems side of the world.
+Now, recall that I said that when we're talking about an embedded system, there is a hardware component and then there's a software component.
+Previously we talked about the hardware.
+Now we're going to shift our focus to talk about some sampling of the issues that we're going to face when we look at the software.
+What is software?
+
+Typically, what you find is that there are generally three levels of abstractions.
+There is a high-level application, there are the libraries that provide support for those applications, and then there's the operating system that provides support for the libraries and the applications.
+Now, I'm going to start off by talking about the operating system.
+And specifically, what I want to help you understand here are the critical differences that you often find between what a general purpose computing system like a laptop or a desktop has versus what you will end up finding on an embedded system.
+And this difference that we see is worlds apart.
+And it's extremely important that you learn this difference, because it's through learning this difference that you gain deep appreciation for what a TinyML system really looks like, because that lays the foundation for building more complicated things on top of it.
+So when I talk about an operating system, when I'm saying an operating system for a laptop, desktop, or a server, by and large you will probably pick one of three operating systems-- Microsoft Windows, Mac, or the Linux operating system.
+And if I talk about things on the smartphone side of the world, there are two operating systems.
+If I were to flip a coin, it would either be heads or tails.
+In this case, it might be either the Apple iOS or it might be the Android operating system.
+Now what's the beauty about having these widely deployed operating systems that run on most of the devices?
+Let's take the Android ecosystem for instance.
+An operating system and its associated parts are like the foundations for a house in my head.
+If you have a solid foundation, you can build a ground floor.
+On top of the ground floor, you can build a first floor.
+You can build a second floor.
+You have a lot of flexibility in what you can do.
+But it all comes down to having the right foundation.
+Now, in the context of the Android operating system, for instance, here I'm showing you the platform architecture of an Android OS.
+Because it's got the right pieces in place, you can build high-level abstractions of libraries and stack on top.
+Why is this important?
+
+
+Because if you provide the right levels of abstraction, then you can enable end developers who are at the highest level, application developers, to be able to write very interesting pieces of code, like the applications that you and I have on our phones.
+I have almost over 100 applications on my smartphone.
+Each one does a specialized thing.
+Now, that's the beauty if you have a right general-purpose operating system.
+This is very much true even if you look at a Windows, Linux, or Mac operating system.
+You have a nice base.
+And then on top of that, you can build different kinds of applications, which is very interesting.
+Now, when you go to an embedded system, what happens?
+This is where I would say that the world kind of falls apart a little bit.
+You see, in the embedded ecosystem, there isn't really that much of an operating system to say.
+Why?
+Because you take an embedded system, you typically want to specialize it to perform one task.
+Think of your smartphone.
+Do you only make phone calls on it?
+Or do you listen to music?
+Or are you surfing the web?
+And are you on social media?
+Or are you doing both at the same time nowadays?
+You can do all those things.
+You have all these flexible knobs and features that you have.
+But an embedded system is not a general-purpose system.
+
+An embedded system is typically designed to perform one task, like wake up when I say "OK, Google." Something specialized like that.
+Or maybe it's designed to just do health monitoring and timing.
+When you have something specialized like that, then you typically don't care so much for having a general-purpose platform.
+Therefore, you don't see a lot of opportunity in terms of establishing an operating system.
+This is not to say that embedded systems don't have operating systems.
+I'm giving you here two examples-- FreeRTOS and Arm Mbed OS.
+These are "operating systems" that exist, quote, unquote.
+But typically, you don't tend to have these installed, because when you add any kind of extra stack on the embedded system, it takes away resources.
+Remember, we're talking about memory and compute cycles that are very diminished and small, which means that if I put an Mbed OS or an RTOS, it might very well take up a little bit of those few kilobytes of memory I have, which means less left for the application.
+That becomes a problem, don't you think?
+So, therefore, you don't tend to see that.
+If you don't see a good baseline, then building efficient systems actually becomes quite critical, because every one of these systems is specialized-- too much specialization.
+So, let's go up one level and talk about libraries.
+So we know at the embedded system level we don't have that sort of uniform, nice Windows, Linux kind of ecosystem.
+What happens when you go to the library level?
+Here's a simple piece of code that calls np.SaveTheWorld.
+np is a library function call.
+And it calls it 10 times.
+We know it's a library function call, because we say import numpy as np.
+This library is a Python library that's almost ubiquitously available on any given system.
+The beauty of this library is that once you write the code in Python it can run on virtually any system.
+It can be an Intel processor.
+It can be an AMD processor.
+It does not matter.
+The code just runs uniformly.
+You don't have to worry about it.
+You just focus on running your code.
+And then seamlessly the code will run on any hardware.
+It creates a level of abstraction.
+So you don't need to worry about the nitty gritty details of the lower level.
+And that's the beauty about a general-purpose system.
+Now this portability is something that we take for granted.
+And we don't think about much.
+But when we go over to an embedded system, this becomes a real problem.
+Let me give you a very specific example by talking about the pi value.
+What is pi?
+22 divided by 7.
+Very simple.
+
+
+
+Well, that translates into a long floating-point number, or a number with a lot of values after the decimal place.
+I just chose pi at 22 by 7 because it's an exciting value, nothing special.
+But the key point here is that we have a floating-point value.
+Now, in a machine, a floating-point value is typically expressed as three components here-- sign, exponent, and the mantissa, or fraction.
+Don't worry about the details that's all available in the single-precision format for floating-point or double-precision format for floating-point numbers.
+The key thing that I want to talk about is how a floating-point value is operated upon.
+Typically, in any machine, if I have a value with decimal places, I might have two values, and I want to be able to add, multiply, divide, do whatever I want to do and generate some resulting value.
+Now, I can choose to implement this functionality as a library, as a function call, just the way I did with np.SaveTheWorld.
+And I'd say np dot multiply these two floating-point numbers.
+Well, that tends to be slow.
+So over the years, what's ended up happening is that we've gone from implementing these things as emulation mechanisms and software to actually physically putting data pack as we call it-- a floating-point data pack-- into the silicon itself, into the chip.
+And if we do this, well, the chip ends up running super fast.
+This was actually inside the Pentium processors for instance-- Intel i486.
+If you open it up and you look inside, the die photo as we call it, there's a dedicated FPU that actually runs the floating-point arithmetic.
+And therefore, it can run really fast.
+That's great, because now, since then, it's proliferated, and virtually every chip has a floating-point unit inside it.
+Therefore, you write the code once, and things run anywhere.
+But that exposes a trade-off there.
+If you want universal code portability across any system, you write code once.
+Don't worry, it'll somehow magically run on any Intel processor or on any AMD processor.
+That's great, but you pay in terms of the cost.
+It costs money to actually physically implement it.
+It takes extra power, because when you turn the unit on, it burns power, because it's actually triggering logic.
+And it takes a lot of engineering effort to actually build it.
+And sometimes those enduring efforts can actually be quite costly.
+
+
+
+Well, go back and look up as the FDIV bug by Intel.
+It's actually a real floating-point divide bug that Intel had, which got in mistakenly back in the '90s into one of its chips.
+So it was literally generating incorrect results when you were doing a divide instruction.
+So they had to go and pull all these things back-- all these chips back-- and then fix it.
+Anyway, back onto the main line.
+The point is that you want uniform code portability, well, you're going to have to pay a price in terms of these things.
+Now, I could say forget the portability issues.
+I'm an embedded system.
+I want to be lean and mean and efficient.
+So I don't want to worry about general-purpose portability.
+If you run on my device, don't worry, you will run really well.
+And by the way, my device is going to be very cheap.
+It's going to consume low power.
+And it's going to be much more simpler to engineer, because that's what I choose to do.
+I choose to vertically integrate things and shave things off.
+Now, that's beautiful from one system.
+But what happens if I go to another system, and in another system, they actually have the floating-point capability?
+So assume that I start off on the right-hand side with the checkbox where have this wonderful FPU capability,
+and I write my code in my machine learning model accordingly.
+And then I move it over to another device, and it doesn't run, because I made the assumption that the processor had a capability for the floating-point unit.
+
+The code that I've specialized for one system is now not portable.
+So this raises a fundamental question that you will now need to be thinking about.
+How do we enable TinyML uniformly across these vastly different embedded systems if there is lower platform portability?
+This is a critical challenge.
+
+
+Embedded hardware is extremely limited in terms of performance, power consumption, and storage.
+
+Now, I'm talking about embedded software.
+And I said it's not as portable and as flexible as mainstream computing systems, because you don't tend to have these nice operating systems.
+You don't only have these nice ubiquitous libraries that run arbitrarily on any given embedded device.
+They tend to be very specialized.
+And we need to understand these kinds of nuances.
+We will be focusing on these kinds of things, because having this sort of knowledge is what is going to make you a much stronger machine learning engineer, for instance, who understands what it means to deploy TinyML.
+
+
+
+
+
+\section{What are the ML algorithm challenges for TinyML?}
+
+
+We are yet again on the topic of what are the challenges for TinyML.
+While previously we were talking about embedded systems, now it's time to shift our gear a little bit over to machine learning.
+Just the way an embedded system, both from a hardware and software perspective, were severely challenged, on a machine learning side, there are increasing trends that we're observing that might actually prove quite challenging to be able to unlock TinyML.
+But again, that's not a challenge that cannot be overcome.
+It's more of being able to critically think about what we need to do in order to be able to enable TinyML.
+So let me start off by talking about what are some interesting trends that we're seeing in machine learning and where it's going.
+Machine learning, think of it as a box.
+And for now, think of it as how big or small the box is.
+So what I'm showing you on the x-axis over time are effectively state-of-the-art models, machine learning models specifically in the context of NLP, natural language processing models and how big they've been getting over the recent years.
+On the y-axis are what we call as the number of parameters.
+Don't worry about it for now.
+Once we get into the fundamentals of TinyML and when you start talking about the actual machine learning mechanics, the internals, these are all terminologies you will get quite familiar with in case you're not familiar right now.
+Now, what we're seeing on the x-axis is time.
+And what we are seeing is that as time has been going by, the complexity of the models is increasing quite steadily.
+Now, if you look at the most recent model, which is called GPD3 from OpenAI, you will see that it's a remarkably complicated model as compared to all the other ones that
+are down there.
+Now, don't let the scale fool you.
+This model is so big, or this box is so big that the rest of them look quite small when, in fact, just a few months, a few years ago, those other models looked like they were big differences in terms of their sizes.
+
+The key point  is that machine learning models are growing fast in complexity.
+They're growing extremely fast.
+And moreover, in order to be able to keep up with them, the computing capability that is needed is growing remarkably fast.
+So, for instance, from 2012 when the boom of machine learning really came about thanks to AlexNet and the use of big GPUs, over the recent few years what we have seen this is remarkable escalation in terms of the computing capability needed to be able to get those models out there.
+So, for instance, between 2012 and roughly where we are now, the computing needs have grown by almost 300,000 times.
+300,000 times!
+
+
+
+That's an astounding amount of computational horsepower increase.
+So at the same time, they were able to provide these black box machine learning models that we get are able to provide incredible capabilities to us.
+But that said, it's requiring quite a bit of compute.
+Now, if I was to go even further back before AlexNet in 2012 all the way back to the original source of history for machine running, back to the 1960s when all of this stuff was coming about, you'll see that back from 1960s to, say, maybe around 2010, there was roughly a steady, linear fast kind of pace.
+And then once we got into the recent years, there's been a remarkable steep increase in terms of the computational capability requirements.
+What is this saying?
+That our interest in machine learning has grown so much and we are spending so many cycles on this that the pace of innovation needed for unlocking it now is quite remarkable.
+Therefore companies like Google have been building these custom solutions, custom processors.
+Just the way you have an Intel or an AMD processor that is able to do general purpose compute, companies like Google have been building custom processors just to run one task, just the machine learning task.
+And they've been called TPUs.
+These are called Cloud TPUs because they live in the cloud, not literally in the cloud, but in big data centers that
+are remotely accessible to us.
+If you look at these cloud TPUs, oh, they look like big skyscrapers.
+They are physically about this much.
+And the heat sink on them is about this tall.
+The heat sink is there just to keep the processor cool
+because it has to take out so much heat because the computing is so intensive.
+And what are the companies doing?
+They're taking all of these processors and jam packing them
+into these big racks.
+So there are multiple cloud TPUs all packed in, row after row,
+column after column, right next to each other.
+And all of these things are being sandwiched into big data centers that
+are about the size of a football field.
+And they consume so much power that they actually
+have to be physically put right next to sources where there's water
+or, like, for example, in this picture of the Google data
+center in the Netherlands, you are seeing that it's actually
+right next to renewable energy because it costs a lot of money
+to power these things.
+The fundamental message that I'm trying to get across
+is that machine learning is becoming so computationally
+hungry that we have to build big processors just dedicated for them,
+then we have to sandwich and pack all of them together,
+and then we have to incorporate these big data centers almost
+near renewable resources and where water is
+so we can actually keep these things cool and power them efficiently.
+That's all wonderful.
+Now, how does this compare to TinyML?
+While things are getting bigger, I'm talking to you about the other side.
+I'm talking to you about TinyML.
+I'm talking to you about resource constraints
+and how to pack these things that are tiny little devices.
+So, the world is bifurcating in this.
+But that's the beauty.
+While there's a lot of interest in this, there's
+a lot of interest in the capabilities of TinyML
+because that's where the data lives.
+You remember I said there's about less than 1%
+of the data that's actually being used or analyzed for machine learning today.
+So despite the fact that we're building all
+of these remarkable machine learning processes and data centers,
+that's only dealing with a small fraction of the data
+that the world actually has access to where the sensors are
+producing a remarkable amount of data.
+And if you want to tap into that, we've got
+to figure out how we're going to take that big model
+and squeeze it right down into this small little form factor.
+Now, that's quite the challenge.
+
+
+So, how have things been evolving just generally in machine learning?
+What this plot is specifically showing is
+on the x-axis is the amount of computational power needed,
+how many multiplies and accumulates and so forth need
+to be done, all the arithmetic.
+And the y-axis is the accuracy, how accurately in saying
+it's a dog or a cat.
+And the size of the circle is telling me how big
+or how lean and skinny the model is.
+So there are three pieces of information in this chart.
+Now, what I want to do is walk you through a little bit
+of that critical evolution and then set the stage
+as to where things need to go.
+So, the first and foremost model that people refer to
+is AlexNet, which happened in 2012.
+It basically was trying to predict a thousand
+classes from ImageNet data set.
+We'll talk about these things in much greater detail.
+But the key thing is that it is able to get an accuracy of 57.1%.
+And its model size was 61 megabytes in size.
+Then we wanted better accuracy.
+We want to be able to say a cat is a cat or dog is a dog.
+And we want to do that with better accuracy than 50-something percent.
+So VGGNet came along in 2014 as an example.
+That boosted the accuracy to 71.5%.
+But look at the size of the circle.
+What happened?
+We went from something that was smaller in the order of about 60 megabytes
+to something that's almost 10 times as big at 528 megabytes.
+That's enormous!
+Well, we realized we can't just keep making things bigger,
+so we tried to make them a bit more efficient
+while also improving the accuracy.
+So in 2015, Microsoft released ResNet, residual nets.
+And this particular network improved the accuracy to 75.8\%
+while shrinking the model size as it was getting better.
+
+So we were doing great.
+We were starting to improve the machine learning models
+in order to make them both accurate and also be more cognizant of the size.
+Then as smartphones became very prevalent
+for machine learning deployments, that's when a major shift happened.
+And we saw the evolution move towards mobile nets.
+With mobile nets, we were saying that, no, the size is extremely critical.
+We cannot just think about accuracy.
+We have to make the thing small because it has to fit into your smartphone.
+So what did we do?
+We compromised on the accuracy, but we dramatically
+shrunk the size of the network.
+We made it only 16.9 megabytes.
+What I'm trying to get across to you here
+is that if you look at these couple of milestone markers
+that I have cherry picked for you, what I'm trying to say
+is that in our pursuit for better accuracy, better understanding
+of the data that we're being given and being
+able to see a cat is a cat or dog is a dog and being able to do so correctly,
+pushed us towards naively making things bigger.
+But slowly we understood the resource constraints of computing systems,
+that we cannot just keep making things bigger.
+Bigger's not always better.
+So then we strive to think of ways to actually make things smaller.
+As we go through this course, we will understand
+the fundamental nuggets behind a way something
+is much more efficient than another thing.
+But the critical message here is to understand
+the philosophical transitions that we're making as our journey continues
+through machine learning.
+Now, that's all great.
+MobileNet, this is an awesome example.
+Since then there have been other networks.
+But the critical point is that the networks
+that we have today, the models, they're still pretty big.
+They're 17 megabytes or maybe they're a handful of megabytes.
+It doesn't matter.
+The key nugget is that our little embedded microcontrollers only
+have a few kilobytes of memory.
+With a few kilobytes of memory, it's an order
+of magnitude difference between where usually state of the art sits
+and how we need to cram things in.
+So what did we do?
+Well, this is where things get interesting for us.
+Over the course of this program, we're going
+to learn how to take these models that are performing certain tasks
+and be able to compress them down.
+We will learn about a whole slew of techniques.
+
+
+
+\section{What are more ML algorithm challenges for TinyML?}
+
+
+What are the challenges in terms of making machine learning models that are big-- how do we squeeze them down?
+I'm going to give you a preview some of the things that we will be looking at in a lot more detail later on.
+Now, from a model perspective-- one of the key things is when you have a machine learning model, it's all about how well can you shrink or compress the model down without losing its ability to fundamentally look for patterns in data?
+Because that's what machine learning is, remember?
+So, how can we go about doing this?
+Let me give you a quick sampling for the kind of things that we will be getting into a lot more detail later on.
+So, some examples and techniques that we'll be talking about are like pruning.
+Pruning is this idea that if I have a network, then think of this network as having a bunch of connections.
+And that's effectively a model.
+When I prune, what I want to do is I want to be able to take some of the connections away.
+And when I take some of the connections away, the question is, is this left hand side figure able to produce the same correct result as the right hand result?
+Sometimes it can actually lose the accuracy-- as we call it-- or sometimes it might be able to maintain the accuracy.
+We might also be able to remove certain neurons completely out of it.
+Thereby, further reducing the amount of computation that's actually needed.
+And in doing so, we shrink the size of the network and we also reduce the computational demand of the network.
+And therefore, we can effectively squeeze this onto a tiny amount of ice.
+And this is a very primitive technique that we will actually be using later on to be able to shrink our models down and deploy them efficiently.
+Another thing that we can do is actually play around with the numerical representation.
+The values that we actually compute on.
+Because recall that embedded systems don't have fancy hardware or they tend to do very simple sort of arithmetic because they are supposed to be lean and mean as compared to general-purpose computing systems.
+So a technique that we will be using quite heavily is called quantization.
+Quantization is basically this notion that you have a floating point value.
+Remember 22 by seven?
+That's a floating point value.
+You take that floating point value, which
+is a long number of digital decimal places in place.
+And you quantize it down.
+Quantization means discretizing the values down
+to a small subset of values.
+So here, the end eight is basically going from negative 128 to 127,
+which allows you to represent 256 values.
+Now because you are now only having 256 values,
+you have to shrink that whole range down,
+which means you might lose some sort of values that would otherwise be
+represented in a floating point value.
+Why in the world would I ever want to do that?
+Well, a floating 0.32 bit value takes a whole four bytes
+to represent-- four bytes.
+Versus an end eight value is simply one byte,
+which means I get a 4x reductions by simply doing the quantization which is
+a huge boom or boost in the model size.
+So now I've shrunk it automatically down by 4x.
+And there are a whole bunch of associated benefits
+that come along with it from a system implementation sort of standpoint
+that we'll talk about.
+But quantization is extremely critical for us
+because we are dealing with tinyML systems
+where we don't have too much memory and we don't have to much compute.
+Talking about compute, floating point values, as I said previously,
+floating point values need dedicated hardware
+often to be able to compute efficiently because floating point decimal
+arithmetic is actually quite complex.
+Versus int8, or just integer arithmetic, it is much more simpler
+and it's usually found on every single embedded device.
+So the key lesson here is that as we start thinking about embedded device,
+you want to think about how big the networks are, what sort of precisions
+they are being represented with, the numerical precision
+and numerical formats-- there are a slew of things that we need to learn.
+And I will teach you some of these things,
+the critical ones especially, as we progress through.
+There also some advanced techniques that are on the horizon
+that are quite important for TinyML.
+For example, things like knowledge distillation.
+Knowledge distillation is a really nice fancy buzzword
+for explaining how a teacher, who knows a lot from years of wisdom
+and has a lot of information, is able to distill down
+the critical information for the student without losing
+the nugget given a particular task.
+So the benefit of this, ultimately, is that a teacher network might be big.
+A student network might be small.
+Later on, we'll get into how a teacher network actually translates over
+to a student network and how we can actually use this mechanism
+to take something that a bigger machine learning task
+knows how to do and be able to shrink things
+down so that the tiny, small little machine learning model actually
+knows how to do things better.
+Again, this is just a sneak preview of what's coming down the pipe later.
+Now, that's more from an algorithm and modeling sort of perspective,
+what the algorithms look like.
+But there is also stuff you need to know at the runtime level.
+So, at the runtime level, you need to start thinking about the hardware
+first.
+
+
+When you have this big cloud TPU in its Google building,
+where they want to be able to run many different kinds of machine learning
+tasks, for instance, you need a framework, a software framework.
+And so, typically, people deal with TensorFlow.
+TensorFlow is a beautiful framework in which
+you can write machine learning code.
+Now if I want to do machine learning on a smaller device,
+like a smartphone, which has got a much smaller computing capability, if you
+recall from the previous videos--
+the A12 processor, for instance-- is much smaller.
+Well, if you do that, you realize that this particular system has
+much less memory than a big cloud TPU normally would.
+And then it would also have much less compute power,
+and it's only focused on making inferences.
+In other words, a cloud TPU might actually
+have to learn how to detect patterns in the data.
+The smartphone is always going to be just basically looking
+for patterns in the data.
+There's a big difference where you're learning how to do things
+and where you only execute.
+Learning something takes a lot of time.
+For instance, I bet you right now you're learning about tinyMLs, so your brain is exploding with information that it has to process and figure out all the connections. 
+
+
+
+
+Training versus inference.
+Your smartphone is only looking for interesting patterns, for instance.
+So if that's the case, then you don't want to necessarily use TensorFlow
+because it's a rather big framework.
+What you'd rather have is a smaller, leaner and meaner software framework
+that is dedicated to just meeting the specific requirements that
+are needed on a smartphone.
+For instance, something that takes less memory.
+Something that has less computational power requirements.
+Something that only focuses on looking for patterns of data, quote,
+unquote, "inference."
+
+
+
+So if I were to put these two systems next to one another head to head, I'm going to start at the ultimate bottom line and work my way upwards since this is the most important point here.
+Who are these frameworks targeted at?
+For instance, like, if you look at TensorFlow versus TensorFlow Lite, these are two different software framework.
+TensorFlow is really targeted at a machine learning researcher who is trying to figure out how to actually build the machine learning algorithm.
+TensorFlow Lite is really focused on an application developer who is really interested in using the machine learning algorithm that comes out and integrating that into an application that provides end user service to you and me.
+That's the fundamental difference.
+And because of this, the frameworks have fundamentally different philosophies.
+For example, TensorFlow has to do distributed compute.
+It has to use many cloud TPUs, for instance, or many GPUs all at the same time to try and get the machine learning algorithm to learn the patterns that it finds in the data.
+Well, we're not learning things on the mobile device.
+We're just exercising what we already learned, so you don't need to communicate with a whole bunch of different smartphones.
+That's a simplification in the software stack. The binary size, when you're running things in big data centers with those big processors that are all coupled together, well, you're not really worried about how much memory the software framework is taking.
+But if you're talking about putting that little TensorFlow framework onto a smartphone, you're really concerned about how much memory it's consuming because you don't want it to use up all the space.
+And once we get into the machine learning model itself because we're dealing with-- we're training.
+
+
+In other words, we're learning.
+There are things that are variable, just like our neurons are
+variable in our head.
+We're constantly adjusting as we are trying to learn things.
+But once we learn it, we don't even think about it.
+We just execute things really fast.
+It's almost like a muscle memory or gut reaction.
+Same thing for how the topology of the network looks like.
+Topology is nothing but a fancy buzzword for saying,
+what do your connections look like.
+And in TensorFlow, because you're still learning to find patterns in data,
+you're constantly adjusting things, and you need to be flexible.
+But again, on TensorFlow Lite, when I already
+know the task that I'm going to perform, I don't need any flexibility.
+All of these things, these are just a sampling of the things.
+But the key thing I'm trying to get to is
+that there are big differences based on the system you're targeting
+and what the software is going to look like,
+and you need to understand the software to be
+able to deploy things efficiently.
+The critical difference here between TensorFlow and TensorFlow Lite
+is the difference as to where you're deploying it.
+So what's a typical pipeline look like?
+The first time when you're learning a model,
+if you want to be able to enhance a picture in your camera--
+and what you have to do is you have to learn how to enhance that.
+You have to find interesting patterns and data
+and learn how to make that happen.
+After that, once you've already figured that out,
+you just want to make it like a function call.
+You just call it.
+So we have something.
+Let's call it TensorFlow Lite Converter that
+converts a big beefy model into something lean and mean.
+That gives you a file that's called .tflite that's nice and thin.
+And you take that, and then you can deploy this
+into different kinds of smartphone devices.
+So this is your general pipe.
+You started with a lot of flexibility, and then you shrink things down,
+and you make them lean and mean, and then
+you target them for the specific device.
+This is effectively what we need to enable the next major step going
+from big processors over to smartphone processors
+into the next smallest little thing.
+The question is, how do we do it?
+These devices have even less memory.
+They have even less power as we've looked at before.
+And they're only focused on inference, very much like a smartphone.
+So for this, we're going to need to look at a software stack, which
+is a TensorFlow Lite software stack.
+Specifically, if you look at the training pipeline, for instance,
+or how things happen, you use TensorFlow right at the beginning,
+then after that were the conversion, the optimization, the deployment,
+and the usage is all kind of tied down with TensorFlow Lite.
+And when you deploy the model, you're typically
+going to be deploying it on any given kind of system.
+On a smartphone, it's in iOS or Android or maybe a Linux
+kind of platform, which you might target a bigger embedded kind of device.
+Or, in the case of microcontrollers, you want
+to deploy it what you need is a TF Lite engine,
+and then you can finally start using it for doing tasks.
+So I'm just showing a smartphone here as an example,
+but the general idea is that once you manage
+to squeeze things out and put them on the device,
+then you can start repeatedly using it.
+For all of that, we'll be focusing on TensorFlow Lite.
+So we'll walk you through from TensorFlow to TensorFlow Lite
+to, in fact, what's called TensorFlow Micro.
+That's at the runtime level.
+So we talked about the models, we talked about the runtimes,
+and at the hardware as well there's a lot of innovation going on specifically
+to make tinyML very efficient.
+Now, in this series of courses, I'm not going
+to emphasize that much on the hardware.
+I'll give you inclinations about the kind of things that are coming down.
+You will be knowledgeable by the time you finish this program in terms
+of what kind of trends and patterns we're
+seeing in terms of the industry, where the industry is going.
+But, that said, this is going to require you
+to take a dedicated course that's specifically focused
+on building machinery and hardware.
+Nonetheless I will give you enough clues and tips all through the thing in order
+to cover all three layers.
+Now, with that said, what I'm trying to wrap up here
+is that in the last four videos, including
+this one, what we saw was specifically some of the challenges
+that we're going to have in terms of the embedded system side
+and the machine learning side in order bring them together
+to fit inside a tiny little device.
+
+
+
+\section{Why the Future of ML is Tiny}
+
+\subsection{Why the Future of Machine Learning is Tiny and Bright}
+
+\subsubsection{Tiny Computers Are Ubiquitous}
+
+It is estimated there are over 250 tiny microcontrollers in the world and that over 50 billion will be sold this year. Microcontrollers (or MCUs) are packages containing a small CPU with possibly just a few kilobytes of RAM and are embedded in consumer, medical, automotive, and industrial devices. To put MCUs into perspective, there are only about 10 million servers in use across the planet and 4 billion smartphone users. Microcontrollers typically do not get much attention because they are often used to replace functionality that older electro-mechanical systems could do, in cars, washing machines, or remote controls, but they are ubiquitous.
+
+Driven by new applications in wearables, automotive use cases, smart appliances, etc., the demand for MCU is anticipated to increase steadily. Figure 1 shows the data from IC Insights. The number of units sold in 2023 is expected to exceed 35 Billion units per year!
+
+
+\begin{figure}
+    \GRAPHICSC{0.4}{1.0}{TinyML/Fundamentals/DemandForecast}
+    \caption{Microcontroller (MCU) Demand Forecast showing actual sales (in millions of units) for 2016-2018 and forecast for 2019-2023. Showing a linear expected increase from 20,000 million units in 2016 to almost 40,000 million units in 2023. Source IC insights.}
+\end{figure}  
+
+
+\subsection{Microcontrollers are Cheap}
+
+MCUs are designed to be cheap enough to include in almost any object that’s sold. They are cheap because they aren’t designed to be general-purpose computational workhorses that run complex workloads. Instead, they are often designed to perform specific tasks, slowly, albeit steadily. Therefore, they usually cost much less than a typical processor. The magnitude difference in price between an average MCU and an Intel or AMD processor found in your laptop or computer might be an order or two orders of magnitude difference in price. 
+
+The average price of an MCU is already less than USD \$1. As seen in Figure 2, the average sales price (ASP) for a microcontroller is hovering close to 55 cents, and as the demand surges, it is expected that this will fall below 50 cents in the future. On a global scale, the microcontroller market (\$M) is poised to grow by USD \$6.74 Billion between 2020-2024.
+
+\begin{figure}
+    \GRAPHICSC{0.4}{1.0}{TinyML/Fundamentals/PricingForecast}
+    \caption{Microcontroller (MCU) Pricing Forecast showing actual average selling price (in US dollars) for 2016-2018 and forecast for 2019-2023. Showing a decrease from \$0.75 in 2016 to $\approx$ \$0.63 in 2018 and a linear expected decrease to almost \$0.55 in 2023. Source IC insights.}
+\end{figure}  
+
+
+
+
+
+
+
+\subsection{MCUs are Resource-Constrained, Ultra-low Power Systems}
+
+The holy grail for almost any embedded device is for it to be deployable anywhere and require no maintenance like docking or battery replacement. Any device that requires tethered electricity faces a lot of deployment barriers. It can be restricted to only places with electrical wiring. Even where electrical wiring capability is available, it may be challenging for practical reasons to plug something new in, for example, on a factory floor or in an operating theatre. Putting something high up in the corner of a room means running a cord or figuring out alternatives like power-over-ethernet. The electronics required to step-down or convert the main-line high voltage to low voltage are expensive and waste energy.
+
+But perhaps the most significant barrier to achieving ubiquitous deployment computers everywhere is how much energy an electronic system uses. Here are some rough numbers for standard components based on figures from \href{https://www.cambridge.org/us/academic/subjects/engineering/wireless-communications/smartphone-energy-consumption-modeling-and-optimization}{Smartphone Energy Consumption}, and so it is no wonder that smartphones need to be tethered to the wall and recharged every night:
+
+\begin{itemize}
+    \item A display might use 400 milliwatts.
+    \item Active cell radio might use 800 milliwatts.
+    \item Bluetooth might use 100 milliwatts.
+    \item Accelerometer is 21 milliwatts.
+    \item Gyroscope is 130 milliwatts.
+    \item GPS is 176 milliwatts.
+\end{itemize}
+
+A key opportunity with using MCUs is they require a very minimal amount of energy. A microcontroller itself might only use a milliwatt or even less. Still, you can see that peripherals (accelerometer, gyroscope, GPU, etc.) require much more energy to stay powered on.
+
+A coin battery might have 2,500 Joules of energy to offer, so even something drawing only one milliwatt will have severe consequences. Of course, most current products use “duty cycling” and power naps to avoid being always on, but we see how tight the budget is even then. The overall thing to take away from these figures is that while processors and sensors can scale their power usage down to microwatt ranges, displays and especially radios are constrained to much higher consumption, with even low-power wifi and bluetooth using tens of milliwatts when active. The physics of moving data around is generally well-known to require a lot of energy.
+
+The general wisdom is that the energy an operation takes is proportional to how far you have to send the bits. CPUs and sensors send bits a few millimeters and are cheap. Radio sends them meters or more and is expensive. We don’t see this relationship fundamentally changing, even as technology improves overall. We expect the relative gap between computing and radio costs to get more expansive because we see more opportunities to reduce computing power usage.
+
+\subsection{Tiny Machine Learning (TinyML) on MCUs}
+
+Can you imagine a future where every one of the 250B tiny MCUs runs intelligent machine learning algorithms that can sense their surroundings, predict events in real-time, and even make nudges or recommendations based on the sensors' activity? We can transform the world.
+
+For instance, smart consumer devices like smart toothbrushes will have MCUs that are tightly coupled with sensors that dynamically adjust to your brushing intensity based on pressure. Medical devices in the future may use microcontrollers with biomedical sensors to control drug delivery as and when needed. Microcontrollers in automotive applications can aid functional safety on the road, detecting engine conditions, etc. to ensure our safety. Finally, MCUs will likely have widespread applications in industrial devices for continuous process monitoring and anomaly detection for applications such as predictive maintenance that can save millions of dollars in productivity loss and downtime by forewarning maintenance engineers.
+
+TinyML is a relatively new machine learning paradigm, yet it is producing remarkably astounding results. Several recent examples include audio, visual, and sensor fusion applications, such as voice and facial recognition, voice commands, and natural language processing.
+
+Looking more further into the future, we imagine a world where we have a tiny battery-powered image sensor that I could program to look out for things like particular crop pests or weeds and send an alert when one was spotted. These could be scattered around fields and guide interventions like weeding or pesticides in a much more environmentally friendly way.
+
+\subsection{TinyML at the Edge/Endpoint}
+
+Computing data locally, rather than streaming all the data to the cloud or edge servers, which is costly, is a feasible solution for intelligently processing the data available at the sensors. This will not only conserve energy, but it will also help unlock new applications and use cases. Consequently, given the existing widespread deployment of MCUs, and the minimal energy consumption of MCUs, there is growing interest in providing AI functionality at the edge/endpoint. This idea isn’t particularly new. Both Apple and Google run always-on machine learning (ML) based neural networks for voice recognition on these kinds of power-efficient chips.
+
+There are many more examples of AI capabilities at the endpoint, and people are just starting to realize that there is a unique match between deep learning and MCUs. If you are with us so far, then it’s obvious there's a massive untapped market waiting to be unlocked with the right technology to enable AI on these cheap and ubiquitous devices. We need ML solutions that can work on cheap microcontrollers, which use very little energy, that rely on computing capability, not radio, and can turn all our continuously streaming sensor data into something useful. This is the gap that machine learning, and specifically deep learning, fills.
+
+It has suddenly become possible to take noisy signals like images, audio, or accelerometers and extract meaning from them in the last few years by using neural networks. Because we can run these networks on microcontrollers and sensors themselves use little power, it becomes possible to interpret much more of the sensor data we’re currently ignoring. For example, imagine we want to see that almost every device has a simple voice interface. By understanding a small vocabulary, and maybe using an image sensor to do gaze detection, we should control nearly anything in our environment without needing to reach it to press a button or use a phone app. We want to see a voice interface component that’s less than 50 cents that runs on a coin battery for a year, and we believe it’s possible with the technology we have right now.
+
+\subsection{The Future of TinyML is Bright}
+
+We can conjure up a thousand other products. But to get there, first and foremost, Pete, Laurence, and I are most passionate about ensuring that the technological imperative behind them is so compelling that we will all be able to build whole new applications that we can’t even imagine today. For all of us, it feels a lot like being a kid in the Eighties when the first home computers emerged. None of us had any idea what they would become, and most people at the time used them for games or storing address books, but there were so many possibilities. A new world emerged out of those burgeoning systems. So we challenge you to invent the future. Come on and embrace the future with us by learning all we have to teach you about tinyML!
+
+
+
+
+
+\section{Responsible AI/ML}
+
+Here we are, with the countless number of possibilities for TinyML despite the fact that we know that there are some hard problems to be solved both on the hardware side from the embedded systems perspective as well as from the software and algorithmic perspective on the machine learning side.
+That said, we are excited about TinyML, aren't we?
+Because I've shown you that there are a large number of possibilities about what you can do.
+In fact, there are probably possibilities that I'm not even imagining that you are already thinking about.
+And that's what's exciting about TinyML.
+Now, technology is powerful.
+It can bring about a lot of change.
+It can bring about both good and bad change.
+So one of the key things that I want to make sure you learn as we go through this program is that you understand what it means to deploy machine learning out in the field and to do that in a responsible manner.
+And that's what responsible AI is all about.
+AI offers us great benefits.
+But at the same time, it introduces new risks and ethical challenges that we must be very conscious about.
+We cannot build AI into all these tiny, little devices and scatter them out everywhere thinking that only positive things are going to come out of it.
+That would be rather naive. 
+Think, for instance, that just by having a simple little phone on you, this little device-- if you look at all the gyroscope data just out of that one thing, you can actually figure out the unique individual.
+How so?
+
+
+
+Well, because the way that you and I walk, there is a certain gait or cadence or rhythm to it.
+Believe it or not, that's true.
+And if you track that data, which these devices are totally capable of doing today, then people would be able to identify you precisely without ever asking for your unique name or your ID or anything like that.
+And that's just one dangerous example, because that infringes upon our privacy and security aspects.
+So I'm not saying this in order to scare you.
+Rather, I want to help you understand that there is a big opportunity here.
+If we think about AI being everywhere-- I mean, think about the new risks and ethical challenges proactively-- we can actually use that to uncover new opportunities.
+And that's what I'm going to hope to convey throughout this video.
+As new technologies come about, they often tend to be disruptive.
+They're not always neutral.
+And in other words, you cannot assume that they're not going to cause any
+damage.
+Why?
+
+
+Because AI can bring about changes in current practices and the way we do things, because now machines are starting to do some of the things for us, they can influence human decisions.
+Think about it.
+For instance, when my phone says "breathe" or, for instance, when a sensor gives me a nudge to do something because it's picking up some kind of interesting pattern, it's influencing my behavior.
+Now, imagine if these sensors are all around us.
+Would you even know if they're influencing our behavior?
+Or they could, worse, be regulating our behavior.
+So consciously or unconsciously, we might be falling susceptible to the [? own ?] technologies that we're building.
+And it's extremely crucial that as we engineer these systems, we open our mind to looking at technology a bit differently and more holistically.
+Not just looking at the use cases, but understanding the potential ramifications and implications of those use cases.
+Let me tell you, for instance.
+There was a research that was done that shows that 65\% of Americans believe that companies often fail to anticipate how their products and services impact society.
+Most people are wigged out by this.
+I would like to think that any piece of product or any technology that I'm bringing into my house has been carefully thought about and that it's not so much that I have a piece of technology and, oops, company says, I didn't know that.
+Right?
+So there's a little bit of a fear.
+Now, this is just in America.
+I'm sure the stats are different in other countries.
+You should go try and find out.
+So what does it mean?
+It basically means that we need to be responsible when we're building this AI technology.
+While AI can actually mean better markets, responsible AI can actually mean that it actually increases the marketability.
+Because now people feel safer rather than being worried that, hey, this piece of technology might do something dangerous that I don't know or understand.
+It might actually increase the product adoption.
+People might actually want to buy that product, because they feel safe with it.
+They actually trust that particular device.
+
+
+
+But you and I, as engineers and scientists and researchers, we need to be doing this proactively in order to convince the people that are out there doing their job that we have done our job.
+So this is not a new realization.
+Companies have been coming together-- major organizations like Amazon, IBM, Facebook, DeepMind, Google, Microsoft.
+Everybody's been coming together in order to join forces, in order to build a partnership on the AI where the key principle is to understand what the risks are proactively and then be able to build intelligent products that are safe for all of us so that we can all benefit and society as a whole can benefit from this technology.
+The reason I'm putting these different companies up here is because I want you to understand that when you have these different organizations coming together, they are communicating a critical message to you and me.
+They are saying that they value these.
+These are their first-order principles.
+In doing so, they are trying to say that they want the next generation of leaders-- you-- to actually know these kinds of principles.
+Because when you go over to work with them and build the next TinyML product, they're going to expect that you have learned the value of responsible deployments.
+So let's go further.
+If these companies all come together-- by these companies, I don't mean just this short list that I've listed here.
+Just about any company that's using machine learning and AI in the field in order to enable products, if they come together, they can do well.
+And by doing good, you can effectively improve your capabilities.
+Now, there are a lot of unique features that TinyML obviously brings.
+These are unique opportunities, but they also present unique challenges.
+Some of the challenges we already talked about, like battery-powered, on-device ML running constantly and so forth.
+Now, there are issues that are not purely technical in this space that are just as important.
+And I want to talk about these things from the perspective of three important use cases or deployment scenarios that we're going to see for TinyML.
+We're going to understand, obviously, the technological benefit.
+And then we're going to see what the cons of deploying TinyML could be so that you and I can proactively design systems where we can enable the adoption of TinyML much more robustly and safely.
+
+
+
+
+Let's say, for instance, we focus on industry.
+Or we can talk about the environment as I'm giving you some examples.
+Or we can talk about how TinyML actually influences our human behavior.
+Now, if we look at the industry landscape, can we question, is responsible AI actually applicable?
+Well, the truth is that it's actually applicable in industry environment and humans.
+Specifically, if you look at industry, for instance, there are a lot of benefits of having TinyML being deployed in the industry, because it reduces downtime for repairs.
+How so?
+Well, there are things like anomaly detection mechanisms that we will learn about where, for instance, by detecting sounds or behavioral patterns of a machine, if something is about to go wrong, these machines give us little hints and cues in the vibrations they make or the sounds that they're emitting.
+And by observing these things in real time right at the end point through TinyML, we can figure out if this motor or if this pump is actually going to break down.
+And by knowing this proactively, what we can do in the industry is go ahead and get someone out to replace it.
+Because imagine what the other consequence is.
+The other consequence would be that that machine breaks down.
+Then someone picks up a phone and says, hey, this machine is broken down.
+Would you please come fix it?
+All that time, the entire manufacturing pipeline might be shut down waiting for this particular product to be repaired.
+Instead, if someone proactively knew that it needed repair, they could go ahead and fix it.
+And the downtime would be much shorter.
+You can also improve the efficiency effectively of that, right?
+And it's also much more cost effective.
+
+
+Why?
+Because you're not suffering from a long downtime.
+Your downtime shrinks, which means you're staying much more productive.
+These all look great.
+But what about the negative pitfalls?
+The pitfalls could be, well, how accurate are your predictions that this system is actually going to fail?
+What happens if it's a jet engine that's going to fail that costs millions and millions of dollars?
+Are you just going to arbitrarily replace it just because your jet engine sensors seem to indicate that something was wrong?
+Well, if so, then you have to worry about the accuracy.
+What about explainability?
+Who's responsible if it's a false alarm?
+Is the operator responsible?
+Or is the machine learning smarts that we package together actually responsible?
+And overall, having this sort of predictive maintenance thing, how is it going to affect the workforce?
+For instance, are people going to lose their jobs?
+And is that necessarily a good thing for society?
+Or are we actually going to enable new jobs?
+So these are the kinds of questions that we need to think about in industry, for instance.
+Let's talk about the environment.
+I gave you example with ElephantEdge, where the goal was to kind of save these elephants from extinction.
+Well, what are the benefits of having TinyML, the smart collars around them?
+Well, you get these very detailed insights, right?
+Often, when you want to learn something about these creatures that are out in the wild, it's like finding a needle in a haystack.
+OK, well, if you have TinyML going around with these animals, then you're going to get very precise, detailed insights.
+There's less wasted data, because it's not like you're collecting all this data, writing out all these logbooks,
+and then analyzing them while something might have already changed in their environment.
+So there's a long lead time before you figure something out and go back.
+Well, with TinyML, you're talking about real-time responses.
+So you actually waste less data.
+And it's cost effective, because you don't need someone constantly walking behind the elephants in order to figure out what's going on with them.
+You could effectively be deploying these collars out onto the field.
+And then humans are safe, and they don't need to be venturing out into dangerous places.
+And you can also overcome the limitations of human labor, just the capability that humans have in terms of going out and working year-round in forests and so forth.
+So there are a lot of perks about doing it in the environment.
+But what are the downsides?
+Is the data that you're getting actually reliable?
+Are you sure?
+As we will look at this very closely later on in the Fundamentals of TinyML course, we will be looking very closely at, how good is the data?
+How sure are you about the data you're collecting?
+Because machine learning, the notion of influencing patterns from data that you're looking at, is a stochastic thing.
+There's no guarantee that it's always right or it's always wrong.
+So how can you be 100\% reliable?
+
+
+Are you sure for the question you're asking that the data that the machine learning algorithms are producing is actually correct?
+Who has access to that data?
+If we're not careful about securing the data, someone illegal might actually get the data.
+Worse, imagine if we're trying to avoid the high-risk conditions that we talked about previously, where we don't want to get these animals into some dangerous poaching areas, right?
+And what happens if the data that is getting collected that they're reaching the poaching areas actually lands in the hands of the poachers?
+Well, then they get smarter.
+That would not be helping us while we're deploying all those technologies.
+So we got to think about what the security implications are.
+And that goes to the last point that I'm talking about.
+Can these devices actually be hacked by poachers?
+Even if we put mechanisms in, if they are hacked, then what ends up happening?
+So we could actually make things really worse for these animals if we're not careful, proactively thinking about these things.
+Let's talk about humans and how TinyML has great effect on us.
+Well, TinyML makes things more accessible.
+There are many people who are suffering from disabilities who can't touch type and do all those things, many of which you and I might be taking for granted.
+Well, if TinyML, for instance, is all about speech-- like when we say, OK, Google, or, hey, Siri, these machines wake up.
+Well, I don't need to touch anything.
+That's great.
+
+
+That makes it much more accessible for everybody.
+Everybody should have access to technology.
+And then it also makes the design of these products much more intuitive.
+We don't need buttons to push here and there, because that has implications on how you design.
+If it's all integrated and smooth, then it leads for a much better UI.
+We often communicate as humans.
+We don't necessarily go push someone's shoulder or press someone's head.
+We don't do that.
+We do that because we're interacting with machines.
+But if TinyML can become pervasive, then it can enable us to build more intuitive, human-like experience, because that's what, ultimately, we're all trying to build technology for, helping us have a better experience in life.
+And effectively, that would streamline our design.
+We would end up with a much smoother sort of experience.
+Bottom line, if TinyML is great, machines would be supplementing and working for us rather than us trying to understand how the machine works.
+So those are just some of the examples.
+But what are some of the downsides?
+Well, you've got to worry about, is this going to work?
+Is this technology going to work uniformly across all different kinds of populations?
+One of the big issues that you will find in machine learning that we will touch upon quite a bit is actually diversity issues.
+Machine learning models rely on data.
+So if we're not getting data from different countries, then what are we going to do?
+Because if the data is not there, then these algorithms are not going to learn on that data.
+If they don't see it, they don't know it.
+So what you don't know is what you don't know.
+And that's going to become a serious problem, especially
+if you're using machine learning to make intelligent decisions for you.
+And does it threaten the user's privacy?
+If this TinyML is always on, which I've kind of emphasized, then
+what is it learning about us?
+What is it learning all the time, right?
+What if something is being captured that you don't want to be captured?
+But the machine thinks it's doing good by trying to help you.
+But if someone gets into that data, then you've got a serious problem.
+So how can you protect that user's data?
+These might all seem like simple questions,
+but they're actually fundamentally deep.
+And they need serious technical chops in order to be able to solve.
+And I'm talking about these things with you
+because they are extremely important.
+The consequences of not being careful can be disastrous.
+Why do I say this?
+Here are just some high-level examples of things
+that I want you to just Google and try and find on the web.
+Microsoft's disastrous Tay experiment shows the hidden dangers of AI.
+This was a bot that was basically trained on data.
+I'm not going to say what it did.
+I want you to go and do your homework and look up what it actually did.
+There was a microphone that was hidden inside Nest.
+I shouldn't say "hidden."
+Rather, Google says that it was there as future-proofing the device.
+But no one mentioned it in the manuals that there was
+a microphone inside the Nest device.
+So this raised a big question about, are they listening to us?
+They never told us that there's a microphone in there.
+So this leads to a trust issue, which really
+can backfire on the organization.
+And your product falls apart because of that sometimes.
+And so you need to be careful.
+And algorithms can also be unfortunately rather discriminative because
+of the data that they're seeing.
+If the data that's going in is biased, then they're
+naturally going to be biased because of the way they're being taught.
+It's no different than you and me learning about something
+from a textbook.
+Because if the textbook is only giving us one viewpoint, then that's all we're
+going to learn, right?
+Unless we get exposure to other textbooks that
+give us a balanced portfolio, we would not
+have a broader, wiser wisdom sort of experience.
+And these are very similar things for these AI or machine learning systems.
+And we've got to think about all these things.
+Today, what we do is largely we find these problems,
+and then we put a giant Band-Aid on top of them.
+And then we say, OK, great, we fixed it.
+Not a problem.
+
+% >>>>>> hier weiter
+
+But this is not how we can go about it, especially when
+we're going to be deploying TinyML into billions of devices all around us.
+There are going to be too many mistakes that we're going to make.
+So what's the point here?
+The point is that we need to proactively think about things.
+We need human-centered AI or human-centered machine learning.
+We need to proactively, systematically be thinking about these things
+while we're building the systems.
+We need to think about the design of these things.
+And what are the consequences of the design?
+When we are developing the algorithms, how
+should we be thinking about the development of the algorithm
+so that we're conscious of the potential issues that we might run into?
+And once we throw these devices out into the field
+and when they're operating out there, how
+do we consciously think about protecting the data that they're sensing?
+And what do we do with the mechanisms that
+need to be in place before they're put out there?
+So design, development, and deployment-- these are three critical stages.
+Each one of these, we will actually be going through in a lot more detail.
+And the core nugget of them is that we want to keep human values in the loop
+at all stages of developing machine learning for these systems.
+So we will be talking about design, development,
+and deployment.
+
+It's going to be centered around when we design the machine learning models.
+What are the things that we need to think about?
+What are the characteristics of the data, for instance?
+When we are starting to train the models for very specific tasks as we develop them, what are the nuances that you need to be worried about so that you're making sure you're teaching them the right things?
+Third is when you deploy them.
+
+You need to be careful about exactly what it means to put them out
+in the field and be responsible for the kind of data and how the data is secure
+and so forth.
+And we'll be touching upon all these things.
+So design is going to talk about, what am I building?
+Who am I building it for?
+And what are the consequences if it fails?
+It's philosophically understanding the issues.
+Development is, what's the data?
+Is the data set biased?
+How is the model going to react?
+Is it going to be fair for everybody?
+Deployment-- when I put this out there, is the model
+going to drift if the data is kind of shifting,
+if the characteristics of your ecosystem are changing?
+Is it actually going to adjust to it, or is just
+going to keep doing the same thing that it was taught to do?
+And how do you deal with security, which is a very big critical piece?
+And how do you preserve a user's privacy?
+
+
+
+
+Don't forget that when we build technology, especially advanced technology that is very, very pervasive and going to be ubiquitous, that we do so in a highly responsible manner.
+
+
+
+\section{Forum: Discuss AI/ML failures}
+
+
+
+The following three case studies are all real-world examples of when AI has failed in some way. First, read through the following descriptions of each case:
+
+\begin{enumerate}
+    \item  Winterlight Labs auditory detection of Alzheimer’s disease
+    
+    In 2016, Winterlight labs designed an AI-powered auditory test for Alzheimer’s disease, where users’ speech would be recorded and AI would be used to detect signs of Alzheimer’s such as vocabulary richness, pauses in speech, and syntactic complexity. However, the initial research findings revealed a serious problem; non-native English speakers were being inaccurately flagged as having Alzheimer’s disease. Since the data that was used to train the model had been collected from native English speakers from Ontario, Canada, this technology was unable to work reliably across different populations. 
+    
+    \item  Wireless baby monitors hacked
+    
+    In 2018, there were several instances where wireless baby monitors were hacked which ultimately made national news headlines. In one case, a hacker used his newfound access to the baby monitor device to broadcast threats and shout sexual expletives. In another case, a more benevolent hacker used his newfound access to warn parents about the susceptibility of their device, in hopes that the parents would be able to address the situation before being targeted by nefarious hackers. 
+    
+    \item  Hidden microphones in Nest devices
+    
+    In 2019, users of Nest Guard devices were shocked to discover hidden microphones inside the device. Users were concerned about the invasion of privacy as well as the breach of trust that resulted from not being properly informed about the specs of the device. From Google’s perspective, the on-device microphone was simply a form of future-proofing that would allow the device to be compatible with updates that supported new functions later down the line.
+    
+\end{enumerate}
+
+Now, reflect on the following questions and join the discussion going on in the forum!
+
+\begin{itemize}
+    \item [A.] Which one of these cases do you find most concerning? Which concerns you the least?
+    \item [B.] What do you consider to be the relevant ethical challenges? 
+    \item [C.] What do you think the designers of this technology could have done differently?
+    \item [D.] How can you apply learnings from these examples to your own job? Your personal life?
+    \item [E.] Do you agree or disagree with what others have already posted in the forum? Why?
+\end{itemize}

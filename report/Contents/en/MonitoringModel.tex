@@ -1,0 +1,140 @@
+%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-06-29$
+% $Version: 1.0 $
+%
+% !TeX spellcheck = de_GB
+%
+%%%
+	
+\chapter{Monitoring the Model}
+	
+To make accurate predictions and get new insights in the fast-paced world, machine learning models must be updated with the most recent data. This chapter examines a thorough monitoring strategy that employs Python code to find fresh data, run the required tests, and update a trained model appropriately. 
+	
+\section{Plan}
+
+By routinely scanning a dataset directory for new data, the monitoring approach tries to keep the pneumonia detection model current. The steps in the procedure are as follows:
+
+\begin{enumerate}
+	\item Count the initial number of files in the dataset directory.
+	\item Wait for a specific period to allow new data to be added.
+	\item Count the current number of files in the dataset directory.
+	\item Compare the initial and current file counts to detect the presence of new data.
+	\item Update the model and create a backup of the dataset if new data is detected.
+\end{enumerate}
+
+	
+\section{Process Description}
+
+The monitoring process for pneumonia detection consists of the following key elements:
+
+\begin{enumerate}
+	\item Import necessary libraries such as \texttt{os}, \texttt{shutil}, \texttt{schedule}, \texttt{time}, \texttt{datetime}, and \texttt{tensorflow.keras.models.load\_model}.
+	\item Define essential functions: \texttt{update\_model()}, \texttt{backup\_data()}, \texttt{monitor\_and\_update()}, and \texttt{start\_monitoring()}.
+	\item Load the pre-trained machine learning model using \texttt{load\_model()}.
+	\item Start the monitoring process with the \texttt{start\_monitoring()} function.
+\end{enumerate}
+
+	
+\section{New Data}
+
+The script examines the initial and current file counts in the dataset directory to find fresh data. The presence of new data is indicated if the current count is higher. By using this method, the pneumonia detection model is kept current with new knowledge and is able to make precise predictions.
+	
+\section{Checks}
+
+To perform checks and determine if new data is present, the following steps are executed within the \texttt{monitor\_and\_update()} function:
+	
+\begin{enumerate}
+	\item The initial number of files is stored in a variable named \texttt{initial\_files}.
+	\item The script waits for a specified period using \texttt{time.sleep(10)} to allow for the addition of new data.
+	\item The current number of files is stored in a variable named \texttt{current\_files}.
+	\item If \texttt{current\_files} is greater than \texttt{initial\_files}, it signifies the presence of new data.
+	\item Update the model and create a backup of the dataset if new data is detected.
+\end{enumerate}
+
+	
+\section{Functions}
+
+The code includes several essential functions for pneumonia detection:
+
+\begin{enumerate}
+	\item \texttt{update\_model()}: This function implements the necessary logic to update the pneumonia detection model based on the requirements of the specific machine learning task. It incorporates data preprocessing, retraining the model, and fine-tuning as needed.
+	\item \texttt{backup\_data()}: This function creates a backup of the pneumonia dataset by copying it to a backup directory. It uses the \texttt{shutil.copytree()} method to ensure that the entire dataset directory structure is preserved.
+	\item \texttt{monitor\_and\_update()}: This function is responsible for monitoring the pneumonia dataset directory for new data. It compares the initial and current file counts and triggers the model update process if new data is detected. It calls the \texttt{update\_model()} and \texttt{backup\_data()} functions accordingly.
+	\item \texttt{start\_monitoring()}: This function initiates the monitoring process for pneumonia detection. It sets up a schedule using the \texttt{schedule.every()} method to run the \texttt{monitor\_and\_update()} function at specified intervals. The function runs indefinitely, continuously checking for pending scheduled tasks.
+\end{enumerate}
+
+\section{Program}
+
+The program below shows the monitoring program implemented in the pnuemonia detection application developed.
+
+\lstinputlisting[language=Python, caption=Check.py]{Code/check.py}
+
+
+\chapter{Programme Flow}
+	
+	% Programme Flow Chart
+	\begin{tikzpicture}[node distance=2cm]
+		% Nodes
+		\node (start) [startstop] {Start};
+		\node (loadmodel) [process, below of=start] {Load Model};
+		\node (upload) [io, below of=loadmodel] {Upload Image};
+		\node (preprocess) [process, below of=upload] {Preprocess Image};
+		\node (predict) [process, below of=preprocess] {Make Predictions};
+		\node (display) [io, below of=predict] {Display Results};
+		\node (backup) [process, below of=display] {Backup Dataset};
+		\node (update) [process, right of=backup, xshift=3cm] {Update Model};
+		
+		% Arrows
+		\draw [arrow] (start) -- (loadmodel);
+		\draw [arrow] (loadmodel) -- (upload);
+		\draw [arrow] (upload) -- (preprocess);
+		\draw [arrow] (preprocess) -- (predict);
+		\draw [arrow] (predict) -- (display);
+		\draw [arrow] (display) -- (backup);
+		\draw [arrow] (backup) -- (update);
+		\draw [arrow] (update) |- (loadmodel);
+		
+		% Labels
+		\node (label) [label, above=0.5cm] {Programme Flow Chart};
+		
+	\end{tikzpicture}
+	
+	\vspace{1cm}
+	
+	% Model Training Flow Chart
+	
+	\begin{tikzpicture}[node distance=2cm]
+	
+		% Nodes
+		\node (start) [startstop] {Start};
+		\node (loaddata) [io, below of=start] {Load Dataset};
+		\node (preprocess) [process, below of=loaddata] {Preprocess Data};
+		\node (split) [process, below of=preprocess] {Split into Train and Test};
+		\node (buildmodel) [process, below of=split] {Build Model};
+		\node (train) [process, below of=buildmodel] {Train Model};
+		\node (evaluate) [process, below of=train] {Evaluate Model};
+		\node (save) [io, below of=evaluate] {Save Model};
+		
+		% Arrows
+		\draw [arrow] (start) -- (loaddata);
+		\draw [arrow] (loaddata) -- (preprocess);
+		\draw [arrow] (preprocess) -- (split);
+		\draw [arrow] (split) -- (buildmodel);
+		\draw [arrow] (buildmodel) -- (train);
+		\draw [arrow] (train) -- (evaluate);
+		\draw [arrow] (evaluate) -- (save);
+		
+		% Labels
+		\node (label) [label, above=0.5cm] {Model Training Flow Chart};
+		
+	\end{tikzpicture}
+
+
+
+
+
+
+
+

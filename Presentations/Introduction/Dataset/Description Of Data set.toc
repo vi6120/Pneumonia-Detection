@@ -1,0 +1,5 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{What is Dataset ?}{3}{0}{1}
+\beamer@sectionintoc {2}{Description Of Dataset}{5}{0}{2}
+\beamer@sectionintoc {3}{Specification}{8}{0}{3}

@@ -1,0 +1,81 @@
+%%%
+%
+% $Autor: Wings $
+% $Datum: 2021-05-14 $
+% $Dateiname: Matplot.tex
+% $Version: 4620 $
+%
+% !TeX spellcheck = GB
+% !TeX program = pdflatex
+% !TeX encoding = utf8
+
+%%%
+
+
+\chapter{Description of the Python Package: Matplotlib}
+
+Matplotlib is an open-source drawing library which has powerful and wide range of visualizations. It extensively provides an object-oriented API which is used for embedding plots into applications. With the visualization capabilities of Matplotlib one can visualise everything that can be drawn from legends and grids to spectrogram. 
+
+\section{Functions:}
+
+With few lines of code, Matplotlib can depict a wide range of visualizations such as:
+\begin{itemize}
+    \item Line plots
+    \item Scatter plots
+    \item Area plots
+    \item Bar charts and Histograms
+    \item Pie charts
+    \item Stem plots
+    \item Contour plots
+    \item Quiver plots
+    \item Spectrograms
+\end{itemize}
+
+\section{Features:}
+
+\begin{itemize}
+    \item With the advantage of being open source, it can be used as a replacement for MATLAB.
+    \item Supports dozens of backends and output types, which enables one to use it regardless of type of the operating system used or the output format used.
+    \item Good runtime behavior and low memory consumption.
+\end{itemize}
+
+\section{Applications:}
+
+\begin{itemize}
+    \item Used for correlation analysis of variables.
+    \item Used for visualizing 95 percent confidence intervals of the models.
+    \item Outliers can be detected using a scatter plot.
+    \item Can be used for visualizing the distribution of data to obtain instant insights.
+\end{itemize}
+
+\section{Installation}
+
+Matplotlib can be installed using pip, conda, or by downloading the source code and running \FILE{setup.py}. It is recommended to install matplotlib through Anaconda distribution or using the command \SHELL{pip install matplotlib}.
+
+\section{Further Reading:}
+
+\begin{itemize}
+    \item For more information on matplotlib, check out the official matplotlib documentation at \url{https://matplotlib.org/}.
+\end{itemize}
+
+
+\begin{code}
+    \lstinputlisting[language=Python]{../Code/General/MatPlotLib/MatPlotLibSample.py}
+    
+    \caption{Simple example for MatPlotLib}
+\end{code}   
+
+\begin{figure}
+  \includegraphics{MatPlotLib/MatPlotLibSample01}
+  
+  \caption{Output of the example code}
+\end{figure}
+
+\begin{figure}
+    \includegraphics{MatPlotLib/MatPlotLibSample02}
+    
+    \caption{Output of the 2\textsuperscript{nd} example code}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

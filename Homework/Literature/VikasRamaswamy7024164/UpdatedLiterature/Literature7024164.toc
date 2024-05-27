@@ -1,0 +1,5 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{Pneumonia Detection Using CNN based Feature Extraction}{3}{0}{1}
+\beamer@sectionintoc {2}{Pneumonia Detection Using Convolutional Neural Networks (CNNs)}{6}{0}{2}
+\beamer@sectionintoc {3}{References}{9}{0}{3}

@@ -1,0 +1,14 @@
+
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.nav
+*.out
+Presentations/Template/GAN PPT.run.xml
+Presentations/Template/GAN PPT.snm
+Presentations/Template/GAN PPT.synctex.gz
+Presentations/Template/GAN PPT.toc
+Presentations/Template/GAN PPT.vrb
+ProjectCode/PneumoniaDetectionApp/

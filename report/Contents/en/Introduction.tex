@@ -1,0 +1,88 @@
+%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-03-17 11:15:45Z $
+% $Pfad: GitLab/CornerBLending $
+% $Dateiname: Hints
+% $Version: 4620 $
+%
+% !TeX spellcheck = de_DE/GB
+%
+%%%
+
+
+
+\chapter{Introduction}
+
+Pneumonia is a potentially fatal respiratory infection caused through bacteria, fungi or viruses that can cause the air sacs in one or both lungs to become inflamed. The likelihood of recovery and danger of complications can both be greatly increased and decreased, respectively, by early pneumonia diagnosis. Although chest X-ray imaging is a standard diagnostic method for identifying pneumonia, its interpretation can be arbitrary and error-prone.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node at (0,0) {\includegraphics[width=\linewidth]{Images/Schematic Classification of infections in lungs.jpeg}};
+	\end{tikzpicture}
+	\caption{\textbf{Schematic Classification of infections in lungs.}}
+	\footnotesize \textbf{Reference:}\cite{Lim:2022}
+	\label{fig:Schematic Classification of infections in lungs}
+\end{figure}
+
+\bigskip
+
+\section{Objective}
+
+The goal of designing a pneumonia detection system based on CNN and transfer learning is to evaluate patient chest X-ray pictures to detect the presence of pneumonia. This system extracts and analyzes X-ray image attributes using deep learning methods and computer vision techniques. The major purpose of this system is to enable reliable and efficient identification of pneumonia from X-ray pictures, which may then be used to aid medical professionals in making diagnosis in clinical situations.\autocite{Lim:2022}
+
+The project's detailed objectives are as follows:\\
+
+
+\begin{enumerate}
+\item To create a pneumonia detection system that can detect the presence of pneumonia in chest X-ray pictures correctly and effectively.\\
+\item To boost the detection system's accuracy, employ transfer learning to leverage pre-trained models such as Inception and ResNet.\\
+\item To automate the process of detecting pneumonia, decreasing the workload of medical workers and reducing the chance of errors.\\
+\item To provide a vital tool for medical practitioners to aid in the diagnosis of pneumonia, allowing patients to receive faster and more accurate treatment.\\
+\end{enumerate}
+
+
+\section{Problem description}
+
+\subsection{Problem statement}
+
+Pneumonia is a serious and potentially fatal infection of the lungs. It is a leading cause of hospitalization and death, especially in young children, the elderly, and those with compromised immune systems. Early diagnosis and treatment of pneumonia are crucial for improving patient outcomes and lowering the risk of complications.\\
+
+On the other hand, identifying pneumonia in chest X-ray images is a challenging task that demands particular training and skill. The slight changes in appearance between healthy and diseased lungs might make a radiologist's diagnosis of pneumonia difficult. Furthermore, the accuracy of the diagnosis can vary based on the radiologist's level of experience. \cite{Zhou:2018}.
+
+\subsection{Scope of problem statement}
+
+The goal of constructing a ML model that can effectively detect pneumonia from chest X-ray pictures is to enhance patient outcomes as well as aid in diagnosis. The model can be linked into existing medical systems to increase diagnosis efficiency and accuracy, particularly in places with limited access to medical expertise. Furthermore, the model can be utilized for research purposes to evaluate massive datasets of chest X-ray images, assisting in the identification of patterns and potential risk factors related with pneumonia. Overall, the problem statement's scope is to create an AI model that can help enhance pneumonia diagnosis, treatment, and research.\\
+
+
+\section{Challenges}
+
+\subsection{Data Quality}
+
+One of the main challenges in developing a model for pneumonia detection from chest X-ray images is the high variability of chest X-ray images. Chest X-rays can be taken from different angles, with varying levels of exposure, and with different imaging protocols. This variability can make it difficult for models to learn generalizable features andaccurately classify images. In a study by \cite{Wang:2017}, it was found that variability in imaging protocols and exposure levels can lead to decreased performance of models in classifyingchest X-ray images.\\
+
+\subsection{Bias}
+When developing models for pneumonia detection there can be a potential bias in labeled datasets. The CXR dataset, which is commonly used for this task, has been shown to have class imbalance, with a much larger number of normal chest X-ray images than pneumonia images. This can lead to models being biased towards classifying images as normal and may lead to a higher rate of false negatives. In a study by \cite{Ibrahim:2021}, the authors found that a deep learning model trained on the CXR dataset had a high false-negativerate for pneumonia detection.\\
+
+\subsection{Data consistency}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node at (0,0) {\includegraphics[width=\linewidth]{Images/Xray images of different lung disorders.jpeg}};
+	\end{tikzpicture}
+	\caption{\textbf{X-ray Images 1) COVID-19, 2) viral pneumonia, 3) normal and 4) bacterial pneumonia.}}
+	\footnotesize \textbf{Reference:}\cite{Lim:2022}
+	\label{fig:X-ray images of different lung disorders}
+\end{figure}
+
+
+The biggest challenge would be related to model consistentcy  on the prediction as most of the lung disorders can be observed similarly over a X-ray image. The figure 1.2.:  shows 1) COVID-19, 2) viral pneumonia, 3) normal and 4) bacterial pneumonia respectively.\\
+
+\section{Proposed approach}
+
+In order to identify pneumonia in chest X-ray pictures, this project attempts to build a deep convolutional neural network utilizing transfer learning. By utilizing transfer learning, the model can take advantage of the characteristics discovered from a sizable dataset like ImageNet, which can enhance the model's performance on the medical imaging dataset. Popular pre-trained model InceptionV3 has demonstrated successful performance in image recognition challenges, making it an appropriate contender for our approach.\\
+
+
+The approach involves using Python programming language and libraries like Keras, TensorFlow, Inception, and ImageNet to build, train and evaluate the deep learning model. The solution is applicable in the medical imaging field, specifically in image recognition and classification tasks.\\

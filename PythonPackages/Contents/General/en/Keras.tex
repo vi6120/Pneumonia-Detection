@@ -1,0 +1,64 @@
+%%%
+%
+% $Autor: Wings $
+% $Datum: 2021-05-14 $
+% $Dateiname: Keras.tex
+% $Version: 4620 $
+%
+% !TeX spellcheck = GB
+% !TeX program = pdflatex
+% !TeX encoding = utf8
+
+%%%
+
+\chapter{Description of the Python Package: Keras}
+
+For this project and in general for Machine Learning projects one of the most common packages required to ndertand for the development in python is Keras. In general, this is used to develop high-level neural networks, it is written in Python and is capable of running on top of TensorFlow. In the specific case of this project, Keras is been used in two stages, with the following tools: 
+
+\begin{itemize}
+    \item ImageDataGenerator, this tool provides a convenient and powerful way to load, pre-process, and augment image data for use in deep learning models. It allows to easy load image data from a directory structure, the application of pre-processing techniques, and the use of data augmentation to improve model performance.
+    \item Layers, this tool is an essential component of a neural network model generation with Keras Package in python. A directed acyclic graph of the neural network is built using layers, where the output of one layer serves as the input for the following layer. Convolutional layers for image processing, recurrent layers for sequence data, and fully connected layers for dense neural networks are just a few of the pre-built layers available in the Keras framework. In the particular instance of this project, the following layers are mostly used for the implementation: 
+    
+    \begin{itemize}
+        \item \textbf{Dense}, is also known as fully connected layer.  It links all the neurons from the layer below to the neurons in the layer above. A hyper-parameter that has to be determined is how many neurons are present in the dense layer. In this layer, the activation function can also be specified.
+        \item \textbf{Conv2D}, is used for image processing. The input data is subjected to a convolution procedure, enabling the model to learn spatial hierarchies of features. The hyper-parameters of this layer may be categorized as the number of filters, kernel size, and strides.
+        \item \textbf{MaxPool2D}, is used for down-sampling the input data. It decreases the spatial dimensions of the data by applying a max pooling operation to the input data. The hyper-parameters of this layer may be categorized as the pooling size and the strides.
+        \item  \textbf{Flatten},  is used for flattening the multi-dimensional input data into a 1D array. It is frequently applied before the last dense layer in a model so that it can process the incoming data.
+    \end{itemize}
+\end{itemize}
+
+Building a variety of neural network models for image classification and other image processing tasks, such object recognition and semantic segmentation, may be done by combining the Dense, Conv2D, MaxPool2D, and Flatten layers. To test out several designs and identify the one that best matches the data, the number and mix of these layers may be altered.
+
+Keras' simplicity and ease of use are two of its key benefits. It abstracts away a significant portion of the complexity involved in creating and refining deep learning models, allowing developers to concentrate on the model's architecture and design rather than the specifics of its implementation.
+
+Support for several back-ends, such as TensorFlow, Theano, and Microsoft Cognitive Toolkit, is another benefit of Keras (CNTK). As a result, programmers may create models and train them using any back end of their choosing, switching back-ends without having to alter the model's architecture or training code.
+
+Also it is a simple package to install and use in Python, in order to do this, the following steps must be followed:
+
+\begin{enumerate}
+    \item Verify that Python is installed. This is done by running in the command prompt: \textls{python -V}.
+    \item Install the required dependencies for Keras; numpy, scipy, and six. Run the following command in the command prompt: \textls{pip install numpy scipy six}.
+    \item Install TensorFlow or one of the other supported backends. Keras is a high-level library that runs on top of TensorFlow, Theano, or Microsoft Cognitive Toolkit (CNTK). Run the following command: \textls{pip install tensorflow}.
+    \item Install Keras by running the following command: \textls{pip install keras}.
+\end{enumerate}
+
+In order to test that Keras is properly installed, use this code: 
+
+\begin{lstlisting}
+    import keras; 
+    print(keras.__version__)
+\end{lstlisting}
+
+As of now, the version of Keras being used is 2.9.0. Now lets present an example of how to use Keras in a simple python example:
+
+
+\begin{code}
+   \lstinputlisting[language=Python]{../Code/General/Keras/KerasSample.py}
+  
+  \caption{Simple example for Keras}
+\end{code}   
+
+
+Lastly it is important to reference the developer source for Keras releases (past, current and next). In this GitHub repository one can access more detailed information regarding this package:
+
+ \href[]{https://github.com/keras-team/keras/}{Keras: Deep Learning for humans}

@@ -1,0 +1,37 @@
+#### Library/Tools Version
+- Python - v3.6.7
+- argparse
+- random
+- numpy - 1.14.3
+- pandas - 0.23.0
+- shutil
+- gc
+- inspect
+- tqdm - 4.28.1
+- re
+- keras - 2.2.4
+- Keras-preprocessing - v1.0.5
+- tensorflow - 1.12
+- PIL/Pillow - 5.1.0
+- opencv-python - 3.4.4.19
+- matplotlib - 2.2.2
+- seaborn - 0.8.1
+- scikit-learn - 0.20.1
+- mlxtend - 0.14.0
+
+
+
+#### Codes to install
+conda create -n myenv python=3.6.7
+conda install numpy=1.14.3
+conda install pandas=0.23.0
+conda install tqdm=4.28.1
+conda install keras=2.2.4
+conda install keras-preprocessing=1.0.5
+conda install tensorflow=1.12
+conda install pillow=5.1.0
+conda install opencv-python=3.4.4.19
+conda install matplotlib=2.2.2
+conda install seaborn=0.8.1
+conda install scikit-learn=0.20.1
+conda install mlxtend=0.14.0

@@ -1,0 +1,63 @@
+%%%%%%
+%
+% $Autor: Vikas Ramaswamy $
+% $Datum: 2023-04-01 15:35:45 $
+% $Version: 4620 $
+%
+%
+% !TeX encoding = utf8
+% bibtex
+%
+%%%%%%
+
+
+
+\Mysection{Problem's description}
+
+{ 
+  \framesubtitle{Problem's description}	
+   
+   \textbf{Problem's description}\newline 
+    Pneumonia is a respiratory infection that can have serious consequences if not diagnosed and treated early. Chest X-rays are a common imaging modality used to diagnose pneumonia, but interpreting these images can be challenging and time-consuming. Therefore, the development of an AI model for pneumonia detection from chest X-ray images can help aid in diagnosis and improve patient outcomes \cite{Zhou:2018}. \newpage
+    
+    \begin{figure}[h!]
+    	\includegraphics[width=8cm]{Images/Schematic Classification of infections in lungs.jpeg}
+    	\caption{\textbf{Schematic Classification of infections in lungs \cite{Lim:2022}}}
+    	\label{Schematic Classification of infections in lungs.}
+    \end{figure}
+
+}
+\Mysection{Challenges}
+
+{
+	 \begin{itemize}
+	\item One of the main challenges in developing a model for pneumonia detection from chest X-ray images is the high variability of chest X-ray images. Chest X-rays can be taken from different angles, with varying levels of exposure, and with different imaging protocols. This variability can make it difficult for models to learn generalizable features and accurately classify images. In a study by \cite{wang:2020}, it was found that variability in imaging protocols and exposure levels can lead to decreased performance of  models in classifying chest X-ray images.\newline\newpage
+	
+	\item Another challenge in developing models for pneumonia detection is the potential bias in labeled datasets. The CXR dataset, which is commonly used for this task, has been shown to have class imbalance, with a much larger number of normal chest X-ray images than pneumonia images. This can lead to models being biased towards classifying images as normal and may lead to a higher rate of false negatives. In a study by \cite{Ibrahim:2021}, the authors found that a deep learning model trained on the CXR dataset had a high false-negative rate for pneumonia detection.\newline\newpage
+	
+		\begin{figure}
+		\includegraphics[width=8cm]{Images/CXR scans. 1 COVID-19, 2 non-COVID 19 viral pneumonia, 3 normal CXR scan, 4 bacterial pneumonia.jpeg}
+		\caption{\textbf{1 COVID-19, 2  viral pneumonia, 3 normal , \newline4 bacterial pneumonia\cite{Lim:2022}}}
+		\label{fig: 1 COVID-19, 2  viral pneumonia, 3 normal , 4 bacterial pneumonia}
+	\end{figure} 
+	
+	
+	\item Finally, to make the model more consistent on the predictions as most of the lung disorders can be observed similarly over a X-ray.
+	
+\end{itemize} 
+ 
+}
+\Mysection {Next steps}
+{ 
+
+  \begin{itemize}
+  	\item Our objective in this field could be to develop more diverse and inclusive labeled datasets for AI models to learn from. This could involve collecting data from different populations, including different ages, genders, and ethnicities.\newline
+  	
+  
+  	
+  	\item Develop models that can provide more detailed diagnostic information, such as identifying the specific type of pneumonia or predicting the severity of the infection. Finally, it is important to continue to evaluate the effectiveness and safety of AI models in clinical settings to ensure that they are improving patient outcomes and not detracting from the quality of care provided by radiologists.\newline
+\end{itemize} 
+\newpage 
+
+
+}

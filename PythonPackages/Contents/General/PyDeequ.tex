@@ -1,0 +1,279 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PyDeequ.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+%iX 5/2022 S.54
+
+% Quelle: https://www.heise.de/ratgeber/Machine-Learning-Wie-Sie-mit-PyDeequ-Datenqualitaetstests-definieren-6677334.html?seite=all
+
+
+\chapter{Qualitätsgesicherte Machine-Learning-Workflows mit PyDeequ}
+
+MLOps-Werkzeuge und -Frameworks, die Auskunft über die Qualität von Trainingsdaten für Machine Learning geben, sind wichtig. Wir zeigen, was PyDeequ kann.
+
+Datenwissenschaftler und Softwareentwickler greifen heutzutage häufig in denselben Werkzeugkasten. Beim Erstellen von Machine-Learnig-Modellen sind hochwertige Trainings- und Evaluationsdaten wichtig. So wie Entwickler Codeabschnitte mit Unit-Tests prüfen, unterziehen auch Data Scientists ihre Daten einer Qualitätssicherung.
+
+Am Anfang des Modelltrainings steht die Auswahl geeigneter Daten. Dann kommt eine Datenexploration, um sich einen Überblick über die Datenmenge und -qualität zu verschaffen. Dabei zeigen Werkzeuge, wie die Ausprägungen von Merkmalen verteilt sind, ob und wie viele Ausreißer es gibt und wie die Wertebereiche aussehen. Für kleinere Datenmengen genügt ein Toolset aus Python und pandas oder ein geeignetes Datenexplorationsmodul wie Pandas Profiling, Sweetviz oder D-Tale. In diese Kategorie fällt auch DuckDQ, das weder vor pandas-DataFrames noch vor CSV- und Parque-Dateien oder Datenbanktabellen haltmacht. Allerdings reicht der Hauptspeicher beim statistischen Auswerten sehr großer Datenbestände in der Regel nicht aus.
+
+In diesem Fall kann man zu verteilten Datenhaltungs- und Analysesystemen wie Apache Spark oder Apache Beam greifen. Innerhalb des TensorFlow-Toolstacks erledigt dies zum Beispiel \HREF{https://www.tensorflow.org/tfx/data_validation/get_started}{TensorFlow Data Validation (TFDV)}. Apache Griffin bietet eine Java-basierte Integration in den Hadoop-/Spark-Toolstack. Mit der in Scala geschriebenen Spark-Bibliothek \HREF{https://github.com/awslabs/deequ}{Deequ} lassen sich Datenqualitätstests definieren. Für Data Engineers und Data Scientists mit einem Faible für Python bietet \HREF{https://github.com/awslabs/python-deequ}{PyDeequ} eine vertraute Schnittstelle.
+
+\begin{itemize}
+  \item Automatisierte ML-Pipelines benötigen skalierbare Frameworks, um die Datenqualität von Modellen zu gewährleisten.
+  \item Mithilfe automatisierter Analysen und Checks lassen sich bestehende oder eingehende Daten vor dem Modelltraining sicher und zuverlässig auf Qualitätsmängel überprüfen.
+  \item Das in Scala implementierte Open-Source-Framework Deequ erlaubt das Validieren auch großer Datenmengen innerhalb eines bestehenden Spark-Clusters.
+  \item Mit PyDeequ bietet Deequ eine für Data Scientists intuitive Schnittstelle, um Unit-Tests für Eingabedaten zu implementieren.
+\end{itemize}
+
+\section{PyDeequ}
+
+Die folgende Abbildung zeigt die unterschiedlichen Architekturkomponenten von PyDeequ. Verschiedene Methoden analysieren die eingehenden Batch- oder Streaming-Daten. Die \HREF{https://github.com/awslabs/python-deequ/blob/master/pydeequ/analyzers.py}{Analyzer in PyDeequ} berechnen die für die Datenexploration üblichen Statistiken wie Vollständigkeit, Minima und Maxima, Eindeutigkeiten, Entropie, paarweise Korrelation oder den Durchschnitt. Anhand dieser Metriken schlägt die Schnittstelle manuell oder mithilfe des Constraint-Suggestion-Moduls Datenqualitätstests vor. Das Constraint-Verification-Modul führt die Tests aus und baut damit zum Beispiel einen Datenqualitätsbericht.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{PyDeeQu/PyDeeQu01}
+  \caption[PyDeequ und Spark]{PyDeequ und Spark arbeiten bei der Datenqualitätssicherung eng verzahnt.}\label{PyDeeQu01}
+\end{figure}
+
+%Erste Datenanalyse
+
+\section{Daten für einen Recommender}
+
+Zum Training eines Recommenders soll in einem PyDeequ-Beispiel eine Pipeline dienen. Um dies auch ohne eigenen Spark-Cluster in der Cloud nachvollziehen zu können, wird Googles frei zugängliches \HREF{https://colab.research.google.co}{Colab-Notebook} verwendet. Die bei Google gehosteten Jupyter-Notebooks lassen sich im Browser nutzen. \HREF{https://github.com/rawar/ix-ml-pydeequ}{Die Dokumentation zeigt, wie man die nötigen Java- und Spark-Bibliotheken installiert.} PyDeequ lässt sich mit dem Shell-Befehl \SHELL{pip install pydeequ} installieren. Den von Amazon stammenden Datensatz stellt die University of California San Diego für Forschungszwecke im Netz bereit.
+
+Mit dem Befehl
+
+\medskip
+
+\SHELL{wget http://deepyeti.ucsd.edu/jianmo/amazon/categoryFiles/Video\_Games.json.gz}
+
+\medskip
+
+landen die rund 500 MByte großen Daten im Colab-Notebook. \SHELL{gunzip Video\_Games.json.gz} entpackt sie. Der Datensatz im JSON-Format enthält zwei Millionen Produktbewertungen von Videospielen aus dem Jahr 2014. Diese Menge überfordert den Hauptspeicher von Googles kostenloser VM. Zwar lässt sich mithilfe von
+
+\medskip
+
+\PYTHON{ddf = spark.read.json("Video\_Games.json")}
+
+\medskip
+
+die gesamte Datei in einen Spark-DataFrame einlesen, aber spätestens bei der ersten Analyse der Daten reicht der 1 GByte große Hauptspeicher nicht mehr aus. Daher löscht man im ersten Schritt die für den Recommender unnützen Spalten und benennt die übrig gebliebenen um:
+\medskip
+
+\PYTHON{ddf = ddf.drop('helpful','reviewText','reviewTime','reviewerName','unixReviewTime','summary')}
+
+\PYTHON{ddf = ddf.selectExpr("{}asin","{}overall as rating", "reviewerID as user")}
+
+\medskip
+
+Um Googles virtuelle Maschine nicht zu überfordern, verkleinert ein \PYTHON{ddf = ddf.sample(0.01)} den Umfang der Daten um den Faktor 100, sodass nur rund 25.000 Datensätze verarbeitet werden. Besitzer oder Mieter eines eigenen Spark-Clusters sparen sich diese künstliche Verkleinerung der Daten.
+
+\section{AnalysisRunner}
+
+Der AnalysisRunner führt auf dem Spark-DataFrame mehrere erste Analyzer aus, die Anwender pro Spalte definieren. So möchte man vielleicht wissen, ob alle zwei Millionen Zeilen der Ursprungsdatei eine Nutzer-ID beinhalten. Hier hilft der Completeness Analyser in der Datenspalte 'user'. Das folgende Listing zeigt die Anwendung von sechs verschiedenen Analyzern, die der Spark-Cluster parallel am Videospiele-DataFrame ausführt. Dabei ermitteln die Analyzer die Größe des Datensatzes, die Vollständigkeit und Eindeutigkeit der Nutzer-IDs, außerdem den Durchschnitt aller Videospielbewertungen, die Prozentangabe aller Bewertungen die größer oder gleich 4 sind, und eine Korrelation zwischen allen Bewertungen und den Topbewertungen.
+
+\begin{code}
+\caption{Beispiel eines AnalysisRunners mit sechs verschiedenen Analyzern}
+
+\begin{lstlisting}[language=Python]
+analysisResult = AnalysisRunner(spark) \
+.onData(ddf) \
+.addAnalyzer(Size()) \
+.addAnalyzer(Completeness("user")) \
+.addAnalyzer(ApproxCountDistinct("user")) \
+.addAnalyzer(Mean("rating")) \
+.addAnalyzer(Compliance("top rating", "rating >= 4.0")) \
+.addAnalyzer(Correlation("total_rating", "top rating")) \
+.run()
+\end{lstlisting}
+\end{code}
+
+
+Der AnalysisRunner gibt das Ergebnis in Form eines pandas-DataFrames aus:
+
+\medskip
+
+\PYTHON{analysisResult\_df = AnalyzerContext.successMetricsAsDataFrame(spark, analysisResult)}
+
+\PYTHON{analysisResult\_df.show()}
+
+\medskip
+
+\begin{code}
+    \caption{Ausgabe eines Analyze-Runs als pandas-DataFrame in einem Colab-Notebook}
+
+\begin{lstlisting}[language=Python]
++-------+----------+-------------------+------------------+
+| entity|  instance|               name|             value|
++-------+----------+-------------------+------------------+
+| Column|    rating|               Mean|4.0189240577989995|
+| Column|      user|       Completeness|               1.0|
+| Column|      user|ApproxCountDistinct|          250142.0|
+|Dataset|         *|               Size|          256129.0|
+| Column|top rating|         Compliance|0.7400294382908612|
++-------+----------+-------------------+------------------+
+\end{lstlisting}
+\end{code}
+
+
+Neben dieser manuellen und deklaratorischen Methode der Datenqualitätsprüfung macht PyDeequ auch eigene Vorschläge, welche Spalten mit welcher Analysefunktion untersuchbar sind. Die Vorschläge von PyDeequ sind konkrete Checks, die man dieser Spalte der Daten angedeihen lassen sollte. Im einfachsten Fall erzeugt man dafür einen ConstraintSuggestionRunner und übergibt diesem den Spark-DataFrame. Die Resultate lassen sich auch in einem strukturierten JSON-Format ausgeben, um damit ein Frontend oder einen Berichtsgenerator zu versorgen.
+
+\begin{code}
+    \caption{Ausführen eines ConstraintSuggestionRunner und Ausgabe im JSON-Format}
+    
+    \begin{lstlisting}[language=Python]
+suggestionResult = ConstraintSuggestionRunner(spark) \
+.onData(ddf) \
+.addConstraintRule(DEFAULT()) \
+.run()
+print(json.dumps(suggestionResult, indent=2))
+\end{lstlisting}
+\end{code}
+
+\section{Daten überprüfen}
+
+Für die übergebenen Recommender-Daten schlägt PyDeequ fünf verschiedene Constraints vor. So findet der ConstraintSuggestionRunner heraus, dass alle Bewertungen (ratings) ein Minimum von 1 aufweisen und nie null oder negativ sind. Um das für weitere Daten dauerhaft zu prüfen, empfiehlt PyDeequ die Checks \PYTHON{isNonNegative} und \PYTHON{isComplete} als Constraint-Regeln.
+
+\begin{code}
+    \caption{Ausgabe aller Empfehlungen für Überprüfungsregeln der Videospieldaten}
+    
+\begin{lstlisting}[language=Python]
+{
+    "constraint_suggestions": [
+    {
+        "constraint_name": "CompletenessConstraint(Completeness(rating,None))",
+        "column_name": "rating",
+        "current_value": "Completeness: 1.0",
+        "description": "'rating' is not null",
+        "suggesting_rule": "CompleteIfCompleteRule()",
+        "rule_description": "If a column is complete in the sample, we suggest a NOT NULL constraint",
+        "code_for_constraint": ".isComplete(\"rating\")"
+    },
+    {
+        "constraint_name": "ComplianceConstraint(Compliance('rating' has no negative values,rating >= 0,None))",
+        "column_name": "rating",
+        "current_value": "Minimum: 1.0",
+        "description": "'rating' has no negative values",
+        "suggesting_rule": "NonNegativeNumbersRule()",
+        "rule_description": "If we see only non-negative numbers in a column, we suggest a corresponding constraint",
+        "code_for_constraint": ".isNonNegative(\"rating\")"
+    },
+    {
+        "constraint_name": "CompletenessConstraint(Completeness(user,None))",
+        "column_name": "user",
+        "current_value": "Completeness: 1.0",
+        "description": "'user' is not null",
+        "suggesting_rule": "CompleteIfCompleteRule()",
+        "rule_description": "If a column is complete in the sample, we suggest a NOT NULL constraint",
+        "code_for_constraint": ".isComplete(\"user\")"
+    },
+    {
+        "constraint_name": "UniquenessConstraint(Uniqueness(List(user),None))",
+        "column_name": "user",
+        "current_value": "ApproxDistinctness: 0.976625060028345",
+        "description": "'user' is unique",
+        "suggesting_rule": "UniqueIfApproximatelyUniqueRule()",
+        "rule_description": "If the ratio of approximate num distinct values in a column is close to the number of records (within the error of the HLL sketch), we suggest a UNIQUE constraint",
+        "code_for_constraint": ".isUnique(\"user\")"
+    },
+    {
+        "constraint_name": "CompletenessConstraint(Completeness(asin,None))",
+        "column_name": "asin",
+        "current_value": "Completeness: 1.0",
+        "description": "'asin' is not null",
+        "suggesting_rule": "CompleteIfCompleteRule()",
+        "rule_description": "If a column is complete in the sample, we suggest a NOT NULL constraint",
+        "code_for_constraint": ".isComplete(\"asin\")"
+    }
+    ]
+}
+\end{lstlisting}
+\end{code}
+
+Einer der großen Vorteile von PyDeequ sind die vielen eingebauten Checks, die die Daten prüfen. Im Gegensatz zu den Aussagen der Analyzer untersuchen die Checks, ob die Spalten erwartete Werte enthalten. Oft können auch die Fachabteilungen solche Checks liefern – sie kennen ihre Daten und mögliche Ausreißer besser als so mancher Data Scientist.
+
+Ein Check besteht aus einem Level und einem Namen. Auf die Daten angewendet, liefern die Checks eine entsprechende Meldung zurück. Die Check-Levels Warning oder Error drücken dabei eine unterschiedliche Fehlerschwere eines Prüfungsprozesses aus. Um Checks auf einem Spark-DataFrame auszuführen, initialisieren Nutzer diese wie im unteren Listing gezeigt. Innerhalb eines pandas-DataFrames wandeln Datenwissenschaftler die Ausgabe für eine Anzeige im Colab-Notebook um. PyDeequ kommt standardmäßig mit einer Vielzahl von Checks.
+
+
+\begin{code}
+    \caption{Initialisieren von Checks im Spark-DataFrame}
+    
+    \begin{lstlisting}[language=Python]
+check = Check(spark, CheckLevel.Warning, "Video Game Review Check")
+
+checkResult = VerificationSuite(spark) \
+.onData(ddf) \
+.addCheck(
+check.hasSize(lambda x: x >= 2000000) \
+.hasMin("rating", lambda x: x == 1.0) \
+.hasMax("rating", lambda x: x == 5.0)  \
+.isComplete("user")  \
+.isUnique("user")  \
+).run()
+
+checkResult_df = VerificationResult.checkResultsAsDataFrame(spark, checkResult)
+checkResult_df.show()
+\end{lstlisting}
+\end{code}
+  
+\section{Fazit}
+
+Bessere Machine-Learning-Modelle brauchen vor allem eins: bessere Daten. Gerade bei großen Datenmengen oder automatisierten Trainingspipelines wirft kein Mensch nach dem Set-up des MLOps noch einen Blick auf die eingehenden Daten. Aus diesem Grund ist es wichtig, die Datenqualität frühzeitig mithilfe von Analyzern und permanenten Checks zu prüfen.
+
+Vergleichbar mit der Testabdeckung in der Softwareentwicklung sichern Datenwissenschaftler so die Qualität der trainierten Modelle. PyDeequ bietet dazu nicht nur eine skalierbare Lösung auf Basis des Cluster-Frameworks Spark, sondern ermöglicht Data Engineers und Data Scientists über seine Python-Schnittstelle einen einfachen Einstieg in das Thema Datenqualitätssicherung.
+
+
+\section{Übersichtstabelle}
+
+{\tiny 
+\begin{table}
+ \caption{Checks in PyDeequ: eine Übersicht}
+\begin{tabular}{ll}
+Check &	Beschreibung \\
+hasSize & berechnet die Größe des DataFrames und führt die Assertion auf dieser Grundlage aus\\
+isComplete & bestätigt bei einer Spaltenvervollständigung\\
+hasCompleteness	& bestätigt bei einer Spaltenvervollständigung\\
+isUnique & prüft die Eindeutigkeit einer Spalte\\
+isPrimaryKey & prüft die Primärschlüsselmerkmale einer oder mehrerer Spalten\\
+hasUniqueness & prüft die Eindeutigkeit einer oder einer kombinierten Menge von Schlüsselspalten\\
+hasDistinctness & prüft auf die Unterscheidbarkeit in einer oder einer kombinierten Menge von Schlüsselspalten\\
+hasUniqueValueRatio & prüft das Verhältnis der eindeutigen Werte in einer oder einer kombinierten Gruppe von Schlüsselspalten\\
+hasNumberOfDistinctValues & prüft die Anzahl der unterschiedlichen Werte, die in einer Spalte existieren\\
+hasHistogramValues & prüft die Werteverteilung der Spalte\\
+hasEntropy & prüft die Entropie einer Spalte\\
+hasMutualInformation & prüft auf gegenseitige Information innerhalb von zwei Spalten\\
+hasApproxQuantile & prüft auf ein Quantil\\
+hasMinLength & prüft auf die minimale Länge einer Spalte\\
+hasMaxLength & prüft auf die maximale Länge einer Spalte\\
+hasMin & prüft das Minimum der Spalte\\
+hasMax & prüft das Maximum der Spalte\\
+hasMean & prüft den Durchschnitt der Spalte\\
+hasSum & prüft die Summe einer Spalte\\
+hasStandardDeviation & prüft die Standardabweichung der Spalte\\
+hasApproxCountDistinct & prüft die Anzahl verschiedener Werte innerhalb der angegebenen Spalte\\
+hasCorrelation & prüft die Pearson-Korrelation zwischen zwei Spalten\\
+satisfies & führt eine angegebene Bedingung auf dem DataFrame aus\\
+hasPattern & prüft auf die Einhaltung eines Musters\\
+containsCreditCardNumber & prüft, ob das Muster für eine Kreditkartennummer existiert\\
+containsEmail & prüft, ob das Muster für eine E-Mail-Adresse existiert\\
+containsURL & prüft, ob das Muster einer URL existiert\\
+containsSocialSecurityNumber & prüft, ob das Muster einer amerikanischen Sozialversicherungsnummer existiert\\
+hasDataType & prüft den Anteil der Zeilen, die dem angegebenen Datentyp entsprechen\\
+isNonNegative & prüft, ob die Spalte negative Werte enthält\\
+isPositive & prüft, ob die Spalte keine negativen Werte enthält\\
+isLessThan & prüft, ob jeder Wert aus Spalte A kleiner dem Wert aus Spalte B ist\\
+isLessThanOrEqualTo & prüft, ob jeder Wert aus Spalte A kleiner oder gleich dem Wert aus Spalte B ist\\
+isGreaterThan & prüft, ob jeder Wert aus Spalte A größer dem Wert aus Spalte B ist\\
+isGreaterThanOrEqualTo & prüft, ob jeder Wert aus Spalte A größer oder gleich dem Wert aus Spalte B ist\\
+isContainedIn & prüft, ob jeder Nicht-null-Wert in einer Spalte in einer Menge von vordefinierten Werten enthalten ist\\
+\end{tabular}
+\end{table}
+}

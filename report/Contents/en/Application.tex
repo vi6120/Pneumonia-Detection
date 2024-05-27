@@ -1,0 +1,59 @@
+%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-06-30$
+% $Version: 1.0 $
+%
+% !TeX spellcheck = de_GB
+%
+%%%
+	
+\chapter{Application}
+
+The Pneumonia Detection Application is a web-based tool that allows users to upload chest X-ray images and determine whether the person in the image is healthy or has pneumonia.  To produce precise predictions, the application employs a deep learning model that was trained on a dataset of chest X-ray pictures. It has a user-friendly interface that makes it simple for users to upload photographs, view prediction results, and navigate the application.
+\smallskip
+
+The Flask web framework and Python are used to create the application. It integrates HTML and CSS for the frontend interface and uses the TensorFlow library for deep learning operations. The application's backend manages image submissions, makes predictions with the trained model, and displays the suitable HTML templates to present the outcomes.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node at (0,0) {\includegraphics[width=\linewidth]{Images/UserInterface.png}};
+	\end{tikzpicture}
+	\caption{\textbf{User Interface}}
+	\footnotesize \textbf{Reference:}Author
+	\label{fig:User Interface}
+\end{figure}
+
+\section{Operating System}
+
+Operating systems like Windows, macOS, and Linux are all compatible with the Pneumonia Detection Application. A web browser like Google Chrome, Mozilla Firefox, or Safari can be used to access it. The program adheres to a client-server architecture, in which server-side code is executed on the backend and HTML templates are sent to the client-side for rendering.
+\smallskip
+
+The application uses the HTTP protocol for communication between the client and server. The Flask web framework handles the HTTP requests and responses, allowing users to interact with the application through standard web interfaces. The application utilizes HTML, CSS, and JavaScript for the frontend user interface and Flask for server-side processing.
+
+\section{Constraints}
+
+While the Pneumonia Detection Application offers a convenient way to predict pneumonia from chest X-ray images, it does have certain constraints:
+
+\begin{enumerate}
+	\item \textbf{Accuracy Limitations}: The accuracy of the predictions depends on the performance of the underlying deep learning model. While the model has been trained on a large dataset, there may be cases where the predictions are incorrect or inconclusive. Users should not solely rely on the application's results for medical diagnoses and consult with healthcare professionals for accurate assessments.
+	\item \textbf{Hardware Requirements}: The application requires a computer system with sufficient resources to run the Python code and load the trained model. A system with a dedicated GPU can significantly speed up the prediction process. However, it can still be run on a CPU, although it may take longer to process the images.
+	\item \textbf{Image Quality}: The accuracy of the predictions can be affected by the quality of the uploaded chest X-ray images. Blurry or low-resolution images may lead to less reliable results. It is recommended to use high-quality images for better accuracy.
+\end{enumerate}
+
+\section{Input Data}
+
+The Pneumonia Detection Application relies on a dataset of chest X-ray images for training the deep learning model. The dataset used to train the model should meet certain criteria to ensure its effectiveness:
+
+\begin{enumerate}
+	\item \textbf{Quality}: The X-Ray image should consist of high-quality images with clear visibility of the lung area. Images with artifacts, noise, or poor resolution may negatively impact the accuracy of the predictions.
+	\item \textbf{Quantity}: Only one image can be uploaded for the detection at a time. Multiple uploads is not accepted and is not supported.
+	\item \textbf{Types}: The Input data should be Images with extension of png, jpeg or jpg.
+	\item \textbf{Structure}: The Image should be labelled properly for which should not be too long or too short and follows a particular naming convention.
+\end{enumerate}
+
+\section{Conclusions}
+
+The Pneumonia Detection Application provides a user-friendly and accessible platform for predicting pneumonia from chest X-ray images. It leverages deep learning techniques and a trained model to analyze the images and provide predictions. While it is not a substitute for professional medical advice, it can be a helpful tool for preliminary assessments or as a reference for further medical evaluations. Users should exercise caution and consult with healthcare professionals for accurate diagnoses and treatment recommendations.
+

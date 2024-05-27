@@ -1,0 +1,16 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Getting to know about Pneumonia Detection}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Operation Of Pneumonia Detection}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Software Setup}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}System Requirements}{4}{subsection.2.1.1}%
+\contentsline {chapter}{\numberline {3}First Step in Pneumonia Detection}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Interface for Pneumonia Detection:}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Steps for Pneumonia Detection}{5}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Main Function}{9}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Help}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Frequently Asked Questions}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Troubleshooting}{12}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Functions of Pneumonia Detection Interface}{15}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Maintenance for Pneumonia Detection Web Application}{17}{chapter.7}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

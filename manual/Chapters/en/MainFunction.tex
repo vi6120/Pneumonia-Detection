@@ -1,0 +1,65 @@
+%%%%%%
+%%%%%%
+%
+% $Author: Sangram Patil $
+% $Datum: 2023-06-30  $
+% $Pfad: BA23-02-Sales-Predictor/manual/Chapter/Introduction.tex $
+% $Version: 1.0 $
+% $Reviewed by: Vikas And Adarsh $
+% $Review Date: 2023-07-01 $
+% $Description: Main Function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Main Function}
+
+\textbf{Main Function}
+
+
+
+Pneumonia causes pleural effusion, a condition in which fluids fill the lung, causing respiratory difficulty. Early detection of pneumonia is essential for ensuring curative care and boosting survival rates. The approach most usually used to diagnose pneumonia is chest X-ray imaging. However, examining chest X-rays is a difficult task that is vulnerable to subjectivity. The major purpose of the Web app for pneumonia detection is to give consumers a place to upload chest X-ray images and get assessments of whether pneumonia is present or not. The Pneumonia detection web application analyses the provided images and produces prediction results using an image processing pipeline and a trained deep learning model.
+
+
+An outline of the primary actions that make up the Pneumonia Detection operation is provided below
+
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Images/Usermap}
+	\caption{User Road Map}
+\end{figure}
+
+
+\begin{enumerate}
+	\item \textbf {Image Upload:}
+	 
+	Through a simple user interface, the web application enables users to upload their chest X-ray images.
+	To choose the image file from their local device, users often click on a particular area or button.
+	
+	\item \textbf {Image Preprocessing:} 
+	
+	Segmentation separates the lung region for study while preprocessing techniques improve the image quality. A classification algorithm, such as machine learning or deep learning models, determines the presence or absence of pneumonia by extracting the necessary information from the segmented images.
+	Additionally, it sends notification to fix the uploading image, indicating the precise issue, if the image is not in the suitable format, such as size, blurry image, or incorrect file format.
+	
+	
+	\item \textbf {	Prediction Generation:}
+	 
+	After being preprocessed, the image is then entered into a deep learning model that has been trained particularly to detect pneumonia.
+	The model evaluates the image and makes a determination regarding the presence or absence of pneumonia.
+	Predictions can be made in the form of messages such as "You have pneumonia or you don't."
+	
+	
+	\item \textbf {	Result Display:} 
+	
+	The user interface of the web app shows the user the prediction result. The result is typically presented in the form for massage. Stating that the use have pneumonia or not
+	
+
+\end{enumerate}
+
+
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Images/Result}
+	\caption{Result}
+\end{figure}

@@ -1,0 +1,203 @@
+%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-01-18 11:15:45Z $
+% $Pfad: githubtemplate/Template/Presentations/Template/slides/rename.tex $
+% $Version: 4620 $
+%
+%
+% !TeX encoding = utf8
+% !TeX root = Rename
+%
+%%%%%%
+
+
+
+\Mysection{Introduction}
+
+\STANDARD{}
+{ 
+	
+	It is a software design emphasizes the importance of designing systems in a way that minimizes the likelihood of errors occurring in the first place. This approach focuses on preventing errors from happening rather than simply detecting and handling them after they occur.\\
+	
+	\bigskip
+	
+	\begin{itemize}
+		\item The goal is to create software systems that are more reliable, robust, and easier to maintain.
+		\item Errors in software can have significant negative impacts, such as crashes, data loss, or security vulnerabilities.
+		\item In most programming languages,it is coded in try-catch blocks.(Exception Handling)
+	\end{itemize}
+	
+}
+\begin{frame}
+	\vspace{0.5cm}
+	Here is the example in Python 
+	
+	\vspace{0.5cm}
+	
+	try:\\
+	num1 = int(input("Enter a number: "))\\
+	num2 = int(input("Enter another number: "))\\
+	result = num1 / num2\\
+	print("The result is:", result)\\
+	except ValueError:\\
+	print("Invalid input, please enter a number.")\\
+	except ZeroDivisionError:\\
+	print("Cannot divide by zero.")\\
+	except:\\
+	print("An unknown error occurred.")\\
+	
+\end{frame}
+\STANDARD{}
+{
+	\begin{itemize} 
+		\item The code inside the try block accepts two input values from the user and calculates the result by dividing the first number with the second number.
+		\item If there is a ValueError or ZeroDivisionError, the program jumps to the corresponding except block to handle the error. If an unknown error occurs,the final except block will catch it.
+		\item If the user enters a non-numeric value, the program will jump to the ValueError except block and print the message "Invalid input.
+		\item Similarly, if the user enters a 0 for the second number, the program will jump to the ZeroDivisionError except block and print "Cannot divide by zero."
+	\end{itemize}
+}
+
+\Mysection{Exception Add Complexity}
+
+\STANDARD{}
+{ 
+	
+	%\textbf{Aufgabe}: Beziehung zwischen Zeit und Position finden
+	
+	%\textbf{Synonyme}: Path Planning, Motion Planning
+	
+	Many programming language include a formal exception mechanism that allows exceptions to be thrown by the lower level code and caught by enclosing code.However,when the new mechanism is added it must me integrated with the existence mechanism or else it will change the flow of program and add more complexity to it.\\ \bigskip
+	Several different ways a particular piece of code encounter exceptions:
+	\begin{itemize}
+		\item A caller may provide bad argument or configuration information.
+		\item The code may detect bugs, internal inconsistencies or situations is not prepared to handle.
+		\item In distributed system, network packets may be lost or delayed, servers may not respond in timely fashion.
+	\end{itemize}
+	
+	
+}
+
+\Mysection{Too Many Exceptions}
+
+\STANDARD{}
+{ 
+	
+	\begin{itemize}
+		\item Most Programmer are taught that it's important to detected and reports error; they often interpret this to mean "the more errors detected, the better."\\
+		\item Excessive use of exception can be a problematic, it make code hard to understand. If it is used too many then, it become too difficult to predict its behavior and identify the root cause of error.\\
+		\item Exception should be used only in case when it is necessary such as dealing with unpredictable error that can be easily handle in normal control flow of program.\\
+		\item To overcome from this situation is very easy just reduce the number of places were the exception have to be handled.\\
+	\end{itemize}
+	
+	
+
+
+% TODO: \usepackage{graphicx} required
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/ex1}
+	\caption{}
+	\label{fig:ex1}
+\end{figure}
+}
+
+
+
+\Mysection{Mask Exceptions}
+
+\STANDARD{}
+{ 
+	\begin{itemize}
+		\item The masking technique involves disabling or blocking the propagation of certain exceptions, allowing the program or system to continue executing without being interrupted by the exception. This can be useful in situations where certain exceptions are expected and can be handled by the program or system without causing any significant issues.\\
+		
+		\item For example, in a program that handles network communication, a mask exception could be used to prevent the program from raising an exception when a network connection is lost temporarily. Instead of interrupting the program and causing it to terminate, the exception is masked, and the program continues running until the network connection is restored. \autocite{ousterhout2018philosophy}
+		
+		\newpage
+		
+% TODO: \usepackage{graphicx} required
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Mask}
+	\caption{\textbf{Example \cite{ousterhout2018philosophy}}}
+	\label{fig:Example}
+\end{figure}
+	
+		
+	\end{itemize}
+}
+
+
+\Mysection{Aggregation Exceptions}
+
+\STANDARD{}
+{ 
+	
+	\begin{itemize}
+		\item Exception aggregation is the process of collecting multiple related exceptions and consolidating them into a single exception object. This can be useful in situations where multiple errors occur within a system or application, and it is desirable to present the user with a single error message or log a single exception for easier troubleshooting.\\ 
+		
+		\item It can also be useful in distributed systems, where errors may occur in different components of the system and need to be consolidated into a single error message or exception for easier management and debugging.\\ 
+		
+		\item It should not be used to mask or hide underlying errors. Rather, it should be used as a tool for better presentation and management of errors and exceptions.\\
+	\end{itemize}
+}
+
+\Mysection{Just Crash}
+
+\STANDARD{}
+{
+	\begin{itemize}
+		\item It is unexpected and sudden failure of a software program or system. It occurs when the program encounters an error or a condition that it cannot handle, leading to the program being terminated or "crashing." When a crash occurs, the program may stop functioning, display an error message, or cause other problems, such as data loss or corruption.\\ 
+		
+		\item Crashes can occur due to a variety of reasons, including bugs or errors in the program's code, insufficient system resources, hardware malfunctions, or conflicts with other software programs or components. They can also occur due to unexpected inputs or user actions that the program is not designed to handle.\\ 
+		
+		\item To prevent crashes, software developers use various techniques, such as testing, debugging, and error handling, to identify and address potential issues before they occur.\\
+	\end{itemize}
+}
+
+\Mysection{Design Special}
+
+\STANDARD{}
+{
+	\begin{itemize}
+		\item It allows software developers to create software that is tailored to the unique needs and requirements of specific industries and domains. This type of software can help to improve efficiency, accuracy, and productivity, and can have a significant impact on the success of businesses and organizations.\\ 
+		
+		\item Designing special software requires a collaborative effort between software developers and domain experts. Developers must work closely with subject matter experts to understand the specific needs and requirements of the target users and to ensure that the software meets their needs.\\ 
+		
+		\bigskip
+		
+		\textbf{Example}: Simulation tools and visualization and data form for a organizations
+	\end{itemize}
+}
+
+\Mysection{Taking it too Far}
+
+\STANDARD{}
+{
+	\begin{itemize}
+		\item When software developers over-design or over-build a solution beyond the actual requirements, leading to unnecessarily complex software that is difficult to maintain and update. \autocite{tornhill2018software}
+		
+		\bigskip
+		
+		Consequence are as below:-\\ 
+		\item Increased development time and cost
+		\item Reduced maintainability and usability
+		\item Reduced performance
+		\bigskip
+		
+		\item Developers should prioritize simplicity and ease of use, avoiding unnecessary complexity or features that do not add value.\\ 
+		
+	\end{itemize}
+}
+
+\Mysection{Conclusion}
+
+\STANDARD{}
+{
+	
+		 Errors or bugs should be eliminated as soon as they are discovered.The longer a bug remains in the code, the more difficult and expensive it becomes to fix.Developers should prioritize testing and debugging throughout the development process. Along with use tools and techniques such as automated testing and code review to identify errors and bugs. Software developers can create more reliable and efficient software that meets the needs of their users.\\
+		
+}
+
+
+

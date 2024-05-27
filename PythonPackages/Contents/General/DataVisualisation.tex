@@ -1,0 +1,608 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/DataVisualisation.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+% c't 18/2019 S. 80
+% source: https://www.heise.de/select/ct/2019/18/1566834301146169
+
+
+\chapter{Datenvisualisierung mit Python}
+
+\section{Plotexpress}
+
+Mit etwas Übung schreibt man Code schneller, als man klickt. Mit den Frameworks Pandas und Altair bereitet man in einer Handvoll Python-Zeilen Datensätze auf und erzeugt schicke Diagramme. Altair basiert auf dem JavaScript-Framework Vega, sodass sich die Plots mühelos im Web einbinden lassen – auch als interaktive Grafiken.
+
+\section{Einführung}
+
+Ein Klick auf den Download-Link befördert eine 25 Megabyte große CSV-Datei ins Download-Verzeichnis. Ein Doppelklick darauf startet LibreOffice und danach heißt es warten. Der Import dauert nämlich auf einem nicht ganz taufrischen i5 über 30 Sekunden. Als die Riesen-Tabelle endlich erscheint, ungeduldig die Formel für den Durchschnitt in die freie Spalte ganz rechts tippen und anschließend eine Minute lang scrollen, um die Formel auf alle Zeilen zu übertragen. Das fühlt sich alles ziemlich zäh an. Führt man sich vor Augen, dass Office die Daten alle in sein Interface rendern muss, fällt auf: Das Programm ist eigentlich nicht langsam. Es ist nur nicht für so große Tabellen gemacht.
+
+Damit das alles flotter geht, muss das grafische Interface weichen. Stattdessen kommt Python zum Einsatz, genauer die Bibliothek Pandas. Pandas nutzt unter der Haube Numpy und damit schnellen C-Code, um Arrays effizient zu speichern. Statt in \PYTHON{numpy.ndarray} (ohne Spaltennamen) landet alles in Objekten vom Typ \PYTHON{pandas.DataFrame}. So ein \PYTHON{DataFrame} ist gewissermaßen ein Tabellenblatt für Programmierer, das die gleichen Funktionen wie Excel bereitstellt. Für Numpy-Veteranen bekannt, für Python eher ungewöhnlich: Die Daten in \PYTHON{DataFrame}s sind hart typisiert. Wenn Sie ein \PYTHON{DataFrame} anlegen, müssen Sie daher gleich festlegen, ob dort Gleitkommazahlen, Ganzzahlen, Strings oder Zeitangaben in den Spalten stehen. Außerdem sind Spalten generell benannt, was in großen Tabelle für Übersicht sorgt.
+
+Das Framework Altair zeichnet aus einem DataFrame mit einer Handvoll Zeilen ein hübsches Diagramm. Es bietet dafür eine kürzere und logischere Syntax als andere Python-Plotting-Bibliotheken wie Matplotlib. Altair erfindet das Rad nicht neu, sondern setzt intern auf der JavaScript-Plotting-Bibliothek Vega (oder Vega-Lite) auf, weshalb das Framework ohne Mehraufwand neben PNGs und SVGs auch Webseiten exportiert. Altairs integrierte Web-Affinität nutzt man am bequemsten, indem man den gesamten Python-Code gleich in einem Jupyter-Notebook schreibt. Aktiviert man dort nämlich mit einer Zeile den passenden Renderer, erscheinen die Diagramme direkt in der Weboberfläche des Notebook.
+
+Damit die Datenanalyse mit Python Spaß macht, brauchen Sie also Pandas, Altair, Vega und Jupyter. Wie Sie diese Pakete am leichtesten beschaffen, hängt vom Betriebssystem ab.
+
+\section{Installation: Anaconda}
+
+Unter Windows haben wir gute Erfahrungen mit der Python-Distribution Anaconda gemacht, deren Installer Sie unter \URL{www.anaconda.com/distribution/} herunterladen. Anaconda arbeitet mit ``Umgebungen'', die die Abhängigkeiten verschiedener Python-Projekte voneinander abschotten. Lassen Sie den Installer ruhig eine Default-Umgebung einrichten. Die trägt alle nötigen Pfade in Umgebungsvariablen ein. Anaconda aktiviert die Umgebung auch gleich automatisch in allen neu gestarteten Konsolenfenstern. Wenn Sie das stört, schalten Sie es einfach nach der Installation mit folgendem Befehl ab:
+
+\medskip
+
+\SHELL{conda config --set auto\_activate\_base false}
+
+\medskip
+
+Wenn Sie nun eine getrennte Umgebung namens ``datavis'' für Ihr Projekt einrichten wollen, geht das mit folgendem Befehl:
+
+\medskip
+
+\SHELL{conda create -n datavis python=3.7}
+
+\medskip
+
+
+Nutzen Sie am besten Python 3.7 und nicht die veraltete Version 2.7. Falls Ihre Shell den Befehl conda nicht findet, geben Sie den ganzen Pfad an, beispielsweise:
+
+\medskip
+
+\SHELL{$\tilde{}$/anaconda3/bin/conda create -n datavis python=3.7}
+
+\medskip
+
+
+Unter Windows erzeugen und aktivieren Sie die Umgebungen über ein Menü. Linux-Nutzer von Anaconda aktivieren die Umgebung mit folgendem Befehl:
+
+\medskip
+
+\SHELL{conda activate datavis}
+
+\medskip
+
+
+Die Bibliotheken installieren dann folgende Befehle auf der Konsole (unter Windows starten Sie dafür innerhalb der Umgebung eine Anaconda-Konsole):
+
+\medskip
+
+\SHELL{conda install numpy pandas}
+
+\SHELL{conda install vega altair}
+
+\SHELL{conda install jupyter}
+
+
+\medskip
+
+
+\section{Installation: Pip}
+
+
+Linuxer sparen ein paar Befehle mit der Python-Umgebung des Systems. Virtualenv erzeugt eine virtuelle Umgebung:
+
+\medskip
+
+\SHELL{mkdir datavis}
+
+\SHELL{cd datavis}
+
+\SHELL{python3 -m venv env}
+
+\SHELL{source env/bin/activate}
+
+\medskip
+
+
+Pip installiert die Bibliotheken danach mit folgenden Befehlen:
+
+\medskip
+
+\SHELL{pip install wheel numpy pandas}
+
+\SHELL{pip install vega altair}
+
+\SHELL{pip install jupyter}
+
+
+\medskip
+
+
+\section{Wie gebe ich Geld aus?}
+
+Mit der perfekt vorbereiteten Arbeitsumgebung kann die Analyse losgehen. Starten Sie dafür den lokalen Webserver des Jupyter-Notebooks:
+
+\medskip
+
+\SHELL{jupyter notebook}
+
+
+\medskip
+
+
+Der Befehl öffnet auch gleich ein Browser-Fenster mit der URL \URL{127.0.0.1:8888/tree}, das eine Übersicht anzeigt. Mit dem Menü unter ``New'' (oben rechts) starten Sie ein neues Notebook für Python3.
+
+In dessen erste Zelle importieren Sie Pandas, Numpy und Altair und aktivieren Altairs Renderer, damit das Notebook die Plots ohne Umschweife zeichnet:
+
+\medskip
+
+\PYTHON{import pandas as pd}
+
+\PYTHON{import numpy as np}
+
+\PYTHON{import altair as alt}
+
+\PYTHON{alt.renderers.enable('notebook')}
+
+\medskip
+
+
+Den Code einer Zelle im Jupyter-Notebook führen Sie mit Shift+Enter aus.
+
+Nun gilt es, einen Datensatz zu besorgen. Für einen schnellen Start habe ich eine CSV-Datei aus meinem Online-Banking exportiert und jeder meiner Ausgaben über ein Jahr eine Kategorie zugeordnet.  \FILE{bankdaten.csv} finden Sie im Git-Repository zu diesem Artikel über \URL{ct.de/ybcz}. Die Datei enthält die Spalten ``Buchungstag'', ``Betrag'' und ``Kategorie'' und alle 627 Ausgaben vom 1. Juni 2018 bis 30. Juni 2019. Falls Sie lieber eigene Bankdaten analysieren möchten, passen Sie \FILE{categorize\_bank\_data.py} aus dem Repository an Ihre Bedürfnisse an.
+
+Altair erwartet als Datenquelle immer ein Pandas-DataFrame. Pandas bringt eine mächtige Import-Funktion für CSV-Dateien mit, der Sie lediglich den Dateinamen mitteilen müssen:
+
+\medskip
+
+\PYTHON{df = pd.read\_csv("bankdaten.csv")}
+
+\medskip
+
+Wenn Sie die Tabelle nun mit \PYTHON{df} anzeigen (Jupyter rendert sie automatisch als in der Mitte gekürzte HTML-Tabelle) sehen Sie ganz links eine Spalte mit dem von Pandas automatisch erzeugten Index der Zeilen und daneben einen identischen Index, der in der ersten Spalte der CSV-Datei steht. Um den wegzulassen, müssen Sie nur die gewünschten Spalten beim Import angeben:
+
+\medskip
+
+\PYTHON{df = pd.read\_csv("bankdaten.csv",usecols=[1, 2, 3])}
+
+\medskip
+
+
+\PYTHON{df}, das \PYTHON{DataFrame}, ist nun bereit, um damit ein Diagramm zu zeichnen. Dafür frisst zuerst \PYTHON{alt.Chart()} den Datensatz. Das Objekt bringt die Methode \PYTHON{mark\_bar()} mit, um intern auf ein Balkendiagramm umzustellen. Welche Spalten zu welchen Achsen des Diagramms gehören, legt anschließend die Methode \PYTHON{encode()} fest. Ihr gibt man die Spalten als Parameter mit. In Kombination sieht das folgendermaßen aus:
+
+
+\medskip
+
+\PYTHON{alt.Chart(df).mark\_bar().encode(x="Buchungstag", y="Betrag")}
+
+\medskip
+
+
+Dabei entsteht ein enorm breites Balkendiagramm mit einem Balken pro Zeile im \PYTHON{DataFrame}. Darin sieht man leicht Ausreißer, die Übersicht geht aber verloren.
+
+Das Diagramm spart viel Platz, wenn es die Ausgaben pro Monat nur als Summe darstellt. Für solche Nöte beim Datenauswerten bringt Altair Funktionen mit, sodass man das \PYTHON{DataFrame} nicht anpassen muss:
+
+\medskip
+
+\PYTHON{alt.Chart(df).mark\_bar().encode(}
+
+\PYTHON{\qquad x="yearmonth(Buchungstag):O",}
+
+
+\PYTHON{\qquad y="sum(Betrag)")}
+
+\medskip
+
+
+
+Die Funktion \PYTHON{yearmonth()} fasst auf der x-Achse die Datumsangaben in der Spalte ``Buchungstag'' zu Monaten zusammen. Obwohl Altair die Datumsangaben dadurch auf Monate rundet, geht es trotzdem von Tagen als kontinuierlicher Basisgröße aus. Das produziert sehr schmale Balken mit großen Abständen. Das Angehängte \PYTHON{:o} teilt Altair mit, dass es die Monate stattdessen als aufzählbare Größe behandeln soll, was zu sinnvoll breiten Balken führt.
+
+Die Funktion \PYTHON{sum()} bei der y-Achse addiert alle Ausgaben, die auf der x-Achse denselben Wert haben -- was hier zur Summe der Ausgaben in einem Monat führt. Das entstehende Diagramm zeigt mit seinen sehr unterschiedlich hohen blauen Balken, dass ich je nach Monat sehr unterschiedlich viel Geld ausgebe.
+
+Die Achsenbeschriftung lässt etwas zu wünschen übrig, da sie die Funktionen berücksichtigt und den deutschen Spaltennamen automatisch in Englisch ergänzt. Um die Achsenbeschriftung per Hand zu setzen, bringt Altair die Klassen X und Y mit:
+
+\medskip
+
+\PYTHON{alt.Chart(df).mark\_bar().encode(}
+
+\PYTHON{\qquad x=alt.X("yearmonth(Buchungstag):O",title="Monat"),}
+
+\PYTHON{y=alt.Y("sum(Betrag)",title="Monatliche Ausgaben"))}
+
+\medskip
+
+
+
+Leider zeigt das blaue Diagramm nun aber nicht, aus welcher Kategorie die hohen Ausgaben stammen. Das könnte man gut sehen, wenn jede Kategorie einen eigenen Balken in einer eigenen Farbe pro Monat hätte und sich diese Balken so stapeln, dass die Höhe des Turms wieder die Gesamtsumme zeigt. Das klingt kompliziert? Mit Altair genügt dafür ein zusätzlicher Parameter:
+
+\medskip
+
+\PYTHON{alt.Chart(df).mark\_bar().encode(}
+
+\PYTHON{\qquad x=alt.X("yearmonth(Buchungstag):O",}
+
+\PYTHON{\qquad \qquad title="Monat"),}
+
+\PYTHON{\qquad y=alt.Y("sum(Betrag)",}
+
+\PYTHON{\qquad \qquad title="Monatliche Ausgaben"))}
+
+\PYTHON{\qquad color="Kategorie").properties(width=700, heigt=400)}
+
+\medskip
+
+
+Die zuletzt angehängte Funktion \PYTHON{properties()} legt zusätzlich nur noch die Größe des Diagramms fest.
+
+\section{Folgt das Gewicht dem Essen?}
+
+
+Balkendiagramme sind mit Altair also einfach. Wie sieht es aber mit Diagrammen aus, an denen man erkennt, dass zwei Größen korrelieren?
+
+Ein persönliches Beispiel: Ich habe über viele Monate mit mehreren Apps protokolliert, wie viele Kalorien ich pro Tag gegessen und getrunken habe (\FILE{PinaKaloriendaten.csv}). Außerdem habe ich eine smarte Waage, auf der ich mich jeden Morgen unter vergleichbaren Bedingungen gewogen habe (\FILE{PinaGewichtsdaten.csv}). Man vermutet: Wenn man an einem Tag viel isst, bringt man am nächsten Tag entsprechend mehr Gewicht auf die Waage. Übt man sich dagegen im Verzicht, erwartet man am nächsten Morgen ein geringeres Gewicht. Die Gewichtskurve und die Kalorienkurve sollten dabei also etwa die gleiche Form zeigen.
+
+Die beiden CSV-Dateien sind nicht für den Import in Pandas vorbereitet. Sie entsprechen damit eher dem, was Ihnen im Alltag als Datenquellen begegnen wird. Meist gilt es nach dem Import noch Kleinigkeiten anzupassen. Beispielsweise enthalten die CSVs Datumsangaben im deutschen Format mit Punkt als Trennzeichen. Das erkennt Pandas nicht automatisch als Datentyp \PYTHON{Datetime}. Das Framework bringt aber die Funktion \PYTHON{to\_datetime()} mit, der man einen Format-String mitgeben kann:
+
+\medskip
+
+\PYTHON{df\_weight = read\_csv(}
+
+\PYTHON{\qquad \qquad \qquad "PinaGewichtsdaten.csv",}
+
+\PYTHON{\qquad \qquad \qquad usecols=[1, 2])}
+
+\PYTHON{df\_weight["date"] = to\_datetime(}
+
+\PYTHON{\qquad \qquad \qquad df\_weight["date"],}
+
+\PYTHON{\qquad \qquad \qquad format="\%Y-\%m-\%d \%H:\%M:\%S.\%f")}
+
+\PYTHON{df\_nutri = read\_csv(}
+
+\PYTHON{\qquad \qquad \qquad "PinaKaloriendaten.csv",}
+
+\PYTHON{\qquad \qquad \qquad usecols=[0, 1, 2, 3],}
+
+\PYTHON{dtype=\{"Tag": str,}
+	
+\PYTHON{\qquad 	\qquad \qquad "Noom": float,}
+
+\PYTHON{\qquad 	\qquad \qquad "Lose It!": float,}
+
+\PYTHON{\qquad 	\qquad \qquad "Yazio": float\})}
+
+\PYTHON{df\_nutri.rename(index=str,}
+
+\PYTHON{\qquad \qquad \qquad columns=\{"Tag": "date"\},}
+
+\PYTHON{\qquad \qquad \qquad inplace=True)}
+
+\PYTHON{df\_nutri["date"] = to\_datetime(}
+
+\PYTHON{\qquad \qquad \qquad  df\_nutri["date"],}
+
+\PYTHON{\qquad \qquad \qquad  format="\%d.\%m.\%y")}
+
+\medskip
+
+Beim Import von Zahlen ist es außerdem sinnvoll, \PYTHON{read\_csv()} mit dem Parameter \PYTHON{dtype=} mitzuteilen, wenn die Funktion auch dann Gleitkommazahlen laden soll, wenn sie in der CSV-Datei ohne Komma stehen. Die Funktion \PYTHON{.rename()} benennt Spalten um, indem man ihr ein Dictionary mit den alten und neuen Namen übergibt.
+
+Ich habe meine Kalorien mit verschiedenen Apps protokolliert, da diese jeweils unterschiedliche Datenbanken mit Nahrungsmitteln benutzen. 170 Gramm Apfel haben dann mal 89 kcal in der einen App und 111 kcal in der anderen App. Eine neue Spalte mit dem Durchschnitt berechnet Pandas mit \PYTHON{.mean()}:
+
+\medskip
+
+\PYTHON{df\_nutri["Kalorien"] = df\_nutri[}
+
+
+\PYTHON{\qquad ["Noom", "Loose It!", "Yazio"]}
+
+
+\PYTHON{\qquad ].mean(axis=1, skipna=True)}
+
+\medskip
+
+Der Befehl filtert dafür zuerst die richtigen Spalten mit der Angabe in eckigen Klammern heraus. Dabei darf man eine Liste an Spalten angeben, weshalb in der eckigen Klammer eine eckige Klammer steht.
+
+Der Parameter \PYTHON{skipna=True} in der \PYTHON{.mean()}-Funktion sogt dafür, dass Pandas Zeilen mit undefinierten Werten verwirft. Undefinierte NaN-Werte entstehen beispielsweise, wenn in der CSV-Datei nichts zwischen den Trennzeichen steht.
+
+Statt des Durchschnitts berechnet .var() die Varianz der Werte in den drei Spalten. Für die übliche Darstellung als Standardabweichung müssen Sie dabei noch die Wurzel ziehen, wofür Sie problemlos Numpy einspannen können, da Pandas intern ohnehin auf Numpy aufbaut:
+
+\medskip
+
+\PYTHON{df\_nutri["var"] = np.sqrt(df\_nutri[}
+
+\PYTHON{\qquad \qquad  ["Noom", "Loose It!", "Yazio"]}
+
+\PYTHON{\qquad \qquad ].var(axis=1, skipna=True))}
+
+\medskip
+
+
+
+Die Korrelation zwischen Kalorien und Gewicht erwartet man ja nicht für den gleichen Tag. Nach einem umfangreichen Gelage geht man davon aus, dass die Waage erst am nächsten Tag nach oben ausschlägt. Um das im Diagramm zu sehen, müssen Sie die Kaloriendaten um einen Tag nach vorne verschieben:
+
+\medskip
+
+\PYTHON{from datetime import timedelta}
+
+\PYTHON{df\_nutri["date"] = (df\_nutri["date"] -}
+
+\PYTHON{\qquad \qquad \qquad timedelta(days=-1))}
+
+\medskip
+
+Außerdem erwartetet man, dass die Kalorienkurve nur die Veränderung des Gewichts, nicht den Verlauf von dessen Absolutwerten vorzeichnet. Um die Berechnung der diskreten ``Ableitung'' kümmert sich \PYTHON{.diff()}:
+
+
+\medskip
+
+\PYTHON{df\_weight["diff"] = df\_weight["weight"].diff()}
+
+\medskip
+
+
+An diesem Punkt stehen die Kaloriendaten und die Gewichtsdaten noch getrennt in den beiden DataFrames \PYTHON{df\_nutri} und \PYTHON{df\_weight}. Die Waage liefert schon länger Daten als die Kalorien-Apps. Deswegen gibt es einige Gewichtsmessungen, zu denen keine Kaloriendaten existieren. Der folgende Befehl verwirft alle Zeilen in der Gewichttabelle, die älter sind als der älteste Kalorienwert:
+
+\medskip
+
+\PYTHON{df\_weight = df\_weight[}
+
+\PYTHON{\qquad \qquad \qquad df\_weight["date"] >}
+
+\PYTHON{\qquad \qquad \qquad df\_nutri["date"][-1]]}
+
+\medskip
+
+
+Die Daten für zwei Liniendiagramme stehen danach in zwei DataFrames. Ein Linien- und ein Balkendiagramm unterscheiden sich in Altair hauptsächlich durch den Aufruf von \PYTHON{.mark\_line()} statt \PYTHON{.mark\_bar()}. In dieser Funktion bestimmt der Parameter \PYTHON{color=}, in welcher Farbe das Framework die Linie zeichnet:
+
+\medskip
+
+\PYTHON{chart\_weight = alt.Chart(df\_weight}
+
+\PYTHON{\qquad \qquad ).mark\_line(color="blue"}
+
+\PYTHON{\qquad \qquad ).encode(x='date',}
+
+\PYTHON{\qquad \qquad \qquad y=alt.Y('diff',}
+
+\PYTHON{title="Gewichtsdiffrenz zum Vortag",}
+
+\PYTHON{\qquad \qquad scale=alt.Scale(zero=False,}
+
+\PYTHON{\qquad \qquad domain=(-3, 6), type='linear'))}
+
+\PYTHON{)}
+
+\medskip
+
+
+
+Der Parameter \PYTHON{scale=} legt in der Funktion \PYTHON{.encode()} fest, wie Altair die y-Achse skaliert. Das Scale-Objekt setzt dafür in \PYTHON{domain=} den Wertebereich und legt mit \PYTHON{zero=False} fest, dass die Skala nicht bei 0 beginnt. Mit dem Parameter \PYTHON{type=} könnte man hier beispielsweise auch eine logarithmische Skalierung einstellen.
+
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{DataVisualisation/DataVisualisation01}
+	\caption[Kalorien und Gewichtsveränderung]{Die Punkte im Streudiagramm ordnen sich nicht in einer Diagonalen an. Das heißt, dass es keine nennenswerte Korrelation zwischen Kalorien und Gewichtsveränderung gibt.}
+\end{figure}
+
+
+
+Die Kalorienkurve sieht ähnlich aus, nutzt aber noch eine etwas aufwendigere Formatierung. Die Dicke der Linie soll nämlich einen grafischen Eindruck vermitteln, wie groß die Standardabweichung der Kalorienwerte ist. Die Dicke der Linie orientiert sich dafür an der über alle Zeilen gemittelten Varianz (\PYTHON{df\_nutri["var"].mean())}:
+
+\medskip
+
+\PYTHON{chart\_nutri = alt.Chart(df\_nutri}
+
+\PYTHON{\qquad \qquad ).mark\_line(color="green",}
+
+\PYTHON{\qquad \qquad \qquad interpolate='linear',}
+
+\PYTHON{\qquad \qquad \qquad shape='stroke',}
+
+\PYTHON{\qquad \qquad \qquad strokeCap='round',}
+
+\PYTHON{\qquad \qquad \qquad strokeJoin='round',}
+
+\PYTHON{\qquad \qquad strokeOpacity=0.5,}
+
+\PYTHON{\qquad \qquad strokeWidth=(}
+
+\PYTHON{\qquad \qquad df\_nutri["var"].mean() /}
+
+\PYTHON{\qquad \qquad df\_nutri["Kalorien"].max() * 400)}
+
+\PYTHON{\qquad \qquad \qquad ).encode(x='date',}
+
+\PYTHON{\qquad \qquad \qquad \qquad y='Kalorien'}
+
+\PYTHON{)}
+
+\medskip
+
+Um diese beiden Kurven in einem Diagramm zu sehen, reicht es, die Chart-Objekte zu addieren:
+
+
+\medskip
+
+\PYTHON{dbl\_chart = chart\_nutri + chart\_weight}
+
+\medskip
+
+Altair versucht dann aber, die y-Achsen beider Diagramme im selben Wertebereich anzuzeigen. Da Kalorien und Gewicht ganz andere Einheiten verwenden, würden die Kurven dann nicht übereinander liegen. Der folgende Befehl schaltet das ab, sodass das Diagramm anschließend zwei y-Achsen enthält: eine links und eine rechts:
+
+\medskip
+
+\PYTHON{dbl\_chart = dbl\_chart.resolve\_scale(}
+
+\PYTHON{\qquad \qquad \qquad y='independent')}
+
+\medskip
+
+
+Die Angabe von \PYTHON{.properties(width=830, height=400)} sorgt für ein recht breites Diagramm. Da die CSV-Dateien aber enorm viele Daten enthalten, ist es trotzdem schwierig alle Zacken und Spitzen gut zu erkennen. Abhilfe schafft es da, ein interaktives Diagramm zu erstellen, in dem man mit dem Mausrad zoomen und scrollen kann. In Altair hängt man dafür einfach die Funktion \PYTHON{.interactive(bind\_x=True, bind\_y=False)} an. Die beiden Parameter legen lediglich fest, dass sich die Skalierung der y-Achse beim Scollen nicht verändert, während die x-Achse einen Zoom an bestimmte Daten erlaubt.
+
+Im Diagramm liegen die Kurven nicht sauber übereinander, was sie bei einer starken Korrelation tun müssten. Den Code und ein fertiges Diagramm zum Scrollen finden Sie über \URL{ct.de/ybcz} im Repository auf GitHub in der Datei ``Pinas Körperdaten.ipynb''.
+
+\section{Sind Kalorien und Gewicht überhaupt korreliert?}
+
+
+Ob zwei Größen korrelieren, sehen Sie leicht in einem Streudiagramm. Dafür tragen Sie eine Größe auf der x- und die zweite Größe auf der y-Achse auf und zeichnen Punkte in dieses Koordinatensystem. Bei einer starken Korrelation ordnen sich die Punkte entlang einer Diagonalen an, unkorrelierte Größen produzieren dagegen eine Wolke aus wahllos verteilten Punkten.
+
+Für die Korrelation zwischen Kalorien und Gewichtsdifferenz vereinigen Sie die Werte dafür erst mal in einem gemeinsamen \PYTHON{DataFrame}. Die Zeitangaben passen dafür leider noch nicht zusammen: Während die Kaloriendaten jeweils nur einen Tag benennen, enthalten die Gewichtsmessungen auch die Uhrzeit der Messung. Pandas rundet die Zeitangaben mithilfe eines \PYTHON{DatetimeIndex}, der die passende \PYTHON{.round()}-Funktion mitbringt:
+
+
+\medskip
+
+\PYTHON{from pandas import DatetimeIndex}
+
+\PYTHON{dw = df\_weight[['date', 'diff']]}
+
+\PYTHON{dw['date'] = DatetimeIndex(dw['date']).round(freq='D')}
+
+\medskip
+
+
+Danach stehen in beiden DataFrames auf Tage genaue Zeitangaben in der Spalte \PYTHON{"date"}. Die Funktion \PYTHON{.merge()} fügt diese nun zu einem DataFrame mit einer Tabelle zusammen:
+
+\medskip
+
+\PYTHON{dn = df\_nutri[['date', 'Kalorien']]}
+
+\PYTHON{dm = dn.merge(dw)}
+
+\medskip
+
+Merge nutzt hier standardmäßig den Parameter \PYTHON{how="inner"} sodass \PYTHON{.merge()} alle Zeilen aussortiert, die nicht in beiden Tabellen stehen. Setzt man stattdessen \PYTHON{how="{}outer"}, verwirft Pandas keine Zeilen und es entsteht eine Tabelle mit vielen undefinierten Einträgen (\PYTHON{NaN}). Andere von SQL bekannte Joins wie \PYTHON{"left"} und \PYTHON{"right"} funktionieren ebenfalls.
+
+\PYTHON{.merge()} fügt die Tabellen außerdem standardmäßig so zusammen, dass die Werte in allen gleich benannten Spalten übereinstimmen müssen. Mit dem Parameter \PYTHON{on=} lässt sich das auf bestimmte Spalten eingrenzen. Die ausführliche Zeile \PYTHON{dm = dn.merge(dw, on="date", how="inner")} produziert daher das gleiche Ergebnis wie \PYTHON{.merge(dw)}.
+
+Mit diesen Daten zeichnet Altair mit \PYTHON{.mark\_circle()} ein Streudiagramm:
+
+\medskip
+
+\PYTHON{alt.Chart(dm).mark\_circle(size=60}
+
+\PYTHON{\qquad ).encode(x='Kalorien',}
+
+\PYTHON{\qquad \qquad y=alt.Y('diff',}
+
+\PYTHON{\qquad \qquad title="Gewichtsveränderung"),}
+
+\PYTHON{\qquad tooltip=['date']}
+
+\PYTHON{\qquad ).properties(width=400, height=400}
+
+\PYTHON{\qquad ).interactive()}
+
+\medskip
+
+Das leere \PYTHON{.interactive()} am Ende sorgt für ein Diagramm, das sich gleichzeitig in x- und y-Richtung zoomen lässt. Der Trick versteckt sich im Parameter \PYTHON{tooltip=['date']} in der Funktion \PYTHON{.encode()}. Durch ihn zeigt das Diagramm in einem kleinen Fenster das Datum zu jedem Punkt, sobald man mit der Maus darüber fährt. Das ist praktisch, um Ausreißer zu identifizieren.
+
+Da sich im Diagramm keine Diagonale ergibt, ist die These widerlegt, dass auf ein Festmahl am nächsten Tag ein höheres Gewicht folgt. Scheinbar fallen andere Effekte wie der Füllstand der Verdauung oder Wassereinlagerungen im Körper stärker ins Gewicht als die Größe der Mahlzeiten.
+
+\section{Wöchentliche Durchschnitte korreliert?}
+
+Sollten Verdauung und Wassereinlagerung das Gewicht im Tagesrhythmus schwanken lassen, wäre das ein hochfrequentes Rauschen, das sich ausgleicht, wenn man Durchschnitte über einen längeren Zeitraum bildet. Wöchentliche Durchschnitte berechnet Pandas glücklicherweise auch im Handumdrehen:
+
+\medskip
+
+\PYTHON{from pandas import DateOffset}
+
+\PYTHON{dm['dg'] = dm['date'] - DateOffset(}
+
+\PYTHON{\qquad \qquad \qquad weekday=0, weeks=1)}
+
+\PYTHON{dmm = dm.groupby(by='dg',}
+
+\PYTHON{\qquad \qquad \qquad \qquad as\_index=False)[}
+
+\PYTHON{\qquad \qquad \qquad ['date', 'Kalorien', 'diff']}
+
+\PYTHON{\qquad \qquad \qquad \qquad ].mean()}
+
+\medskip
+
+
+Zuerst erstellt der Code dafür eine neue Spalte mit auf Wochen gerundeten Zeitangaben. Dabei hilft \PYTHON{DateOffset(weekday=0, weeks=1)}, das für jede Zeile die Differenz zur nächsten vollen Woche berechnet. Zieht man diese Spalte von der tagesgenauen Zeit ab, bleiben auf Wochen gerundete Zeiten.
+
+Im nächsten Schritt fasst .groupby() alle Zeilen zusammen, die zur selben Woche gehören. Für die so gruppierte Tabelle berechnet .mean() den Durchschnitt der Kalorien und Gewichtsdifferenz. Im DataFrame dmm steht damit am Ende eine wesentlich kürzere Tabelle mit einer Zeile pro Woche und den berechneten Durchschnitten. Das Diagramm dazu unterscheidet sich lediglich darin, dass es die Punkte im tooltip= mit der Wochenangabe beschriftet:
+
+
+\medskip
+
+
+\PYTHON{alt.Chart(dmm).mark\_circle(size=60}
+
+\PYTHON{\qquad ).encode(x='Kalorien',}
+
+\PYTHON{\qquad \qquad \qquad y=alt.Y('diff',}
+
+\PYTHON{\qquad \qquad \qquad title="Gewichtsveränderung"),}
+
+\PYTHON{\qquad tooltip=['dg']}
+
+\PYTHON{\qquad ).properties(width=400, height=400}
+
+\PYTHON{\qquad ).interactive()}
+
+\medskip
+
+Das entstehende Diagramm zeigt weiter keine Diagonale. Die Punkte streuen aber deutlich weniger, was auf eine geringe Korrelation hindeutet.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{DataVisualisation/DataVisualisation02}
+	\caption[Streudiagramm mit wochenweise gemittelten Werte]{Das Streudiagramm mit wochenweise gemittelten Werten zeigt immer noch keine starke Korrelation zwischen Kalorien und Gewicht. Die Ausreißer sind aber interpretierbar.}
+\end{figure}
+
+
+Interessant sind vor allem die Ausreißer: Bei dem Punkt links in der Mitte habe ich eine Woche gefastet. Beim Fasten schaltet sich die Verdauung weitgehend ab. Da die Verdauung aber selbst circa 800 Kalorien verbraucht, habe ich durch eine Woche Fasten kaum Gewicht verloren. Der Punkt links unten zeigt eine Woche, in der ich durchschnittlich nur knapp 700 kcal gegessen habe und trotz höherer Kalorienmenge mehr abgenommen habe als in der Fastenwoche.
+
+Der Punkt rechts oben entstand im Skiurlaub. Dort habe ich mich viel bewegt, viel gegessen und dadurch viel Muskelmasse zugelegt. Bei dem Punkt rechts in der Mitte war ich dagegen auf einer Konferenz, bei der ich zwar viel geschlemmt, mich aber nur wenig bewegt habe. Statt Muskeln habe ich dort nur ein halbes Kilo Fett angesetzt.
+
+\section{Schnelle Statistiken}
+
+Pandas und Altair filtern und plotten auch große Datenberge in Windeseile. Da beides kostenlos ist, steht Ihnen die ganze Macht statistischer Auswertung mit nur wenigen Zeilen Code zur Verfügung. Welche Statistiken Sie weiter bringen, müssen Sie allerdings vorher wissen. Die Hauptarbeit besteht daher meist in der Auswahl der richtigen statistischen Methode und vor allem im Sammeln der Daten.
+
+Für die Beispiele in diesem Artikel musste ich beispielsweise über viele Monate 5 bis 10 Minuten pro Tag ins Loggen von Kaloriendaten investieren. Für die gesamte Auswertung mit Pandas und Altair habe ich dagegen nicht länger als zwei Stunden gebraucht und in dieser Zeit musste ich des Öfteren erst in der Doku nachlesen, wie die Funktionen und Plots genau funktionieren. Im Idealfall sammelt ein Gerät die Daten daher automatisch, beispielsweise eine Solaranlage oder eine smarte Heizung. Es lohnt sich, nach solchen Datenquellen zu suchen und sie mal schnell in einem Jupyter-Notebook zu aufschlussreichen Diagrammen aufzuarbeiten. 
+
+\begin{itemize}
+  \item Notebooks bei GitHub, Testdaten:ct.de/ybcz
+\end{itemize}
+
+
+\section{Wofür gebe ich Geld aus?}
+
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{DataVisualisation/DataVisualisation03}
+	\caption[Summe der Ausgaben]{Die Höhe der farbigen Balken zeigt jeweils die Summe der Ausgaben dieser Kategorie.}
+\end{figure}
+
+
+ Die Höhe des Turms dieser Balken gibt die Gesamtsumme für den Monat wieder. Im Diagramm gut zu erkennen sind die circa 1200 Euro im Juli, die ich für meine Personenstandsänderung bezahlen musste (``Gebühr''). Die ``Unterhaltung'' und das ``Bargeld'' im Februar gehören zu einem Skiurlaub. Mit der ``unbekannten'' Ausgabe im März habe ich meine Debitkarte für eine Dienstreise in die USA befüllt.
+
+\section{Gewicht folgt Konsum?}
+
+Die Kurven für Kalorien und Gewicht liegen nicht übereinander. Das deutet darauf hin, dass die beiden Werte nicht stark korrelieren.
+
+
+
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{DataVisualisation/DataVisualisation04}
+	\caption[Kurven für Kalorien und Gewicht]{Die Kurven für Kalorien und Gewicht liegen nicht übereinander. Das deutet darauf hin, dass die beiden Werte nicht stark korrelieren.}
+\end{figure}
+
+``Übt man sich im Verzicht, erwartet man am nächsten Morgen ein geringeres Gewicht.'' – Diese Aussage kann das Diagramm mit meinen Daten nicht bestätigen.
+
+
+\section{Tasks}
+
+
+\begin{itemize}
+	\item Translation
+	\item Improvements
+	\item Further readings
+	\item Example code with Python
+	\item Presentation
+\end{itemize}
+

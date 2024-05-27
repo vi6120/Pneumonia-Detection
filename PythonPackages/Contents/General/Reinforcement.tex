@@ -1,0 +1,421 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/Reinforcement.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+
+% Quelle: https://www.heise.de/ratgeber/Q-Learning-mit-Python-Reinforcement-Learning-fuer-Einsteiger-7464201.html
+
+
+\chapter{Reinforcement Learning mit Python: Wie eine KI lernt, ein Spiel zu gewinnen}
+
+Mit Reinforcement Learning reagiert eine KI auf Belohnungen. Wir zeigen, wie Sie das mit Q-Learning in einem kleinen Praxisbeispiel für Python umsetzen können.
+
+Kleinkinder, die gerade laufen lernen und künstliche Intelligenzen wie AlphaGo haben mehr gemeinsam, als man denkt. Beide lernen durch Versuch und Irrtum: Das Kleinkind lernt, wie es seine Beine nutzen kann, um aufrecht zu stehen und sich fortzubewegen. Während AlphaGo lernt, wie es beim Go-Spiel gewinnen kann. Und genau darum geht es auch beim Reinforcement Learning: Ein Agent lernt, ein Problem ohne Vorkenntnisse zu lösen, indem er verschiedene Aktionen ausprobiert und dafür Feedback in Form von Belohnungen und Bestrafungen erhält.
+
+Zwar können solche Systeme sehr komplex werden, kleinere Probleme lassen sich allerdings bereits mithilfe von simplen Reinforcement-Learning-Agenten lösen. In diesem Artikel zeigen wir, wie Sie einen einfachen Reinforcement-Learning-Agenten mit Python implementieren können. Zudem erklären wir Ihnen die benötigten theoretischen Kernkonzepte und verdeutlichen sie praktisch anhand des Programmierbeispiels.
+
+Das Problem, das der Agent zu lösen hat, wird durch die Umgebung (Englisch Environment) bestimmt. In dieser interaktiven Umgebung ist vorgegeben, welche Aktionen der Agent verwenden kann, um sein Ziel zu erreichen und wann der Agent eine Belohnung erhält. Eine Python-Library, die viele Reinforcement Learning Umgebungen bereitstellt, ist OpenAI Gym. Im Folgenden beschäftigen wir uns mit der Umgebung "Gefrorener See" aus der Library, um die benötigten Konzepte zu verdeutlichen.
+
+\section{Gefrorener See}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{images/Reinforcement/Reinforcement01}
+    \caption{In der Umgebung von ``Gefrorener See'' muss der Agent den See überqueren, ohne in ein Loch zu fallen.} \label{Reinforcement01}
+\end{figure}
+
+
+
+
+Die Umgebung besteht aus 16 Feldern, einem Startfeld links oben, einem Zielfeld rechts unten, vier Löchern und zehn normalen, sicheren Feldern. Ziel der Aufgabe ist, dass der Agent vom Startfeld zum Zielfeld navigiert, ohne in ein Loch zu fallen. Die Löcher befinden sich dabei immer an denselben Stellen. Bei jedem Schritt kann der Agent wählen, in welche der vier Richtungen er sich bewegt: nach oben, unten, links oder rechts.
+
+Schafft der Agent es, auf das Zielfeld zu gelangen, erhält er eine Belohnung und dieser Durchlauf ist beendet -- ein Durchlauf bezeichnet auch eine Episode. Bewegt sich der Agent allerdings vorher in ein Loch, endet die Episode, ohne dass der Agent eine Belohnung erhält. In diesem Kontext sind Belohnungen natürlich keine konkreten Gegenstände wie Süßigkeiten, sie werden stattdessen durch Zahlenwerte repräsentiert -- hier unterscheiden sich Agent und Kleinkind dann wieder.
+
+\section{Librarys installieren}
+
+Die Umgebung gefrorener See (Frozen Lake) stammt von OpenAI Gym, entsprechend müssen wir die Library gym installieren. Zudem verwenden wir noch numpy, eine Library für mathematische Operationen, und random, eine Library für Zufallszahlen. Diese Librarys lassen sich mithilfe von Pip installieren -- etwa mit dem Befehl \SHELL{pip install gym}. Anschließend lassen sie sich in Python wie folgt importieren:
+
+\medskip
+
+\PYTHON{import gym}
+
+\PYTHON{import numpy as np}
+
+\PYTHON{import random}
+
+\medskip
+
+
+Nun lässt sich die Umgebung mithilfe von \PYTHON{gym.make()} erstellen:
+
+\medskip
+
+\PYTHON{env = gym.make("FrozenLake-v1", is\_slippery=False)}
+
+\medskip
+
+Damit steht die Umgebung bereits. Nun ist es an der Zeit, sich konkretere Gedanken darüber zu machen, wie der Agent lernen kann, das gegebene Problem zu lösen.
+
+\section{Policy}
+
+Anfangs ist unser Agent vollkommen ahnungslos; er weiß weder, wo das Ziel ist, das er erreichen soll, noch, dass es Löcher gibt, in die er fallen kann. Entsprechend ist der Agent gezwungen, diese Dynamiken der Umgebung und ihre möglichen Belohnungen durch das Ausprobieren von verschiedenen Aktionen zu lernen.
+
+Das Ziel des Agenten ist es, eine Policy (Handlungsstrategie) zu finden, die zu einer maximalen Belohnung führt. Ein Beispiel für eine einfache Policy wäre: Immer nach rechts gehen. Beim gefrorenen See würde das allerdings dazu führen, dass der Agent am rechten Rand festhängt und entsprechend keine Belohnung erhält. Der Agent muss also eine komplexere Policy lernen, um das Problem zu lösen.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{images/Reinforcement/Reinforcement02}
+  \caption{Eine grafische Repräsentation der Q-Tabelle beim gefrorenen See. F1-F16 stehen für die 16 Felder, auf denen sich der Agent befinden kann. Laut dieser Q-Tabelle ist es im Zustand F1 vielversprechender nach unten zu gehen, als nach links.}\label{Reinforcement02}
+\end{figure}
+
+
+Um eine optimale Policy zu finden, lassen sich den Zuständen und Aktionen Qualitätswerte zuweisen -- kurz Q-Werte. Diese Qualitätswerte sagen aus, wie vielversprechend die Situation von einem bestimmten Zustand aus ist, wenn man eine bestimmte Aktion ausführt. Beim gefrorenen See sind die 16 Zustände die Felder, auf denen sich der Agent befinden kann. Die vier Aktionen sind links, rechts, oben und unten. Die Kombination aus Zustand und Aktion nennt man Zustands-Aktions-Paar.
+
+Ein Beispiel für ein Zustands-Aktions-Paar beim gefrorenen See ist: \PYTHON{(Startzustand, Unten)}, wobei sowohl Zustände als auch Aktionen meist durch Zahlen repräsentiert sind. Diese Q-Werte lassen sich sehr einfach in einer Tabelle speichern. Eine solche Tabelle nennt sich Q-Tabelle, wobei jede Zeile einen Zustand und jede Spalte eine Aktion repräsentiert. Der Q-Wert für ein gegebenes Zustand-Aktions-Paar lässt sich in der entsprechenden Zelle der Tabelle speichern.
+
+Mit Python lässt sich die Q-Tabelle wie folgt erstellen und mit Nullen initialisieren:
+
+\medskip
+
+\PYTHON{n\_states = env.observation\_space.n  \# Hier 16, da es 16 Felder gibt}
+
+\PYTHON{n\_actions = env.action\_space.n      \# Hier 4, da es 4 mögliche Aktionen gibt}
+
+\PYTHON{}
+
+\PYTHON{\# Initialize die Q-Tabelle mit Nullen}
+
+\PYTHON{q\_table = np.zeros((n\_states, n\_actions))}
+
+\medskip
+
+\PYTHON{env.observation\_space.n} liefert uns die Anzahl an Zuständen, während \PYTHON{env.action\_space.n} die Anzahl der Aktionen angibt. Diese beiden Werte nutzen wir als Dimensionen für unsere Q-Tabelle. Mithilfe von \PYTHON{np.zeros((n\_states, n\_actions))} erstellen wir ein zweidimensionales Array, das lediglich mit Nullen befüllt ist und unsere anfangs leere Q-Tabelle repräsentiert. Es sieht so aus:
+
+\medskip
+
+\PYTHON{[[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]}
+
+\PYTHON{[0. 0. 0. 0.]]}
+
+\medskip
+
+Nachdem wir die Q-Tabelle initialisiert haben, benötigen wir sinnvolle Q-Werte, um die Q-Tabelle zu befüllen. Intuitiv lässt sich festhalten, dass der Q-Wert für ein Zustands-Aktions-Paar, das in ein Loch führt, gering sein sollte; schließlich ist es unmöglich von dort aus eine Belohnung zu erreichen, da die Episode sofort endet. Die Q-Werte der Zustands-Aktions-Paare, die näher ans Ziel führen, sollten allerdings hoch sein, da diese Situationen sehr vielversprechend sind.
+
+Haben wir die Q-Tabelle sinnvoll befüllt, kann der Agent von jedem Zustand aus die laut Q-Tabelle vielversprechendste Aktion auswählen und damit einen optimalen Weg zum Ziel finden. Natürlich ergibt es wenig Sinn, dass wir dem Agenten die Werte vorgeben, schließlich soll er sie selbst lernen. Hier kommt das Q-Learning ins Spiel.
+
+\section{Q-Learning}
+
+Beim tabellarischen Q-Learning initialisiert der Entwickler die Werte der Q-Tabelle zunächst zufällig oder, wie bei uns, mit Nullen. Diese Werte lassen sich im Laufe der Zeit aktualisieren, während der Agent mit der Umgebung interagiert und Feedback in Form von Belohnungen erhält. Um dieses Feedback von der Umgebung zu bekommen, muss der Agent im Laufe des Trainings verschiedene Aktionen ausprobieren.
+
+\section{Exploration vs. Exploitation}
+
+Dabei stoßen wir auf das Exploration-vs.-Exploitation-Problem. Es ist ein wichtiges Konzept beim Q-Learning und anderen Verfahren des maschinellen Lernens, das sich mit der Frage auseinandersetzt, wie der Agent in einer unbekannten Umgebung handeln soll. Bei der Exploration versucht der Agent, neue Informationen über die Umgebung zu sammeln, indem er Handlungen ausführt, die er bisher noch nicht ausprobiert hat. Auf diese Weise kann der Agent lernen, welche Handlungen in welchen Zuständen belohnt werden und wie sich die Umgebung verhält. Bei der Exploitation hingegen versucht der Agent, den maximalen Nutzen aus seinen bisher gesammelten Informationen zu ziehen, indem er immer die Handlung wählt, die den höchsten erwarteten Nutzen liefert – hier den bisher höchsten Q-Wert. Auf diese Weise kann der Agent sich schneller an die Umgebung anpassen und möglicherweise schneller belohnt werden.
+
+Das Exploration-vs.-Exploitation-Problem entsteht, weil der Agent in der Regel nicht sicher weiß, welche Handlung in einem gegebenen Zustand die beste ist, solange er nicht genügend Informationen über die Umgebung gesammelt hat. Das bedeutet, dass der Agent immer ein gewisses Maß an Exploration und Exploitation ausführen muss, um eine sinnvolle Policy zu lernen.
+
+Eine Möglichkeit, das Problem in Q-Learning zu lösen, ist die Verwendung von einer Epsilon-Greedy-Policy. Bei Epsilon-Greedy wählt der Agent mit einer Wahrscheinlichkeit von Epsilon eine zufällige Handlung (Exploration) und mit einer Wahrscheinlichkeit von 1 - Epsilon die Handlung mit dem höchsten Q-Wert (Exploitation). Die Wahrscheinlichkeit Epsilon kann je nach Problem beliebig gewählt werden. Eine simple Epsilon-Greedy Policy für Q-Learning lässt sich etwa so implementieren:
+
+\medskip
+
+\PYTHON{def eps\_greedy(state, epsilon):}
+
+\PYTHON{\qquad r = random.uniform(0, 1)}
+
+\PYTHON{}
+
+\PYTHON{\qquad if r > epsilon:}
+
+\PYTHON{\qquad \qquad \# Wähle die laut Q-Tabelle beste Aktion}
+
+\PYTHON{\qquad \qquad action = np.argmax(q\_table[state])}
+
+\PYTHON{}
+
+\PYTHON{\qquad else:}
+
+\PYTHON{\qquad \qquad \# Wähle eine zufällige Aktion}
+
+\PYTHON{\qquad \qquad action = env.action\_space.sample()}
+
+\PYTHON{\qquad return action}
+
+\medskip
+
+Die Funktion nimmt den Parameter \PYTHON{state}, den aktuellen Zustand, und unser gewähltes \PYTHON{epsilon} entgegen. Zuerst generiert das Programm mit \PYTHON{random.uniform(0,1)} eine Zufallszahl \PYTHON{r} zwischen null und eins. Ist \PYTHON{r} größer als Epsilon, wird mit \PYTHON{q\_table[state]} auf die zum Zustand gehörenden Q-Werte zugegriffen. Beim gefrorenen See sind das vier Q-Werte für die vier möglichen Aktionen. \PYTHON{np.argmax(q\_table[state])} gibt uns dann die laut Q-Tabelle beste Aktion für den aktuellen Zustand zurück. Ist \PYTHON{r} kleiner oder gleich Epsilon, wählt das Programm eine zufällige Aktion mit \PYTHON{env.action\_space.sample()}.
+
+In komplexeren Szenarien wählt der Entwickler zu Beginn des Trainings meist ein hohes Epsilon, um viel Exploration zu ermöglichen, wenn die Umgebung noch unbekannt ist. Dieses Epsilon lässt sich dann im Verlauf des Trainings reduzieren, sodass mehr Exploitation genutzt wird, wenn die Umgebung hinreichend bekannt ist. Dementsprechend nimmt die Exploration im Laufe der Zeit ab.
+
+\section{Berechnung der Q-Werte}
+
+Nachdem wir nun wissen, wie wir eine Q-Tabelle und eine Epsilon-Greedy-Policy erstellen, geht es nun darum, wie wir die korrekten Werte für die Q-Tabelle berechnen können.
+
+Das Schema funktioniert dabei wie folgt: Der Agent führt von einem bestimmten Zustand \PYTHON{s} eine Aktion \PYTHON{a} aus und erhält dafür eine Belohnung (\PYTHON{reward}). Basierend auf dieser Erfahrung aktualisiert der Agent den Q-Wert des Zustands-Aktions-Paares \PYTHON{(s,a)} mithilfe der folgenden Formel:
+
+\medskip
+
+\PYTHON{Q(s,a) = Q(s,a) + alpha * (reward + gamma * max(Q(s',a')) - Q(s,a))}
+
+\medskip
+
+Q-Werte beschreiben, wie vielversprechend die Situation von einem Zustands-Aktions-Paar aus ist. Um das zu beurteilen, berücksichtigt das Programm bei der Berechnung der Q-Werte die möglichen zukünftigen Belohnungen. Dazu betrachtet der Agent alle möglichen Aktionen \PYTHON{a’}, die er aus dem Zustand \PYTHON{s’}, der auf das aktuelle Zustands-Aktions-Paar \PYTHON{(s,a)} folgt, unternehmen kann. Der Agent wählt dann die Aktion mit dem höchsten Q-Wert aus \PYTHON{max(Q(s',a'))}, da es die vielversprechendste zukünftige Belohnung verspricht.
+
+Gamma, der Discount-Faktor, bestimmt bei der Berechnung der Q-Werte, wie sehr der Agent zukünftige Belohnungen im Vergleich zu unmittelbaren Belohnungen berücksichtigen soll. Ein niedriger Wert von Gamma führt dazu, dass der Agent hauptsächlich auf unmittelbare Belohnungen achtet, während ein hoher Wert dazu führt, dass langfristige Belohnungen stärker in die Entscheidungen des Agenten einbezogen werden. Die Wahl des richtigen Discount-Faktors hängt von den Eigenschaften der Umgebung und den Zielen des Agenten ab und lässt sich experimentell bestimmen.
+
+Zu \PYTHON{gamma * max(Q(s',a'))} addiert man zudem noch die direkte Belohnung der Aktion (\PYTHON{reward}). Diese direkte Belohnung ist natürlich essenziell, da es zum Ziel gehört, die Gesamtbelohnung zu maximieren. Der alte Q-Wert \PYTHON{Q(s,a)} lässt sich dann subtrahieren, somit gibt uns der hintere Teil der Formel die Veränderung zum bisherigen Q-Wert.
+
+Alpha bestimmt die Lernrate des Agenten und gibt an, wie stark der Q-Wert in jedem Schritt aktualisiert werden soll. Ein höherer Wert von Alpha führt dazu, dass der Agent schneller lernt, während ein niedrigerer Wert dazu führt, dass der Agent langsamer lernt.
+
+\section{Die Trainingsschleife}
+Nachdem wir nun alle benötigten Kernkonzepte besprochen haben, können wir die Trainingsfunktion für den Q-Learning-Agenten implementieren:
+
+\medskip
+
+\PYTHON{def train(episodes):}
+
+\PYTHON{\qquad alpha = 0.9}
+
+\PYTHON{\qquad gamma = 0.9}
+
+\PYTHON{\qquad epsilon = 0.5}
+
+\PYTHON{}
+
+\PYTHON{\qquad avg\_reward = 0}
+
+\PYTHON{}
+
+\PYTHON{\qquad \# Wir trainieren den Agenten für die übergebene Anzahl an Episoden}
+
+\PYTHON{\qquad for episode in range(episodes):}
+
+\PYTHON{\qquad \qquad state = env.reset()[0]}
+
+\PYTHON{\qquad \qquad done = False}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \# Die innere Schleife wird wiederholt, bis eine Episode endet}
+
+\PYTHON{\qquad \qquad while not done:}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \qquad \# Wir wählen die Aktion mithilfe von unserer eps\_greedy() Funktion}
+
+\PYTHON{\qquad \qquad \qquad action = eps\_greedy(state, epsilon)}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \qquad \# Der Agent führt die Aktion aus und erhält den neuen Zustand, die Belohnung und ob das Spiel zu Ende ist}
+
+\PYTHON{\qquad \qquad \qquad new\_state, reward, done, t, p = env.step(action)}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \qquad \# Die Q-Tabelle wird nach der gegebenen Formel aktualisiert}
+
+\PYTHON{\qquad \qquad \qquad q\_table[state, action] = q\_table[state, action] + alpha * (reward + gamma * np.max(q\_table[new\_state])  q\_table[state, action])}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \qquad \# Der Folgezustand wird zum aktuellen Zustand}
+
+\PYTHON{\qquad \qquad \qquad state = new\_state}
+
+\PYTHON{\qquad \qquad \qquad avg\_reward += reward}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad \qquad \# Wenn der Agent das Ziel erreicht oder in ein Loch läuft, endet die Episode und wir brechen die innere Schleife ab}
+
+\PYTHON{\qquad \qquad \qquad if done:}
+
+\PYTHON{\qquad \qquad \qquad \qquad break}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad if episode \% 1000 == 0 and episode != 0:}
+
+\PYTHON{\qquad \qquad \qquad print("Episode:", episode)}
+
+\PYTHON{\qquad \qquad \qquad print("Average Reward:", avg\_reward / episode)}
+
+\PYTHON{}
+
+\PYTHON{\qquad avg\_reward /= episodes}
+
+\PYTHON{\qquad print("Average Reward during training:", avg\_reward)}
+
+\PYTHON{\qquad print("Q-Table:", q\_table)}
+
+\medskip
+
+
+Die Funktion \PYTHON{train()} nimmt den Parameter \PYTHON{episodes} entgegen, der die Anzahl der Episoden angibt, die der Agent im Umfeld trainieren soll. Zuerst initialisieren wir die besprochenen Variablen: Die Lernrate Alpha, den Discount-Faktor Gamma und Epsilon, also die Wahrscheinlichkeit, dass der Agent eine zufällige Aktion auswählt. All diese Werte liegen zwischen null und eins.
+
+Das eigentliche Training des Agenten findet in der Trainingsschleife statt. Mit \PYTHON{for episode in range(episodes):} iterieren wir über die gegebene Anzahl an Episoden. Zu Beginn jeder Episode lässt sich der Umgebungszustand mit \PYTHON{env.reset()} auf die Startposition setzen. Um diesen Startzustand für die Funktion \PYTHON{eps\_greedy()} nutzen zu können, initialisieren wir die Variable \PYTHON{state} mit dem ersten Wert von \PYTHON{env.reset()}, also mit \PYTHON{env.reset()[0]}. Die Variable \PYTHON{done} gib an, ob die Episode zu Ende ist – da das am Anfang nicht der Fall ist, initialisieren wir sie mit \PYTHON{False}.
+
+Wir führen dann eine zweite Schleife durch, bis eine Episode endet. Am Anfang dieser inneren Schleife wählen wir durch den Aufruf unserer zuvor definierten Funktion \PYTHON{eps\_greedy()} die nächste Aktion aus. Als Parameter geben wir dabei den aktuellen \PYTHON{state} und unser festgelegtes \PYTHON{epsilon} mit. Der Agent führt mit \PYTHON{env.step(action)} die gewählte Aktion aus und erhält den neuen Zustand, die Belohnung und die done-Variable, die angibt, ob das Spiel beendet ist,
+
+Die ebenfalls übergebenen Werte \PYTHON{t} und \PYTHON{p} interessieren uns in dieser Implementierung nicht. Anschließend berechnen wir den neuen Q-Wert mithilfe des neuen Zustandes und der Belohnung nach der oben besprochenen Formel. Schließlich setzt man den aktuellen Zustand auf den neuen Zustand und der gesamte \PYTHON{reward} wird aktualisiert. Anschließend lässt sich die innere Schleife so lange wiederholen, bis der Agent entweder das Ziel erreicht oder in einem Loch feststeckt.
+
+Um den Fortschritt des Trainings beobachten zu können, lassen wir uns alle 1000 Episoden mit \PYTHON{print("Average Reward:", avg\_reward / episode)} den bisher durchschnittlichen \PYTHON{reward} ausgeben.
+
+Am Ende des Trainings gibt das Programm ebenfalls den durchschnittlichen \PYTHON{reward} des gesamten Trainings sowie die aktualisierte Q-Tabelle aus.
+
+\section{Evaluierung}
+
+Um den Fortschritt des Trainings zu überprüfen, schreiben wir noch eine Evaluierungsfunktion:
+
+\medskip
+
+\PYTHON{def eval():}
+
+\PYTHON{\qquad state = env.reset()[0]}
+
+\PYTHON{\qquad done = False}
+
+\PYTHON{}
+
+\PYTHON{\qquad while not done:}
+
+\PYTHON{\qquad \qquad env.render()}
+
+\PYTHON{\qquad \qquad action = np.argmax(q\_table[state])}
+
+\PYTHON{\qquad \qquad state, reward, done, t, p = env.step(action)}
+
+\PYTHON{}
+
+\PYTHON{\qquad \qquad if done:}
+
+\PYTHON{\qquad \qquad \qquad env.render()}
+
+\PYTHON{\qquad \qquad \qquad print("Reward during the evaluation:", reward)}
+
+\PYTHON{\qquad \qquad \qquad env.close()}
+
+\PYTHON{\qquad \qquad \qquad break}
+
+\medskip
+
+In manchen Aspekten ähnelt diese Funktion der inneren Schleife der Trainingsfunktion, allerdings lassen wir uns hier die Umgebung mit \PYTHON{env.render()} anzeigen, um den Agenten bei seiner Arbeit beobachten zu können. Außerdem wählen wir während der Evaluierung die nächste Aktion immer mithilfe der Q-Tabelle mit \PYTHON{np.argmax(q\_table[state])} statt mit \PYTHON{eps\_greedy()}.
+
+Sobald das Ende einer Episode erreicht ist, gibt das Programm die endgültige Belohnung mit \PYTHON{print("Reward during the evaluation:", reward)} aus. So können wir beurteilen, wie der Agent in der Episode abgeschnitten hat.
+
+Jetzt haben wir alle Komponenten zusammen und können einen Agenten mit beliebig vielen Episoden trainieren lassen:
+
+\medskip
+
+\PYTHON{if \_\_name\_\_ == "\_\_main\_\_":}
+
+\PYTHON{env = gym.make("FrozenLake-v1", is\_slippery=False)}
+
+\PYTHON{n\_states = env.observation\_space.n  \# Hier 16, da es 16 Felder gibt}
+
+\PYTHON{n\_actions = env.action\_space.n    \# Hier 4, da es 4 mögliche Aktionen gibt}
+
+\PYTHON{q\_table = np.zeros((n\_states, n\_actions)) \# Initialisierung der Q-Tabelle}
+
+\PYTHON{}
+
+\PYTHON{train(10000)}
+
+\PYTHON{}
+
+\PYTHON{env = gym.make("FrozenLake-v1", is\_slippery=False, render\_mode="human")}
+
+\PYTHON{eval()}
+
+\medskip
+
+Wir initialisieren zuerst die Umgebung und die Q-Tabelle. Anschließend lassen wir den Agenten 10000 Episoden lang trainieren, was in dieser Umgebung absolut ausreicht. Da das Programm in der Funktion \PYTHON{eval()} die Umgebung rendert, spezifizieren wir nach dem Training den \PYTHON{render\_mode = "human"}, um ein Bild der Umgebung nach jedem Schritt in einem Pop-up-Fenster zu erhalten. Anschließend führt das Programm die Funltion \PYTHON{eval()} aus. Das Ergebnis des Trainings ist das folgende Verhalten des Agenten:
+
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{images/Reinforcement/Reinforcement03}
+  \caption{Nach dem Training ist der Agent in der Lage, die Umgebung innerhalb von sechs Zügen zu lösen.}
+  \label{Reinforcement03}
+\end{figure}
+
+
+
+Der Agent schafft es also in nur sechs Zügen das Ziel zu erreichen und hat somit eine optimale Lösung gefunden. Die Q-Tabelle, die der Agent gelernt hat, enthält die folgenden Werte:
+
+\medskip
+
+\PYTHON{[[0.531441 	0.59049	0.59049	0.531441]}
+
+\PYTHON{[0.531441 	0.       	0.6561   	0.59049]}
+
+\PYTHON{[0.59049 	0.729   	0.59049  	0.6561]}
+
+\PYTHON{[0.6561   	0.       	0.59049  	0.59049]}
+
+\PYTHON{[0.59049 	0.6561   	0.       	0.531441]}
+
+\PYTHON{[0.       	0.       	0.       	0.]}
+
+\PYTHON{[0.       	0.81     	0.       	0.6561]}
+
+\PYTHON{[0.       	0.       	0.       	0.]}
+
+\PYTHON{[0.6561   	0.       	0.729    	0.59049]}
+
+\PYTHON{[0.6561   	0.81    	0.81     	0.]}
+
+\PYTHON{[0.729    	0.9      	0.       	0.729]}
+
+\PYTHON{[0.       	0.       	0.       	0.]}
+
+\PYTHON{[0.       	0.       	0.       	0.]}
+
+\PYTHON{[0.       	0.81     	0.9      	0.729]}
+
+\PYTHON{[0.81     	0.9      	1.       	0.81]}
+
+\PYTHON{[0.       	0.       	0.       	0.]]}
+
+
+\section{Ausblick}
+
+In diesem Artikel haben wir Ihnen die grundlegenden Konzepte des Reinforcement Learnings vermittelt. Damit können Sie einfache Probleme in diesem Bereich lösen. Sollten Sie sich jedoch mit komplexeren Umgebungen befassen wollen, stellen Sie fest, dass es oft nicht möglich ist, alle Werte in einer Q-Tabelle zu speichern. In diesem Fall müssen die Q-Werte approximiert werden. Das bedeutet, dass man sich ihnen nähern muss – meistens mithilfe neuronaler Netze.
+
+Das Verfahren, bei dem die Q-Learning-Formel mit einem neuronalen Netz approximiert wird, heißt Deep Q-Learning. Es nutzt viele der Konzepte, die wir in diesem Artikel genannt haben. Wenn Sie sich tiefer mit dem Thema Reinforcement Learning auseinandersetzen möchten, empfehlen wir das englischsprachige Standardwerk ``Reinforcement Learning: An Introduction'' von Richard Sutton und Andrew Barto. 

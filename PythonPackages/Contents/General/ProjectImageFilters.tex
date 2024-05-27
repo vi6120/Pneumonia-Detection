@@ -1,0 +1,211 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/ProjectImageFilters.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+
+% Quelle: https://towardsdatascience.com/image-filters-with-python-3dc223a12624
+
+
+\chapter{Image Filters with Python --
+    A concise computer vision project for building image filters using Python}
+
+Images exist in different scales, contrasts, bit depths, and qualities. We are filled with a variety of unique and beautiful images that encompass us all over our surroundings and across the internet. Manipulating these images can lead to several intriguing results, which are used for a wide array of fun and helpful applications.
+
+In image processing and computer vision, playing around with images is a critical component to solving different tasks and acquiring desirable results for numerous projects. With the proper handling of imaging tasks, we can recreate a modified version of the image useful for several computer vision and deep learning applications, such as data augmentation.
+
+In this article, we will focus on developing a simple image filter application to primarily modify the brightness and contrast of a particular image. Several other noteworthy modifications, including shader styles, clip art, emojis, and other similar additions, can be implemented and added to your project.
+
+If the readers are not familiar with computer vision and OpenCV, I would suggest checking out one of my previous articles on a complete and extensive beginner guide to get started with OpenCV and computer vision. The link for the same is provided below. I would recommend checking it out first before proceeding with the remaining contents of this article.
+
+
+\section{Starter code for Brightness and Contrast modifier with Python:}
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Images/Projects/ImageFilters/ImageFilters01}
+  \caption{Photo by Jacopo Maia on Unsplash} \label{ImageFilters01}
+\end{figure}
+
+In this section, we will look at a simple starter code that will help us get started with the basic image filters of modifying the brightness and contrast of the original image with the help of the Open CV computer vision library. For this task, we will make use of a random image for testing the sample code and understanding its fundamental working.
+
+In order to comprehend this test case, I am using the above image as a test sample to analyze and understand the working process of the brightness and contrast modifiers accordingly. To follow along with this project, I highly recommend downloading the above image and storing it in the working directory as \FILE{test\_image.jpg}.
+
+Note that you can store the image with any other functional name and use images with any other format as well. The only essential step is to mention the appropriate name and its respective format while reading the images. The first step is to import the Open CV library, as demonstrated in the code block below, and ensure that the library is completely functional.
+
+\medskip
+
+\PYTHON{\# Importing the computer vision library}
+
+\PYTHON{import cv2}
+
+\medskip
+
+Once the library is imported and its working is verified, we can proceed to read the original image that we recently saved in our working directory. The cv2.imread function can read the image once the image name is mentioned.
+
+If the image is not stored in the working directory, ensure that the specific file, along with the image name, is mentioned. Since the original dimension of the above image is 4608 x 3072, it would be optimal to shrink the image by a little bit and reduce the dimensions. I have resized the image to a (512, 512) scale to easily track the progress and perform the desired tasks with a slightly higher speed.
+
+In the final step of the below code sample, we will define alpha and gamma parameters which will act as the contrast and brightness modifiers accordingly. Using these two parameters, we can control the values accordingly. Note that the contrast parameter varies from a range of 0 to 127, while the brightness parameter can vary from 0 to 100.
+
+\medskip
+
+\PYTHON{\# read the input image}
+
+\PYTHON{image = cv2.imread('test\_image.jpg')}
+
+\PYTHON{image = cv2.resize(image, (512, 512))}
+
+\PYTHON{}
+
+\PYTHON{\# Define the alpha and gamma parameters for brightness and contrast accordingly}
+
+\PYTHON{alpha = 1.2}
+
+\PYTHON{gamma = 0.5}
+
+\medskip
+
+
+Once we have incorporated all the previous steps, we will proceed to use the ``add weighted'' function in the Open CV library, which helps us to compute the alpha and gamma (the brightness and contrast values) accordingly. This function is primarily useful for blending images by using the alpha, beta, and gamma values. Note that for a single image, we can just assign beta as zero and gain the appropriate results.
+
+Finally, we will display the modified image in the computer vision window, as shown in the sample code block below. Once the image is displayed, we can proceed to close the window when the user clicks the close button. For further understanding of some of the primary functions of Open CV, I highly recommend checking out my previously mentioned article to gain additional information.
+
+\medskip
+
+\PYTHON{\# Used the added weighting function in OpenCV to compute the assigned values together}
+
+\PYTHON{final\_image = cv2.addWeighted(image, alpha, image, 0, gamma)}
+
+\PYTHON{}
+
+
+\PYTHON{\# Display the final image}
+
+\PYTHON{cv2.imshow('Modified Image', final\_image)}
+
+\PYTHON{cv2.waitKey(0)}
+
+\PYTHON{cv2.destroyAllWindows()}
+
+\medskip
+
+The parameters alpha acts as the contrast, and gamma acts as the brightness modifier in the above starter code sample. However, modifying these parameters as provided in this starter code sample for many different variations might be slightly unrealistic. Hence, the best idea would be to create a GUI interface and find the best values for each parameter of your required image filters. This topic will be covered further in the upcoming section.
+
+\section{Further development of the project with controllers:}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{Images/Projects/ImageFilters/ImageFilters02}
+    \caption{Screenshot of modified image by Author} \label{ImageFilters02}
+\end{figure}
+
+
+We can create a custom GUI with Open CV using controllers for optimizing the brightness and contrast parameters and adjusting our results accordingly. We can have a slide bar for each of these attributes, which, when moved along its respective variables, can create a different effect on the image by applying a unique filter with each variation of brightness and contrast.
+
+The first few steps are similar to the previous section, where we will import the Open CV library, read the respective image and resize it accordingly. The readers can choose their own appropriate sizes. The code snippet for the following is provided below.
+
+\medskip
+
+\PYTHON{\# Import the Open CV library}
+
+\PYTHON{import cv2}
+
+\PYTHON{}
+
+\PYTHON{\# read the input image}
+
+\PYTHON{image = cv2.imread('test\_image.jpg')}
+
+\PYTHON{image = cv2.resize(image, (512, 512))}
+
+\medskip
+
+In the next step, we will define the brightness and contrast function through which we can define the get trackbar position function in the Open CV library to obtain the current position of both the brightness and contrast elements. The weighted function will be utilized to compute both these parameters to calculate a combined output of both these combinations together, as shown in the code block below.
+
+\medskip
+
+\PYTHON{\# Creating the control function for the brightness and contrast}
+
+\PYTHON{def BrightnessContrast(brightness=0):}
+
+\PYTHON{\qquad brightness = cv2.getTrackbarPos('Brightness',}
+
+\PYTHON{\qquad \qquad \qquad \qquad 'Image')}
+
+\PYTHON{\qquad }
+
+\PYTHON{\qquad contrast = cv2.getTrackbarPos('Contrast',}
+
+\PYTHON{\qquad \qquad \qquad \qquad 'Image')}
+
+\PYTHON{\qquad }
+
+\PYTHON{\qquad effect = cv2.addWeighted(image, brightness, image, 0, contrast)}
+
+\PYTHON{\qquad }
+
+\PYTHON{\qquad cv2.imshow('Effect', effect)}
+
+\medskip
+
+
+Once the trackbar function is defined, we will create a named window and the trackbar for which we are obtaining the required parameters. We will create two separate trackbars for both the brightness and contrast features, as shown in the below code block. The wait key function will activate once both the original image window and the trackbar window with the image are closed to help terminate the program.
+
+\medskip
+
+\PYTHON{\# Defining the parameters for the Open CV window}
+
+\PYTHON{cv2.namedWindow('Image')}
+
+\PYTHON{}
+
+\PYTHON{cv2.imshow('Image', image)}
+
+\PYTHON{}
+
+\PYTHON{cv2.createTrackbar('Brightness',}
+
+\PYTHON{\qquad \qquad \qquad 'Image', 0, 10,}
+
+\PYTHON{\qquad \qquad \qquad BrightnessContrast) }
+
+\PYTHON{}
+
+\PYTHON{cv2.createTrackbar('Contrast', 'Image',}
+
+\PYTHON{\qquad \qquad \qquad 0, 20,}
+
+\PYTHON{\qquad \qquad \qquad BrightnessContrast)  }
+
+\PYTHON{}
+
+\PYTHON{BrightnessContrast(0)}
+
+\PYTHON{cv2.waitKey(0)}
+
+\medskip
+
+
+We can adjust the track bar positions for both the brightness and contrast slide bars to change the numbers from 0 to 10 and 0 to 20, respectively. The variations can be observed accordingly by adjusting the respective positions. However, this project still has much room for improvement and a higher degree of scale for varying the parameters. We can scale brightness values on a 255 scale and contrast on a 127 scale to obtain finer and more detailed images.
+
+To fix some of these issues and enhance this project further, I suggest the Geeks for Geeks website, which I considered for a portion of the code used in this section. I highly recommend the readers check the following \HREF{https://www.geeksforgeeks.org/changing-the-contrast-and-brightness-of-an-image-using-python-opencv/}{link} for further reading and understanding of this project.
+
+\section{Conclusion:}
+
+
+
+
+Images play a critical role in computer vision and image processing. By modifying images to create a similar or highly filtered variation of the image, we can solve a wide array of projects by accumulating more data, as in the case of data augmentation or other similar tasks.
+
+We can also achieve a more desirable and enhanced version of particular images through which several other useful deep learning tasks can be performed. In this article, we explored the use of adding features such as brightness and contrast to modify the original image. In the first section, we learned how to utilize the alpha and gamma parameters to act as brightness and contrast parameters.
+
+In the following sections, we developed a GUI interface through which the original image can be manipulated to obtain copies of its modified version. All the tasks were performed with some basic computer vision and image processing knowledge and libraries.
+

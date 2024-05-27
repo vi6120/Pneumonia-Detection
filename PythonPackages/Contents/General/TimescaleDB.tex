@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/TimescaleDB.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+%
+% source: https://www.heise.de/news/Datenbank-TimescaleDB-2-0-erfasst-und-analysiert-grosse-Zeitreihen-4943549.html
+
+
+\chapter{Datenbank: TimescaleDB 2.0 erfasst und analysiert große Zeitreihen}
+
+\section{Einführung}
+
+
+Die frei skalierbare Multi-Node-Datenbank kann Datenmengen in Petabyte-Größenordnung aufnehmen und ist speziell auf das Erfassen von Zeitreihen zugeschnitten.
+
+Von TimescaleDB, einer auf Zeitreihen spezialisierten skalierbaren Datenbank, liegt nach zwei Jahren – mit mehreren Betaversionen und einem ersten Release Candidate – nun der zweite Release Candidate (RC) vor. Die Zeitreihen-Datenbank unterstützt SQL, setzt als Erweiterung auf PostgreSQL auf und ist im Gegensatz zu relationalen Datenbanken frei skalierbar.
+
+Sie bietet eine verteilte Multi-Node-Architektur, die laut Herausgebern Daten von Zeitreihen im Größenbereich von Petabyte speichern und besonders schnell verarbeiten kann. Für selbstverwaltete Installationen der Software steht der RC in Produktionsreife vor, das finale Release und Ausrollen in den von Timescale verwalteten Diensten ist zum Jahresende geplant. Die Datenbank ist als Open Source kostenlos verfügbar.
+
+\section{Kontinuierliches Aggregieren über aktualisierte APIs}
+
+
+Der Release Candidate stellt laut Ankündigung im Timescale-Blog auch alle Enterprise-Features kostenlos zur Verfügung und gewährt Nutzern mehr Rechte als bislang. Kontinuierliches Aggregieren von Daten soll über aktualisierte APIs möglich sein und Nutzern mehr Kontrolle über den Aggregiervorgang einräumen. Neuerdings lassen sich Aufgaben offenbar benutzerdefiniert anpassen und innerhalb der Datenbank soll es möglich sein, mit einem Zeitplan die einzelnen Aufgaben und Verhaltensweisen bei der Ausführung genauer zu steuern. In puncto Geschwindigkeit der Datenverarbeitung verweisen die Herausgeber auf \HREF{https://db-engines.com/en/ranking}{Rankings der am Markt verfügbaren relationalen Datenbanken}, bei denen zurzeit PostgreSQL in den Top 4 zu finden ist und offenbar mit \HREF{https://db-engines.com/en/ranking_trend}{MongoDB gleichauf} liegt oder diese leicht überholt.
+	
+	
+	
+\section{Wieso eine eigene Datenbank für Zeitreihen?}
+
+Bei der Datenbank geht es nicht um Peanuts, sondern um besonders große Datensätze, die oft verteilt über mehrere Server und Knoten aus der Erhebung telemetrischer Daten laufend eingehen und zum Beispiel im Falle von Finanzdienstleistern oder wissenschaftlichen Projekten über eine Milliarde Datenreihen täglich umfassen können. Produktionslinien in Fabriken, Smart-Home-Geräte, Fahrzeuge, der Aktienmarkt, Software-Stacks, aber auch private Geräte zum Beispiel im Gesundheits-Bereich produzieren über Apps kontinuierlich telemetrische Daten, deren Ordnungskriterium die Zeitreihe ist.
+	
+Da das Volumen solcher Datenreihen wächst und relationale Datenbanken bei der Sammlung und Verarbeitung offenbar an ihre Grenzen stoßen, haben die Timescale-Macher vor dreieinhalb Jahren das Projekt einer spezialisierten Datenbank aus der Taufe gehoben. So unterschiedliche Unternehmen wie Bosch, Siemens, Credit Suisse, IBM, Samsung, Walmart, Uber, Microsoft und Warner Music nutzen und unterstützen die Entwicklung laut Anbieter. Nach Angaben im Timescale-Blog steht neben der PostgreSQL-Community und deren Ökosystem auch eine speziell an Zeitreihen interessierte Entwicklergemeinschaft hinter dem Projekt.
+
+\section{Weiterführende Hinweise}
+
+
+Ein Rückblick zum ersten Release Candidate zeigt, dass damals eine Reihe von Leistungen noch kostenpflichtig war und dass die Reichweite offenbar gestiegen ist: Die Nutzerzahlen haben sich laut Anbieter von damals (2018) einer Million auf heute zehn Millionen Downloads gesteigert. Weiterführende Informationen zum zweiten Release Candidate lassen sich im Timescale-Blog finden. Der Blog listet eine Reihe von Demo-Videos und bietet mehrere Downloadoptionen an, die Software liegt als Docker-Image sowie in weiteren Varianten vor. Für mit TimescaleDB vertraute Nutzer dürfte das Changelog von Belang sein, für das Aktualisieren hat das Timescale-Team einen Update-Leitfaden zusammengestellt.

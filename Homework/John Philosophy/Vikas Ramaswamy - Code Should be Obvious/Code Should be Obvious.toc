@@ -1,0 +1,8 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Importance for code}{9}{0}{2}
+\beamer@sectionintoc {3}{How to achieve obvious code?}{11}{0}{3}
+\beamer@sectionintoc {4}{Example}{14}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{19}{0}{5}
+\beamer@sectionintoc {6}{References}{21}{0}{6}

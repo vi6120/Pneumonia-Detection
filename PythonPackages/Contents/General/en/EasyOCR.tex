@@ -1,0 +1,183 @@
+%%%
+%
+% $Autor: Wings $
+% $Datum: 2021-05-14 $
+% $Dateiname: 
+% $Version: 4620 $
+%
+% !TeX spellcheck = GB
+% !TeX program = pdflatex
+% !TeX encoding = utf8
+
+%%%
+
+\chapter{EasyOCR}
+%\chapter{Package \PYTHON{Example}}
+
+\index{EasyOCR}
+
+\section{Introduction}
+
+\ac{ALPDR} uses EasyOCR for transforming the raw images of LP. After detecting the area of interest from car images OCR is used in the segmentation of characters. It isolates the character and number from the LP and recognizes the whole sequence of characters.
+
+
+EasyOCR breakdowns the blobs to locate the character and their bounding box, using one of two segmentation modes:
+
+\begin{enumerate}
+	\item Keep object mode: One bob corresponds to one character
+	\item Repaste objects mode: The blob is grouped into characters of nominal size. When a blob is big it can be split automatically.
+\end{enumerate}
+
+Easy OCR processes the character images to normalize the size into a bounding box, extract relevant feature and stores them in a font file. The patterns in a form are stored as arrays of pixels defined by pattern width and pattern height
+
+\section{Description}
+
+Hyperparameter for EasyOCR Segmentation: \cite{OpeneVision:2018}
+
+\begin{enumerate}
+	\item \textbf{Threshold:} A too-high value thickens black characters on a white background and may cause merging, a too-small value makes parts disappear. 
+	\item \textbf{NoiseArea:} Blob areas smaller than this value are discarded. Make sure small character features are preserved.
+	\item MaxCharWidth,MaxCharHeight: Maximum character size. If a blob does not fit in a rectangle with these dimensions, it is discarded or split into several parts using vertical cutting lines.
+	\item \textbf{CharSpacing:} The width of the smallest gap between adjacent letters. If it is larger than MaxCharWidth it has no effect. If the gap between two characters is wider than this, they are treated as different characters. This stops thin characters being incorrectly grouped together.
+	\item \textbf{RemoveBorder:}Blobs near image/ROI edges cannot normally be exploited for character recognition.
+\end{enumerate}
+Hyperparameters for EasyOCR Recognition: \cite{OpeneVision:2018}
+\begin{enumerate}
+	\item Load: reads a pre-recorded font from a disk file.
+	\item BuildObjects: The image is segmented into objects or blobs (connected components) which help find the characters. This step can be bypassed if the exact position of the characters is known. If the character isolation process is bypassed, you must specify the known locations of the characters: AddChars and EmptyChars.
+	\item FindAllChars: selects the objects considered as characters and sorts them from top to bottom then left to right.
+	\item ReadText: performs the matching and filters characters if the marking structure is fixed or a character set filter was provided.
+	\item Character recognition: The characters are compared to a set of patterns, called a font.
+	\item The best match is stretched to fit in a predefined rectangle and compared to each normalized template in the font database.
+	\item A Character set filter can improve recognition reliability and run time by restricting the range of characters to be compared. For instance, if a marking always consists of two uppercase letters followed by five digits, the last of which is always even, it is possible to assign each character a class (maximum 32 classes) then set the character filter to allow the following classes at recognition time: two uppercase, four even or odd digits, one even digit.
+\end{enumerate}
+
+\section{Installation}
+
+Prerequisite and installation of EasyOCR:
+
+PyTorch is a core dependency for installing the EasyOCR. 
+
+PyTorch 1.9.0 stable version for Windows is installed. A local python interpreter pip package is used. Conda package is used for python virtual interpreter. For GPU enabled system CUDA 10.2 compute platform is used.
+
+After having above configuration following command can be used for installation of PyTorch(1.9.0)
+
+conda install pytorch torchvision torchaudio cudatoolkit-10.2 -c pytorch
+
+After instlling the PyTorch library easyocr is installed with following steps
+
+pip3 install easyocr
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{easyOCR/OCR-Install}
+	\caption{EasyOCR Installation using Command Prompt}
+\end{figure}
+
+\section{Example}
+
+\subsubsection{Sample Code ALDPR}
+
+Sample code for EasyOCR:
+
+\begin{lstlisting}
+# function to recognize license plate numbers using Tesseract OCR
+	
+def recognize_plate_easyocr(img, coords,reader,region_threshold):
+	
+# separate coordinates from box
+	
+xmin, ymin, xmax, ymax = coords
+	
+# get the subimage that makes up the bounded region
+# take an additional 5 pixels on each side
+	
+# nplate = img[int(ymin)-5:int(ymax)+5, int(xmin)-5:int(xmax)+5]
+	
+nplate = img[int(ymin):int(ymax), int(xmin):int(xmax)] 
+# cropping the number plate from the whole image
+	
+	
+	
+ocr_result = reader.readtext(nplate)
+	
+	
+	
+	
+text = filter_text(region=nplate, ocr_result=ocr_result,
+region_threshold= region_threshold)
+	
+	
+if len(text) ==1:
+	
+text = text[0].upper()
+	
+return text
+\end{lstlisting}
+
+\subsubsection{Example EasyOCR}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{easyOCR/SampleCode}
+	\caption{Code Snippet}
+\end{figure}
+
+In the above code snippet, we just need to focus on few points:
+
+\begin{enumerate}
+	\item Instead of detecting one-line text, here we are looping through all the detection as we want to plot multiple lines of text.
+	\item While giving the coordinates on cv2.putText we are using an extra variable which is “spacer” this spacer later in the code is being incremented to +15 which is helping to restrict the text to collide over each other.
+	\item This spacer variable will help the text to remain sorted and equally spaced
+\end{enumerate}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{easyOCR/Multiline}
+	\caption{Multi-Line recognition using EasyOCR}
+\end{figure}
+
+
+\section{Further Reading}
+
+Challenging and Invalid recognition settings:
+
+\begin{enumerate}
+	\item MaxCharWidth, MaxCharHeight: if a blob does not fit within a rectangle with these dimensions, it is not considered a possible character (too large) and is discarded. Furthermore, if several blobs fit in a rectangle with these dimensions, they are grouped, forming a single character. The outer rectangle size should be chosen such that it can contain the largest character from the font, enlarged by a small safety margin.
+	\item MinCharWidth, MinCharHeight: if a blob or a group of blobs does fit in a rectangle with these dimensions, it is not considered a possible character (too small) and is discarded. The inner rectangle size should be chosen such that it is contained in the smallest character from the font, shrunk by a small safety margin.
+	\item RemoveNarrowOrFlat: Small characters are discarded if they are narrow or flat. By default, they are discarded when they are both narrow and flat.
+	\item CharSpacing: if two blobs are separated by a vertical gap wider than this value, they are considered to belong to different characters. This feature is useful to avoid the grouping of thin characters that would fit in the outer rectangle. Its value should be set to the width of the smallest gap between adjacent letters. If it is set to a large value (larger than MaxCharWidth), it has no effect.
+	\item CutLargeChars: when a blob or grouping of blobs is larger than MaxCharWidth, it is discarded. When enabled, the blob is split into as many parts as necessary to fit and the amount of white space to be inserted between the split blobs is set by RelativeSpacing. This is an attempt to separate touching characters.
+	\item RelativeSpacing: when the CutLargeChars mode is enabled, setting this value allows specifying the amount of white space that should be inserted between the split parts of the blobs.
+\end{enumerate}
+\subsection{Advanced Tuning}
+
+These recognition parameters can be tuned to optimize recognition:
+\begin{itemize}
+	\item CompareAspectRation: when this setting is on, EasyOCR is less tolerant of size and takes into account the measured aspect ratio. Using this mode improves the recognition when characters look similar after size normalization as it enforces the difference between narrow and wide characters.
+	\item Filtering the characters can be used if the marking structure is fixed.
+	\item When objects are larger than the MaxCharWidth property, they can be split into as many parts as needed, using vertical cutting lines.
+	\item ESegmentationMode, character isolation mode defines how characters are isolated:
+	Keep objects mode: a character is a blob 
+\end{itemize}
+
+
+
+
+
+
+
+
+%\nocite{Abadi:2016}
+
+	% Überschrift ein Level unter `refsection=chapter`, also \section*:
+   %\printbibliography[heading=subbibliography, segment=\therefsegment]
+
+
+
+
+
+
+
+
+
+

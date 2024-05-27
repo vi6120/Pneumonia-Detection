@@ -1,0 +1,7 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Convolutional Neural Network(CNN)}{4}{0}{2}
+\beamer@sectionintoc {3}{Application on CNN}{7}{0}{3}
+\beamer@sectionintoc {4}{CNN is used in Pneumonia Detection}{10}{0}{4}
+\beamer@sectionintoc {5}{References}{14}{0}{5}

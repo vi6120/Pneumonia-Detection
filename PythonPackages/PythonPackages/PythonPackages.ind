@@ -1,0 +1,171 @@
+\begin{theindex}
+
+  \item AlexNet, 54
+  \item ALPDR, 19, 93
+  \item Amazon, 27
+  \item API, 19, 26, 32
+  \item Application Programming Interface
+    \subitem  \emph  {see} {API}, 19, 26
+  \item Automatic License Plate Detection and Recognition  \emph  {see} {ALPDR}, 
+		19, 93
+
+  \indexspace
+
+  \item Basemap, 29
+  \item Bibiotheken, 25
+  \item Bokeh, 29
+
+  \indexspace
+
+  \item Caffee, 27
+  \item Caffee2, 27
+  \item Canadian Institute For Advanced Research
+    \subitem  \emph  {see} {CIFAR
+      \subsubitem  \emph  {see} {Datensatz}}, 13, 19, 44
+  \item Canadian Institute for Advanced Research, 44
+  \item Central Processing Unit
+    \subitem  \emph  {see} {CPU}, 19, 30
+  \item Chainer, 27
+  \item CNTK, 27
+  \item COCO, 19, 32, 49--54
+  \item Common Objects in Context
+    \subitem  \emph  {see} {COCO}, 19, 32
+  \item Compute Unified Device Architecture
+    \subitem  \emph  {see} {CUDA}, 19, 25
+  \item CPU, 19, 30
+  \item CUDA, 19, 25, 26, 30
+  \item cv2, 31
+
+  \indexspace
+
+  \item Datensatz
+    \subitem CIFAR, 13, 19, 44, 45
+    \subitem Fisher's Iris Data Set, 45--49
+    \subitem ImageNet, 54
+    \subitem MNIST, 42, 43
+    \subitem NIST Special Database 3, 19, 43
+    \subitem NIST~Special~Database~1, 19, 43
+    \subitem TensorFlow, 43
+  \item Deeplearning4J, 27
+  \item DeepScene, 54
+
+  \indexspace
+
+  \item EasyOCR, 93
+  \item Eli5, 30
+  \item Example, 67, 69, 77
+    \subitem Description, 67, 69, 77
+    \subitem Installation, 67, 70, 77
+    \subitem Introduction, 67, 69, 77
+
+  \indexspace
+
+  \item FastAI, 27
+  \item Frameworks, 25
+
+  \indexspace
+
+  \item glob, 31
+  \item GoogleNet, 54
+  \item GPU, 19, 27, 30
+  \item Graphics Processing Unit
+    \subitem  \emph  {see} GPU, 19, 27
+
+  \indexspace
+
+  \item ImageNEt, 54
+  \item ImageNet
+    \subitem \see{Datensatz}, 54
+  \item Inception, 54
+  \item IPython, 28
+
+  \indexspace
+
+  \item jetson-inference, 54
+  \item Jupyter-Notebook, 25
+
+  \indexspace
+
+  \item Keras, 26
+
+  \indexspace
+
+  \item LightGBM, 29
+
+  \indexspace
+
+  \item math, 31
+  \item matplotlib, 28
+  \item Microsoft Cognitive Toolkit, 27
+  \item Mlpy, 30
+  \item MXNet, 27
+
+  \indexspace
+
+  \item NetworkX, 29
+  \item NIST Special Database 1
+    \subitem  \emph  {see} Datensatz, 19, 43
+  \item NIST Special Database 3
+    \subitem  \emph  {see} Datensatz, 19, 43
+  \item NLTK, 29
+  \item NumPy, 28
+
+  \indexspace
+
+  \item OpenCV, 30
+  \item OpenNN, 31
+  \item OpenVINO, 30
+  \item os, 31
+
+  \indexspace
+
+  \item Pandas, 28
+  \item Pattern, 29
+  \item pickle, 32
+  \item PIL, 31
+  \item PyPI, 32
+  \item Python Software Foundation, 32
+  \item PyTorch, 26
+
+  \indexspace
+
+  \item random, 31
+  \item Residual Neural Network
+    \subitem  \emph  {see} ResNet, 19, 54
+  \item ResNet, 19, 54
+  \item ResNets, 54
+  \item RLE, 19, 53
+  \item Run-Length Encoding, 19, 53
+
+  \indexspace
+
+  \item scikit-learn, 28
+  \item SciPy, 28
+  \item Scrapy, 29
+  \item Seaborn, 29
+  \item SSD-Mobilenet-V2, 54
+  \item Statsmodels, 30
+
+  \indexspace
+
+  \item TensorFlow, 25
+  \item TensorFlow Lite, 26
+  \item TensorRT, 26
+  \item Theano, 27
+
+  \indexspace
+
+  \item UCI Machine Learning Repository, 45
+
+  \indexspace
+
+  \item VGG, 54
+  \item Video Processing Unit
+    \subitem  \emph  {see} VPU, 19, 30
+  \item VPU, 19, 30
+
+  \indexspace
+
+  \item YOLO v5, 99
+
+\end{theindex}

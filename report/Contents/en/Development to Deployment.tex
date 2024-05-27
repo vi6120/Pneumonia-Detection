@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-03-17 11:15:45Z $
+% $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/MapleDateien.tex $
+% $Version: 4732 $
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\VERSION{$ $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/MapleDateien.tex $ $}{$ $Version: 4732 $ $}
+
+
+
+\chapter{Development to Deployment}
+\section{Tools and Installation}
+
+When developing and deploying an image processing web app for pneumonia detection, the following tools can be utilized:
+
+
+
+\textbf {Development:}
+
+\begin{enumerate}
+	\item \textbf {Python (Programming Language):} 
+	
+	Python for backend development. Make sure you have Python installed on your system. You can download Python from the official  website                                    https://www.python.org/downloads/ . Python comes with pip, a package manager that will help you install the necessary libraries. Python is a high-level, interpreted programming language known for its simplicity and readability. It is widely used for backend development due to its extensive libraries, frameworks, and ease of integration with other technologies.
+	
+	\item \textbf {	NumPy :} 
+	
+	NumPy is a fundamental package for scientific computing in Python. It provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on these arrays efficiently. NumPy is widely used in fields such as data science, machine learning, and numerical computations. 
+	For installation refer chapter 07
+	
+	\item \textbf {	PyCharm and Visual Studio (IDEs): }
+	
+	PyCharm, Visual Studio Code for frontend development. PyCharm and Visual Studio Code are popular integrated development environments (IDEs) used for frontend development with Python. They provide features such as code editing, debugging, version control integration, and support for web technologies like HTML, CSS, making them suitable for developing frontend components of web applications.
+	For installation please refer Chapter 02 and Chapter 08 for Visual Studio and PyChar respectively
+	
+	\item \textbf {Flask (Frameworks): }
+	
+	Flask for the frontend. Flask is a popular web framework for building web applications using Python. It is a lightweight and flexible framework that follows the microservices architecture, making it suitable for our project
+	For Installation please refer chapter 07
+	
+	\item \textbf {Image Processing Libraries:  }
+	
+	OpenCV, Pillow for manipulation and processing.
+	OpenCV: A computer vision library that offers extensive functionality for image preprocessing, manipulation, and analysis.
+	PIL (Python Imaging Library): A library for image processing tasks, including loading, resizing, and basic image operations.
+	
+	
+	\item \textbf {Deep Learning Frameworks:  }
+	
+	TensorFlow, Keras, for implementing deep learning models for pneumonia detection.
+	TensorFlow: A popular deep learning framework that provides tools for building and training neural networks. For installation refer Chapter 07
+	Keras: A high-level neural networks API that runs on top of TensorFlow, allowing for easy implementation of deep learning models.
+	
+	\item \textbf {	Version Control: }
+	
+	GitHub as a platforms like for managing source code. GitHub is a web-based platform and hosting service that allows developers to manage and collaborate on source code. It provides version control functionality using Git, enabling teams to track changes, manage branches, and merge code seamlessly, facilitating efficient code collaboration and project management.
+	
+	\item \textbf {	Testing:  }
+	
+	Tools like PyTest for unit testing and functional testing. PyTest is a popular testing framework in Python that supports unit testing, functional testing, and integration testing. It offers a simple and expressive syntax, powerful fixtures, and extensive plugin ecosystem, making it a versatile tool for testing Python code and ensuring its quality and reliability.
+	
+\end{enumerate}
+
+
+\textbf {Deployment:}
+
+\begin{enumerate}
+	
+	\item \textbf {	Cloud Platforms:  }
+	
+	Google Cloud Platform (GCP) for hosting and deploying the web app. Google Cloud Platform (GCP) is a suite of cloud computing services provided by Google. It offers a wide range of hosting and deployment options for web applications, including virtual machines, managed Kubernetes clusters, serverless functions, and storage services, enabling scalable and reliable deployment of web apps with robust infrastructure and services.
+	
+	
+	\item \textbf {	Serverless Computing:  }
+	
+	Google Cloud Functions for running serverless code. Google Cloud Functions is a serverless computing platform provided by Google Cloud Platform (GCP). It allows developers to write and deploy small, event-driven functions without the need to manage infrastructure. It automatically scales the functions based on demand, making it easy to build and run serverless code in a cost-effective and scalable manner.
+	
+\end{enumerate}
+
+
+\section{Saving the Model}
+
+Saving model consist following steps :
+
+\begin{enumerate} [label=Step \arabic*:]
+	
+	\item \textbf {	Train and Validate the Model }
+	
+	Train your pneumonia detection model using a dataset of labeled examples. Split the dataset into training and validation sets for evaluation. Ensure that the model achieves satisfactory performance on the validation set.
+	
+	
+	\item \textbf {	Choose a Model Serialization Format }
+	
+	we will save the model's architecture and weights in a Python .py file.
+	
+	\item \textbf {	Save the Model Architecture }
+	
+	In your Python script or notebook, define the architecture of your trained model. Include all the layers, their configurations, and any custom functions or classes.
+	
+	
+	
+	\item \textbf {	Train and Save the Weights :}
+	
+	Retrain the model using the entire dataset, including the validation set. Once the training is complete, save the learned weights of the model.
+	
+	
+	\item \textbf {Save the Model in a Python Script}
+	
+	Create a new Python script, let's name it pneumonia\_model.py, and copy the model architecture and weight initialization code into it.
+	
+	
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			\node at (0,0) {\includegraphics[width=\linewidth]{Images/Savingmodel}};
+		\end{tikzpicture}
+		\caption{\textbf{Saving Model Architecture}}
+		%	\footnotesize \textbf{Reference:}\cite{Alhameed:2022}
+		\label{fig: Saving Model Architecture}
+	\end{figure}
+	
+	
+	
+	
+	
+	
+	
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			\node at (0,0) {\includegraphics[width=\linewidth]{Images/Savingmodelpaython}};
+		\end{tikzpicture}
+		\caption{\textbf{Saving Model For Python Scrip}}
+		%	\footnotesize \textbf{Reference:}\cite{Alhameed:2022}
+		\label{fig: Saving Model For Python Script}
+	\end{figure}
+	
+\end{enumerate}
+
+
+\section{File Structure}
+
+The file structure of the project consists of the following components:
+
+\begin{itemize}
+	\item \textbf {	app.py :}
+	
+	This script serves as the engine of the web application and is responsible for running the application.
+	It contains an API that receives input from the user and computes a predicted value based on the model.
+	This file is typically written using the Flask framework in Python, allowing it to handle incoming requests and generate appropriate responses.
+	
+	
+	\item \textbf {	prediction.py :}
+	
+	This file contains the code to build and train a machine learning model.
+	It may include data preprocessing, feature engineering, model selection, and training procedures.
+	The trained model can be used in the app.py script to make predictions based on user input.
+	
+	
+	\item \textbf {	templates folder (.html):}
+	
+	This folder contains two HTML files: home.html and base.html.
+	home.html defines the structure and layout of the web application's main page.
+	base.html serves as a base template that other HTML files can inherit from, allowing for code reusability and consistent design across multiple pages.
+	
+	
+	\item \textbf {	static folder (.css) :}
+	
+	This folder contains the style.css file, which is responsible for adding styling and enhancing the visual appearance of the web application.
+	The CSS file defines rules and styles for HTML elements, allowing for customization of fonts, colors, layouts, and other visual aspects.
+	
+	
+	
+	
+\end{itemize}
+
+
+\section{Loading Model}
+
+
+
+\begin{itemize}
+	
+	
+	\item \textbf {	Integration with the Web Application:}
+	
+	In  image processing web application code, import the pneumonia\_model.py script that contains the model architecture and loading code.
+	Ensure that the necessary dependencies (e.g., TensorFlow, Keras) are available in the application's environment.
+	
+	
+	\item \textbf {	Load the Model:}
+	
+	Use the provided functions or classes from the pneumonia\_model.py script to load the model into your web application.
+	
+	
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			\node at (0,0) {\includegraphics[width=\textwidth]{Images/Loadingmodel}};
+		\end{tikzpicture}
+		\caption{\textbf{Loading The Model}}
+		%	\footnotesize \textbf{Reference:}\cite{Alhameed:2022}
+		\label{fig:Loading The Modelt}
+	\end{figure}
+	
+	
+\end{itemize}
+
+
+\section{Description Of Process}
+
+Fig. 11.4 shows over view of the process.The process for developing and deploying a pneumonia detection web app involves several steps. Here is a description of the process:
+
+\begin{enumerate} 
+	
+	\item \textbf {	Requirements Gathering:}
+	
+	Define the requirements for the pneumonia detection web app, including the desired features, user interface, and performance criteria. Understand the target audience and any specific needs or constraints.
+	
+	\item \textbf {	Data Collection and Preparation:}
+	
+	Gather a dataset of chest X-ray images with labeled pneumonia and non-pneumonia cases. Preprocess the data by resizing, normalizing, and augmenting the images as needed. Split the dataset into training, validation, and testing subsets.
+	
+	\item \textbf {	Model Development:}
+	
+	Choose an appropriate machine learning or deep learning algorithm for pneumonia detection. Train the model using the labeled dataset and evaluate its performance on the validation set. Fine-tune the model and iterate until satisfactory results are achieved.
+	
+	\item \textbf {	Front-end Development:}
+	
+	Create the user interface and design the visual elements of the web app. Develop the front-end using HTML, CSS, and JavaScript frameworks like Flask. Implement features such as image upload, result display, and user interactions.
+	
+	\item \textbf {Back-end Development:}
+	
+	Build the back-end of the web app using a server-side framework like Flask or Django. Implement the necessary APIs and endpoints to handle image uploads, process the images using the trained model, and return the results to the front-end.
+	
+	\item \textbf {Integration and Testing:}
+	
+	Connect the front-end and back-end components, ensuring seamless communication and functionality. Conduct rigorous testing to verify the correctness of the app, including unit testing, integration testing, and user testing. Fix any issues or bugs identified during testing.
+	
+	\item \textbf {Deployment:}
+	
+	Choose a suitable hosting platform or cloud service provider to deploy the web app. Set up the necessary infrastructure, configure the server, and ensure the app is accessible over the internet. Consider security measures, such as HTTPS encryption and access controls, to protect user data.
+	
+	\item \textbf {Continuous Monitoring and Improvement:}
+	
+	Monitor the performance and usage of the web app in the production environment. Collect user feedback and analytics to identify areas for improvement. Continuously update and optimize the app based on user needs and emerging technologies.
+	
+	\item \textbf {Maintenance and Support:}
+	
+	Provide ongoing maintenance and support for the web app, addressing any issues, bugs, or feature requests that arise. Stay updated with the latest advancements in pneumonia detection algorithms and technologies to ensure the app remains accurate and efficient.
+	
+	
+	
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			\node at (0,0) {\includegraphics[width=\linewidth]{Images/Processdescription}};
+		\end{tikzpicture}
+		\caption{\textbf{Description Of Process}}
+		%	\footnotesize \textbf{Reference:}\cite{Alhameed:2022}
+		\label{fig:Description Of Process}
+	\end{figure}
+	
+	
+	
+	
+	
+\end{enumerate}
+
+
+
+
+
+

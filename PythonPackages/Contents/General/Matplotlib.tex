@@ -1,0 +1,504 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/Matplotlib.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+
+% Quelle: https://www.heise.de/ratgeber/Matplotlib-fuer-Einsteiger-So-erzeugen-Sie-ganz-einfach-Diagramme-mit-Python-6664314.html?seite=all
+
+
+\chapter{Matplotlib für Einsteiger: So erzeugen Sie ganz einfach Diagramme mit Python}
+
+Diagramme müssen nicht viel Aufwand verursachen: Die Bibliothek Matplotlib für Python spart eine Menge Programmierarbeit und erzeugt anschauliche Grafiken.
+
+Endlose Zahlenreihen in endlosen Tabellen – es gibt anschaulichere Wege, umfangreiches Datenmaterial einem Publikum näherzubringen. Selbst komplexe Sachverhalte sind in Diagrammen gut zu erfassen. Die Frage ist allerdings, wie man Zahlen möglichst anschaulich und verständlich darstellt.
+
+Sicher: Solche Dinge kann man praktisch mit jeder Programmiersprache umsetzen. Doch dieser Weg ist eher mühsam und setzt fundierte Kenntnisse in Mathematik und Trigonometrie voraus. Ganz zu schweigen von den vielen Fehlern, die sich bei dieser kleinteiligen Vorgehensweise einschleichen können.
+
+Eine effektivere Lösung für Python-Programmierer ist die Bibliothek Matplotlib: Sie dient Entwicklern als Werkzeug, mit dem sie mit geringem Aufwand eine umfassende Palette an Diagrammen erzeugen können. Erweiterungen, beispielsweise für den Export in häufig verwendete Grafikformate, erlauben die Integration der Diagramme in vorhandene Workflows. Die Syntax ist nachvollziehbar und der Katalog an verfügbaren Diagrammen ist umfangreich, zudem steht die Bibliothek unter einer Open-Source-Lizenz. Gute Gründe also, Matplotlib auszuprobieren.
+
+\section{Matplotlib einrichten}
+
+Als erste Aufgabe steht die Einrichtung der Bibliothek auf der To-do-Liste. Um Probleme mit den für die verschiedenen Skripte notwendigen Abhängigkeiten zu vermeiden, empfiehlt sich für Tests die Verwendung einer virtuellen Umgebung. Hier bietet sich der Paket-Manager Conda an. Für ihn spricht unter anderem, dass er in der weitverbreiteten Anaconda-Distribution von Python für wissenschaftliche Anwendungen von Haus aus enthalten ist.
+
+Im ersten Schritt müssen Sie ein neues virtuelles Environment erzeugen. Die angebotenen Voreinstellungen nicken Sie durch Drücken der Y-Taste ab:
+
+\medskip
+
+\SHELL{(base) tamhan@tamhan-thinkpad:~\$ conda create --name heisematplotlib}
+
+\SHELL{Collecting package metadata (current\_repodata.json): done}
+
+\SHELL{...}
+
+\medskip
+
+Nachdem der Virtual-Environment-Generator durchgelaufen ist, aktiviert sich die Umgebung von Conda nicht automatisch. Das holen Sie nach folgendem Schema nach:
+
+\medskip
+\SHELL{(base) tamhan@tamhan-thinkpad:~\$ conda activate heisematplotlib}
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~\$}
+
+\medskip
+
+Conda informiert den Nutzer über ein vor den Prompt gestelltes Präfix darüber, welches virtuelle Environment gerade aktiviert ist. Der String (base) würde also für das Base-Environment stehen. Nach der Aktivierung ändert sich der String zu (heisematplotlib), was über die Aktivierung der Virtual Environment informiert.
+
+Im nächsten Schritt müssen Sie den in Conda integrierten Paket-Manager nutzen, um die Virtual Environment mit der Bibliothek auszustatten:
+
+\medskip
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~\$ conda install matplotlib}
+
+\SHELL{. . .}
+
+\SHELL{Executing transaction: done}
+
+\medskip
+
+Sobald Sie dieses Kommandos ausführen, startet ein Download von gut 50 MByte Daten. Insbesondere die Neusynchronisation des Virtual Environments kann etwas Zeit in Anspruch nehmen. Schließlich sehen Sie, dass Ihre Workstation um das Paket matplotlib-3.5.1 reicher geworden ist.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib01}      
+            
+    \caption{Die Bibliothek Matplotlib unterstützt Programmierer bei der Visualisierung von Daten.}\label{Matplotlib01}
+  \end{center}    
+\end{figure}
+
+
+Im nächsten Schritt erzeugen Sie ein Arbeitsverzeichnis und öffnen die Arbeitsdatei worker.py in Visual Studio Code:
+
+\medskip
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~\$ mkdir chartspace}
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~\$ cd chartspace/}
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~/chartspace\$ touch worker.py}
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~/chartspace\$ code}
+
+\SHELL{(heisematplotlib) tamhan@tamhan-thinkpad:~/chartspace\$ code worker.py }
+
+\medskip
+
+Der zweistufige Aufruf von code und code worker.py stellt sicher, dass das direkte Öffnen der Datei die Tabs in Visual Studie, die aus vorigen Sessions erhalten sind, nicht überschreibt.
+
+
+\section{Liniendiagrammen erzeugen}
+
+Nachdem Sie die Bibliothek auf den Rechner geladen haben, müssen Sie anschließend eine Arbeitsdatei erzeugen. Matplotlib kommt normalerweise fast immer im Zusammenspiel mit NumPy zum Einsatz. Die Bibliothek stellt eine Gruppe von Datenstrukturen zur Verfügung, in denen die von der Matplotlib später zu verarbeitenden Informationen unterkommen können:
+
+\medskip
+
+\PYTHON{import matplotlib.pyplot as plt}
+
+\PYTHON{import numpy as np}
+
+\medskip
+
+Für eine erste Übung erzeugen Sie jetzt ein Liniendiagramm. Matplotlib stammt aus dem mathematischen Bereich, weshalb die Datenwolke prinzipiell aus zwei Feldern mit x und y aufzubauen ist:
+
+\medskip
+
+\PYTHON{x = np.array([4, 2, 2, 4])}
+
+\PYTHON{y = x*2}
+
+\medskip
+
+Dank der Nutzung eines NumPy-Arrays können Sie die Y-Koordinaten auf eine bequeme Art und Weise erzeugen. Die Multiplikation eines NumPy-Arrays mit einem Integer führt zur Erzeugung eines zweiten Arrays. Im nächsten Schritt sorgen Sie für die eigentliche Anzeige des Diagramms:
+
+\medskip
+
+\PYTHON{plt.plot(x, y)}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Interessant ist, dass die Erzeugung eines Matplotlib-Diagramms in einem zweistufigen Prozess erfolgt: Der Aufruf der Methode plot sorgt zunächst dafür, dass der Speicher das Diagramm aufnimmt; show sorgt dann dafür, dass das Diagramm-Anzeigefenster auf dem Bildschirm erscheint.
+
+
+\begin{figure}
+    \begin{center}  
+        \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib02}      
+        
+        \caption{So präsentiert sich das erste Experiment mit Matplotlib auf dem Bildschirm.}\label{Matplotlib02}
+    \end{center}    
+\end{figure}
+
+
+
+
+
+Beachten Sie, dass der Diagrammanzeiger von Haus aus diverse Komfortfunktionen mitbringt. Benutzer können das Chart beispielsweise skalieren, vergrößern oder über das Disketten-Symbol in verschiedenen Formaten exportieren.
+
+Die Zweiteilung in Aufrufe von \PYTHON{plot} und \PYTHON{show} ist dabei keine willkürliche Gängelung des Bibliotheksnutzers. In der Praxis ist es möglich, eine Gruppe von Liniendiagrammen gleichzeitig zu rendern:
+
+\medskip
+
+\PYTHON{plt.plot(x, y)}
+
+\PYTHON{}
+
+\PYTHON{x1 = [2, 4, 6, 8]}
+
+\PYTHON{y1 = [1, 2, 3, 4]}
+
+\PYTHON{plt.plot(x1, y1, '.')}
+
+\PYTHON{}
+
+\PYTHON{plt.show()  }
+
+\medskip
+
+Der erste Aufruf von plot sorgt dabei dafür, dass das aus den Feldern \PYTHON{x} und \PYTHON{y} bestehende Diagramm in den Speicher der Matplotlib eingepflegt wird. Der darauffolgende Aufruf nutzt stattdessen die Felder \PYTHON{x1} und \PYTHON{y1}. Die Übergabe des Werts \PYTHON{'.'} sorgt für die Auswahl des für die Darstellung der Linie zu verwendenden Symbols. Abschließend rendert der Aufruf von show abermals den gesamten Speicher.
+
+\section{Titel und Legenden rendern}
+
+Diagramme profitieren von Beschriftungen, welche die angezeigten Linien und Kurvenformen in einen Kontext stellen. Die einfachste Möglichkeit, um derartige Metadaten einzubinden, ist die Verwendung der Methode \PYTHON{title}. Die platzieren Sie einfach irgendwo vor dem Aufruf der Methode \PYTHON{show}:
+
+\medskip
+
+\PYTHON{plt.plot(x1, y1, '.')}
+
+\PYTHON{plt.title('Heisetest!')}
+
+\PYTHON{plt.show()  }
+
+\medskip
+
+Im Allgemeinen hält sich diese Funktion an die Regel Nomen est omen. Die folgende Abbildung zeigt, dass der übergebene String als Titelzeile des erscheinenden Diagrammfensters dient.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib03}      
+        
+    \caption{Diagramme lassen sich auf Wunsch auch mit Titel versehen.}\label{Matplotlib03}
+  \end{center}    
+\end{figure}
+
+
+Um komplexere Legenden zu erzeugen, benötigt Matplotlib Informationen darüber, was die einzelnen Daten- beziehungsweise Diagramm-Elemente darstellen. Dies lässt sich durch Nutzung des Label-Parameters einpflegen. Dank der Named-Parameter-Funktion der Programmiersprache Python können Sie den Aufruf von Plot mit folgenden Zeilen anpassen:
+
+\medskip
+
+\PYTHON{plt.plot(x, y, label="erste Datenreihe")}
+
+\PYTHON{. . .}
+
+\PYTHON{plt.plot(x1, y1, '.', label="erste Datenreihe")}
+
+\medskip
+
+Die Anzeige der im Label-Speicherfeld befindlichen Strings erfolgt in Matplotlib nach einer expliziten Aufforderung. Hierzu rufen Sie die Funktion \PYTHON{legend} auf, die eine Gruppe von Parametern übernimmt:
+
+\medskip
+
+\PYTHON{plt.legend(facecolor = 'pink', title = 'Legend',loc = 'upper left')}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Wir nutzen hier das Attribut facecolor, um die Hintergrundfarbe der Legende festzulegen. Über das loc-Attribut können Sie die Position des Diagramm-Elements grob bestimmen. \HREF{https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.pyplot.legend.html}{Weitere Informationen} hierzu finden Sie auf \URL{matplotlib.org}.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib04}      
+        
+    \caption{Eine Legende macht das Diagramm leichter verständlich.}\label{Matplotlib04}
+  \end{center}    
+\end{figure}
+
+
+Interessant ist in diesem Zusammenhang die Frage, wie Matplotlib auf mehrfaches Aufrufen der Legende-Funktion reagiert. Dies lässt sich durch einen zweiten Aufruf überprüfen, der den Wert \PYTHON{bbox\_to\_anchor} verändert:
+
+\medskip
+
+\PYTHON{plt.legend(facecolor = 'pink', title = 'Legend',loc = 'upper left')}
+
+\PYTHON{plt.legend(bbox\_to\_anchor= (1.02, 1));}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Dabei erlaubt \PYTHON{bbox\_to\_anchor} eine abstrakte Positionierung eines Elements in seinem Container. Wir würden hier dafür sorgen, dass die Legende am rechten Rand erscheint.
+
+Wenn Sie diese Version des Programms abermals zur Ausführung freigeben, sehen Sie, dass die Standard-Legende an der vorgegebenen Position erscheint – ihr Hintergrund ist aber weiß. Aus diesem Verhalten können Sie ableiten, dass mehrere Aufrufe von legend dazu führen, dass nur der zuletzt übergebene Parametersatz aktiviert wird.
+
+\section{Tortendiagramme erzeugen}
+
+Manuell wäre die Programmierung von Tortendiagrammen eine mühsame Angelegenheit. Die Matplotlib nimmt dem Entwickler an dieser Stelle Arbeit ab. Das folgende Snippet erzeugt ein einfaches Tortendiagramm:
+
+\medskip
+
+\PYTHON{import matplotlib.pyplot as plt}
+
+\PYTHON{sizes=[12,11,13,30]}
+
+\PYTHON{plt.pie(sizes)}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+
+Der Aufruf der Funktion \PYTHON{pie} informiert die Bibliothek darüber, dass das angelieferte Daten-Array in ein Tortendiagramm umzuwandeln ist. Matplotlib kümmert sich dabei automatisch um die Summierung der Informationen und andere Housekeeping-Aktivitäten.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib05}      
+        
+    \caption{Ein mit Matplotlib automatisch generiertes Tortendiagramm.}\label{Matplotlib05}
+  \end{center}    
+\end{figure}
+
+
+Interessant ist daran vor allem, dass die Nutzung von NumPy-Arrays zur Inbetriebnahme der Matplotlib nicht unbedingt erforderlich ist. Es ist genauso legitim, auf ein gewöhnliches Python-Array zurückzugreifen.
+
+Besonders in ihrer dreidimensionalen Variante sind Tortendiagramme bei Grafikern beliebt. Doch bei Ergonomie- und Cognitive-Studies-Professoren sind sie heiß umstritten. Eine lesenswerte \HREF{https://www.data-to-viz.com/caveat/pie.html}{Zusammenfassung möglicher Probleme mit diesem Format} ist online verfügbar.
+
+Matplotlib beschränkt Entwickler dabei nicht auf das Erzeugen von Tortendiagrammen, die keine Legenden-Informationen anliefern. Die Bibliothek erlaubt auch das Einschreiben verschiedener Hinweise, die dem Nutzer bei der Interpretation der in den Diagrammen befindlichen Informationen helfen.
+
+Der folgende Test nutzt die legend-Methode und schreibt dem Tortendiagramm zusätzlich ein Label-Feld ein:
+
+\medskip
+
+\PYTHON{labelField = ['A', 'B', 'C', 'D']}
+
+\PYTHON{sizes=[12,11,13,30]}
+
+\PYTHON{plt.pie(sizes, labels = labelField)}
+
+\PYTHON{plt.legend()}
+
+\medskip
+
+Zu beachten ist, dass die Anzeige der Tortennamen neben den einzelnen Tortenstücken auch dann erfolgen würde, wenn Sie im Programm die Methode \PYTHON{legend} nicht aufrufen.
+
+
+\section{Balkendiagramme rendern}
+Balkendiagramme sind oftmals der bequemere und übersichtlichere Weg zur Darstellung von größeren Informationsmengen. Matplotlib leistet auch bei diesem Diagramm-Typ wertvolle Hilfe. Für einen ersten Versuch im Bereich der Erzeugung von Balkendiagrammen reicht es aus, wenn Sie unser Codebeispiel anpassen:
+
+\medskip
+
+\PYTHON{labelField = ['A', 'B', 'C', 'D']}
+
+\PYTHON{sizes=[12,11,13,30]}
+
+\PYTHON{plt.bar(labelField, sizes)}
+
+\PYTHON{plt.legend()}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Balken- und Tortendiagramme haben mehr gemeinsam, als man auf den ersten Blick annehmen würde. Wichtig ist hier der Austausch der Generatorfunktion \PYTHON{pie} gegen \PYTHON{bar} und die Umkehrung der Reihenfolge zwischen den Parametern \PYTHON{labelField} und \PYTHON{sizes}. Sonst verhält sich auch diese Version des Programms erwartungsgemäß.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib06}      
+        
+    \caption{Das gerenderte Balkendiagramm ist einsatzbereit.}\label{Matplotlib06}
+  \end{center}    
+\end{figure}
+
+Möchten Sie stattdessen ein horizontal ausgerichtetes Balkendiagramm haben, müssen Sie sich nicht mit Bitmap-Transformationen und anderen Komplikationen herumärgern. Stattdessen reicht es aus, die Generatorfunktion \PYTHON{bar} durch ihre identisch parametrierte Kollegin \PYTHON{barh} zu ersetzen:
+
+\medskip
+
+\PYTHON{labelField = ['A', 'B', 'C', 'D']}
+
+\PYTHON{sizes=[12,11,13,30]}
+
+\PYTHON{plt.barh(labelField, sizes)}
+
+\PYTHON{plt.legend()}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Lohn der Mühen ist dann die Erzeugung des horizontal ausgerichteten Balkendiagramms.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib07}      
+        
+    \caption{Matplotlib dreht Balkendiagramme auf Wunsch.}\label{Matplotlib07}
+  \end{center}    
+\end{figure}
+
+Beachten Sie, dass die hier vorgestellten Methoden mit diversen anderen Komfortfunktionen der Matplotlib vereinbar sind: Im Fall von Balkendiagrammen kann es etwa sehr nützlich sein, im Hintergrund ein Gitter zu platzieren, das die Übersichtlichkeit erhöht. Nutzen Sie dafür einfach die Methode \PYTHON{plt.grid (true)}:
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib08}      
+        
+    \caption{Ein Gitter im Hintergrund des Diagramms verbessert die Übersichtlichkeit deutlich.}\label{Matplotlib08}
+  \end{center}    
+\end{figure}
+
+\medskip
+
+\PYTHON{labelField = ['A', 'B', 'C', 'D']}
+
+\PYTHON{sizes=[12,11,13,30]}
+
+\PYTHON{plt.bar(labelField, sizes)}
+
+\PYTHON{plt.legend()}
+
+\PYTHON{plt.grid(True)}
+
+\PYTHON{plt.show()}
+
+
+\section{Funktionen und Histogramme}
+
+Eine letzte Aufgabe soll demonstrieren, wie sich die Kombination aus Matplotlib und NumPy-Berechnungsfunktionen zur Darstellung von Funktionen nutzen lässt. Ziel ist die Umsetzung einer Bildschirm-Ansicht, die an das Schirmbild erinnert, das der durchschnittliche grafische Taschenrechner präsentiert.
+
+Im ersten Schritt benötigen wir dabei Datenfelder, die Sinus- und Kosinus-Werte aufnehmen. Problematisch ist an dieser Sache, dass die in NumPy enthaltenen Funktionen Werte in Radiant erwarten. Die Radiant-Werte sind allerdings schwieriger zu generieren als eine einfache Folge (0, 1, 2, 3, ... 360). Ein möglicher Lösungswert besteht darin, die Funktionen \PYTHON{np.sin} und \PYTHON{np.cos} gegen ein NumPy-Array beziehungsweise ein NumPy-Range anzuwenden.
+
+NumPy bietet mit Rangemaker-Funktionen nämlich die Möglichkeit an, fortlaufende Zahlenbereiche nach verschiedenen Definitionen automatisch zu generieren:
+
+\medskip
+
+\PYTHON{laeufer = np.arange(0,6.4,0.05)}
+
+\PYTHON{sins = np.sin(laeufer)}
+
+\PYTHON{cosins = np.cos(laeufer)}
+
+\medskip
+
+\PYTHON{arange} erzeugt dabei ein von 0 bis 6.4 laufendes Zahlenfeld, der dritte Parameter legt den zwischen den einzelnen Elementen anzulegenden Abstand fest.
+
+Für einen ersten Versuch nutzen Sie am besten die schon erwähnte Plot-Funktion, um sowohl die Sinus-Schwingung als auch die Kosinus-Schwingung auf den Bildschirm zu bringen:
+
+\medskip
+
+\PYTHON{plt.grid(True)}
+
+\PYTHON{plt.plot(laeufer, sins)}
+
+\PYTHON{plt.plot(laeufer, cosins)}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Interessant ist im vorliegenden Code, dass wir die Methode \PYTHON{plt.grid} mit \PYTHON{True} als Parameter aufrufen. Das Ergebnis ist, dass Matplotlib das angezeigte Diagrammfenster mit einem karierten Hintergrund ausstattet, der die Korrelation der Datenpunkte erleichtert.
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib09}      
+        
+    \caption{Mit dem Aufruf von \PYTHON{plt.grid(True)} kann der Benutzer die Werte einfacher begreifen.}\label{Matplotlib09}
+  \end{center}    
+\end{figure}
+
+Diagramme zu beschriften und Achsen zu beschreiben, ist immer wichtig. Das gilt umso mehr für Diagramme, die sehr viele Kurven aufweisen. Dies erledigen Sie durch die Methoden \PYTHON{plt.xlabel} und \PYTHON{plt.ylabel}, welche die als Achsbeschriftungen vorgesehenen Strings aufnehmen:
+
+\medskip
+
+\PYTHON{plt.grid(True)}
+
+\PYTHON{plt.plot(laeufer, sins)}
+
+\PYTHON{plt.plot(laeufer, cosins)}
+
+\PYTHON{plt.xlabel("Time") }
+
+\PYTHON{plt.ylabel("Value") }
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Nach der Programmausführung zeigt sich, dass diese Beschreibungen ein Diagramm verständlicher machen.
+
+Matplotlib ist in der Lage, die Abstände von Grids und von Achsmarkierungen bis zu einem gewissen Grad selbst zu errechnen. In der Praxis gibt es allerdings immer wieder Situationen, in denen man sich eine formalere Vorgehensweise wünscht. Die Methode \PYTHON{xticks} erlaubt in diesem Fall die Übergabe einer Gruppe von Werten, die dann als Basis-Stellen für die im Diagramm eingeblendeten Hilfselemente herangezogen werden:
+
+\medskip
+
+\PYTHON{plt.xlabel("Time") }
+
+\PYTHON{plt.xticks([1,2,3])}
+
+\PYTHON{plt.ylabel("Value") }
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Die Matplotlib hält sich nach dem Aufruf der Methode komplett aus der Berechnung heraus. Übergeben Sie wie hier beispielsweise nur die Werte von 1 bis 3, überstreicht der gesamte Wert allerdings 0 bis 6.4. Deshalb erhalten Sie freie Bereiche:
+
+\begin{figure}
+  \begin{center}  
+    \includegraphics[width=\textwidth]{MatPlotLib/MatPlotLib10}      
+        
+    \caption{Wer die xticks-Methode benutzen möchte, muss mitdenken.}\label{Matplotlib10}
+  \end{center}    
+\end{figure}
+
+
+\section{Histogramme}
+
+Die in Matplotlib enthaltenen Statistikfunktionen erlauben das Berechnen von Histogrammen. Dazu müssen Sie das normalerweise von Hand durchzuführende Binning nicht durchführen. Die Bibliothek kümmert sich darum, wenn sie für die Diagramm-Erzeugung die Methode \PYTHON{hist} verwenden:
+
+\medskip
+
+\PYTHON{plt.grid(True)}
+
+\PYTHON{plt.hist(sins)}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Wer \PYTHON{hist()} nur mit einem einzelnen Datenfeld aufruft, animiert die Matplotlib dazu, alle notwendigen Werte selbst festzulegen. Möchten Sie Ihr Diagramm stattdessen mit einer bestimmten Menge von Klassen (Bins) rendern, bietet sich die Nutzung eines named parameters an. Die folgende Version des Codes würde beispielsweise 30 Bins anlegen:
+
+\medskip
+
+\PYTHON{plt.grid(True)}
+
+\PYTHON{plt.hist(sins, bins = 30)}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+Insbesondere \HREF{https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.pyplot.hist.html}{im Bereich Binning bietet die Matplotlib diverse Komfortfunktionen an}, die auf matplotlib.org im Detail beschrieben sind. Es ist zum Beispiel erlaubt, ein Array mit den Grenzen der Bins anzuliefern. Dies erlaubt wiederum das Verändern der Erfassungsbreite von Teilen des Histogramms.
+
+\Ausblenden{
+
+} % Ausblenden
+
+
+\section{Literatur zu Matplotlib}
+
+Wie fast alle anderen Projekte im Python-Ökosystem ist auch die Matplotlib exzellent dokumentiert: Es stehen \HREF{https://matplotlib.org/3.5.0/api/index.html}{spezifische Informationen zu einzelnen Teilen des Frameworks} zur Verfügung. Dort können Sie beispielsweise mehr darüber erfahren, welche Rolle die einzelnen benannten Parameter der Funktionen übernehmen.
+
+Wegen der immensen Verbreitung der Bibliothek hat sich bei der praktischen Erzeugung von Matplotlib-Diagrammen allerdings eine etwas andere Vorgehensweise herauskristallisiert. Sowohl auf \URL{matplotlib.org} als auch auf \URL{python-graph-gallery.com} finden Sie eine Gruppe von Diagramm-Beispielen, die neben einem Rendering auch mit dem für ihre Erzeugung vorgesehenen Quellcode präsentiert werden.
+
+\section{Fazit}
+
+Wer in Python Diagramme rendern möchte und die Matplotlib nicht nutzt, macht unnötige Fleißarbeit. Die im Allgemeinen leicht verständliche Syntax und der immense Umfang der in der Bibliothek verfügbaren Diagrammtypen tut dann sein übriges, um das Produkt zu einem wahren Schweizer Messer der Visualisierung zu machen.
+

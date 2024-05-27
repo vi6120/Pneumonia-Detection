@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/cloud.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+% X 1/2023 S. 58
+% source: https://www.heise.de/select/ix/2023/1/2231414414689232062
+
+
+\chapter{Durchdacht in die Cloud}
+
+\section{Einführung}
+
+Sollen Unternehmensdatenbanken in die Cloud wandern, sind zahlreiche Aspekte zu bedenken. Damit diese Operation am offenen Herzen gelingt, steht am Anfang jedes Migrationsprojekts eine durchdachte Planung.
+
+\begin{itemize}
+	\item Eine Verlagerung von Datenbanken in die Cloud ist kein Spaziergang, bietet aber Vorteile unter anderem bei Flexibilität, Skalierbarkeit und der Entlastung des IT-Personals im Unternehmen.
+	\item Ohne durchdachte Strategie sollte man keine Datenbankmigration in Angriff nehmen.
+	\item Für den Weg einer Datenbank in die Cloud gibt es mehrere Varianten: vom harten Big Bang Lift and Shift bis zu mehrstufigen Ansätzen.
+	\item Die Cloud-Migration der Datenbank ist die beste Gelegenheit, auch anderen Anwendungen und Prozessen die Vorteile der Cloud zu verschaffen.
+\end{itemize}
+
+
+Muss über die Cloud noch diskutiert werden? Weit mehr als 80 Prozent aller deutschen Unternehmen nutzen wenigstens ein Cloud-Angebot. Ganze Softwaregattungen wie CRM- oder Office-Pakete sind bereits in die Cloud umgezogen. Ihre Anziehungskraft wirkt auch auf Datenbankmanagementsysteme (DBMS). Alle Hyperscaler bieten relationale oder NoSQL-Datenbanken als Service an und einige Datenbankspezialisten offerieren neben ihren On-Premises-Anwendungen eigene SaaS-Ansätze, wie die beiden weiteren Titelartikel ab Seite 42 und 50 in dieser Ausgabe zeigen.
+
+Also ab in die Cloud mit der Datenbank? Ganz so einfach geht das häufig nicht. Eingriffe in die Datenbankarchitektur entsprechen schließlich Operationen am offenen Herzen. Zudem sind Datenbanken nur so nützlich wie die Anwendungen, die auf sie zugreifen – etwa ERP, Warenwirtschaft oder Buchhaltungssoftware. Gehören diese nicht auch in die Cloud? Damit ist die Diskussion eröffnet – nicht über das Ob, sondern über das Wie.
+
+\section{Lift and Shift und andere Arten der Migration}
+
+
+Grundsätzlich gibt es drei Möglichkeiten, eine Datenbank in die Cloud zu bringen. Der erste Fall ist der einfachste: Das Unternehmen erzeugt eine Kopie der gesamten Datenbank bei einem Infrastrukturanbieter. Dabei wird nichts am Datenbanksystem und den damit verbundenen Anwendungen geändert, sondern es werden lediglich die physischen Server durch virtuelle ersetzt. Diese Form der Datenbankmigration ist allerdings nicht besonders interessant für das Unternehmen, es sei denn als Failover-/Stand-by-Alternative in einem Disaster-Recovery-Szenario (Abbildung 1). Der Umstieg schleppt alle Einschränkungen der ehemaligen On-Premises-Systeme mit, neue Möglichkeiten und Funktionen der Cloud sind zunächst nicht verfügbar.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/CloudNutzung}
+	\caption[Lift and Shift]{Lift and Shift: Das On-Premises-DBMS und der Cloud-Service haben denselben Umfang, Quelle: MariaDB Corporation}
+\end{figure}
+
+
+Erst mit dem zweiten Fall wird es ernst: der Lift and Shift eines DBMS zu einem Plattformservice, auch Database as a Service (DBaaS) genannt. Wenn sowohl die lokale Variante als auch die Plattform denselben Funktionsumfang besitzen, sind keine grundlegenden Änderungen an Anwendungen oder Daten erforderlich. Dies setzt natürlich voraus, dass die neue Datenbank mit der alten kompatibel ist. Ein Beispiel hierfür wäre ein Lift and Shift von MySQL zu MariaDB SkySQL. Beim Lift and Shift wird die vorhandene Datenbankarchitektur einfach dupliziert. Sie ist anschließend leicht zu optimieren, da DBaaS-Versionen oft zusätzliche Funktionen zur Leistungsdiagnose und zur Optimierung enthalten.
+
+Der dritte Fall ist eine Migration bei unterschiedlichen Datenbanksystemen, die nicht oder nur sehr eingeschränkt miteinander kompatibel sind. Diese erfordert eine   detaillierte Planung, die weit über das triviale Lift-and-Shift-Verfahren   hinausgeht. Denn in diesem Fall sind teils erhebliche Anpassungen an den    Datenbankschemata, den genutzten Schnittstellen sowie den Anwendungen nötig. Auch     Stored Procedures und Querys sind unter Umständen intensiv anzupassen.
+     
+
+Kurzum: Eine Datenbankmigration in die Cloud lässt sich nicht nebenbei erledigen. Eine naheliegende Frage lautet also: Warum sollte ein Unternehmen diese Anstrengung auf sich nehmen? Diese Frage stellt sich vor allem in Situationen, in denen die Systeme problemlos laufen. Doch es gibt viele Gründe für den Einsatz einer (neuen) Cloud-Datenbank.
+
+\section{Vorteile der Datenbankmigration in die Cloud}
+
+Zunächst bringt eine DBaaS eine erhebliche Arbeitserleichterung: Die Unternehmen erhalten in der Cloud eine vollständige Infrastruktur, die ohne eigenen Personaleinsatz überwacht wird. Alle Instanzen werden bedarfsgerecht bereitgestellt und für Transaktions-, Analyse- und HTAP-Workloads optimiert. Automatische Sicherungen der Datenbank über Nacht decken zumindest basale Backup-Funktionen ohne zusätzlichen Aufwand ab. Hinzu kommt die rasche Skalierbarkeit: Um zusätzliche Datenbankleistung kurzfristig hinzuzufügen braucht es kaum mehr als das Starten eines Skripts. Um die dahinterliegenden Virtualisierungsfunktionen und Hardwaregegebenheiten kümmert sich der Provider, der dafür bezahlt wird.
+
+Die einfache Skalierung betrifft die gesamte Infrastruktur. Wenn beispielsweise Entwickler Testsysteme für Änderungen an der Datenbankstruktur benötigen, sind sie – inklusive Kopie des DBMS und einiger Testdaten – meist noch am selben Tag verfügbar. Auch Replikate der aktuellen Datenbank für den Aufbau eines Clusters mit Loadbalancer sind schnell bereitgestellt und ebenso schnell wieder deaktiviert, sobald der Workload auf normale Werte zurückgeht.
+
+Vor allem weltweit agierende Unternehmen profitieren von regionaler Verfügbarkeit, da nicht alle globalen Zugriffe auf dieselben Instanzen geleitet werden. Dies erlaubt  die genaue Verteilung der Arbeitslast, beispielsweise im globalen E-Commerce. Denn   Spitzen wie der Black Friday wandern mit den Zeitzonen rund um den Globus. Für    diese Zwecke stellen die meisten Provider Instanzen in definierten Größen und mit unterschiedlichen Storage-Parametern bereit.
+
+Für kleinere und mittelgroße Unternehmen ist ein solcher Service besonders wichtig, da sie oft ohnehin auf externe Dienstleister zurückgreifen. Je nach Servicelevel ist die technische Unterstützung in der Cloud ohne Zusatzgebühren verfügbar.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/Cloud01}
+	\caption[Bereitstellungsmodelle für Cloud-DBMS]{Vielfalt: Bereitstellungsmodelle für Cloud-DBMS vom virtuellen Server bis zu DBaaS aus einer Hand, Quelle: MariaDB Corporation}
+\end{figure}
+
+
+Apropos Kosten: Eine DBaaS wird, wie bei Cloud-Services üblich, nach Nutzung abgerechnet, auch bei kurzfristiger Skalierung. So werden die Lastspitzen nicht übertrieben teuer, da keine Rechenleistung „auf Vorrat“ gebucht werden muss. Die Unternehmen bezahlen einen Preis, der je nach Workloads und Anforderungen an die Rechenleistung schwanken kann. Dies gilt auch für eine sinkende Leistung, etwa bei einem stark saisonabhängigen Geschäftsmodell.
+
+\section{Auswahlkriterien für die richtige Datenbankplattform}
+
+Es gibt also viele Gründe, dem Datenbanksystem den Weg in die Cloud zu bahnen. Doch ein Spaziergang wird das nicht. Deshalb müssen Unternehmen vieles bedenken und einige Vorbereitungen treffen. Besonders wichtig: Die genutzte Cloud-Datenbank sollte für die im Unternehmen üblichen produktiven Workloads optimiert sein und nicht etwa eine allgemeine Open-Source-Basisversion.
+
+Der Markt bei Cloud-Datenbanken ist inzwischen recht groß. Auf der einen Seite werben klassische Datenbankanbieter für ihre penibel an das jeweilige Datenbanksystem angepassten Clouds. Am anderen Ende des Spektrums bieten die großen Hyperscaler alles für Datenbanken – allerdings leider oft nur proprietär. In beiden Fällen ist der gefürchtete Vendor Lock-in nicht auszuschließen. Denn beide Angebotstypen erschweren die Nutzung anderer DBMS aus geschäftlichen Gründen oder schließen sie gleich ganz aus.
+
+Deshalb ist eine wichtige Eigenschaft von Datenbanksystemen für die Cloud mit dem Begriff Cloud-agnostisch am besten beschrieben. DBMS sollten für unterschiedliche Cloud-Ökosysteme geeignet sein, damit Unternehmen nicht an einen Anbieter gebunden sind. Das ist die Voraussetzung für Multi-Cloud-Strategien, die viele Unternehmen gerne nutzen, um technologisch flexibel zu bleiben.
+
+Allerdings gibt es hier den Stolperstein der Datenbanktransfers zwischen unterschiedlichen Clouds. Dafür berechnen die meisten Anbieter zusätzliches Geld. Deshalb muss das DBMS so gestaltet werden, dass keine überflüssigen Transfers nötig sind. Ganz generell sollte das IT-Management immer die Gebührenstruktur der Cloud im Blick haben. So kostet beispielsweise eine zweite Verfügbarkeitszone (Region) zusätzliches Geld, ist aber nicht für jedes Einsatzszenario notwendig.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/Cloud01}
+	\caption[Open-Source-DBMS]{Open-Source-DBMS sind überall verfügbar und unterstützen so Lift and Shift, Quelle: MariaDB Corporation}
+\end{figure}
+
+
+\section{Tipps für die Auswahl der Cloud-Datenbank}
+
+Bei der Auswahl des Providers sind viele weitere Parameter zu beachten.
+
+\textbf{Verfügbarkeit:} Einige Datenbanksysteme sind in der Cloud nur bedingt verfügbar (Abbildung 3). Open-Source-DBMS haben die Nase vorn und sind (fast) überall zu haben.
+
+\textbf{Latenz:} Die Paketumlaufzeit zwischen den Datenbankservern und den Anwendungen sollte so gering wie möglich sein. Eine weit abgelegene Cloud-Region ist nicht sinnvoll, was die Auswahl auf in Deutschland aktive Cloud-Provider beschränkt.
+
+\textbf{Vertragsgestaltung:} Rollen, Verantwortlichkeiten und das Eigentum an den Daten müssen geregelt sein, ebenso der Ablauf beim Providerwechsel.
+
+\textbf{Servicelevel:} Bei vielen Providern sind das 99,9 oder 99,95 Prozent Verfügbarkeit. Bei einigen Anbietern gibt es eine höhere Verfügbarkeit gegen zusätzliche Gebühren.
+
+\textbf{Aktualisierungen:} Der DBaaS-Anbieter stellt die Software-Upgrades bereitg. Dabei ist es wichtig, dass alle neuen Versionen und Sicherheitsaktualisierungen so schnell wie möglich ausgerollt werden.
+
+\textbf{Verschlüsselung:} Die Datenbank sollte sowohl eine Transportverschlüsselung als auch eine Verschlüsselung der einzelnen Tabellen anbieten. So ist sichergestellt, dass wirklich ausschließlich das nutzende Unternehmen Einblick in die Daten erhält.
+
+\textbf{Technologie und Software:} Viele Firmen besitzen hier eine große Vielfalt, die auch in der Cloud vorhanden sein muss. Darüber hinaus unterstützen Cloud-Provider normalerweise nur die jeweils neuesten stabilen Versionen von Anwendungen und Bibliotheken. Wer hier im Rückstand ist, muss schleunigst nacharbeiten.
+
+\textbf{Zusätzlicher Support durch Admins:} Cloud-Datenbanken automatisieren vieles, aber nicht alles. Einige Cloud-Datenbanken bieten daher zusätzliche Supportdienstleistungen für die Datenbankadministration durch qualifizierte Mitarbeiter an.
+
+\section{Nie ohne Strategie beginnen}
+
+Grundsätzlich benötigen Migrationsprojekte eine klare Strategie, da häufig auch andere Systeme in die Cloud migriert werden. Oft steht sogar die Abschaffung einzelner Altanwendungen auf der Tagesordnung, wenn es diese in der Cloud nicht gibt. Je nach Größe des Unternehmens und des IT-Budgets kann die Migration entweder langsam und schrittweise oder auf einen Schlag (Big Bang) erfolgen. Die zweite Strategie ist allerdings aufwendig und risikoreich, da sie einen Parallelbetrieb erfordert, um die neuen Infrastrukturen zu optimieren. Die erste Strategie dagegen ist risikobewusster und im Einzelfall weniger komplex.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/linkundshift}
+	\caption[Umzug mit Big Bang]{Umzug mit Big Bang -- alles auf einen Schlag in die Cloud schießen, Quelle: MariaDB Corporation}
+\end{figure}
+
+
+\section{Die Deadline im Blick haben}
+
+Wichtig ist auch der Zeithorizont. Eine Migration nach dem Motto „Lift and Shift“ verschiebt alles auf einmal in die Cloud, aber ohne jede Änderung an den zugrunde liegenden Systemen. Das geht schnell, erhält der IT-Abteilung aber die altbekannten Ineffizienzen und Störfaktoren. Zumindest mittelfristig ist ein Reengineering meistens unvermeidbar, schließlich soll der Gang in die Cloud nicht nur ein werbewirksames neues Label bringen.
+
+Sinnvoll ist es also, lieber direkt umfassend zu planen. Dabei gehören sowohl die Prozesse als auch die Datenbankarchitektur auf den Prüfstand. Der Gang in die Cloud ist nämlich eine sehr gute Gelegenheit, alte Zöpfe abzuschneiden und die gesamte Umgebung zu optimieren. Dies bedeutet allerdings auch erhebliche Komplexität. Selbst mittelgroße Unternehmen sollten mit mindestens drei Jahren Projektlaufzeit rechnen, legt die Migrationspraxis bei MariaDB-Kunden nahe.
+
+\section{Was kommt zuerst?}
+
+Im Vorfeld müssen Unternehmen klären, was zuerst migriert wird: Frontend oder Backend, also das eigentliche DBMS? Die Antwort hängt in erster Linie vom Anwendungsszenario ab. Wer sein Datenbanksystem in die Cloud bringen will, muss zunächst die datenintensiven Prozesse bestimmen und in die Cloud bringen. Anschließend folgt der Rest. Ein anderer Ansatz stellt hingegen die Kosten in den Vordergrund. Dabei wird die Reihenfolge der Migration anhand der Schwierigkeit der Umsetzung bestimmt. Die Konsequenz ist meist, zunächst das leichter zu portierende Frontend in die Cloud zu verschieben.
+
+Ein weiteres Szenario für die Cloud-Migration ist das Verbessern der Skalierung. In diesem Fall identifiziert die IT-Organisation zuerst alle langsamen Systeme. Das wird in vielen Fällen auch das Datenbanksystem sein. Anschließend folgt dann die schrittweise Übertragung in die Cloud.
+
+Dabei ist es sinnvoll, zur Risikosenkung die eigentliche Migration in drei Schritten umzusetzen: Zuerst wird das Frontend in die Cloud verschoben, dann die Präsentations- und Anwendungsschicht und zuletzt die eigentliche Datenbank (siehe Abbildungen). Auf jeden Schritt folgen dann spezifische Anpassungen und eine Testphase, sodass die Komplexität der Migration beherrschbar bleibt.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/migrationPhase1}
+	\caption[Schrittweise Migration zur Risikosenkung -- Frontend]{Schrittweise Migration zur Risikosenkung -- erst wandert das Frontend in die Cloud \ldots, Quelle: MariaDB Corporation}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/migrationPhase2}
+	\caption[Schrittweise Migration zur Risikosenkung -- Datenbankspeicher on Premises]{... und im zweiten Schritt bleibt nur der Datenbankspeicher on Premises \ldots, Quelle: MariaDB Corporation}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Cloud/migrationPhase3}
+	\caption[Schrittweise Migration zur Risikosenkung -- Vollständig]{Schritt drei vollendet schließlich die Migration. Jetzt arbeitet das gesamte DBMS in der Cloud, Quelle: MariaDB Corporation}
+\end{figure}
+
+
+
+
+\section{Fazit: Die Datenbankmigration beginnt im Kopf}
+
+Bis hierhin sollte klar geworden sein, dass Cloud-Migration zunächst im Kopf stattfindet. Ohne strategische Überlegungen, ein ausreichendes Budget für Zeit und Geld sowie eine gute Vorbereitung ist das Projekt zum Scheitern verurteilt.
+
+Bei Erfolg macht die Cloud alles deutlich agiler, vieles einfacher und einiges kosteneffizienter. Doch Migrationsprojekte sind aufwendig, oft teuer und die Datenbankmigration sogar recht risikoreich. Zeit und Geld für intensive Tests und eine kurze Phase des Parallelbetriebs sollten direkt eingeplant werden.
+
+Deshalb ist es nicht besonders sinnvoll, nur die Datenbank und vereinzelte Anwendungen in die Cloud zu bringen. Im Gegenteil: Die Cloud-Migration der Datenbank ist die beste Gelegenheit, auch anderen Anwendungen und Prozessen die Vorteile der Cloud zu verschaffen. (avr@ix.de)
+
+
+\section{Tasks}
+
+
+\begin{itemize}
+	\item Translation
+	\item Improvements
+	\item Further readings
+	\item Presentation
+\end{itemize}

@@ -1,0 +1,153 @@
+
+
+\documentclass[25pt,a0paper, portrait]{tikzposter}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{graphicx,mwe}
+\usepackage{filecontents}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{adjustbox}
+\usepackage{blindtext}
+\usepackage{comment}
+
+
+\makeatletter
+\def\TP@titlegraphictotitledistance{-6cm}
+\settitle{ \centering \vbox{
+		\@titlegraphic \\ [\TP@titlegraphictotitledistance] 
+		\centering
+		\color{titlefgcolor} 
+		{\bfseries \Huge \sc \@title \par}
+		\vspace*{1em}
+		{\huge \@author \par}
+}}
+\makeatother
+
+\setlength{\columnsep}{2cm}
+
+\title{Pneumonia Detection}
+\author{Adarsh, Sangram, Vikas}
+\titlegraphic{\includegraphics[height=6.5cm]{images/logo_hs_technik}
+	\hfill
+	\includegraphics[height=6.5cm]{images/logo}
+}
+
+
+\usetheme{Desert}
+
+\begin{document}
+	
+	
+	\maketitle
+	
+	\begin{columns} 
+		
+		\column{0.5}
+		{
+			\colorlet{blocktitlebgcolor}{blue}
+			\block{Problem Description}
+			{
+				Pneumonia is an infection caused by bacteria, viruses, or fungi. It harms directly to air sacs of lungs which we call alveoli. The air sacs get filled with the pus or fluid which make difficult to breath. Both viral and bacterial pneumonia is contagious. This means they can spread from person to person through inhalation of airborne droplets from a sneeze or cough. You can also get these types of pneumonia by coming into contact with surfaces or objects that are contaminated with pneumonia-causing bacteria or viruses.  A early and accurate diagnosis of pneumonia is essential for effective treatment and better patient outcomes. Viruses and bacteria, like Streptococcus pneumoniae or Haemophilus influenzae, often cause pneumonia. In starting even the person itself does´t know that he has pneumonia\bigskip
+				
+				Types of Pneumonia:- \bigskip
+				\begin{itemize}
+					\item \textbf{Viral pneumonia:} It is primarily caused by a virus. This type is usually less severe and can often be treated at home with rest and fluids. However, some people may need to be hospitalised for severe symptoms.
+					\item \textbf{Bacterial pneumonia:} As is evident by the name, bacterial pneumonia is caused by bacteria. Bacterial pneumonia can be more severe than viral pneumonia and may require antibiotics to clear the infection. People with this type of pneumonia may also need to be hospitalized for treatment in extreme circumstances.
+					\item \textbf{Fungal pneumonia:} Fungal pneumonia is not as common as the other two. This type is caused by fungi and can often be treated with antifungal medications. People with fungal pneumonia may also need to be hospitalised for treatment.
+					\bigskip
+					
+					
+					Each year, pneumonia affects about 450 million people globally and result into 4 million deaths per year. Due to the advancement in antibiotics the number of survival has improved. Nevertheless, pneumonia remains a leading cause of death in developing countries, and also among the very old, the very young, and the chronically ill.
+				\end{itemize}
+				\bigskip
+				
+				
+			}
+		}
+		
+		
+		\column{0.5}
+		{
+			\colorlet{blocktitlebgcolor}{blue}
+			\block{Pneumonia Infection}
+			{
+				\begin{tikzfigure}
+					\includegraphics[width=\linewidth]{images/pneumonia}
+				\end{tikzfigure}
+			}
+		}
+		
+		
+	\end{columns}
+	
+	\begin{columns} 
+		
+		\column{0.5}
+		{
+			\colorlet{blocktitlebgcolor}{blue}
+			\block{Challenges}
+			{
+				\begin{itemize}
+					\item  \textbf{Overlapping Symptoms:} Pneumonia symptoms can be similar to those of other respiratory conditions, such as bronchitis or asthma. This overlap can lead to misdiagnosis or delayed diagnosis, as healthcare professionals may struggle to differentiate between different respiratory illnesses based solely on symptoms. Accurate diagnosis becomes crucial to ensure appropriate treatment. \bigskip
+					
+					\item \textbf{Expert Interpretation:} Accurate interpretation of medical imaging, such as chest X-rays or CT scans, requires specialized expertise. Radiologists and clinicians need to carefully analyze the images to identify signs of pneumonia, such as infiltrates or opacities in the lung fields. However, this process can be time-consuming, especially when dealing with a large number of images, and it may rely on the availability of experienced radiologists. \bigskip
+					
+					\item \textbf{Human Error:} Visual interpretation of medical images is subjective, and the accuracy of diagnosis can vary among different healthcare professionals. There is a risk of human error in the interpretation, which can result in inconsistent results and misdiagnosis rates. Additionally, fatigue or distractions during the interpretation process can further contribute to errors.\bigskip
+					
+					\item \textbf{Time Constraints:} Manual interpretation of a significant volume of medical images can be time-intensive. This can lead to delays in diagnosis and treatment initiation, potentially impacting patient outcomes, particularly in cases where prompt intervention is critical. Healthcare professionals face challenges in managing their workload and addressing time constraints while ensuring accurate and timely diagnosis. \bigskip
+					
+					To address these challenges, automated pneumonia detection systems have been developed. These systems utilize advanced technologies, such as artificial intelligence (AI) and machine learning (ML), to analyze medical images and assist healthcare professionals in making accurate and timely diagnoses. By automating the detection process, these systems aim to improve the accuracy of pneumonia diagnosis, reduce interpretation time, and optimize the efficiency of pneumonia detection in clinical settings
+					\bigskip
+					
+				\end{itemize}
+				\bigskip
+			}
+		}
+		
+		
+		\column{0.5}
+		{
+			\colorlet{blocktitlebgcolor}{blue}
+			\block{Solutions}
+			{
+				\begin{itemize}
+					\item \textbf{Automated Detection Systems:} The development of automated systems for pneumonia detection is a key solution to address the challenges in traditional diagnosis methods. These systems utilize advanced technologies like artificial intelligence (AI) and machine learning (ML) to analyze medical images and identify pneumonia-related patterns or markers. \bigskip
+					
+					\item \textbf{ Machine Learning Algorithms:} ML algorithms play a crucial role in automated pneumonia detection. These algorithms are trained on large datasets of annotated medical images to learn and recognize relevant features indicating the presence of pneumonia. With continuous learning, these algorithms improve their accuracy over time. \bigskip
+					
+					\item \textbf{ Image Processing Techniques:} Image processing techniques are used to enhance medical images before analysis. These techniques involve reducing noise, adjusting contrast, and improving image quality. By enhancing the input data, the accuracy of the subsequent detection algorithms can be improved. \bigskip
+					
+					\item \textbf{Decision Support Tools:} Alongside automated detection, decision support tools provide healthcare professionals with quantitative assessments and additional information to aid in the diagnosis process. These tools visualize detected abnormalities, provide statistical analysis, and offer comparative data to support decision-making. \bigskip
+					
+					\item \textbf{Continuous Learning and Improvement:} Machine learning algorithms used in automated systems can continuously learn and improve. They can be updated with new data, allowing the algorithms to enhance their accuracy and performance over time, keeping up with the latest information in pneumonia diagnosis.\bigskip
+					
+					\item \textbf{ Scalability and Accessibility:} Automated pneumonia detection systems can be scaled up to handle large volumes of medical images, making them suitable for healthcare facilities with high patient loads. Additionally, advancements in technology make these systems increasingly accessible to healthcare facilities with varying resources and expertise.\bigskip
+					
+					
+					
+				\end{itemize}  .
+			}
+			
+			\begin{columns}
+				\column{0.99}
+				\block{Result}
+				{
+					\begin{itemize}
+						\item \textbf{Improved Accuracy:} Implementing automated pneumonia detection systems with advanced technologies and machine learning algorithms greatly enhances the accuracy of pneumonia diagnosis. This ensures patients are correctly diagnosed and receive appropriate treatment in a timely manner.
+						
+						\item \textbf{Time Savings:} Automation and efficient algorithms reduce the time required for pneumonia diagnosis, allowing healthcare professionals to promptly initiate treatment, especially in critical cases.
+						
+						\item \textbf{Enhanced Efficiency:} The implementation of automated systems and decision support tools streamlines the diagnosis process, optimizing healthcare professionals' workflow and improving resource allocation, ultimately leading to increased efficiency in healthcare settings.
+						
+						\item \textbf{Better Patient Outcomes:} Timely and accurate diagnosis facilitated by automated systems results in improved patient outcomes, as patients receive timely treatment, reducing the likelihood of complications, hospital stays, and pneumonia-related mortality rates.
+						
+					\end{itemize}
+				}
+			\end{columns}
+		}
+	\end{columns}
+	
+\end{document}
+

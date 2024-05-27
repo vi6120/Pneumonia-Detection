@@ -1,0 +1,310 @@
+%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-03-17 11:15:45Z $
+% $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/Einleitung.tex $
+% $Version: 4732 $
+%
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Domain Knowledge}
+
+
+\section{Medical imaging}
+
+Creating visual representations of the human body or its components for diagnostic, therapeutic, and research reasons is known as medical imaging. Medical practitioners utilize the images generated to evaluate the composition and operation of tissues and organs, to identify illnesses, and to track the effectiveness of treatment.
+
+ \bigskip
+ 
+Anatomical imaging and functional imaging are the two broad categories that medical imaging falls under. X-rays, computed tomography (CT), and magnetic resonance imaging (MRI) are just a few of the anatomic imaging methods that can produce detailed images of the inside organs and tissues of the body. Positron emission tomography (PET) and single-photon emission computed tomography (SPECT) are examples of functional imaging techniques that can provide details about the physiological functions and metabolic activity of tissues and organs. \autocite{Deserno:2011}
+
+\section{Image recognition}
+
+The technique of locating and classifying objects inside digital photographs is known as image recognition, sometimes known as image classification. It entails the use of computer algorithms to examine and comprehend an image's content and has a wide range of uses, including the recognition of faces in photographs, the detection of objects in satellite imagery, and the diagnosis of medical disorders from images of patients. \cite{Szeliski:2022}
+
+\bigskip
+
+Deep learning algorithms, particularly convolutional neural networks (CNNs), have shown great promise in image recognition tasks, including pneumonia detection. CNNs are designed to learn from the data by automatically extracting relevant features from the images, making them well-suited for complex image recognition tasks. \cite{Kermany:2018}
+
+\section{ImageNet}
+
+A sizable image dataset called ImageNet is used to train and assess computer vision models. Over 1.2 million photos in 1000 different classes make up the collection. The computer vision field now uses ImageNet as a benchmark dataset for image classification tasks.
+
+\bigskip
+
+The dataset was created by a team of researchers at Stanford University by \cite{Deng:2009}, and was first introduced in 2009. The images in the dataset were collected from the web and then manually labeled by a team of workers. The labels were then verified by experts to ensure accuracy. 
+
+\section{Convulational Neural Network}
+
+Deep learning neural networks like CNN (Convolutional Neural Networks) are frequently utilized for image processing applications like object and picture detection. It was motivated by biological processes that take place in the layers of neurons that make up the visual cortex in both humans and animals, where each layer extracts increasingly intricate characteristics from the visual input.
+
+\bigskip
+
+A network of neurons in CNN processes an input image by feeding it into a series of convolutional operations to extract low-level features, followed by pooling operations to lower the dimensionality of the feature maps. After this process, fully connected layers are applied to the output to conduct high-level regression or classification.
+
+\bigskip
+
+CNNs have been shown to be highly effective in image classification tasks, achieving state-of-the-art performance on many benchmark datasets. They have been applied in a wide range of applications, from self-driving cars to medical image analysis.\cite{KE:2022}
+
+
+The convolution neural network consists of three important layers which are as follows
+\begin{itemize}
+	\item	Convolution Layer
+	\item	Pooling Layer
+	\item	Fully-connected Layer
+\end{itemize}
+
+The complexity of the CNN increases with each layer as it identifies larger portions of image. The beginning layers focuses on simple features like edges, borders and colors. With the progression of image data through the different layers of CNN, the CNN starts to identify larger shapes and elements present in the object. This stops when the CNN identifies the intended object. \autocite{IBM:2020}
+
+\begin{figure}  [H]
+	\begin{center}
+		\includegraphics[width=16cm]{Images/cnn}
+		\caption{A CNN sequence to classify handwritten digits} 
+		\label{fig:A CNN sequence to classify handwritten digits}
+		\footnotesize \textbf{Reference:} \autocite{KE:2022}
+	\end{center}
+\end{figure}
+
+
+
+The major part of the computation takes place at this layer. The components of the convolution layer are the input data, filters and feature map. The filter is also known as kernel or a feature detector. The feature detector moves through the recurring fields of the picture, while checking if the feature is present. This entire process is termed as convolution.\\
+
+The Kernel is a two-dimensional array of biases or weights, which represents a part of the picture. The kernel can be of different sizes. This size of the kernel influences the size of receptive field. A dot product is computed between the kernel and the filter. This value of the dot product is then provided into an output array. Then the kernel moves to the next stride, this process is repeated until the kernel moves across the full picture. The final output is termed as a convolved feature or a feature map. The initial feature map only captures Low-Level information like the colour gradient and edges. The progressing feature maps captures high-level information which results in the network that helps classification of individual features present in the image. \autocite{IBM:2020}
+
+\subsection{Pooling Layer}
+
+Pooling conducts a dimensionality reduction of the feature map. This is done by reducing the number of input parameters. Here the CNN retains the important features of the map which is required for the classification. This process is termed as down sampling.\\
+
+In the pooling operation a filter without any weights is used to sweep across the whole input. Here an aggregation function is applied to the values of the receptive field by the kernel. The values of the aggregation function are used to populate the output array. \autocite{IBM:2020}
+
+\begin{itemize}
+	\item \textbf{Max Pooling}:	As the kernel is swept through the input, the kernel identifies the pixel with the highest value and transfers it into the output array. This helps in retaining the most important features present in the feature map.
+	\item \textbf{Average Pooling}:	As the kernel is swept through the input, it computes the average value of the receptive field and transfers it into the output array.
+\end{itemize}
+
+\begin{figure}  [H]
+	\begin{center}
+		\includegraphics[width=14cm]{Images/PoolingLayer}
+		\caption{Pooling Layer in CNN} 
+		\label{Pooling Layer in CNN}
+		\footnotesize \textbf{Reference:} \autocite{KE:2022}
+	\end{center}
+\end{figure}
+
+Pooling has benefits such as, limiting the risk of overfitting, size reduction, noise suppression and reduction in complexity of the feature map. These result in improved efficiency of the feature map.\\
+
+\subsection{Fully-Connected Layer}
+The fully-connected layer is the final layer of the CNN. Here each node of the output layer directly connects to a node of the previous layer. The classification process carried out in this layer based upon the previous layers and their appropriate filters. A Soft-Max function assigns decimal probabilities from 0 to 1 based on the appropriate classification of the inputs. \autocite{IBM:2020}
+
+\subsection{CNN Training}
+There are six large steps that need to be taken into account, each one has its own characteristics and functions. Also, the inputs and output from each step needs to be taken into account as a priority to understand the functionality. \\
+
+The main steps to create and train the \ac{cnn} are the following:  
+\begin{enumerate}
+	\item Preparation (loading the libraries and settings).
+	\item Loading the training images.
+	\item Generate training data and test data.
+	\item Definition and structure of the network.
+	\item Train the model.
+	\item Storing the neural network.
+\end{enumerate}
+
+
+\section{Keras - Library}
+
+Keras is an open-source neural network library written in Python. It is intended to make building and training complex models simple as well as to enable quick experimentation with deep neural networks. Deep learning model prototypes may be created fast because to Keras' friendly API. It is based on TensorFlow and is compatible with Theano and Microsoft Cognitive Toolkit among other backend engines. \cite{Chollet:2015}
+
+\bigskip
+
+Keras was developed by François Chollet, a Google engineer, and was first released in March 2015. Since then, it has become one of the most popular deep learning libraries, due to its ease of use, flexibility, and powerful features.
+
+\section{Visual studio}
+
+Visual Studio is a complete integrated development environment (IDE) for creating web, Android, and iOS applications. It offers tools for debugging, testing, and the deployment of programs and supports a number of programming languages, including C, C++, and Python.
+
+\bigskip
+
+\subsection{Installation}
+
+Please find the step by step installation for Visual studio below:
+
+\begin{enumerate}
+	\item  Download the Visual Studio installer from the Microsoft website.
+	\item Run the installer executable file and select "Install".
+	\item Choose the desired workloads (the type of development you will be doing, such as .NET desktop development or web development) and components to install.
+	\item Review and modify individual component settings as needed. 
+	\item Click on "Install" to start the installation process.
+	\item Follow the prompts and accept the license agreements.
+	\item Visual Studio will download and install the selected components.
+	\item Once the installation is complete, click on "Launch" to open Visual Studio.
+	\item The first time you open Visual Studio, you will be prompted to sign in with a Microsoft account or create a new one. You can choose to skip this step if you prefer.
+	\item You can start creating your projects and building your applications in Visual Studio.
+\end{enumerate}
+
+Now have Visual Studio installed and ready to use.
+
+\bigskip
+\pagebreak
+
+\subsection{Requirements}
+
+The requirements to install the visual studio is  listed in the tables below.
+
+\begin{table}[h]
+	\centering
+	\caption{Visual Studio Requirements for MacOS}
+	\label{tab:macos}
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		Requirement & Details \\
+		\midrule
+		Operating System & macOS 10.14 or later \\
+		Processor & Intel processor \\
+		RAM & 4 GB minimum, 8 GB recommended \\
+		Disk Space & 10 GB minimum \\
+		.NET Core & .NET Core 2.2 SDK or later \\
+		Xcode & Xcode 11.3 or later \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\bigskip
+
+\begin{table}[h]
+	\centering
+	\caption{Visual Studio Requirements for Windows}
+	\label{tab:windows}
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		Requirement & Details \\
+		\midrule
+		Operating System & Windows 10 version 1507 or later \\
+		Processor & 1.8 GHz or faster processor. Quad-core or better recommended \\
+		RAM & 2 GB minimum, 8 GB recommended \\
+		Disk Space & 20 GB minimum \\
+		.NET Core & .NET Core 2.2 SDK or later \\
+		Visual Studio Installer & Latest version \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\bigskip
+
+\begin{table}[h]
+	\centering
+	\caption{Visual Studio Requirements for Linux}
+	\label{tab:linux}
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		Requirement & Details \\
+		\midrule
+		Operating System & Ubuntu 16.04 LTS or higher \\
+		Processor & 2 GHz or faster processor. Quad-core or better recommended \\
+		RAM & 4 GB minimum, 8 GB recommended \\
+		Disk Space & 10 GB minimum \\
+		.NET Core & .NET Core 2.2 SDK or later \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\bigskip
+
+\pagebreak
+
+\section{TensorFlow Lite}
+
+
+To create and train deep neural network machine learning models, Google created the open-source software package known as TensorFlow. Another open-source deep learning framework made exclusively for on-device computing in edge devices is called TensorFlow Lite. A scaled-down version of TensorFlow is TensorFlow Lite.  The developers can use TensorFlow Lite to run their trained models on edge devices, desktop computers, and mobile devices. On a model that has previously been trained, predictions can be made using TensorFlow Lite. \cite{Boesch:2022}
+
+\bigskip
+
+
+\ac{tflm} were created to enable the execution of deep learning and machine learning models on microcontrollers with memory capacities as low as a few kilobytes.By addressing both the fragmentation issues and the efficiency demands imposed by embedded-system resource constraints, TFLM enables cross-platform interoperability. The TFLM framework uses an original interpreter-based strategy that offers flexibility while resolving the aforementioned issues. \cite{Robert:2021}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node at (0,0) {\includegraphics[width=\linewidth]{Images/TFworkflow.png}};
+	\end{tikzpicture}
+	\caption{\textbf{TensorFlow Lite Workflow.}}
+	\footnotesize \textbf{Reference:}\autocite{Khandelwal:2020}
+	\label{fig:Tensor Flow Lite Workflow}
+\end{figure}
+
+\section{Understanding the Domain}
+
+\subsection{Problem}
+
+The difficulty in discriminating between healthy and infected lungs in pneumonia detection using X-ray imaging is an issue. To diagnose pneumonia, radiologists must look for visual clues such as infiltrates, fluid in the lungs, and dense areas in the lungs, but these symptoms are not always apparent or easy to notice, especially for less experienced radiologists. As a result, establishing an accurate AI model to aid in diagnosis has the potential to enhance patient outcomes.\\
+
+\subsection{Data acquisition}
+
+The focus of developing an AI model that can accurately detect pneumonia from chest X-ray images is not only to aid in diagnosis but also to improve patient outcomes. X-ray pictures utilized in pneumonia identification projects might come from a variety of places, including hospitals, medical research institutes, and publicly available databases. \cite{Wang:2017}The Chest X-Ray Images (CXR) dataset, the ChestX-ray14 dataset, and the NIH Chest X-ray dataset are three extensively used datasets. The CXR dataset comprises over 100,000 frontal-view X-ray images of various chest diseases, such as pneumonia, whereas the ChestX-ray14 dataset contains 112,120 frontal-view X-ray images of 14 distinct pathologies, such as pneumonia. Over 100,000 chest X-ray pictures with pathology diagnoses, including pneumonia, are included in the NIH Chest X-ray Collection. We are considering the dataset available on Kaggle, which is specially used for pneumonia detection. It has images classified as pnuemonia and normal.\\
+
+\subsection{Data quantity}
+
+The quantity of data required for a pneumonia detection project depends on the complexity of the AI model being developed and the desired level of accuracy. In general, a larger dataset can help improve the accuracy of the model. The CXR dataset contains over 100,000 images, which is a substantial amount of data for training an AI model. However, smaller datasets can also be used with techniques such as data augmentation to increase the effective size of the dataset. The dataset kaggle mentioned by \autocite{Kermany:2018}which we are using has 5,863  chest X-ray images classified as pnuemonia and normal.\\
+
+\subsection{Data quality}
+
+The quality of the X-ray images used in pneumonia detection projects can vary depending on the imaging equipment, the image resolution, and other factors. Poor-quality images may be unusable or negatively impact the accuracy of the AI model. Therefore, it is essential to ensure that the X-ray images used in the project are of high quality and meet the necessary standards. Chest X-rays can be taken from different angles, with varying levels of exposure, and with different imaging protocols. This variability can make it difficult for models to learn generalizable features and accurately classify images. \autocite{Rajpurkar:2017}
+
+\subsection{Data relevance}
+
+The accuracy of the AI model is dependent on the relevancy of the data utilized in pneumonia detection initiatives. To avoid misunderstandings during the training process, only photographs of the chest X-ray should be picked, and images with inaccurate classifications should be eliminated. To ensure that the AI model is correct for the target population, the data must also be representative of the population being examined.\\
+
+For our dataset, all chest X-ray imaging was done as part of the regular clinical treatment provided to patients. All chest radiographs were initially screened for quality control before being removed from the analysis of the chest x-ray images. Before the photos could be used to train the AI system, they were graded by two experienced doctors. A third expert also reviewed the evaluation set to make sure there were no grading mistakes.\autocite{Kermany:2018}
+
+\subsection{Outliners and Anomalies}
+
+Outliers are data points that differ dramatically from the rest of the data in the dataset. Outliers in pneumonia detection projects may include X-ray images with severe pathologies that are unrelated to the study or images with inaccurate labeling. Outliers can reduce the accuracy of the AI model, so they should be detected and eliminated from the dataset. There can be issues which are related to X-ray imaging becuase of angle and also visibility can cause outliers.\cite{Wang:2020}
+
+Anomalies are data points that differ dramatically from the rest of the data yet are still relevant to the project. Anomalies in pneumonia detection projects may include X-ray images with distinct diseases that are nevertheless relevant to the study or images with slightly different labels. Anomalies may necessitate additional preprocessing or specific handling throughout the training process to guarantee that they do not impair the AI model's accuracy. The different disorders related to the lungs can also be detected and can act as anomalies.\\
+
+\chapter{Technical requirements}
+
+\section{Software requirements}
+
+\begin{table}[h]
+	\centering
+	\caption{Software Bill of Materials for Pneumonia Detection}
+	\label{tab:Software Bill of Materials}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Software/Package} & \textbf{Open Source/License} & \textbf{Version}\\
+		\hline
+		VS Code & Open Source & 1.64.2\\
+		\hline
+		Anaconda-Navigator & Open Source & 2.1.4\\
+		\hline
+		Conda & Open Source & 4.11.0\\
+		\hline
+		Keras & Open Source & 2.8.0\\
+		\hline
+		TensorFlow & Open Source & 2.8.0\\
+		\hline
+	\end{tabular}
+   \footnotesize \textbf{Reference:}Author
+\end{table}
+
+\section{Hardware requirements}
+
+\begin{table}[h]
+	\centering
+	\caption{Hardware Bill of Materials for Pneumonia Detection}
+	\label{tab:Hardware Bill of Materials}
+    \begin{tabular}{|c|c|c|}
+    \hline
+	\textbf{Hardware Name} & \textbf{Description} & \textbf{Quantity}\\
+	\hline
+	Computer Display & 1080p (1920x1080) resolution or higher & 1\\
+	\hline
+	Keyboard & Standard American/German language & 1\\
+	\hline
+	Mouse & Standard 3 button wired or wireless & 1\\
+	\hline
+	Laptop & Capable of running deep learning algorithms & 1\\
+	\hline
+\end{tabular}
+ \footnotesize \textbf{Reference:}Author
+\end{table}

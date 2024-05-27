@@ -1,0 +1,244 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasOpenData.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+
+% Quelle: https://www.heise.de/hintergrund/Analyse-von-Open-Data-mit-Pandas-5049049.html
+
+\chapter{Analyse von Open Data mit Pandas}
+
+\section{Einleitung}
+
+Zahlreiche Organisationen stellen Daten frei zur Verfügung. Die Python-Library Pandas hilft bei der Auswertung. 
+
+Neben quelloffener Software befindet sich seit einigen Jahren Open Data auf dem Vormarsch. Insbesondere staatliche Organisationen öffnen ihren Datenschatz immer öfter für die Öffentlichkeit. Auch private Unternehmen stellen immer mehr Informationen unter freien Lizenzen zur Verfügung. Immer mehr frei verfügbare Daten haben der Data Science al Disziplin immensen Auftrieb gegeben.
+
+Programmiersprachen wie Python und R profitieren von der Entwicklung. Bei Ersterer hat sich vor allem Pandas als Tool zur Verwaltung, Analyse und Aufbereitung von Daten durchgesetzt. Dazu gilt es, die passenden freien Daten zu finden, um daraus das Wissen zu extrahieren.
+
+\section{Immer mehr freie Daten}
+
+Die Arbeit an dem Open-Source-Projekt Meteostat, das historische Wetter- und Klimadaten von Tausenden Wetterstationen weltweit zur Verfügung stellt, begannen im Jahr 2015. Damals waren freie Daten insbesondere in Deutschland wenig verbreitet. Der Deutsche Wetterdienst (DWD) stellte nur die Daten einer Hand voll Wetterstationen im Rahmen seiner Grundversorgung frei zur Verfügung.
+
+Obwohl die Arbeit des Wetterdienstes durch Steuergelder finanziert wurde, waren die Aufzeichnungen des deutschen Messnetzes nur gegen eine Gebühr erhältlich, womit sie für nicht kommerzielle Projekte uninteressant waren. Daher mussten andere Datenquellen die Lücke füllen. Der US-amerikanische Wetterdienst NOAA (National Oceanic and Atmospheric Administration) stellte die Meldungen Tausender Flugplätze weltweit kostenfrei zur Verfügung. Diese Daten waren damals die Basis für den Aufbau von Meteostat.
+
+Seit dem Sommer 2017 steht ein Großteil der DWD-Daten frei zur Verfügung und zwar auch für kommerzielle Zwecke. Viele Projekte, Forschungsvorhaben und Unternehmen haben von der Freigabe der Daten profitiert. Unter anderem konnte Meteostat Forschungsprojekte zur Korrelation zwischen bestimmten Wetterbedingungen und COVID19-Infektionen unterstützen.
+
+Open Data beschränkt sich freilich nicht auf Wetter- und Klimadaten. Öffentliche und gemeinnützige Organisationen aus anderen Bereichen stellen ebenfalls Daten unter freien Lizenzen zur Verfügung, darunter das \HREF{https://www.govdata.de}{Datenportal für Deutschland GovData} und das offene \HREF{https://data.europa.eu/en}{Datenportal der Europäischen Union}. Beide fassen Datenquellen unterschiedlicher öffentlicher Quellen zusammen und eignen sich gut als Recherchewerkzeug.
+
+\section{Blick auf Pandas}
+
+Die Python-Bibliothek Pandas hilft beim Einlesen und Aufbereiten von Daten. Wer Erfahrung mit R hat, fühlt sich bei Pandas zuhause, wer aber einen SQL-Hintergrund hat, sollte sich zunächst mit den Datenstrukturen von Pandas vertraut machen.
+
+Ein DataFrame ist ein ähnliches Konstrukt wie eine Tabelle, die mehrere Spalten und Zeilen enthält. Die Werte einer einzelnen Spalte heißen Series. Pandas stellt unterschiedliche Methoden bereit, um Daten einzulesen, zu verändern oder in einem bestimmten Datenformat zu speichern. Einzelne Spalten lassen sich unkompliziert selektieren und filtern. Unter der Haube basiert Pandas wie viele wissenschaftliche Python-Pakete auf NumPy, einem Tool zur performanten Verarbeitung von Array-Strukturen.
+
+Sofern \HREF{https://matplotlib.org/}{zusätzlich Matplotlib} installiert ist, lassen sich mit Pandas die Daten bequem visualisieren.
+
+Das folgende Beispiel analysiert Zusammenhänge zwischen der monatlichen Maximaltemperatur in Deutschland und dem Interesse an Klimaanlagen in der deutschsprachigen Wikipedia. Mit wenigen Zeilen Code lässt sich herausfinden, ob die Erwartung zutrifft, dass das Interesse in den heißen Sommermonaten besonders groß ist.
+
+Die Installation der erforderlichen Python-Bibliotheken erfolgt über das Paketrepository PyPI:
+
+\medskip
+
+\SHELL{pip install pandas matplotlib meteostat}
+
+\medskip
+
+Im Anschluss daran gilt es, die Abhängigkeiten zu importieren:
+
+\medskip
+
+\PYTHON{from datetime import datetime}
+
+\PYTHON{import pandas as pd}
+
+\PYTHON{import matplotlib.pyplot as plt}
+
+\PYTHON{from meteostat import Stations, Daily}
+
+\medskip
+
+
+Nun können Entwicklerinnen und Entwickler damit beginnen, Daten einzulesen und in einer Form aufzubereiten, die es erlaubt, daraus Erkenntnisse abzuleiten.
+
+\section{Beliebige Datenquellen}
+
+Die Zugriffszahlen des Wikipedia-Artikels über Klimaanlagen sind auf \HREF{https://pageviews.wmcloud.org/?project=de.wikipedia.org&platform=all-access&agent=user&redirects=0&start=2019-12&end=2020-11&pages=}{der Seite Pageviews Analysis} zu finden. Das Einlesen der Seitenaufrufe benötigt mit Pandas lediglich einen Befehl:
+
+\medskip
+
+\PYTHON{pageviews = pd.read\_csv('pageviews.csv',}
+
+\PYTHON{index\_col='Date', }
+
+\PYTHON{parse\_dates=['Date'])}
+
+\medskip
+
+Die Library überzeugt mit simplen Parametern, die das Einlesen lokaler und externer Datenquellen, das Setzen des Index sowie das Parsen von Spalten als datetime erlauben. Bei Bedarf lässt sich das resultierende DataFrame zunächst mit print() in der Konsole als Tabelle darstellen. Das kann beispielsweise hilfreich sein, um zu überprüfen, ob die Daten korrekt gelesen und interpretiert werden:
+
+\medskip
+
+
+| Date                | Klimaanlage |
+|:--------------------|------------:|
+| 2019-12-01 00:00:00 |        4866 |
+| 2020-01-01 00:00:00 |        7741 |
+| 2020-02-01 00:00:00 |        5624 |
+| 2020-03-01 00:00:00 |        5662 |
+| 2020-04-01 00:00:00 |        6998 |
+| 2020-05-01 00:00:00 |       10036 |
+| 2020-06-01 00:00:00 |       11320 |
+| 2020-07-01 00:00:00 |        9507 |
+| 2020-08-01 00:00:00 |       15702 |
+| 2020-09-01 00:00:00 |        5238 |
+| 2020-10-01 00:00:00 |        4772 |
+| 2020-11-01 00:00:00 |        4502 |
+
+
+\section{Wetterdaten für Deutschland}
+
+Einen Überblick über die Temperaturen in Deutschland vermittelt die \HREF{https://github.com/meteostat/meteostat-python}{Meteostat-Python-Library}. Ein separater Download der Daten erübrigt sich, da die Library automatisch die erforderlichen Dateien herunterlädt.
+
+Dafür ist zunächst eine Liste von Wetterstationen erforderlich. Da in Deutschland davon über 1000 existieren, bietet es sich an, die Analyse nur mit einer Teilmenge durchzuführen. In der Statistik heißt dieses Verfahren Sampling. Folgendes Beispiel verwendet eine Stichprobengröße von 50:
+
+\medskip
+
+\PYTHON{\# Mehrere Threads für schnellere Downloads}
+
+\PYTHON{Daily.max\_threads = 6}
+
+\PYTHON{}
+
+\PYTHON{\# Zeitliche Periode}
+
+\PYTHON{start = datetime(2019, 12, 1)}
+
+\PYTHON{end = datetime(2020, 11, 30)}
+
+\PYTHON{}
+
+\PYTHON{\# 50 Zufällige Wetterstationen in Deutschland}
+
+\PYTHON{stations = Stations()}
+
+\PYTHON{stations = stations.region('DE')}
+
+\PYTHON{stations = stations.inventory('daily', (start, end))}
+
+\PYTHON{stations = stations.fetch(limit=50, sample=True)}
+
+\medskip
+
+
+Der Code filtert die Wetterstationen zunächst nach der Region Deutschland und wählt nur Stationen aus, die im gewünschten Zeitraum Daten gemeldet haben. Die resultierende Liste lässt sich im Anschluss verwenden, um Tageswerte zu laden und nach Monaten zu gruppieren. Im Hintergrund nutzt Meteostat unterschiedliche Pandas-Methoden zur Gruppierung und Aggregation der Daten.
+
+\medskip
+
+\PYTHON{\# Tageswerte laden}
+
+\PYTHON{weather = Daily(stations, start, end)}
+
+\PYTHON{}
+
+\PYTHON{\# Daten monatlich aggregieren}
+
+\PYTHON{weather = weather.aggregate('1MS', spatial=True).fetch()}
+
+\medskip
+
+
+Der Parameter \PYTHON{spatial} legt fest, dass die Meteostat-Bibliothek die Daten zusätzlich räumlich zusammenfassen soll. Die Library gibt für \PYTHON{fetch()} immer einen DataFrame zurück, der sich zum weiteren Verarbeiten der Daten nutzen lässt. Eine Ausgabe der räumlich gemittelten Maximaltemperaturen zeigt, dass nun genau eine Zeile pro Monat im \PYTHON{\_DataFrame\_} vorhanden ist:
+
+\medskip
+
+\begin{lstlisting}
+| time                |    tmax |
+|:--------------------|--------:|
+| 2019-12-01 00:00:00 | 13.8271 |
+| 2020-01-01 00:00:00 | 12.7167 |
+| 2020-02-01 00:00:00 | 15.8875 |
+| 2020-03-01 00:00:00 | 16.7625 |
+| 2020-04-01 00:00:00 |  23.175 |
+| 2020-05-01 00:00:00 | 24.5771 |
+| 2020-06-01 00:00:00 | 29.3542 |
+| 2020-07-01 00:00:00 | 30.9776 |
+| 2020-08-01 00:00:00 | 34.3633 |
+| 2020-09-01 00:00:00 | 30.0796 |
+| 2020-10-01 00:00:00 | 19.9265 |
+| 2020-11-01 00:00:00 | 19.6367 |
+\end{lstlisting}
+
+\medskip
+
+
+Da die Analyse nur eine kleine Teilmenge aller Wetterstationen in Deutschland einbezieht, decken sich die Werte vermutlich nicht mit den offiziellen Gebietsmittelwerten des DWD. Sie sind aber ausreichend, um einen Trend zu erkennen. Dabei gilt es zu beachten, dass es sich bei den Werten um gemittelte und nicht um absolute Maximaltemperaturen handelt.
+
+\section{Visualisierung der Daten}
+
+Da nun beide Datensätze als DataFrame vorliegen, lassen sich die Werte in einem gemeinsamen Diagramm visualisieren, um den Zusammenhang zu verdeutlichen. Pandas stellt dafür die Methode \PYTHON{plot()} bereit, die im Hintergrund Matplotlib verwendet.
+
+\medskip
+
+\PYTHON{\# Titel des Diagramms}
+
+\PYTHON{TITLE ='Interesse an Klimaanlagen  \& Max. Temperaturen in Deutschland'}
+
+\PYTHON{}
+
+\PYTHON{\# Darstellung der Seitenaufrufe}
+
+\PYTHON{ax = pageviews['Klimaanlage'].plot(color='tab:blue', }
+
+\PYTHON{\qquad \qquad \qquad \qquad title=TITLE)}
+
+\PYTHON{ax.set\_ylabel('Seitenaufrufe', color='tab:blue')}
+
+\PYTHON{}
+
+\PYTHON{\# Darstellung der Temperaturspitzen}
+
+\PYTHON{ax2 = ax.twinx()}
+
+\PYTHON{ax2.set\_ylabel('Max. Temperatur (°C)', color='tab:red')}
+
+\PYTHON{weather['tmax'].plot(ax=ax2, color='tab:red')}
+
+\PYTHON{}
+
+\PYTHON{\# Ausgabe des Diagramms}
+
+\PYTHON{plt.show()}
+
+\medskip
+
+
+Das Ergebnis veranschaulicht deutlich den Zusammenhang zwischen dem Aufruf der Informationen zu Klimaanlagen und den Temperaturspitzen in Deutschland:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/OpenData/PandasOpenData01}
+	\caption{Darstellung der Seitenaufrufe des Artikels über Klimaanlagen bei Wikipedia und der Temperaturmaxima in Deutschland; Datenquelle: Meteostat, \URL{pageviews.toolforge.org}}
+\end{figure}
+
+
+
+Die Darstellung des zugegebenermaßen vorhersehbaren Ergebnisses zeigt, welche Analysen frei verfügbare Daten ermöglichen. Das Beispiel lässt sich prinzipiell mit einem beliebigen Wikipedia-Artikel reproduzieren. Das Hinzufügen weiterer Datensätze erfordert keinen großen Aufwand.
+
+Das vollständige Skript inklusive der benötigten \HREF{https://github.com/clampr/heise-pandas}{CSV-Datei ist auf GitHub} verfügbar.
+
+\section{Neue Erkenntnisse}
+	
+Aufbauend dem Beispiel können Entwicklerinnen und Entwickler weniger vorhersehbare Analysen erstellen, um neue Erkenntnisse zu gewinnen. Mit Pandas können sie nach einer kurzen Einarbeitungszeit relevante Ergebnisse erzielen und beispielsweise Muster in Daten visualisieren.
+	
+Die Anwendungsfälle reichen von biologischen und medizinischen Fragestellungen über die Optimierung von landwirtschaftlichen Prozessen bis hin zu Predictive Analytics. Dass Daten ein wertvolles Gut sind, steht außer Frage. Es bleibt zu hoffen, dass der Open-Data-Trend auch in Zukunft nicht abreißt und noch viele Unternehmen und Organisationen die Liberalisierung von Daten vorantreiben.
+	

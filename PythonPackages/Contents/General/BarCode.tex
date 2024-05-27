@@ -1,0 +1,368 @@
+%
+% barcode
+% project: barcode detection
+%
+% author: TariqAli
+%
+
+\chapter{Barcode}
+
+\section{Introduction to Barcode}
+
+The barcode was invented by the Norman Joseph Woodland and Bernard Silver and was patented in the US in 1951, the invention was based on the morse code which was extended to the to thin and thick bars \cite{Woodland:1952}.
+
+``Barcodes are the machine-readable symbols that store data about part or product to which they are associated''
+
+These are the symbols when red by the scanners or mobile phones are decoded, recoded, and processed to the extract the data for variety of purposes e.g., for pricings, sortation process, order fulfillments, shipping, storing data (dimensions, colors, shelf life etc. of the parts of equipment on which they are embossed). 
+There are four main categories of Barcode which have different purposes, different ability and they also differ in shapes.
+
+\begin{enumerate} 
+	\item 1-D Linear Bar code
+	\item 2-D Matrix Bar code 
+	\item Postal codes
+	\item Stacked Liner Code
+\end{enumerate}
+
+\subsection{1-D Linear Bar Code}
+
+As from the name it is well defined that it has only one dimension and was invented by the two school students in 1948 in USA based on morse code. It is a conventional and mostly used barcode today. One-dimensional barcode data is stored in linear, parallel lines that vary in width and spacing, scanner read the data from left to right. Different version of linear barcode store different kind of data. In a simplest form barcode contains 30 black lines and 29 white lines . The lines represent numbers, which were printed underneath. Each pattern contains 95 bit of binary code. \cite{Yun:2017}
+
+\begin{figure}
+  \begin{center}
+	\includegraphics[width=\textwidth]{Barcode/BarcodeComponents}
+	\caption{1-D Linear Bar Code}\label{fig:LinearBarCode}
+  \end{center}
+\end{figure}
+
+\subsubsection{Identifying barcodes and their structure}
+
+To understand the structure of barcode first we have to look at its picture in figure \ref{fig:LinearBarCode}.
+
+\begin{description}
+  \item [Left Hand Guard Bars:] These bars serve as a starting reference point for the scanning devices.
+  \item[Number System Character:] This digit identifies the type of manufacturer.
+  \item[Manufacturer ID Number:] Each company is assigned the unique MIN with the number system by the uniform code council.
+  \item[Tall Center Bar:] These bars serves as middle reference bar for scanning device.
+  \item[Item Number:] Companies are responsible for assigning unique 5-digit number to their product
+  \item[Module Check Character:] It is derived from a mathematical formula To check the accuracy.
+  \item[Right Hand Guard Bars:] It helps scanner to identify ending  reference point.
+\end{description}
+
+Furthermore, 
+
+Modulus Check Bar correspond to Modulus Check Character, 
+
+Manufacture ID bar correspond to Manufacture ID number,
+
+Number system bar corresponds to Number system Character,And 
+
+Item Bars corresponds to the type of item for eg. Toys , Food, Automotive and etc. 
+
+\section{Types of Barcodes}
+
+\subsection{UPC Code}
+
+Abbreviately knows and universal product code and famously known as UPC bar code are used to read the end consumer products mainly in USA, Canada and New Zealand and many others. There are two versions of the UPC code UPC-A and UPC-E It has the ability to encode 12 numerical digits of data in UPC-A and 6 numerical digits of data in UPC-E. UPC-A is used for the products with large volume size and UPC-E which is short in size as compared to the UPC-A Variant, there industry of use is retail sector mostly, an example of UPC-Code can be visualized in fig \ref{UPC}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/UPC}
+		\caption{UPC-Code}\label{UPC}
+	\end{center}
+\end{figure}
+
+\subsection{EAN Code}
+
+Also known as European Article Number mostly used in Europe and many other countries of world including Japan. It comprises of thirteen numeric digits one extra than UPC. It also has two variants one is EAN-13 and the other is EAN-8. This code is called JAN-13 in Japan and abbreviated as Japanese Article Number. 
+ISSN and ISBN	is also made up on the same pattern but ISSN is utilized for magazines and ISBN is used for books.
+Because of the high density of this code it can hold more data at less space, normally used in retail stores. \ref{EAN}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/EAN}
+		\caption{EAN-Code}\label{EAN}
+	\end{center}
+\end{figure}
+
+\subsection{Code 128}
+
+It is the most advanced recently introduced and robust symbol in the barcode family. The number 128 refers to the ability to hold any character of the ASCII 128 character set which includes all digits, characters and punctuation marks. Compact and Alpha Numeric data storage.
+It also comprises of the two variants: Code 128, EAN 128(two alpha characters in starting). It’s main area of application is delivery, chemical, and electrical industries etc. 
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=7cm]{Barcode/CODE128}
+		\caption{CODE-128}\label{Code 128}
+	\end{center}
+\end{figure}
+
+There are many other kind of barcode used for different kind of industries but as our concern is dependent on the food labels and retail we just mention the short description on the other kind of 1-D linear barcode.\ref{Code 128}
+
+\subsection{Code 39}
+
+first code to use number and letters and can encode 43 characters. widely used in Military and Automotive sectors.
+
+\subsection{Extended Code 39}
+
+It allows the use of special characters in code 39 The 128 characters according to ISO 646 are represented by a combination of two symbol characters, the first of which consists of one of the four characters (- + /) and is followed by one of the 26 letters. used in military and Auto.
+
+\subsection{Code 93}
+
+Code 93 was designed to encode data more compactly and with higher data redundancy than with older multi-length barcode types such as Code 39.used in Military, Health and automotive sector.
+
+\subsection{Coda bar}
+
+It is a discrete, self-checking barcode that allows encoding of up to 16 different characters, plus an additional four special start and stop characters, which include A, B, C and D. used in Health and Photo industry.
+
+And other types of Bar-Codes are lsted below.
+
+\begin{enumerate}
+	\item Interleaved 2 of 5
+	\item 2 of 5 data logic
+	\item 2 of 5 Industrial
+	\item 2 of 5 IATA
+	\item Post Net
+	\item Intelligent Bar code
+	\item MSI/Plessy
+	\item 4 State Bar code
+	\item GS1 data bar omni directional
+	\item GS1 data bar expanded
+\end{enumerate}
+
+\section{2-D Matrix Code}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/2DMatrix}
+		\caption{2D Matrix}\label{2D Matrix}
+	\end{center}
+\end{figure}
+
+\textbf{Data is stored in 2-D Matrix (Longitudinal and Transverse Direction)}
+
+2-D Matrix Code is further divided into five branches named as
+
+\begin{enumerate}
+	\item QR-Code
+	\item Data Matrix 
+	\item Aztec 
+	\item Maxi Code
+	\item PDF 417	
+\end{enumerate}
+
+From the analysis we found that food labels only contain QR-Code and not the other types of 2-D Matrix code, so we try to explain the QR-Code in detail and its other types briefly to have a know-how.\ref{2D Matrix}
+
+\subsection{QR-Code}
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/QRCode}
+		\caption{QR Code}\label{QR Code}
+	\end{center}
+\end{figure}
+
+\begin{description}
+	\item [Finder Pattern:] 
+	QR (Quick Read) codes contain square blocks of black cells on a white background with finder patterns in the top left, top right, and bottom left corners. \ref{QR Code}
+\end{description}
+
+\begin{description}
+	\item [Alignment Pattern:]
+	Does not contain the data but tells the scanner the address for correcting the distortion of the QR code, the black isolated cell is placed in it.
+\end{description}
+
+\begin{description}
+	\item[Encoded Data:]
+	These are the pattern that contains the data to be stored in the code.
+\end{description}
+
+\begin{description}
+	\item[Quite Zone:] 
+	This is the white line which helps in separating the QR code from other labels or data on site.
+\end{description}
+
+\begin{description}
+	\item[Timing pattern:] 
+	It is placed between the two-finder pattern, use to identify the central coordinates 
+\end{description}
+
+\begin{description}
+	\item[Formate Informateion:]
+	The scanner comes in the contact with the QR- Code in any orientation in the retail shop and it becomes more handy for the operator and increase the speed of the process if the QR -Code can be re in any orientation
+\end{description}
+
+\subsection{How QR-Code works Technically.}
+
+working of the QR-code totally depends upon understanding the function of scanners use for decoding the code.
+•	QR scanner works bottom right and goes upwards until it hits position marker.
+•	It then goes right to left and zig-zag until all the modules are covered.
+
+\subsection{Basic steps How QR (Quick Response) Works.}
+
+\begin{enumerate}
+	\item Decoder first Recognizes the three position markers in the QR code. With a sufficient quiet area
+	\item The scanner begins at the bottom right, where it encounters the mode indicator. These four data modules indicate what data type (numeric, alphanumeric, byte, or kanji)
+	\item Next Scanner encounters the character count indicator and what are the next 8 data modules from the mode indicator this tells characters in encoded data.
+	\item Scanner then goes in zig-zag along data module until it completes it task.
+	\item Scanner then proceeds to error correction modules In these encoded modules from one of four level of error correction. \cite{Hansen:2017}
+
+\end{enumerate}
+
+\subsection{QR-Code Versions.}
+
+There are 40 different versions of QR-Code present until now. Each version has different data modules and (black and white spaces).
+Versions are directly proportional to data Modules and 	also directly proportional to data hold capacity.
+Below are shown the different version of QR-Code, with error correction system as larger the error correction is present in the QR-Code less the data stores but its advantage is that the greater the error correction is greater is the chance to restore the data from the damaged QR-Code.\ref{Version 1-3}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/Version1-3}
+		\caption{Version 1-3}\label{Version 1-3}
+	\end{center}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/Version38-40}
+		\caption{Version 38-40}
+		\label{Version 38-40}
+	\end{center}
+\end{figure}
+
+Where L,M,Q and H is the error correction level. In these levels 7,15,25 and 30 percent of the data can be restored, respectively.\ref{Version 38-40}
+
+\subsection{Patterns In QR-Code.}
+
+\begin{description}
+	\item[Mode Indicator] is used for the finding the type of data saved in the QR-Code data could be Numeric Mode, Alpha Numeric, Byte Mode, Kanji Mode etc.\ref{Pattern in QR Code}
+	\item [Character Count Indicator] is used for the scanner to find how many characters it should scan until it stops.
+	\item [Standard Data Modules] is used in the QR code for holding the useful data.
+	\item [Stop Indicator] tells the scanner that it has scanned all the characters in the QR-Code and it matches all the data with the data collected from the character count indicator.
+	\item [Error Correction Modules] helps the scanner to match the data if the data collected data is same or is it damaged by any means.
+\end{description}
+
+\begin{figure}
+	\begin{flushright}
+		\includegraphics{Barcode/PatternInQRCode}
+		\caption{Pattern in QR Code}\label{Pattern in QR Code}
+	\end{flushright}
+\end{figure}
+
+\subsection{Versions and Data Density:}
+
+Load time of the data(decoding of the data) is directly proportional to the data modules present in the QR-Code. Given below are the glimpse of sizes and version of the data QR-Code and their data density.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/Version1}
+		\caption{Version 1}\label{Version 1}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/Version10}
+		\caption{Version 10}\label{Version 10}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}
+	\begin{center}
+		\includegraphics{Barcode/Version40}
+		\caption{Version 40}\label{Version 40}
+	\end{center}
+\end{figure}
+
+As we can see in the fig\ref{Version 1} in version 1 the data is less so the load time is less and gradually in the figure\ref{Version 10} and fig\ref{Version 40} the load time increases but at the same time more data can be stored.
+
+
+\subsection{Types of 2D-Code and their Features}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{Barcode/TypeOf2DCode}
+		\caption{Type of 2D Code}\label{Type of 2D Code}
+	\end{center}
+\end{figure}
+
+The table above shows the brief over-view of the other types of 2D-Codes as compared to the features of the QR-Code. All the other codes (Data Matrix, Maxi Code, PDF 417 and Aztec) have different applications and different structures, with different features.\ref{Type of 2D Code}
+
+\begin{description}
+	\item[ASCII]: American Standard code for Information Interchange
+	\item[ISO]: International Organization for standards
+	\item[ISBN]: International Standard Book Number
+	\item[ISSN]: International Standard Serial Number
+	\item [AIM]: Association for Automatic Identification and Mobility
+	\item[JIS]: Japanese Industrial Standards
+\end{description}
+
+
+\section{Software}
+
+The software used in this Home-work are:
+
+\begin{itemize}
+    \item python 3.10
+    \item pycharm 2021.2.3
+\end{itemize} 
+
+\section{Hardware}
+
+The hardware used is 
+
+\begin{itemize}
+    \item Processor Intel Core i5
+    \item Camera integrated and external cam
+    \item Computer screen
+\end{itemize}
+
+\section{function}
+
+\begin{itemize}
+    \item Decodes Qr code 
+    \item Decode Barcode
+\end{itemize}
+
+\section{Limitations}
+
+The program is capable of decoding Barcode and QrCodes but other type of 2-D barcodes can also be decoded if the improvment should be made in the progarm code.
+
+Light on the code should also be good so the code is visble to the camera 
+
+\section{output}
+
+The output we get through this program is the information encoded in the Barcodes and Qrcodes for eg. equipment or part specification in industry or website url, as shown in fig \ref{fig:qr}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Barcode/qr}
+        \caption{1-D Linear Bar Code}\label{fig:qr}
+    \end{center}
+\end{figure}
+
+
+\section{How to Run}
+
+We need Pycharm and Python installed on the system for runing the code correctly we have to install Opencv, Numpy and Pyzbar libraries then the code is executed.
+
+
+Camera can detect all the barcodes and Qr code decode them present in the visible range as shown in figures.\ref{fig:Multiple QR code}\ref*{fig:Bar code}
+
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Barcode/MultipleQRCode}
+        \caption{1-D Linear Bar Code}\label{fig:Multiple QR code}
+    \end{center}
+\end{figure}
+
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Barcode/Barcode}
+        \caption{1-D Linear Bar Code}\label{fig:Bar code}
+    \end{center}
+\end{figure}
+
+

@@ -1,0 +1,66 @@
+%%%%%%
+%
+% $Autor: Vikas Ramaswamy $
+% $Datum: 2023-04-01 15:35:45 $
+% $Version: 4620 $
+%
+%
+% !TeX encoding = utf8
+% bibtex
+%
+%%%%%%
+
+
+
+\Mysection{Introduction}
+
+{ 
+ 
+ 	\framesubtitle{Introduction}	
+ 	\textbf{Introduction} 
+ 	\begin{itemize} 
+ 		\item An algorithm is a series of guidelines or actions intended to solve a particular issue or carry out a certain activity. It is a well defined process that accepts input, performs a sequence of stages, and outputs something. Several disciplines, such as computer science, mathematics, and engineering, employ algorithms.
+ 		\item Algorithms are often employed in computer science to address computational issues, such as sorting data or determining the shortest route between two sites. The Dijkstra algorithm, the bubble sort method, and the binary search algorithm are a few examples of well-known algorithms. The automated identification of abnormal is becoming increasingly necessary.
+ 	\end{itemize}
+
+}
+\Mysection{Convolutional Neural Network(CNN)}
+
+{
+	\begin{itemize}
+		\item A typical form of neural network used in image identification and computer vision applications is the convolutional neural network (CNN).
+		\item CNNs are made to analyze small portions of an image (referred to as "local receptive fields") and then combine them to create bigger, more complicated patterns.
+		\item Convolutional layers, pooling layers, and completely linked layers are among the layers used to achieve this. By convolving (or sliding) a series of filters over the picture in convolutional layers, the network learns to recognize certain characteristics or patterns within the image. The resulting feature maps are then merged to create feature maps. The feature maps are then downsampled using pooling layers to decrease the network's spatial dimensions and enhance computational performance. Ultimately, fully linked layers identify the picture using feature maps.
+	\end{itemize}
+  
+\begin{figure}[h!]
+	\includegraphics[width=5cm]{Images/Schematic of a Convolutional Neural Network.jpg}
+	\caption{\textbf{Schematic of a CNN \cite{gasperini:2018}}}
+	\label{fig:Schematic of a Convolutional Neural Network}
+\end{figure}
+
+}
+\Mysection {Application on CNN}
+{ 
+ 
+ 	\textbf{Application on CNN} 
+ 	
+ 	\begin{itemize}
+ 		\item Medical Image Analysis: CNNs have been used in medical image analysis, where they can identify features such as tumors or abnormalities. For example, a CNN can be trained on medical images to classify breast cancer as malignant or benign.
+ 		
+ 		\item  Image Classification: CNNs have been used to classify images into different categories, such as identifying objects or recognizing faces. For example, the popular ImageNet dataset has been used to train CNNs to classify images into one of 1,000 categories, achieving high accuracy rates.\newpage
+ 		
+ 		\item  Natural Language Processing: CNNs can also be used in natural language processing (NLP), where they analyze and classify text data. For example, a CNN can be used to classify news articles into different categories such as politics, sports, or entertainment.		
+ 	
+ 	\end{itemize}
+
+}
+\Mysection {CNN is used in Pneumonia Detection}
+{
+	\begin{itemize}
+	\item Convolutional Neural Networks (CNNs) have been successfully used for the detection of pneumonia in chest X-ray images. The typical approach is to use a deep learning architecture that involves multiple convolutional and pooling layers followed by fully connected layers for classification. The input to the network is a chest X-ray image, and the output is a binary classification indicating the presence or absence of pneumonia.
+	\item One of the most popular CNN architectures for this task is the DenseNet model, which has been shown to achieve high accuracy in pneumonia detection. In a study conducted by \cite{rajpurkar:2018}, the DenseNet model achieved an area under the receiver operating characteristic curve (AUC-ROC) of 0.926, outperforming radiologists in the detection of pneumonia.\newpage
+	
+	\item In a study conducted by \cite{Wang:2020}, a CNN-based model was developed for pneumonia detection using chest X-ray images. The model was trained and evaluated on a dataset of 5,856 chest X-ray images and achieved an accuracy of 92.3 percentage in pneumonia detection. The study also showed that the CNN model outperformed traditional machine learning algorithms in pneumonia detection.
+		\end{itemize}
+}

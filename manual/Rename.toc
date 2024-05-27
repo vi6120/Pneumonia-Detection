@@ -1,0 +1,13 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\acswitchoff 
+\babel@toc {ngerman}{}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ Abbildungsverzeichnis}{iii}{chapter*.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ Tabellenverzeichnis}{v}{chapter*.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ Abkürzungen}{vii}{chapter*.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Hinweise}{1}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,59 @@
+% !TeX document-id = {976e0959-383f-4305-a121-f08939fa4f13}
+
+%%%%%%
+%
+% $Autor:  $
+% $Datum: 2020-01-18 11:15:45Z $
+% $Pfad: WuSt/Skript/Produktspezifikation/powerpoint/ImageProcessing.tex $
+% $Version: 4620 $
+%
+%
+% !TeX encoding = utf8
+% !TeX root = Rename
+% !TeX TXS-program:bibliography = txs:///biber
+\documentclass[openany,12pt,a4paper]{article}
+
+% Auswahl der Sprache[openany]
+% Die nicht gewünschte Sprache muss auskommentiert werden:
+\def\isEnglish{1}
+%\def\isEnglish{1}
+\usepackage{listings}
+\usepackage[backend=biber, style=numeric]{biblatex}
+\addbibresource{reference.bib}
+\begin{document}
+	\begin{center}
+		\large\textbf{\textit{Topic: Pneumonia Detection }}\\
+			\medskip
+		\large\textbf{Literature 01:Chexnet: Radiologist-level pneumonia detection on chest x-rays with deep learning}\\
+			\medskip
+	\end{center}
+
+\section{Introduction}
+ More than 1 million adults are hospitalized with pneumonia, and around 50,000 dies from the disease annually in the US alone. Chest X-rays are currently the best available method for diagnosing pneumonia, playing a crucial role in clinical care and epidemiological studies. However, detecting pneumonia in chest X-rays is a challenging task that relies on the availability of expert radiologists. The model can automatically detect pneumonia from chest X-rays at a level exceeding practicing radiologists
+
+\medskip
+
+\section{Limitation}
+We identify three limitations of this comparison. First, only frontal radiographs were presented to the radiologists and model during diagnosis, but it has been shown that up to 15 \% of accurate diagnoses require the lateral view. We thus expect that this setup provides a conservative estimate of performance. Third, neither the model nor the radiologists were not permitted to use patient history, which has been shown to decrease radiologist diagnostic performance in interpreting chest radiographs \cite{rajpurkar2017chexnet}\\
+\medskip
+\pagebreak
+
+\begin{center}
+
+	\large\textbf{Literature 02:Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learningg}\\
+	\medskip
+\end{center}
+\medskip
+
+\section{Introduction}
+
+ Artificial intelligence (AI) has the potential to revolutionize disease diagnosis and management by performing classification difficult for human experts and by rapidly reviewing immense amounts of images. Despite its potential, clinical interpretability and feasible preparation of AI remain challenging. The traditional algorithmic approach to image analysis for classification previously relied on handcrafted object segmentation, followed by identification of each segmented object using statistical classifiers or shallow neural computational machine-learning classifiers designed specifically for each class of objects, and finally classification of the image. Creating and refining multiple classifiers required many skilled people and much time and was computationally expensive. 
+ 
+ The development of convolutional neural network layers has allowed for significant gains in the ability to classify images and detect objects in a picture. These are multiple processing layers to which image analysis filters, or convolutions, are applied. The abstracted representation of images within each layer is constructed by systematically convolving multiple filters across the image, producing a feature map that is used as input to the following layer. This architecture makes it possible to process images in the form of pixels as input and to give the desired classification as output. The image-to-classification approach in one classifier replaces the multiple steps of previous image analysis methods.\cite{kermany2018identifying}\\
+
+
+
+
+\printbibliography
+\end{document}
+

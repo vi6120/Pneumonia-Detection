@@ -1,0 +1,6 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{Problem's description}{3}{0}{1}
+\beamer@sectionintoc {2}{Challenges}{5}{0}{2}
+\beamer@sectionintoc {3}{Next steps}{9}{0}{3}
+\beamer@sectionintoc {4}{References}{12}{0}{4}

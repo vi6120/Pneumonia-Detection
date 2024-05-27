@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-03-17 11:15:45Z $
+% $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/Bezier.tex $
+% $Version: 4732 $
+%
+% !TeX spellcheck = de_GB
+%
+%%%
+
+
+
+
+
+
+\chapter{Knowledge Discovery in Databases Process}
+
+
+The \ac{kdd} is a general term for the process of discovering knowledge in data and focuses the "high level" application of certain data mining algorithms. KDD is used in various fields like machine learning, statistics, artificial intelligence, pattern recognition, data visualization etc. \cite{Fayyad:1996}
+\bigskip
+ 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\node at (0,0) {\includegraphics[width=\linewidth]{Images/KDD}};
+	\end{tikzpicture}
+	\caption{\textbf{KDD Process Workflow}}
+	 \footnotesize \textbf{Reference:}\autocite{Wings:2023}
+	\label{fig:KDD}
+\end{figure}
+
+KDD is the automated discovery process and the approach has a primary objective to extract knowledge from massive databases that includes the procedure for using a database, including any necessary preprocessing, subsampling and modifications. It also includes analysing and maybe interpreting patterns in order to determine the knowledge. It has been used widely in banking industry, gesture recognition, analysing sales information, medical field, climate analysis etc.\cite{Fayyad:1996}
+ \bigskip
+ 
+And here we are applying KDD process for the medical field and for that we must first outline the experiment’s goals and objectives. After the goals have been established, the KDD approach is used to collect, create and predict the results as required. The overall process includes:
+
+\begin{enumerate}
+	\item \textbf{Database:} Creating a target dataset. It can be anything like text, image, voice etc.
+	\item \textbf{Selection:} Selecting a dataset on discovery is to be performed.
+	\item \textbf{Data Preparation:} Data cleaning and preprocessing. It includes removal of noise and outliers. Filling the missing values is also included here.
+	\item \textbf{Data Transformation:} To produce patterns that are simpler to understand, data transformation is a crucial data preprocessing procedure that must be applied to the data. It transforms the data into clean, useful data by altering its format, structure, or values. 
+	\item \textbf{Data Mining:} Searching for interesting patterns in a specific representational form. It includes creating predictive models by using previous database pattern.
+	\item \textbf{Model Patterns:} Detection of sequential patterns and relation between consecutive periods.	
+	\item \textbf{Evaluation,Verification:} Evaluation and verification of desired results. Verify the deviation from the desired results and correct it.
+\end{enumerate}
+
+
+The detailed description of each step is described in the chapter Development. The process flow of the KDD can be seen in figure 3.1.:

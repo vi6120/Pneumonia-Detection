@@ -1,0 +1,124 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% $Autor: Vikas Ramaswamy$
+% $Datum: 2023-03-17 11:15:45Z $
+% $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/MapleDateien.tex $
+% $Version: 4732 $
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\VERSION{$ $Pfad: GDV/Vortraege/latex - Ausarbeitung/Kapitel/MapleDateien.tex $ $}{$ $Version: 4732 $ $}
+
+
+
+\chapter{Testing}
+
+It is the initial part for the Software building, this ensures that the software product match all the experted requirements and ensure that the software is product free. It involves execution of software/system components using manual or automated tools to evaluate one or more properties of interest. The purpose of software testing is to identify errors, gaps or missing requirements in contrast to actual requirements. \bigskip
+
+\section{Function}
+
+
+\begin{itemize}
+	\item PyTest:
+	To run the tests, you can execute the test file using the pytest command, \newline 
+	for example: pytest test pneumonia detection.py
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Images/Pytest}
+		\caption{pytest}
+		\label{fig:pytest}
+	\end{figure}
+	
+	
+	\item \textbf{Pre-processing} :
+	The function may include pre-processing steps to prepare the input image for the pneumonia detection model. Pre processing might involve resizing the image to a specific input size required by the model, normalizing pixel values, or applying any other necessary transformations.
+	
+	\item\textbf{Prediction pneumonia} :- This function takes an input image as an argument and uses a trained pneumonia detection model to predict whether the image contains signs of pneumonia.
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Images/predict}
+		\caption{Predict Pneumonia}
+		\label{fig:predict}
+	\end{figure}
+	
+	
+	\item \textbf{Check accuracy}  :- This function evaluates the images on the basis of Matrix  and Array Representation. If the images reached up to the 99 of accuracy, then it is stated as Pneumonia detected or else if it is less than 99 then it will state as Pneumonia not Detected
+	
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{Images/accuracy}
+		\caption{Accuracy}
+		\label{fig:accuracy}
+	\end{figure}
+	
+	\item \textbf {Output}:-
+	The function returns the prediction result, which indicates whether the input image contains signs of pneumonia. Depending on the specific requirements, the output can be in the form of a binary value, a probability score, or any other relevant format.
+	
+\end{itemize}
+
+
+\section{Class}
+\begin{itemize}
+	\item\textbf{Constructor (\_\_init\_\_)}:
+	Initializes the class and loads the pre-trained pneumonia detection model from the specified \textit{model\_path}. This assumes that a trained model has been saved and can be loaded using TensorFlow's \texttt{tf.keras.models.load\_model()} function.
+	
+	% Example usage:
+	\texttt{\_\_init\_\_(model\_path)}
+	
+	\item\textbf{ PneumoniaDetector}:- A class that encapsulates the functionality related to pneumonia detection. It may have methods such as load model to load a pre-trained model
+	
+	
+	\item\textbf{Preprocess image}:- This function takes the input and checks the images has followed the standard size, format and anomalies such as noise or blur image and prepare for the prediction. Takes an image path as input and performs the necessary preprocessing steps on the image. Uses the OpenCV library (cv2) to load the image, resize it to the desired input size (e.g., 224x224), and normalize the pixel values to the range [0, 1].
+	
+	\item\textbf{Detect pneumonia}: This class stays at the bottom of the  process where it will provide the result of the pneumonia in the form of Yes and No. This will intercept the possibility of Pneumonia. Calls the preprocess image method to preprocess the image. Converts the preprocessed image to a numpy array and adds an extra dimension for batch size. It uses the loaded model to make a prediction on the preprocessed image.
+	
+\end{itemize}
+
+
+\section{Parts}
+\begin{itemize}
+	\item\textbf{Image pre-processing}:- In this part the the image preprocessing steps such as resizing, normalization, and any other required transformations to prepare the input image for the pneumonia detection model. Alongwith the noice or any kind blur happen due to the patients moments . Then this will move the image to the further process for detection.
+	
+	\item\textbf{Model Loading}:-The process will acquire the images which needs to be trained for the detection task. Machine learning and AI will scan all the images for any kind of presence of detection.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{"Images/model Loading"}
+		\caption{model-loading}
+		\label{fig:Model-loading}
+	\end{figure}
+	
+	
+	
+\end{itemize}
+
+\section{Automation}
+
+Automation:-
+Automation testing helps streamline the testing process, improves efficiency, and allows for more thorough testing of the pneumonia detection. It provides the environment setup including necessary hardware and software components, install dependencies or libraries needed for testing. Configure the test environment to ensure proper communication between testing tools and pneumonia detection.\\
+
+\begin{itemize}
+	\item\textbf{Test Data Generation}: Generate or acquire a diverse set of test data representing various scenarios and conditions for pneumonia detection. Include positive and negative cases
+	\item\textbf{Test Case Design}: It define a set of test cases that cover different aspects of the pneumonia detection system.
+	\item\textbf{Test Execution}: Execute the automated tests to simulate various scenarios, monitor the system's behavior, and detect any anomalies or errors in the detection process.
+	\item\textbf{Test Result Analysis}: Analyze the test results to identify discrepancies between the expected and obtained detection outcomes.
+\end{itemize}
+\newpage
+
+
+\section{Documentation}
+\begin{itemize}
+	\item \textbf{Test procedure documentation}: Detailed documentation describing the test procedures, including the steps to set up the test environment, the test data used, and the expected results.
+	\item \textbf {Test case documentation}: Documenting individual test cases, including the input images, the expected results, and any specific conditions or requirements for each test case.
+	\item \textbf {Test result documentation}: Recording the results of the tests, including any discrepancies, issues, or observations encountered during testing.
+\end{itemize}
+
+
+
+
+
+
+
+
+

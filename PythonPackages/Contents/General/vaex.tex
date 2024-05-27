@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/vaex.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+% 02.05.2022 08:00 Uhr iX Magazin iX 05/2022
+
+% Quelle: https://www.heise.de/ratgeber/Python-Mit-vaex-grosse-Datenmengen-verwalten-7066766.html
+
+\chapter{Gro{\ss}e Pandas}
+
+\section{Programmieren mit Python: Große Datenmengen verwalten mit vaex}
+
+
+
+Wer häufig mit Python und pandas arbeitet, kennt das Problem: Irgendwann reicht der Speicher nicht mehr. vaex schafft Abhilfe und ist kompatibel zu pandas.
+
+Die Python-Bibliothek pandas mit ihren zahlreichen Funktionen zum Umgang mit umfangreichen Datensätzen hat sich als Standard in der Data Science etabliert. Wer sich an die teilweise etwas spröde Bibliothek gewöhnt hat, kann sehr effizient damit arbeiten und viele Standardprobleme in der Datenvorbereitung und -analyse elegant lösen. pandas arbeitet dabei sehr schnell, weil es die Daten in DataFrames im Arbeitsspeicher hält.
+
+Bei sehr großen Datensätzen passen die Daten aber irgendwann nicht mehr in den Speicher. Oft ist es einen Versuch wert, sich auf relevante Teile der Daten zu beschränken – aber das ist nicht immer möglich. Besonders bei der Datenaggregation kommt es oft zu Problemen. Perfekt wäre eine Bibliothek, die kompatibel mit pandas ist, aber bei Bedarf mit Daten im nichtflüchtigen Speicher arbeitet. Genau das leistet vaex.
+
+Dabei ist vaex sehr schnell. Auch DataFrames, die nicht im Arbeitsspeicher liegen, können häufig mit 109 Zeilen pro Sekunde und schneller verarbeitet werden: In vielen Anwendungsfällen stehen Ergebnisse praktisch unmittelbar zur Verfügung. vaex ist dabei außerdem äußerst effizient und berechnet Spalten erst dann, wenn sie wirklich benötigt werden. Das kann erhebliche Berechnungszeit sparen, aber in einzelnen Fällen auch dazu führen, dass Wartezeit entsteht, wenn man gar nicht damit rechnet.
+
+Den Speicher verwaltet vaex ebenso intelligent. Bei den besonders häufigen Filter- oder Auswahloperationen vermeidet es, Daten zu kopieren, sondern verweist nur auf Referenzen. Das führt bei Datenumrechnungen nicht nur zu einer schnellen Verarbeitung, sondern belastet auch den Arbeitsspeicher nur minimal. Einen großen Vorteil von pandas übernimmt vaex auch gleich: Daten lassen sich direkt im Jupyter-Notebook visualisieren. Außerdem zeigt vaex in Jupyter-Notebooks die von pandas bekannten Vervollständigungen an.
+
+Alles in allem fühlt es sich also nicht viel anders an, mit vaex statt mit pandas zu arbeiten. Der Unterschied wird erst spürbar, wenn die Datenmengen für pandas zu groß werden und vaex einfach weitermacht.
+
+
+\section{vaex im Einsatz}
+
+
+vaex ist modular aufgebaut und besteht aus unterschiedlichen Paketen. Installiert wird es mit
+
+\medskip
+
+\SHELL{pip install vaex}
+
+\medskip
+
+Beispiele und Datensets bringt vaex bereits mit, sodass man unmittelbar loslegen kann. Passenderweise sind die DataFrames recht groß. vaex kann sie direkt von Amazon S3 öffnen, beispielsweise Taxifahrten in New York von 2009 bis 2015:
+
+\medskip
+
+\PYTHON{import vaex}
+
+\PYTHON{tdf = vaex.open('s3://vaex/taxi/yellow\_taxi\_2009\_2015\_f32.hdf5')}
+
+\PYTHON{tdf.shape()}
+
+\medskip
+
+\SHELL{(1173057927, 18)}
+
+
+\medskip
+
+Hier sieht man bereits, wie ähnlich vaex zu pandas ist (das allerdings Schwierigkeiten hätte mit über einer Milliarde Datensätzen). Einige gewohnte Funktionen verhalten sich etwas anders, so liefert \PYTHON{df.columns} nicht direkt die Spaltennamen zurück, sondern ein Proxy-Objekt: Ein DataFrame kann auch sehr viele Spalten enthalten und aufgrund der Lazy-Evaluierung berechnet vaex die erst, wenn sie benötigt werden \PYTHON{(list(df.columns)} hilft hier weiter). Genau wie bei pandas kann der DataFrame mit \PYTHON{tdf.head()} im Jupyter-Notebook ausgegeben werden.
+
+Funktionen wie \PYTHON{sample()} stehen auch zur Verfügung. Filteroperationen kann man gefahrlos ohne Download des Datensets durchführen, weil vaex die Operationen erst bei Bedarf durchführt:
+
+\medskip
+
+\PYTHON{many\_passengers = tdf[tdf.passenger\_count > 10]}
+
+\medskip
+
+Vorsicht allerdings bei \PYTHON{len(many\_passengers)}, das führt zum Download und zur Berechnung (1165 Fahrten hatten mehr als zehn Passagiere). Mit einem kleineren Beispiel-Datenset (\PYTHON{df = vaex.example()}) lassen sich noch weitere Features ausprobieren. Besonders spannend und häufig sinnvoll ist das Binning, bei dem man mit einem kleineren DataFrame arbeitet und dafür eine Statistik berechnet, um den großen Download zu sparen. vaex teilt dazu den DataFrame in ein x-y-Grid auf und berechnet für jedes Quadrat im Grid den Mittelwert der Größe z:
+
+\medskip
+
+\PYTHON{edf=vaex.example()}
+
+\PYTHON{edf.mean(edf.z, binby[edf.x, edf.y], shape=32, limits=[-10, 10])}
+
+\medskip
+
+Das Ergebnis kann man als eine Verallgemeinerung eines Histogramms betrachten. Besonders in sehr großen Datensätzen ist es häufig sinnvoll, mit solchen Aggregaten zu arbeiten, um sich einen Eindruck über die Struktur der Daten zu verschaffen.
+
+vaex kann mit vielen Datenformaten umgehen, besonders gut mit solchen für große Datenmengen. Das oben genutzte Taxi-Datenset liegt im HDF5-Format vor, das ursprünglich aus der Hadoop-Welt stammt. Aber auch CSV, Apache Arrow, Apache Parquet oder FIT stellen kein Problem für vaex dar. Diese Datenformate können auch platzsparend spaltenorientiert geschrieben werden.
+
+
+\section{Fazit}
+
+vaex ist ein sehr leistungsfähiges Tool für den Umgang mit sehr großen Datenmengen, die zu umfangreich für pandas sind. In vielen Bereichen ist es dazu kompatibel, es gibt allerdings einige Unterschiede, besonders in der Lazy-Evaluierung von Werten. vaex erlaubt auch direktes Machine Learning auf sehr umfangreichen Datenmengen.
+
+Prof. Dr. Stefanie Scholz forscht an der Wilhelm-Löhe-Hochschule unter anderem zu Themen rund um KI-gestütztes Data-driven Marketing.
+
+\section{Tasks}
+
+
+\begin{itemize}
+	\item Translation
+	\item Improvements
+	\item Further readings
+	\item Example code with Python
+	\item Presentation 
+\end{itemize}
+

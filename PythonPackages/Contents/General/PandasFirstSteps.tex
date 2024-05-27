@@ -1,0 +1,524 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasFirstSteps.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+% iX 1/2023 S.116
+
+% Quelle: https://www.heise.de/hintergrund/Datenanalyse-mit-Python-Erste-Schritte-mit-Pandas-Fussballdaten-auswerten-6185299.html
+
+\chapter{Datenanalyse mit Python: Erste Schritte mit Pandas – Fussballdaten auswerten}
+
+\section{Einleitung}
+
+Pandas ist die Standard-Bibliothek für alle, die mit Python Daten verarbeiten möchten. So lässt sich auch die erste Bundesligasaison einfach analysieren.
+
+
+Wer Daten mit Python ver- oder bearbeiten möchte, kommt kaum um die Bibliothek Pandas herum. Sie ist gewissermaßen der Goldstandard für Python, wenn es um strukturierte Informationen geht.
+
+Wie groß die Ursprungsdaten sind, spielt für Pandas keine Rolle: Die Bibliothek kommt mit CSV-Dateien zurecht, dem Excel-Format von Microsoft und auch mit großen Datenmengen in einer JSON-Datei. Dabei ist es egal, ob Sie ein kleines oder großes Datenprojekt angehen möchten, Pandas vereinfacht in der Regel immer den Umgang mit Daten jeder Art.
+
+
+Wir erklären in diesem Artikel die grundlegenden Konzepte, mit denen Pandas arbeitet: die Series und den Dataframe. Außerdem zeigen wir, wie man sich freie Fußballdaten aus dem Netz holt und so etwa die erste Bundesligasaison 1963/64 analysiert. Grundlegende Python-Kenntnisse sind dafür hilfreich, Sie sollten also schon einmal Bibliotheken mit Pip installiert haben.
+
+Der Begriff Pandas kommt vom Wort Panel Data, also Paneldaten, die in der Regel aus Reihen und Spalten bestehen. Falls man Pandas einem Nicht-Techie erklären möchte: Das ist so, als würde man mit einem Excel-Datenblatt arbeiten. Nur halt im Python-Code.
+
+Der Entwickler Wes McKinney arbeitet seit 2008 an Pandas. Damals war er noch bei einer Management-Firma für Investments angestellt und suchte nach einem schnellen und flexiblen Tool, um quantitative Analysen durchzuführen. Daraus wurde schließlich die Open-Source-Bibliothek Pandas. 28 Maintainer kümmern sich mittlerweile um die Software, McKinney ist noch immer dabei.
+
+\section{Installation}
+
+Über die Paketverwaltung Pip installiert man die Pandas-Bibliothek so:
+
+\medskip
+	
+\SHELL{pip install pandas}
+
+\medskip
+
+Pandas ist zudem Teil des Sci-Py-Stacks, eine Open-Source-Softwareumgebung für Mathematiker, Analysten und andere Wissenschaftler. Pandas-Entwickler bevorzugen die Installation über die \HREF{https://pandas.pydata.org/docs/getting_started/install.html}{Python-Distribution Anaconda}, die unter anderem den Sci-Py-Stack samt Pandas mitbringt.
+
+\section{\PYTHON{Series} verstehen}
+
+Die beiden wichtigsten Datenstrukturen, die Pandas bereitstellt, sind die \PYTHON{Series} und der \PYTHON{DataFrame}. Die \PYTHON{Series} kann man sich als einfache Liste mit Index vorstellen, sie besteht also aus zwei Arrays. Mit diesem Code lässt sich eine kleine \PYTHON{Series} mit drei Elementen anlegen:
+
+\medskip
+
+\PYTHON{series = pd.Series([1, 2, 3])}
+
+\medskip
+
+
+Gibt man die Variable series aus, steht neben den einzelnen Reihen noch der Index, der bei Null beginnt:
+
+
+\medskip
+
+
+\PYTHON{0\quad 	1}
+
+\PYTHON{1 \quad 	2}
+
+\PYTHON{2\quad 	3}
+
+\medskip
+
+Außerdem steht der Datentyp der Werte in der Ausgabe, \PYTHON{int64} bedeutet 64-Bit-Ganzzahlen. Anhand des Indexes kann der Nutzer auf einzelne Werte zugreifen: \PYTHON{print(series[1])} ergibt etwa \PYTHON{2}.
+
+Die \PYTHON{Series} mag wie eine normale Python-Liste wirken, allerdings funktioniert sie ein wenig anders. So kann man etwa den Index verändern und Werte aus der \PYTHON{Series} dann über den neuen Index ansprechen:
+
+\medskip
+
+\PYTHON{series = pd.Series([1, 2, 3],index=["Erste Ziffer","Zweite Ziffer","Dritte Ziffer"])}
+
+\PYTHON{print(series["Zweite Ziffer"])}
+
+\medskip
+
+Dieser Code lässt wieder eine \PYTHON{2} in der Ausgabe erscheinen.
+
+Außerdem werden mathematische Operationen auf alle \PYTHON{Series}-Werte angewandt. Eine Mal-Operation wie \PYTHON{series*2} ergibt folgende Ausgabe:
+
+\medskip
+
+
+\PYTHON{0\quad 	2}
+
+\PYTHON{1\quad 	4}
+
+\PYTHON{2\quad 	6}
+
+\medskip
+
+Das ist mit einer Python-Liste so nicht möglich, diese Operation würde nur die Liste verdoppeln, nicht die Werte. Das Prinzip wird weitergeführt, wenn man etwa zwei \PYTHON{Series}-Objekte addieren möchte:
+
+\medskip
+
+\PYTHON{series1 = pd.Series([1, 2, 3])}
+
+\PYTHON{series2 = pd.Series([4, 5, 6])}
+
+\PYTHON{print(series1+series2)}
+
+\medskip
+
+Das Ergebnis ist eine neue \PYTHON{Series}, mit den addierten Werten aus den zwei vorherigen:
+
+\medskip
+
+\PYTHON{0\quad 	5}
+
+\PYTHON{1\quad 	7}
+
+\PYTHON{2\quad 	9}
+
+\medskip
+
+Wären das zwei normale Listen-Elemente, würde die Ausgabe stattdessen so aussehen:
+
+\medskip
+
+\PYTHON{[1, 2, 3, 4, 5, 6]}
+
+\section{\PYTHON{DataFrame} erstellen}
+
+Einen \PYTHON{DataFrame} lässt sich ebenfalls einfach per Hand erstellen. Dafür nutzt man das in Python eingebaute \PYTHON{Dictionary}:
+	
+\medskip
+
+\PYTHON{daten = \{}
+
+\PYTHON{\qquad "Zahlen": [1, 2, 3],}
+
+\PYTHON{\qquad "Buchstaben": ["A", "B", "C"]}
+
+\PYTHON{\}}
+
+\medskip
+
+Das \PYTHON{Dictionary} steht in geschwungenen Klammern und enthält zwei zusammengehörige Daten, die durch Doppelpunkte getrennt sind. Mehrere Datenpaare werden durch Kommas im \PYTHON{Dictionary} unterschieden. Der erste Datenpunkt ist der Schlüssel, der zweite ist der zugehörige Wert.
+
+In diesem Beispiel steht jedes Schlüssel-Wert-Paar für eine Spalte im Dataframe. Der Schlüssel besteht jeweils aus einem String, hier Zahlen und Buchstaben. Das sind später die Spaltenüberschriften. Der zugehörige Wert besteht in beiden Fällen aus je einer Liste mit drei Elementen, das sind dann die einzelnen Werte in der jeweiligen Spalte.
+
+Das \PYTHON{Dictionary} übergibt man nun Pandas, damit daraus ein \PYTHON{DataFrame} wird:
+
+\medskip
+
+\PYTHON{dataframe = pd.DataFrame(daten)}
+
+\medskip
+
+\PYTHON{pd.DataFrame} nimmt das \PYTHON{Dictionary} auf und speichert den \PYTHON{DataFrame} in der Variable \PYTHON{dataframe}. In vielen Pandas-Beispielen findet man auch die Abkürzung\PYTHON{df} als Variablennamen für den \PYTHON{DataFrame}. Gibt man diese Variable anschließend mit einem \PYTHON{print(dataframe)} aus, sieht man die Daten in einer Tabellendarstellung:
+
+\medskip
+
+\PYTHON{\quad\qquad  Zahlen\quad 	Buchstaben}
+
+\PYTHON{0\qquad 	1\qquad 	A}
+
+\PYTHON{1\qquad 	2\qquad 	B}
+
+\PYTHON{2\qquad 	3\qquad 	C}
+
+\medskip
+
+
+Einen ersten Überblick über die Daten erhält man mit \PYTHON{shape}. So gibt \PYTHON{print(dataframe.shape)} die Zeile \PYTHON{(3, 2)} aus. Der \PYTHON{DataFrame} besteht also aus 3 Reihen und 2 Spalten. \PYTHON{print(len(dataframe))} zeigt Ihnen nur die Anzahl der Reihen, also \PYTHON{3}. Das ist für die Beispiel-Daten nicht sehr überraschend, man weiß ja, was man da eingetippt hat. Sobald allerdings fremde Daten ins Spiel kommen, werden \PYTHON{shape}0 und \PYTHON{len()} wieder relevant.
+
+Eine Zusammenfassung des Dataframes zeigt \PYTHON{info()} an. Für den kleinen Beispieldataframe ergibt die Eingabe \PYTHON{print(dataframe.info())} folgende Ausgabe:
+
+\medskip
+
+\begin{lstlisting}[language=Python]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3 entries, 0 to 2
+Data columns (total 2 columns):
+#    Column      Non-Null Count  Dtype
+---  ------      --------------  -----
+0    Zahlen      3 non-null      int64
+1    Buchstaben  3 non-null      object
+dtypes: int64(1), object(1)
+memory usage: 176.0+ bytes
+\end{lstlisting}
+
+\medskip
+
+Auf einen Blick sieht man den Index, die Anzahl der Spalten, wie viele Reihen der Dataframe hat und aus welchen Datentypen die Werte in den Spalten bestehen. Die erste Spalte mit den Zahlen besteht etwa aus 64-Bit-Ganzzahlen, das zeigt der Hinweis \PYTHON{int64} unter \PYTHON{Dtype} -- wie schon bei der \PYTHON{Series}. Schließlich zeigt \PYTHON{info()} noch, wie viel Speicherplatz der Dataframe benötigt.
+
+
+\section{Daten auswählen}
+
+Um aus diesen Beispieldaten nun eine spezielle Spalte auszuwählen, reicht es aus, den Namen der Spalte in eckigen Klammern hinter den Dataframe zu packen. \PYTHON{print(dataframe["Buchstaben"])} hat damit diese Ausgabe:
+
+\medskip
+
+\begin{lstlisting}[language=Python]
+0	A
+1	B
+2	C
+\end{lstlisting}
+
+\medskip
+
+Neben den definierten Reihen und Werten und besteht der \PYTHON{DataFrame} noch aus einem Index, der bei Null beginnt. Über diesen Index können Sie etwa eine spezielle Reihe ansprechen, und zwar mit loc:
+
+\medskip
+
+\PYTHON{print(dataframe.loc[1])}
+
+\medskip
+
+Wer diesen Code eingibt, erhält als Ausgabe nur die Werte der zweiten Reihe -- ohne Index:
+
+\medskip
+
+\begin{lstlisting}[language=Python]
+Zahlen	    2
+Buchstaben	B
+\end{lstlisting}
+
+\medskip
+
+Den Index kann man auch anpassen, indem man der Funktion \PYTHON{DataFrame()} eine Liste mit neuen Index-Werten übergibt. So wird aus folgendem Code
+
+\medskip
+
+\PYTHON{dataframe = pd.DataFrame(daten, index=["Erste Reihe", "Zweite Reihe", "Dritte Reihe"])}
+
+\medskip
+
+diese Ausgabe:
+
+\medskip
+
+\begin{lstlisting}[language=Python]
+                Zahlen  Buchstaben
+Erste Reihe	    1       A
+Zweite Reihe    2       B
+Dritte Reihe    3       C
+\end{lstlisting}
+
+\medskip
+
+
+Die zweite Reihe lässt sich nun über ein \PYTHON{print(dataframe.loc["Zweite Reihe"])} ausgeben.
+
+\section{Integer}
+
+Neben \PYTHON{loc} gibt es noch \PYTHON{iloc} -- das \PYTHON{i} steht für Integer. Darüber können Sie den Index unabhängig vom selbst gewählten Namen aufrufen, sondern wieder über seine Index-Zahl. Auch dieser Index beginnt bei Null. \PYTHON{print(dataframe.iloc[1])} ergibt so dieselbe Ausgabe wie \PYTHON{print(dataframe.loc["Zweite Reihe"])}.
+
+Während \PYTHON{loc} und \PYTHON{iloc} ganze Reihen und Spalten auswählen, kann man mit at einen einzelnen Wert ermitteln. Dafür übergibt man at den Indexwert und den Spaltennamen, damit der passende Wert aus dem \PYTHON{DataFrame} extrahiert wird. In dem Beispiel ohne eigens festgelegten Index gibt etwa \PYTHON{print(dataframe.at[0, "Buchstaben"])} ein einzelnes \PYTHON{A} aus. Verwendet man den eigenen Index von eben, kommt man mit \PYTHON{print(dataframe.at["Erste Reihe", "Buchstaben"])} zum selben Ergebnis.
+
+Analog zu \PYTHON{loc} und \PYTHON{iloc} gibt es neben \PYTHON{at} auch \PYTHON{iat}. Wer keine Buchstaben mag, wird damit glücklich, denn das \PYTHON{i} steht wieder für Integer. Damit das \PYTHON{A} in der Ausgabe erscheint, reicht ein \PYTHON{print(dataframe.iat[0, 1])}.
+
+
+\section{Fußball-Daten holen}
+
+Mit dem bisherigen Dataframe kann man nur begrenzt herumspielen und was über Pandas lernen. Wir brauchen echte Daten. Im Netz gibts massenhaft freie Datensätze, die man für eigene Projekte verwenden kann. Auf Github findet man etwa alle \HREF{https://github.com/footballcsv/deutschland}{Spielergebnisse der Fußball-Bundesliga im CSV-Format}.
+
+
+
+CSV-Dateien enthalten Daten, die durch Kommas getrennt sind. Für Menschen sind die Dateien eher schwierig zu lesen, Maschinen lieben sie. Als Beispiel nehmen wir den ersten Spieltag der allerersten \HREF{https://raw.githubusercontent.com/footballcsv/deutschland/master/1960s/1963-64/de.1.csv}{Bundesligasaison von 1963/64 als CSV-Datei}. Pandas kann natürlich auch mit anderen Formaten umgehen, etwa Excel-Dateien, JSON-Daten oder SQL-Dateien. Eine Übersicht über verschiedene Möglichkeiten zeigt die \HREF{https://pandas.pydata.org/pandas-docs/stable/reference/io.html}{Dokumentation}.
+
+	
+Nun müssen aber erst die Fußball-Daten ins Programm. Mit der Funktion \PYTHON{read\_csv()} kann Pandas CSV-Dateien lesen und erstellt daraus sofort einen Dataframe. Wer es eilig hat, packt einfach den Link zu den Daten in Anführungszeichen und übergibt ihn \PYTHON{read\_csv()}:
+
+\medskip
+
+\PYTHON{dataframe = pd.read\_csv("https://raw.githubusercontent.com/footballcsv/deutschland/master/1960s/1963-64/de.1.csv")}
+
+\medskip
+
+Optimal ist das nicht. Die Daten könnten schließlich aus dem Netz verschwinden und dann würde das ganze Programm nicht mehr funktionieren. Im Internet ist schließlich nichts für die Ewigkeit.
+
+Eleganter ist es, die CSV-Datei herunterzuladen und zu speichern. Pandas kann dann auf die gesicherte Datei zugreifen. Das geht am einfachsten über die Python-Bibliothek \PYTHON{requests}. Die müssen Sie erst installieren, am besten über Pip:
+
+\medskip
+
+\SHELL{pip install requests}
+
+
+\medskip
+
+Die Datei holen Sie dann so auf die Platte:
+
+\medskip
+
+\PYTHON{import requests}
+
+\PYTHON{}
+
+
+\PYTHON{bundesliga\_csv\_url = "https://raw.githubusercontent.com/footballcsv/deutschland/master/1960s/1963-64/de.1.csv"}
+
+\PYTHON{}
+
+
+\PYTHON{download = requests.get(bundesliga\_csv\_url)}
+
+\PYTHON{with open("bundesliga\_erster\_spieltag.csv", "wb") as datei:}
+
+\PYTHON{datei.write(download.content)}
+
+\medskip
+
+
+
+
+In der Variable \PYTHON{bundesliga\_csv\_url} steht die URL zur CSV-Datei, \PYTHON{requests.get(bundesliga\_csv\_url)} holt sich dann über die Get-Methode die Daten. Die zwei weiteren Zeilen speichern den Inhalt, also \PYTHON{download.content}, als CSV-Datei ab. \FILE{bundesliga\_erster\_spieltag.csv} ist anschließend der Name der daraus erstellten CSV-Datei.
+
+Die Datei wird hier in dem Ordner gespeichert, in dem auch die Python-Datei liegt. Das Skript führt den Download jedes Mal neu aus. Sie können die paar Zeilen allerdings auch in ein Extra-Skript packen und nur einmal ausführen.
+
+Pandas soll nun mit den heruntergeladenen Daten arbeiten. Da die Datei im gleichen Ordner wie das Skript liegt, reicht es aus, \PYTHON{dataframe = pd.read\_csv("bundesliga\_erster\_spieltag.csv")} einzugeben. Wenn Sie die Datei woanders speichern, müssen Sie den Pfad entsprechend anpassen.
+
+\section{Infos anzeigen}
+
+
+
+Mit den Methoden von vorhin lässt man sich nun einige Informationen zu dem \PYTHON{DataFrame} anzeigen:
+
+\medskip
+
+\PYTHON{print(len(dataframe))}
+
+\PYTHON{print(dataframe.shape)}
+
+\PYTHON{print(dataframe.info())}
+
+\medskip
+
+\PYTHON{len(dataframe)} gibt wieder die Anzahl der Reihen aus, hier \PYTHON{240} -- \PYTHON{16} Mannschaften absolvieren je \PYTHON{30} Spiele, das ergibt \PYTHON{240} Partien. Der \PYTHON{Shape} ist \PYTHON{(240, 5)}, also \PYTHON{240} Reihen und \PYTHON{5} Spalten. \PYTHON{Info()} zeigt schließlich die Namen der Spalten: \PYTHON{Matchday}, \PYTHON{Date}, \PYTHON{Team 1}, \PYTHON{FT} und \PYTHON{Team 2}. Nur die Datenpunkte in \PYTHON{Matchday} sind jeweils 64-Bit-Integer, der Rest besteht aus unbestimmten Typen \PYTHON{object}.
+
+Damit weiß man schon jede Menge über die Daten, aber was genau steht drin? Sind es wirklich Fußball-Informationen oder hat jemand die Spalten mit Kochrezepten gefüllt? Gerade wenn man mit fremden Daten arbeitet, kommt man nicht drum herum, mal reinzuschauen.
+
+Einen ersten Blick ermöglicht \PYTHON{head()}. Damit holt man sich schnell die ersten 5 Einträge in die Ausgabe. \PYTHON{print(dataframe.head())} ergibt in unserem Beispiel also
+
+\medskip
+
+{\tiny
+\begin{lstlisting}[language=Python]
+Matchday                Date               Team 1   FT                  Team 2
+0         1  Sat Aug 24 1963        Werder Bremen  3-2       Borussia Dortmund
+1         1  Sat Aug 24 1963    1. FC Saarbr"ucken 0-2             1. FC K"oln
+2         1  Sat  Aug 24 1963   TSV 1860 M"unchen  1-1  Eintracht Braunschweig
+3         1  Sat Aug 24 1963  Eintracht Frankfurt  1-1    1. FC Kaiserslautern
+4         1  Sat Aug 24 1963        FC Schalke 04  2-0           VfB Stuttgart
+\end{lstlisting}
+}
+
+\medskip
+
+Glück gehabt, die ersten Reihen zeigen Fußball-Daten. \PYTHON{FT} steht übrigens für Full Time, gibt also das Ergebnis nach der vollen Spielzeit an. \PYTHON{print(dataframe.tail())} zeigt die letzten 5 Einträge an:
+
+
+\medskip
+
+\begin{lstlisting}[language=Python]
+Matchday                 Date             Team 1   FT                Team 2
+235        30  Sat May 9 1964      Karlsruher SC  1-2   Eintracht Frankfurt
+236        30  Sat May 9 1964  TSV 1860 M"unchen  3-2         Werder Bremen
+237        30  Sat May 9 1964 1. FC Saarbr"ucken  1-1         FC Schalke 04
+238        30  Sat May 9 1964  Preu"sen M"unster  4-2            Hertha BSC
+239        30  Sat May 9 1964       MSV Duisburg  3-0  1. FC Kaiserslautern
+\end{lstlisting}
+
+\medskip
+
+
+5 Einträge ist der Standardwert, das kann man allerdings ändern: \PYTHON{dataframe.head(3)} zeigt nur die ersten 3 Einträge, für \PYTHON{tail()} funktioniert das genauso. Wer noch Daten aus der Mitte des Dataframes sehen möchte, kann sie mit einem einfachen \PYTHON{Slice} anzeigen, etwa \PYTHON{print(dataframe[112:116])}.
+
+\section{Tor-Statistiken}
+
+
+Mit diesen wenigen Befehlen weiß der Nutzer nun, mit welchen Daten er es zu tun hat. Jetzt holen wir einige interessante Statistiken aus den Daten. Die Funktion \PYTHON{value\_counts()} zeigt etwa, wie oft ein bestimmter Wert in den Daten vorkommt. Wenn man ihn auf die Spalte \PYTHON{FT} mit den Ergebnissen anwendet, weiß man sofort, welches Endergebnis am häufigsten auf der Anzeigetafel stand. Ein angehängtes \PYTHON{.head(10)} würde übrigens nur die 10 häufigsten Ergebnisse ausgeben.
+
+Die erste Bundesligasaison muss demnach recht langweilig gewesen sein. \PYTHON{print(dataframe["FT"].value\_counts())} zeigt, dass ein 1:1 am häufigsten vorkam, nämlich 25 Mal. Direkt dahinter wird es nicht besser, 2:2 war 18 Mal das Endergebnis. Ein 9:3, 6:1 oder 7:0 war eher die Ausnahme, diese Ergebnisse kamen jeweils nur ein Mal vor. Übrigens ist Fußball nicht gerade interessanter geworden. In der Saison 2019/20 war 1:1 ebenfalls das häufigste Ergebnis, es kam 32 Mal vor -- immerhin gab es mehr 2:1- und 1:2-Ergebnisse als 1963/64, dafür weniger Torfestival-Partien.
+
+Alle Ergebnisse eines bestimmten Spieltags kann man sich über die Spalte Matchday anzeigen lassen. Für den 5. Spieltag muss der Wert in der Spalte 5 betragen. \PYTHON{fuenfter\_spieltag = dataframe["Matchday"] == 5} ergibt eine \PYTHON{Series} mit \PYTHON{True}- und \PYTHON{False}-Werten -- ist der 5. Spieltag, zeigt die \PYTHON{Series} \PYTHON{True} an, alle anderen Spieltage sind \PYTHON{False}. Diese \PYTHON{Series} wendet man anschließend auf den \PYTHON{DataFrame} an:
+
+\medskip
+
+\PYTHON{print(dataframe[fuenfter\_spieltag])}
+
+\medskip
+
+So werden alle Reihen ausgegeben, die zum 5. Spieltag gehören – also alle 8 Spiele.
+
+Jetzt wollen wir nicht nur einen bestimmten Spieltag, sondern die Spiele einer bestimmten Mannschaft. Das funktioniert im Grunde wie eben: Die Team-Spalten filtert man nach dem Verein und die daraus entstehende True-False-Series wendet man anschließend auf den Dataframe an. Hier muss man allerdings zwei Spalten durchforsten, Team 1 und Team 2. Der Nutzer möchte ja alle Spiele aufgelistet haben und nicht nur die Heim- oder Auswärts-Spiele.
+
+
+\PYTHON{dataframe["Team 1"] == "Borussia Dortmund"} durchforstet die Heimspiele von Borussia Dortmund, \PYTHON{dataframe["Team 2"] == "Borussia Dortmund"} die Auswärtsspiele. Der Oder-Operator \PYTHON{|} verbindet beide Befehle, die dafür in Klammern stehen müssen:
+
+\medskip
+
+\PYTHON{spiele\_bvb = (dataframe["Team 1"] == "Borussia Dortmund") $|$ (dataframe["Team 2"] == "Borussia Dortmund")}
+
+\medskip
+
+
+\PYTHON{spiele\_bvb} ist anschließend eine Series, die immer dann True ist, wenn Borussia Dortmund spielt. Wendet man diese Series anschließend auf den gesamten Dataframe an, erhält man eine Liste mit allen Spielen des Vereins:
+
+\medskip
+
+
+\PYTHON{print(dataframe[spiele\_bvb])}
+
+
+\section{Daten formatieren}
+
+Daten aus öffentlichen Quellen haben selten das Format oder die Bezeichnungen, die man gerne hätte. Bei den Bundesliga-Daten nerven etwa die englischen Spaltennamen. Deutsche Bezeichnungen wären da passender.
+
+Dafür hat Pandas die praktische Funktion \PYTHON{rename()}. Die Änderungen packt man einfach in ein \PYTHON{Dictionary} und übergibt es der Funktion:
+
+\medskip
+
+{\footnotesize
+	\begin{lstlisting}[language=Python]
+dataframe = dataframe.rename(columns={"Matchday": "Spieltag",
+    "Date": "Datum",
+    "Team 1": "Heimmannschaft",
+    "FT": "Endergebnis",
+    "Team 2": "Gastmannschaft"})
+\end{lstlisting}
+}
+
+\medskip
+
+Aus Matchday wird Spieltag, aus \PYTHON{Team 2} Gastmannschaft und so weiter. Etwas übersichtlicher ist es, das \PYTHON{Dictionary} außerhalb der Funktion zu definieren und dann einfach aufzurufen:
+
+\medskip
+
+{\footnotesize
+	\begin{lstlisting}[language=Python]
+spaltennamen_ersetzen = {"Matchday": "Spieltag",
+    "Date": "Datum",
+    "Team 1": "Heimmannschaft",
+    "FT": "Endergebnis",
+    "Team 2": "Gastmannschaft"
+}
+
+dataframe = dataframe.rename(columns=spaltennamen_ersetzen)
+\end{lstlisting}
+}
+
+\section{Datum}
+
+Damit sind die Spaltennamen korrekt eingedeutscht, aber die Datumswerte sind noch nicht formatiert. Beim ersten Spieltag steht etwa \PYTHON{Sat Aug 24 1963}. Das geht besser. Pandas bringt dafür die Funktion \PYTHON{to\_datetime()} mit:
+
+\medskip
+
+\PYTHON{dataframe["Datum"] = pd.to\_datetime(dataframe["Datum"])}
+
+\medskip
+
+Die Funktion \PYTHON{to\_datetime()} füttert man mit der Datumsspalte. Die alte Datumsspalte wird dann mit der neuen, formatierten Datumsspalte ersetzt. Gibt man die neue Spalte aus, wird der erste Spieltag nun als \PYTHON{1963-08-24} gelistet.
+
+\PYTHON{print(dataframe.info())} zeigt, dass die Datum-Spalte nun kein Type \PYTHON{object} mehr ist, sondern ein Type \PYTHON{datetime64[ns]}. Das sind interne 64-Bit-Integer, die in Nanosekunden (ns) gespeichert werden. \PYTHON{datetime64[ns]} kann Daten zwischen 1678 und 2262 speichern, plus-minus 292 Jahre vom 01. Januar 1970 aus gerechnet, dem Start der Unixzeit.
+
+\PYTHON{1963-08-24} ist ja schon ganz nett, aber wenn wir alles eindeutschen, dann auch das Datum. Dafür ist die Funktion \PYTHON{dt.strftime()} verantwortlich:
+
+\medskip
+
+\PYTHON{dataframe["Datum"] = pd.to\_datetime(dataframe["Datum"]).dt.strftime("\%A, \%d. \%B \%Y")}
+
+\medskip
+
+
+Die Funktion verwandelt ein Datum-Element in einen String. Mit speziellen Formatierungscodes \PYTHON{Datetime} bestimmt man den Inhalt des Strings. \PYTHON{\%A} ist der ausgeschriebene Wochentag, \PYTHON{\%d} der Tag, \PYTHON{\%B} der ausgeschriebene Monat und \PYTHON{\%Y} das Jahr mit vier Ziffern.
+
+Damit die Formatierungscodes deutsche Wochentage und Monate anzeigen, muss der Nutzer vorher eventuell noch die Bibliothek \PYTHON{locale} einbinden. Sie ist standardmäßig in Python integriert, muss also nicht per Pip installiert werden und stellt länderspezifische Datenformate zur Verfügung:
+
+\medskip
+
+\PYTHON{import locale}
+
+\PYTHON{locale.setlocale(locale.LC\_ALL, "de\_DE")}
+
+\medskip
+
+\PYTHON{LC\_ALL} bedeutet, dass alle länderspezifischen Formate angesprochen werden. \PYTHON{de\_DE} ist ein Language Code Identifier und bedeutet quasi: Deutsch in Deutschland. \PYTHON{de\_AT} wäre etwa Deutsch in Österreich.
+
+Gibt man nun das Datum aus, steht unter anderem diese Zeile in der Ausgabe:
+
+\medskip
+
+\PYTHON{Samstag, 24. August 1963}
+
+\medskip
+
+
+Damit ist die Datumsspalte aber wieder ein Type \PYTHON{object} und kein Type \PYTHON{datetime64} mehr -- alle String-Elemente sind für Pandas ein Type \PYTHON{object}. Hier steht allerdings die Lesbarkeit durch den Menschen im Vordergrund, nicht die Maschinenlesbarkeit.
+
+Um die Daten in der Spalte wieder in ein Type \PYTHON{datetime64} zu verwandeln, wendet man die Funktion \PYTHON{to\_datetime()} erneut an, gibt ihr aber die vorher genutzten Formatierungscodes von \PYTHON{dt.strftime()} als Parameter mit:
+
+\medskip
+
+\PYTHON{dataframe["Datum"] = pd.to\_datetime(dataframe["Datum"], format="\%A, \%d. \%B \%Y")}
+
+\medskip
+
+Anhand des Parameters \PYTHON{format} erkennt die Funktion den Inhalt des Strings und kann als das korrekte Datum formatieren.
+
+
+\Ausblenden{
+\section{Ausblick}
+
+
+	Pandas kann natürlich noch sehr viel mehr, als wir hier zeigen konnten. Mit der Bibliothek lassen sich etwa interaktive Grafiken erstellen, man kann sie für maschinelles Lernen einsetzen oder damit SQL ersetzen.
+	
+	Lesen Sie auch
+	
+	Python: Interaktive Web-Grafiken mit Bokeh und Pandas erstellen
+	
+	Generell kann man Pandas mit allen möglichen Daten füttern und für verschiedene Projekte nutzen – dank der vielen sinnvollen Funktionen kann man Pandas in fast jeder Situation gebrauchen, die mit Daten zu tun hat. Noch dazu ist Pandas sehr schnell. In der Dokumentation findet man weitere Beschreibungen der Befehle, auf der Pandas-Website werden zudem nützliche Anleitungen von der Community gesammelt.  
+	
+}
+

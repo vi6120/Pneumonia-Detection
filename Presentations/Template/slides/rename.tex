@@ -1,0 +1,162 @@
+%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-01-18 11:15:45Z $
+% $Pfad: githubtemplate/Template/Presentations/Template/slides/rename.tex $
+% $Version: 4620 $
+%
+%
+% !TeX encoding = utf8
+% !TeX root = Rename
+%
+%%%%%%
+
+
+
+\Mysection{Introduction}
+
+\STANDARD{}
+{ 
+	
+  It is a software design emphasizes the importance of designing systems in a way that minimizes the likelihood of errors occurring in the first place. This approach focuses on preventing errors from happening rather than simply detecting and handling them after they occur.\\
+  
+  \bigskip
+
+  \begin{itemize}
+    \item The goal is to create software systems that are more reliable, robust, and easier to maintain.
+    \item Errors in software can have significant negative impacts, such as crashes, data loss, or security vulnerabilities.
+    \item In most programming languages,it is coded in try-catch blocks.(Exception Handling)
+  \end{itemize}
+  
+}
+  	\begin{frame}
+  		\vspace{0.5cm}
+  		Here is the example in Python 
+  		
+  		\vspace{0.5cm}
+  		
+  		try:\\
+  		num1 = int(input("Enter a number: "))\\
+  		num2 = int(input("Enter another number: "))\\
+  		result = num1 / num2\\
+  		print("The result is:", result)\\
+  		except ValueError:\\
+  		print("Invalid input, please enter a number.")\\
+  		except ZeroDivisionError:\\
+  		print("Cannot divide by zero.")\\
+  		except:\\
+  		print("An unknown error occurred.")\\
+  		
+  	\end{frame}
+  	\STANDARD{}
+  	{
+  	\begin{itemize} 
+  		\item The code inside the try block accepts two input values from the user and calculates the result by dividing the first number with the second number.
+  		\item If there is a ValueError or ZeroDivisionError, the program jumps to the corresponding except block to handle the error. If an unknown error occurs,the final except block will catch it.
+  		\item If the user enters a non-numeric value, the program will jump to the ValueError except block and print the message "Invalid input.
+  		\item Similarly, if the user enters a 0 for the second number, the program will jump to the ZeroDivisionError except block and print "Cannot divide by zero."
+  	\end{itemize}
+	}
+
+\Mysection{Exception Add Complexity}
+
+\STANDARD{}
+{ 
+
+  %\textbf{Aufgabe}: Beziehung zwischen Zeit und Position finden
+
+  %\textbf{Synonyme}: Path Planning, Motion Planning
+
+Many programming language include a formal exception mechanism that allows exceptions to be thrown by the lower level code and caught by enclosing code.However,when the new mechanism is added it must me integrated with the existence mechanism or else it will change the flow of program and add more complexity to it.\\ \bigskip
+Several different ways a particular piece of code encounter exceptions:
+\begin{itemize}
+	\item A caller may provide bad argument or configuration information.
+	\item The code may detect bugs, internal inconsistencies or situations is not prepared to handle.
+	\item In distributed system, network packets may be lost or delayed, servers may not respond in timely fashion.
+\end{itemize}
+
+
+}
+
+\Mysection{Too Many Exceptions}
+
+\STANDARD{}
+{ 
+	
+	\begin{itemize}
+		\item Most Programmer are taught that it's important to detected and reports error; they often interpret this to mean "the more errors detected, the better."\\
+		\item Excessive use of exception can be a problematic, it make code hard to understand. If it is used too many then, it become too difficult to predict its behavior and identify the root cause of error.\\
+		\item Exception should be used only in case when it is necessary such as dealing with unpredictable error that can be easily handle in normal control flow of program.\\
+		\item To overcome from this situation is very easy just reduce the number of places were the exception have to be handled.\\
+	\end{itemize}
+
+
+}
+% TODO: \usepackage{graphicx} required
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../../Error/Images/ex1}
+	\caption{}
+\end{figure}
+
+
+\Mysection{Mask Exceptions}
+
+\STANDARD{}
+{ 
+
+}
+
+
+\Mysection{Aggregation Exceptions}
+
+\STANDARD{}
+{ 
+
+  \begin{itemize}
+  	\item Exception aggregation is the process of collecting multiple related exceptions and consolidating them into a single exception object. This can be useful in situations where multiple errors occur within a system or application, and it is desirable to present the user with a single error message or log a single exception for easier troubleshooting.\\ 
+  	
+  	\item It can also be useful in distributed systems, where errors may occur in different components of the system and need to be consolidated into a single error message or exception for easier management and debugging.\\ 
+  	
+  	\item It should not be used to mask or hide underlying errors. Rather, it should be used as a tool for better presentation and management of errors and exceptions.\\
+  \end{itemize}
+}
+
+\STANDARD{Water Taxi}
+{
+  \begin{center}
+    \includegraphics[width=\textwidth]{images/WaterTaxi}
+  \end{center}	
+}
+
+\STANDARD{3D-Printer}
+{
+	\begin{center}
+		\includegraphics[height=0.8\textheight]{images/Rostock}
+	\end{center}	
+}
+
+
+\STANDARD{3D-Printer}
+{
+  Der Datenstruktur \PYTHON{MyStructure} aus der Datei \FILE{MyStructure.py} ist sehr interessant.	
+}
+
+
+\begin{frame}[fragile]{Code}
+
+%, numbers=left, caption={Konstruktion eines Keras-Sequential-Modells}, label={src:kerasmodel}]
+
+  \begin{lstlisting}[language=Python]
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+
+MODEL = models.Sequential()
+  \end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Code}
+
+  \lstinputlisting[language=Python, firstnumber=1]{Code/PDFExtractTable/PDFExtractTable.py}
+\end{frame}

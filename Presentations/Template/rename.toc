@@ -1,0 +1,8 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Exception Add Complexity}{7}{0}{2}
+\beamer@sectionintoc {3}{Too Many Exceptions}{9}{0}{3}
+\beamer@sectionintoc {4}{Mask Exceptions}{11}{0}{4}
+\beamer@sectionintoc {5}{Aggregation Exceptions}{14}{0}{5}
+\beamer@sectionintoc {6}{Quellen}{22}{0}{6}

@@ -1,0 +1,232 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Tensorflow Datenflussdiagramm}}{26}{figure.caption.4}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Hand Landmarks\relax }}{35}{figure.caption.5}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Face Detection Using Landmarks\relax }}{36}{figure.caption.6}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Face, Pose, and Hand Landmarks\relax }}{36}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Serial Communication protocol using Pyfirmata\relax }}{37}{figure.caption.8}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Beispiele aus dem Trainingssatz des Datensatzes MNIST \blx@tocontentsinit {0}\cite {Siddique:2019}\relax }}{43}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Auszug von zehn Abbildungen des Datensatz \ac {cifar}-10\relax }}{44}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Oberkategorien und Kategorien in \ac {cifar}-100 mit den Originalbezeichnungen\relax }}{45}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Kopfzeilen des Datensatzes Fisher's Iris Data Set\relax }}{48}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Ausgabe der Kategorien des Datensatzes Fisher's Iris Data Set\relax }}{49}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Namen der Kategorien im Datensatz Fisher's Iris Data Set\relax }}{49}{figure.caption.23}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Where can this landscape be found? In Germany? Or in France?\relax }}{58}{figure.caption.32}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces NVIDIA's StyleGAN project generate images of non-existent people.\relax }}{58}{figure.caption.33}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces University of Berkeley's CycleGAN transfers image style to new images\relax }}{59}{figure.caption.34}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces The loss functions control the learning of the neural networks in GANs.\relax }}{60}{figure.caption.35}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces The mathematical representation of a loss function consists of two sums.\relax }}{60}{figure.caption.36}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces GANs involve two networks competing against each other, unlike simpler neural networks\relax }}{61}{figure.caption.37}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Python GAN learns to generate handwritten digits\relax }}{62}{figure.caption.38}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces 1-D Linear Bar Code\relax }}{80}{figure.caption.42}%
+\contentsline {figure}{\numberline {9.2}{\ignorespaces UPC-Code\relax }}{81}{figure.caption.45}%
+\contentsline {figure}{\numberline {9.3}{\ignorespaces EAN-Code\relax }}{81}{figure.caption.46}%
+\contentsline {figure}{\numberline {9.4}{\ignorespaces CODE-128\relax }}{82}{figure.caption.47}%
+\contentsline {figure}{\numberline {9.5}{\ignorespaces 2D Matrix\relax }}{83}{figure.caption.48}%
+\contentsline {figure}{\numberline {9.6}{\ignorespaces QR Code\relax }}{84}{figure.caption.49}%
+\contentsline {figure}{\numberline {9.7}{\ignorespaces Version 1-3\relax }}{85}{figure.caption.50}%
+\contentsline {figure}{\numberline {9.8}{\ignorespaces Version 38-40\relax }}{86}{figure.caption.51}%
+\contentsline {figure}{\numberline {9.9}{\ignorespaces Pattern in QR Code\relax }}{87}{figure.caption.52}%
+\contentsline {figure}{\numberline {9.10}{\ignorespaces Version 1\relax }}{87}{figure.caption.53}%
+\contentsline {figure}{\numberline {9.11}{\ignorespaces Version 10\relax }}{87}{figure.caption.54}%
+\contentsline {figure}{\numberline {9.12}{\ignorespaces Version 40\relax }}{88}{figure.caption.55}%
+\contentsline {figure}{\numberline {9.13}{\ignorespaces Type of 2D Code\relax }}{88}{figure.caption.56}%
+\contentsline {figure}{\numberline {9.14}{\ignorespaces 1-D Linear Bar Code\relax }}{90}{figure.caption.57}%
+\contentsline {figure}{\numberline {9.15}{\ignorespaces 1-D Linear Bar Code\relax }}{90}{figure.caption.58}%
+\contentsline {figure}{\numberline {9.16}{\ignorespaces 1-D Linear Bar Code\relax }}{91}{figure.caption.59}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces EasyOCR Installation using Command Prompt\relax }}{94}{figure.caption.60}%
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Code Snippet\relax }}{95}{figure.caption.65}%
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Multi-Line recognition using EasyOCR\relax }}{96}{figure.caption.66}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {11.1}{\ignorespaces YOLOv5 Result\relax }}{101}{figure.caption.69}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {14.1}{\ignorespaces Output of the example code\relax }}{113}{figure.caption.73}%
+\contentsline {figure}{\numberline {14.2}{\ignorespaces Output of the 2\textsuperscript {nd} example code\relax }}{113}{figure.caption.74}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {15.1}{\ignorespaces Das erste Fenster ist grau und unspektakulär. Aber ein Fenster.\relax }}{118}{figure.caption.75}%
+\contentsline {figure}{\numberline {15.2}{\ignorespaces Hallo Welt! Das war nicht schwer.\relax }}{119}{figure.caption.76}%
+\contentsline {figure}{\numberline {15.3}{\ignorespaces Das Gewicht der Spalten beeinflusst ihre Größe.\relax }}{120}{figure.caption.79}%
+\contentsline {figure}{\numberline {15.4}{\ignorespaces Der Titel des Fensters ist schon anders, ansonsten ist das Fenster wüst und leer.\relax }}{121}{figure.caption.80}%
+\contentsline {figure}{\numberline {15.5}{\ignorespaces Sieht aus wie ein Login-Fenster, tut aber noch nichts.\relax }}{124}{figure.caption.83}%
+\contentsline {figure}{\numberline {15.6}{\ignorespaces Da ist was schiefgelaufen.\relax }}{127}{figure.caption.84}%
+\contentsline {figure}{\numberline {15.7}{\ignorespaces Erfolg: Der Login hat geklappt.\relax }}{128}{figure.caption.86}%
+\contentsline {figure}{\numberline {15.8}{\ignorespaces Ein gewohntes Menü mit einem gewohnten Befehl.\relax }}{129}{figure.caption.87}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {16.1}{\ignorespaces Box and Whisker Plots for Each Input Variable for the Iris Flowers Dataset\relax }}{139}{figure.caption.98}%
+\contentsline {figure}{\numberline {16.2}{\ignorespaces Histogram Plots for Each Input Variable for the Iris Flowers Dataset\relax }}{140}{figure.caption.100}%
+\contentsline {figure}{\numberline {16.3}{\ignorespaces Scatter Matrix Plot for Each Input Variable for the Iris Flowers Dataset\relax }}{141}{figure.caption.102}%
+\contentsline {figure}{\numberline {16.4}{\ignorespaces Box and Whisker Plot Comparing Machine Learning Algorithms on the Iris Flowers Dataset\relax }}{145}{figure.caption.107}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {18.1}{\ignorespaces Pandas Dataframes in Jupyter}}{160}{figure.caption.112}%
+\contentsline {figure}{\numberline {18.2}{\ignorespaces Messung von SNPs bei My Heritage und Ancestry}}{162}{figure.caption.113}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {19.1}{\ignorespaces Kalorien und Gewichtsveränderung}}{170}{figure.caption.114}%
+\contentsline {figure}{\numberline {19.2}{\ignorespaces Streudiagramm mit wochenweise gemittelten Werte}}{173}{figure.caption.115}%
+\contentsline {figure}{\numberline {19.3}{\ignorespaces Summe der Ausgaben}}{174}{figure.caption.116}%
+\contentsline {figure}{\numberline {19.4}{\ignorespaces Kurven für Kalorien und Gewicht}}{175}{figure.caption.117}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {20.1}{\ignorespaces Dataviz Catalogue}}{178}{figure.caption.118}%
+\contentsline {figure}{\numberline {20.2}{\ignorespaces Analysekarte}}{179}{figure.caption.119}%
+\contentsline {figure}{\numberline {20.3}{\ignorespaces Long Format}}{181}{figure.caption.120}%
+\contentsline {figure}{\numberline {20.4}{\ignorespaces GeoDa}}{182}{figure.caption.121}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {21.1}{\ignorespaces Die ersten fünf Datensätze werden angezeigt.\relax }}{184}{figure.caption.122}%
+\contentsline {figure}{\numberline {21.2}{\ignorespaces \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-.info()}} zeigt die Spaltennamen, die Anzahl der non-null-Werte und den Datentyp.\relax }}{185}{figure.caption.123}%
+\contentsline {figure}{\numberline {21.3}{\ignorespaces Die Spalte OBJECTID ist nun der Index.\relax }}{187}{figure.caption.124}%
+\contentsline {figure}{\numberline {21.4}{\ignorespaces Das Datum wird nun in einem ordentlichen Format angezeigt.\relax }}{187}{figure.caption.125}%
+\contentsline {figure}{\numberline {21.5}{\ignorespaces Die Auswahl haben Sie auf Niedersachsen beschränkt.\relax }}{188}{figure.caption.126}%
+\contentsline {figure}{\numberline {21.6}{\ignorespaces Mehrere Bundesländer zeigen Sie über eine Liste an, die als Filter verwendet wird.\relax }}{188}{figure.caption.127}%
+\contentsline {figure}{\numberline {21.7}{\ignorespaces Die größten Städte kommen am Anfang.\relax }}{189}{figure.caption.128}%
+\contentsline {figure}{\numberline {21.8}{\ignorespaces Pandas erstellt eine Liste aller Landkreise.\relax }}{189}{figure.caption.129}%
+\contentsline {figure}{\numberline {21.9}{\ignorespaces Die Ausgabe zeigt die neuen Spaltennamen samt neuen Indexnamen an.\relax }}{190}{figure.caption.130}%
+\contentsline {figure}{\numberline {21.10}{\ignorespaces Für eine neue SQL-Tabelle müssen Sie vorher keine leere Tabelle anlegen.\relax }}{190}{figure.caption.131}%
+\contentsline {figure}{\numberline {21.11}{\ignorespaces Eine einfache Ausgabe in Excel.\relax }}{191}{figure.caption.132}%
+\contentsline {figure}{\numberline {21.12}{\ignorespaces Die Landkreise Schleswig-Holsteins stehen nun ganz oben.\relax }}{191}{figure.caption.133}%
+\contentsline {figure}{\numberline {21.13}{\ignorespaces Der Durchschnitt der Todesfälle über alle Landkreise in den jeweiligen Bundesländern.\relax }}{192}{figure.caption.134}%
+\contentsline {figure}{\numberline {21.14}{\ignorespaces Die gruppierten Daten können Sie mit Filter weiter einschränken.\relax }}{193}{figure.caption.135}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {22.1}{\ignorespaces Darstellung der Seitenaufrufe des Artikels über Klimaanlagen bei Wikipedia und der Temperaturmaxima in Deutschland; Datenquelle: Meteostat, \leavevmode {\color {blue}\url {pageviews.toolforge.org}}\relax }}{198}{figure.caption.136}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {23.1}{\ignorespaces Der Kaggle-Datensatz im Beispiel zeigt Temperaturwerte aus verschiedenen Orten im Süden Brasiliens.\relax }}{203}{figure.caption.137}%
+\contentsline {figure}{\numberline {23.2}{\ignorespaces Great Expectations lässt sich als Validierungsinstanz in Datenpipelines einbinden. In diesem Beispiel sind die Verantwortlichkeiten von Data Engineers und Domänenexperten sauber getrennt.\relax }}{207}{figure.caption.144}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {24.1}{\ignorespaces Die Funktion \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-display()}} aus dem Paket IPython formatiert die Ausgaben im Unterschied zu \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-print()}} wie in pandas vorgesehen. \relax }}{210}{figure.caption.145}%
+\contentsline {figure}{\numberline {24.2}{\ignorespaces Vor dem Verändern der Spaltennamen sollten die ursprünglichen Spalten gesichert werden.\relax }}{211}{figure.caption.146}%
+\contentsline {figure}{\numberline {24.3}{\ignorespaces Die Methode df.info() gibt unter anderem den Speicherbedarf des Datensatzes aus.\relax }}{212}{figure.caption.147}%
+\contentsline {figure}{\numberline {24.4}{\ignorespaces Eine Anpassung der Datentypen spart Arbeitsspeicher und erleichtert die Weiterverarbeitung.\relax }}{213}{figure.caption.148}%
+\contentsline {figure}{\numberline {24.5}{\ignorespaces Ein Vorher-nachher-Vergleich zeigt, dass die Anpassung der Datentypen keinen Fehler produziert hat.\relax }}{214}{figure.caption.149}%
+\contentsline {figure}{\numberline {24.6}{\ignorespaces Die Zahl der IDs entspricht der Zeilenzahl, also sind alle IDs einzigartig.\relax }}{215}{figure.caption.150}%
+\contentsline {figure}{\numberline {24.7}{\ignorespaces Frequenz und Anteil der Familienstände. Die größte Personengruppe ist die der Verheirateten; ihr Anteil beträgt 38 Prozent.\relax }}{216}{figure.caption.151}%
+\contentsline {figure}{\numberline {24.8}{\ignorespaces Bei der grafischen Darstellung des Datensatzes fallen drei ungewöhnliche Familienstände auf.\relax }}{217}{figure.caption.152}%
+\contentsline {figure}{\numberline {24.9}{\ignorespaces Die drei Zeilen mit dem Familienstand Alone lassen sich mit einer passenden Maske ermitteln.\relax }}{218}{figure.caption.153}%
+\contentsline {figure}{\numberline {24.10}{\ignorespaces Mit einer Oder-Verknüpfung werden drei Angaben aus dem DataFrame gefiltert, die einer gesonderten Weiterbehandlung bedürfen.\relax }}{219}{figure.caption.154}%
+\contentsline {figure}{\numberline {24.11}{\ignorespaces Die Methoden \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-.loc}} und \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-.iloc}} bergen entscheidende Unterschiede hinsichtlich ihrer Argumente.\relax }}{219}{figure.caption.155}%
+\contentsline {figure}{\numberline {24.12}{\ignorespaces Damit fehlerhafte Kategorien im weiteren Verlauf der Datenanalyse keinen Schaden anrichten, lassen sie sich durch NAN-Werte ersetzen (not a number), hier aus dem Paket NumPy.\relax }}{220}{figure.caption.156}%
+\contentsline {figure}{\numberline {24.13}{\ignorespaces Sofern es nur einen kleinen Bruchteil aller Daten betrifft, lassen sich fehlerhafte oder unvollständige Angaben ohne spürbare Nebenwirkungen aus einem DataFrame entfernen oder durch Mittelwerte ersetzen.\relax }}{221}{figure.caption.157}%
+\contentsline {figure}{\numberline {24.14}{\ignorespaces Beim Suchen und Ersetzen fehlerhafter Daten vervielfacht sich das Tempo, wenn pandas-interne Methoden zum Einsatz kommen und kein Python-Code.\relax }}{223}{figure.caption.158}%
+\contentsline {figure}{\numberline {24.15}{\ignorespaces Auch das Errechnen neuer Spalten auf der Basis bestehender Werte (Feature Engineering) ist mit pandas schnell erledigt.\relax }}{224}{figure.caption.159}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {25.1}{\ignorespaces Das erste Fenster ist noch grau und leer.\relax }}{227}{figure.caption.160}%
+\contentsline {figure}{\numberline {25.2}{\ignorespaces Damit steht "Hello World" auf dem Bildschirm.\relax }}{228}{figure.caption.161}%
+\contentsline {figure}{\numberline {25.3}{\ignorespaces Etwas gestaucht, aber "Hello World" taucht nun im Fenster auf.\relax }}{228}{figure.caption.162}%
+\contentsline {figure}{\numberline {25.4}{\ignorespaces Nun steht "Hello World" zentriert im Fenster.\relax }}{229}{figure.caption.163}%
+\contentsline {figure}{\numberline {25.5}{\ignorespaces Auch das Login-Fenster beginnt klein, leer und grau.\relax }}{231}{figure.caption.165}%
+\contentsline {figure}{\numberline {25.6}{\ignorespaces Das sieht schon nach einem Login-Fenster aus.\relax }}{234}{figure.caption.167}%
+\contentsline {figure}{\numberline {25.7}{\ignorespaces Jetzt hat das Fenster die passende Größe.\relax }}{235}{figure.caption.168}%
+\contentsline {figure}{\numberline {25.8}{\ignorespaces Oh, da ist etwas schiefgelaufen.\relax }}{237}{figure.caption.169}%
+\contentsline {figure}{\numberline {25.9}{\ignorespaces Mit einem Menü ist das Fenster komplett.\relax }}{238}{figure.caption.170}%
+\contentsline {figure}{\numberline {25.10}{\ignorespaces PyQt (links) wirkt moderner als das Login-Programm mit Tkinter (rechts).\relax }}{240}{figure.caption.172}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {26.1}{\ignorespaces Der Qt Designer wirkt so, als hätte man das Fensterlayout mit dem Qt Designer erstellt.\relax }}{242}{figure.caption.173}%
+\contentsline {figure}{\numberline {26.2}{\ignorespaces Im Titel des Fensters steht nun "Hello World!" – das zählt.\relax }}{243}{figure.caption.174}%
+\contentsline {figure}{\numberline {26.3}{\ignorespaces Ja, das ist Comic Sans.\relax }}{244}{figure.caption.175}%
+\contentsline {figure}{\numberline {26.4}{\ignorespaces Keine Sorge, auch die gewählte Schriftart aus dem Designer wird vom Python-Skript passend angezeigt.\relax }}{246}{figure.caption.176}%
+\contentsline {figure}{\numberline {26.5}{\ignorespaces So sollen die Widgets später im Gitter platziert werden.\relax }}{248}{figure.caption.177}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {27.1}{\ignorespaces Location.\relax }}{254}{figure.caption.179}%
+\contentsline {figure}{\numberline {27.2}{\ignorespaces Project.\relax }}{255}{figure.caption.180}%
+\contentsline {figure}{\numberline {27.3}{\ignorespaces Import.\relax }}{255}{figure.caption.181}%
+\contentsline {figure}{\numberline {27.4}{\ignorespaces Packages.\relax }}{255}{figure.caption.182}%
+\contentsline {figure}{\numberline {27.5}{\ignorespaces Unicorn.\relax }}{256}{figure.caption.183}%
+\contentsline {figure}{\numberline {27.6}{\ignorespaces requirements.txt\relax }}{256}{figure.caption.184}%
+\contentsline {figure}{\numberline {27.7}{\ignorespaces Aufbau des Projekts\relax }}{257}{figure.caption.185}%
+\contentsline {figure}{\numberline {27.8}{\ignorespaces Aufbau des Projekts\relax }}{258}{figure.caption.186}%
+\contentsline {figure}{\numberline {27.9}{\ignorespaces `Hello World'' in JSON-Manier\relax }}{258}{figure.caption.187}%
+\contentsline {figure}{\numberline {27.10}{\ignorespaces Datei \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-test\_ix\_fastapi\_hello.py}}\relax }}{259}{figure.caption.188}%
+\contentsline {figure}{\numberline {27.11}{\ignorespaces ``Run ‚Unittests in test\_ix\ldots ''\relax }}{260}{figure.caption.189}%
+\contentsline {figure}{\numberline {27.12}{\ignorespaces Run\relax }}{260}{figure.caption.190}%
+\contentsline {figure}{\numberline {27.13}{\ignorespaces Klicken in einem Browser\relax }}{261}{figure.caption.191}%
+\contentsline {figure}{\numberline {27.14}{\ignorespaces Datei \leavevmode {\color {FileColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-ix\_fastapi.py}}\relax }}{261}{figure.caption.192}%
+\contentsline {figure}{\numberline {27.15}{\ignorespaces ie \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Item}} und \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Message}}\relax }}{262}{figure.caption.193}%
+\contentsline {figure}{\numberline {27.16}{\ignorespaces Listeneinträge zurückgeben\relax }}{262}{figure.caption.194}%
+\contentsline {figure}{\numberline {27.17}{\ignorespaces Das Antwortmodell besteht in diesem Fall aus einer Liste der Items.\relax }}{262}{figure.caption.195}%
+\contentsline {figure}{\numberline {27.18}{\ignorespaces zur Bestätigung zurückgeschickt\relax }}{263}{figure.caption.196}%
+\contentsline {figure}{\numberline {27.19}{\ignorespaces Name neu gesetzt und danach zurückgegeben\relax }}{263}{figure.caption.197}%
+\contentsline {figure}{\numberline {27.20}{\ignorespaces Schnittstellen unabhängig von den anderen pflegen\relax }}{263}{figure.caption.198}%
+\contentsline {figure}{\numberline {27.21}{\ignorespaces Router\relax }}{264}{figure.caption.199}%
+\contentsline {figure}{\numberline {27.22}{\ignorespaces einzelnen \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-count()}}-Aufrufe\relax }}{264}{figure.caption.200}%
+\contentsline {figure}{\numberline {27.23}{\ignorespaces Testclients\relax }}{264}{figure.caption.201}%
+\contentsline {figure}{\numberline {27.24}{\ignorespaces Liste nun drei Einträge enthält.\relax }}{265}{figure.caption.202}%
+\contentsline {figure}{\numberline {27.25}{\ignorespaces ``Run‚ 'Unittests in test\_ix\ldots '''\relax }}{265}{figure.caption.203}%
+\contentsline {figure}{\numberline {27.26}{\ignorespaces Python tests\relax }}{265}{figure.caption.204}%
+\contentsline {figure}{\numberline {27.27}{\ignorespaces Jetzt starten Sie die Tests wie zuvor und sehen sehen folgendes Ergebnis\relax }}{266}{figure.caption.205}%
+\contentsline {figure}{\numberline {27.28}{\ignorespaces OpenAPI für den Item-Lebenszyklus\relax }}{266}{figure.caption.206}%
+\contentsline {figure}{\numberline {27.29}{\ignorespaces Nachdem Sie den Request ausgelöst haben, sehen Sie folgendes in Pycharm\relax }}{267}{figure.caption.207}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {29.1}{\ignorespaces Lift and Shift}}{272}{figure.caption.208}%
+\contentsline {figure}{\numberline {29.2}{\ignorespaces Bereitstellungsmodelle für Cloud-DBMS}}{273}{figure.caption.209}%
+\contentsline {figure}{\numberline {29.3}{\ignorespaces Open-Source-DBMS}}{274}{figure.caption.210}%
+\contentsline {figure}{\numberline {29.4}{\ignorespaces Umzug mit Big Bang}}{275}{figure.caption.211}%
+\contentsline {figure}{\numberline {29.5}{\ignorespaces Schrittweise Migration zur Risikosenkung -- Frontend}}{276}{figure.caption.212}%
+\contentsline {figure}{\numberline {29.6}{\ignorespaces Schrittweise Migration zur Risikosenkung -- Datenbankspeicher on Premises}}{276}{figure.caption.213}%
+\contentsline {figure}{\numberline {29.7}{\ignorespaces Schrittweise Migration zur Risikosenkung -- Vollständig}}{277}{figure.caption.214}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {30.1}{\ignorespaces AWS Aurora}}{281}{figure.caption.215}%
+\contentsline {figure}{\numberline {30.2}{\ignorespaces AWS RDS}}{281}{figure.caption.216}%
+\contentsline {figure}{\numberline {30.3}{\ignorespaces Azure}}{284}{figure.caption.217}%
+\contentsline {figure}{\numberline {30.4}{\ignorespaces Cosmos DB}}{285}{figure.caption.218}%
+\contentsline {figure}{\numberline {30.5}{\ignorespaces Google GCP}}{286}{figure.caption.219}%
+\contentsline {figure}{\numberline {30.6}{\ignorespaces SQL-Datenbanken aus der Cloud -- Angebote der Hyperscaler\relax }}{289}{figure.caption.220}%
+\contentsline {figure}{\numberline {30.7}{\ignorespaces Key-Value Stores aus der Cloud -- Angebote der Hyperscaler\relax }}{290}{figure.caption.221}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {31.1}{\ignorespaces YugabyteDB}}{293}{figure.caption.222}%
+\contentsline {figure}{\numberline {31.2}{\ignorespaces Citus}}{295}{figure.caption.223}%
+\contentsline {figure}{\numberline {31.3}{\ignorespaces Vitess}}{297}{figure.caption.224}%
+\contentsline {figure}{\numberline {31.4}{\ignorespaces TiDB}}{298}{figure.caption.225}%
+\contentsline {figure}{\numberline {31.5}{\ignorespaces CockroachDB}}{300}{figure.caption.226}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {33.1}{\ignorespaces Step 1: Analytical problem framing\relax }}{305}{figure.caption.228}%
+\contentsline {figure}{\numberline {33.2}{\ignorespaces Step 2: Data exploration and requirements\relax }}{306}{figure.caption.229}%
+\contentsline {figure}{\numberline {33.3}{\ignorespaces Step 3: Choosing a model\relax }}{307}{figure.caption.230}%
+\contentsline {figure}{\numberline {33.4}{\ignorespaces Example of achieving stationarity in stock prices dataset by calculating difference between observations. Figure inspired by: \leavevmode {\color {blue}\url {https://otexts.com/fpp2/stationarity.html}}\relax }}{307}{figure.caption.231}%
+\contentsline {figure}{\numberline {33.5}{\ignorespaces Example of seasonal decomposition of the observed data. Figure inspired by: \leavevmode {\color {blue}\url {https://machinelearningmastery.com/decompose-time-series-data-trend-seasonality/}}\relax }}{308}{figure.caption.232}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {34.1}{\ignorespaces Photo by Jacopo Maia on Unsplash\relax }}{312}{figure.caption.233}%
+\contentsline {figure}{\numberline {34.2}{\ignorespaces Screenshot of modified image by Author\relax }}{313}{figure.caption.234}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {35.1}{\ignorespaces In der Umgebung von ``Gefrorener See'' muss der Agent den See überqueren, ohne in ein Loch zu fallen.\relax }}{318}{figure.caption.235}%
+\contentsline {figure}{\numberline {35.2}{\ignorespaces Eine grafische Repräsentation der Q-Tabelle beim gefrorenen See. F1-F16 stehen für die 16 Felder, auf denen sich der Agent befinden kann. Laut dieser Q-Tabelle ist es im Zustand F1 vielversprechender nach unten zu gehen, als nach links.\relax }}{320}{figure.caption.236}%
+\contentsline {figure}{\numberline {35.3}{\ignorespaces Nach dem Training ist der Agent in der Lage, die Umgebung innerhalb von sechs Zügen zu lösen.\relax }}{325}{figure.caption.237}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {36.1}{\ignorespaces Where can this landscape be found? In Germany? Or in France?\relax }}{328}{figure.caption.238}%
+\contentsline {figure}{\numberline {36.2}{\ignorespaces NVIDIA's StyleGAN project generate images of non-existent people.\relax }}{328}{figure.caption.239}%
+\contentsline {figure}{\numberline {36.3}{\ignorespaces University of Berkeley's CycleGAN transfers image style to new images\relax }}{329}{figure.caption.240}%
+\contentsline {figure}{\numberline {36.4}{\ignorespaces The loss functions control the learning of the neural networks in GANs.\relax }}{330}{figure.caption.241}%
+\contentsline {figure}{\numberline {36.5}{\ignorespaces The mathematical representation of a loss function consists of two sums.\relax }}{330}{figure.caption.242}%
+\contentsline {figure}{\numberline {36.6}{\ignorespaces GANs involve two networks competing against each other, unlike simpler neural networks\relax }}{331}{figure.caption.243}%
+\contentsline {figure}{\numberline {36.7}{\ignorespaces Python GAN learns to generate handwritten digits\relax }}{332}{figure.caption.244}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {37.1}{\ignorespaces Beispiel einer Grafana-Anwendung\relax }}{338}{figure.caption.246}%
+\contentsline {figure}{\numberline {37.2}{\ignorespaces Bevor es ans Einrichten von Diagrammen geht, muss eine Datenquelle eingerichtet sein, zum Beispiel eine InfluxDB-Zeitreihendatenbank.\relax }}{340}{figure.caption.248}%
+\contentsline {figure}{\numberline {37.3}{\ignorespaces Beim Zusammenbau der Datenabfrage unterstützt Grafana mit einem Baukasten.\relax }}{342}{figure.caption.249}%
+\contentsline {figure}{\numberline {37.4}{\ignorespaces Mehrere Grafana-Dashboards lassen sich zu Playlisten zusammenstellen. Diese kann Grafana zeitgesteuert abspielen.\relax }}{342}{figure.caption.250}%
+\contentsline {figure}{\numberline {37.5}{\ignorespaces Canvas Panel: In Grafana 9.4 lassen sich Pfeile verwenden, um Elemente zu verbinden. (Bild: Grafana Labs)\relax }}{344}{figure.caption.251}%
+\contentsline {figure}{\numberline {37.6}{\ignorespaces Das Grafana-Dashboard erscheint als Preview-Feature in einem Redesign. (Bild: Grafana Labs)\relax }}{344}{figure.caption.252}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {39.1}{\ignorespaces Die Bibliothek Matplotlib unterstützt Programmierer bei der Visualisierung von Daten.\relax }}{348}{figure.caption.253}%
+\contentsline {figure}{\numberline {39.2}{\ignorespaces So präsentiert sich das erste Experiment mit Matplotlib auf dem Bildschirm.\relax }}{349}{figure.caption.254}%
+\contentsline {figure}{\numberline {39.3}{\ignorespaces Diagramme lassen sich auf Wunsch auch mit Titel versehen.\relax }}{350}{figure.caption.255}%
+\contentsline {figure}{\numberline {39.4}{\ignorespaces Eine Legende macht das Diagramm leichter verständlich.\relax }}{351}{figure.caption.256}%
+\contentsline {figure}{\numberline {39.5}{\ignorespaces Ein mit Matplotlib automatisch generiertes Tortendiagramm.\relax }}{352}{figure.caption.257}%
+\contentsline {figure}{\numberline {39.6}{\ignorespaces Das gerenderte Balkendiagramm ist einsatzbereit.\relax }}{353}{figure.caption.258}%
+\contentsline {figure}{\numberline {39.7}{\ignorespaces Matplotlib dreht Balkendiagramme auf Wunsch.\relax }}{354}{figure.caption.259}%
+\contentsline {figure}{\numberline {39.8}{\ignorespaces Ein Gitter im Hintergrund des Diagramms verbessert die Übersichtlichkeit deutlich.\relax }}{354}{figure.caption.260}%
+\contentsline {figure}{\numberline {39.9}{\ignorespaces Mit dem Aufruf von \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-plt.grid(True)}} kann der Benutzer die Werte einfacher begreifen.\relax }}{355}{figure.caption.261}%
+\contentsline {figure}{\numberline {39.10}{\ignorespaces Wer die xticks-Methode benutzen möchte, muss mitdenken.\relax }}{356}{figure.caption.262}%
+\addvspace {10\p@ }

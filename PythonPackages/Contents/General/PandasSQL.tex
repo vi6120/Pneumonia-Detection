@@ -1,0 +1,440 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasSQL.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+
+
+% Quelle: https://www.heise.de/ratgeber/Daten-verarbeiten-mit-Python-Pandas-Bibliothek-fuer-SQL-Umsteiger-4801847.html
+
+\chapter{Daten verarbeiten mit Python: Pandas-Bibliothek für SQL-Umsteiger}
+
+\section{Einleitung}
+
+
+Mit der Bibliothek Pandas verarbeiten Sie kleine und große Datenmengen mit Python. Wer SQL-Befehle gewöhnt ist, wird sich sehr schnell mit Pandas anfreunden.
+
+Wenn Sie mit der Skriptsprache Python Daten ver- und bearbeiten wollen, bietet sich die Programmierbibliothek Pandas an. Sie ist ein Alleskönner für Python, wenn es um Daten geht. Dabei ist es egal, ob es sich um eine kleine CSV-Datei oder einen sehr großen Datenbestand handelt. Für jede Aufgabe gibt es eine Lösung.
+
+Dieser Artikel soll Ihnen den Einstieg in Pandas vereinfachen. Sie sollten Vorkenntnisse in SQL und Python mitbringen und es gewohnt sein, strukturiert mit Daten zu arbeiten. Am Ende zählt das Ergebnis, nicht die Programmiersprache und deren Tools. Pandas vereinfacht den Umgang mit Daten und kann mit vielen Ein- und Ausgabequellen umgehen.
+
+In diesem Artikel werden Sie mit Daten einer SQL-Tabelle arbeiten – nur halt nicht mit SQL-, sondern mit Python-Befehlen. Sie werden Daten laden, Spalten einschränken, Zeilen auf Werte hin filtern, deren Ausgaben ordnen und sie anschließend als neue Tabelle speichern. Danach werden Sie noch Daten gruppieren und mit diesen Daten rechnen.
+
+Ich möchte an dieser Stelle darauf hinweisen, dass es bei Pandas viele Möglichkeiten gibt, zu einem Ziel zu kommen. Ich werde Ihnen meine Wege vorstellen, wobei die Beispiele einfach gehalten sind und so nicht in einer Produktionsumgebung genutzt werden sollten. Dieser Artikel basiert auf Python 3.7.
+
+\section{Datenquellen}
+
+Sie können viele Quellformate für Pandas nutzen. Dazu zählen statische wie Excel- oder CSV-Dateien, aber auch dynamische wie Webseiten oder Datenbanktabellen.
+
+Für das Beispiel in diesem Artikel nutzen wir die \HREF{https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/917fc37a709542548cc3be077a786c17_0/data?selectedAttribute=ADE}{COVID-19-Fallzahlen der Landkreise vom 28.06.2020}, bereitgestellt durch das das Robert-Koch-Institut. Zu Beginn habe ich die Daten per CSV-Datei (\FILE{RKI\_Corona\_Landkreise.csv} mittels Pandas in eine MariaDB-Tabelle geladen. Den Python-Code dafür finden Sie in der Datei \FILE{transform\_rki\_dataset.py}, die Tabelle in create\_sql\_table.sql. Diese Dateien und alle weiteren Projektdateien können Sie als \HREF{ftp://ftp.heise.de/pub/heiseplus/Pandas-SQL-Projekt.zip}{ZIP-Datei} von unserem Server herunterladen.
+
+Im eigentlichen Programm müssen Sie zuerst eine Verbindung zur MariaDB herstellen. Das geht zum Beispiel mit dem Python-Modul sqlalchemy. Zusätzlich müssen Sie das Modul mysqlclient installieren. Daher müssen Sie es am Anfang importieren, zusammen mit dem Modul pandas:
+
+\medskip
+
+\PYTHON{from sqlalchemy import create\_engine}
+
+\PYTHON{import pandas as pd}
+
+\medskip
+
+Anschließend setzen Sie die für die Datenbank notwendigen Parameter und erzeugen eine SQL-Engine, die als Verbindung zur Datenbank dient:
+
+\medskip
+
+\PYTHON{sqlEngine = create\_engine(f'mysql+mysqldb://\{user\}:\{passwd\}@\{host\}/\{db\}')}
+
+\medskip
+
+Beim Arbeiten mit Variablen ist es sehr zeit- und codesparend, \HREF{https://realpython.com/python-f-strings/\#old-school-string-formatting-in-python}{F-Strings} zu nutzen. Setzen Sie etwa vor einen String ein kleines f und schon können Sie innerhalb Ihres Ausdrucks jegliche Variable ohne zusätzliches Konvertieren nutzen; Sie müssen die Variable nur in geschweifte Klammern packen. Das ist sehr nützlich zum Erzeugen von Log-Nachrichten, wenn Zahlen im Text erscheinen müssen: Python nimmt Ihnen hier die Arbeit ab.
+
+Danach verbinden Sie sich mit der Datenbank und lesen die Tabelle als Pandas \PYTHON{DataFrame} ein. Es ist sehr hilfreich, das Verbinden mit dem Konstrukt \PYTHON{with} zu steuern, da Sie sich so nicht mehr um das Schließen einer DB-Verbindung kümmern müssen:
+
+\medskip
+
+\PYTHON{with sqlEngine.connect() as dbConnection:}
+
+\PYTHON{\qquad rki\_data = pd.read\_sql\_table('rki\_daten', dbConnection)}
+
+\medskip
+
+Dieses Vorgehen bietet sich übrigens auch an, wenn Sie mit anderen Datenquellen oder Dateien arbeiten.
+
+In der zweiten Zeile haben Sie den kompletten Inhalt der Tabelle \FILE{rki\_daten} eingelesen – und das mit nur einem \PYTHON{pd.read\_sql\_table}. Das Einlesen anderer Datenquellen ist ähnlich selbsterklärend: \PYTHON{pd.read\_csv}, \PYTHON{pd.read\_excel} und so weiter. Auf der Projektseite von Pandas \HREF{https://pandas.pydata.org/pandas-docs/stable/reference/io.html}{finden Sie eine Übersicht aller möglichen Ein- und Ausgabeformate}.
+
+\section{Spalten auswählen}
+
+Damit Sie besser einschätzen können, welche Spalten für Sie wichtig sind, können Sie sich mit
+
+\medskip
+
+\PYTHON{pd.set\_option('display.max\_columns', None)}
+
+\PYTHON{print(rki\_data.head())}
+
+\medskip
+
+die ersten fünf Zeilen der Daten ansehen. Mit der zuerst gesetzten Option sehen Sie zudem alle Spaltenüberschriften:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL01}
+	\caption{Die ersten fünf Datensätze werden angezeigt.}
+\end{figure}
+
+
+Der Befehl
+
+\medskip
+
+\PYTHON{print(rki\_data.info())}
+
+\medskip
+
+wiederum gibt alle Spaltennamen, die Anzahl der non-null-Werte sowie den Typ der darin gespeicherten Informationen aus:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL02}
+	\caption{\PYTHON{.info()} zeigt die Spaltennamen, die Anzahl der non-null-Werte und den Datentyp.}
+\end{figure}
+
+Beim Arbeiten mit \PYTHON{DataFrames} ist es wichtig, unnötigen Ballast zu vermeiden. Vor allem dann, wenn die Datenmenge groß ist. Daher sollten Sie nur die notwendigen Spalten importieren. Verschaffen Sie sich wie zuvor gezeigt einen Überblick über die Daten. Nun entscheiden Sie, welche Informationen Sie laden möchten und geben dem Import-Befehl den Namen der gewählten Spalten mit:
+
+\medskip
+
+\PYTHON{relevant\_columns = ['OBJECTID', 'GEN', 'BEZ', 'EWZ', 'KFL', 'death\_rate', 'cases', 'deaths']}
+
+\PYTHON{with sqlEngine.connect() as dbConnection:}
+
+\PYTHON{\qquad rki\_data\_subset = pd.read\_sql\_table('rki\_daten', dbConnection, columns=relevant\_columns)}
+
+\medskip
+
+Mit dem Befehl \PYTHON{print(rki\_data\_subset.info())} sehen Sie, dass nur Ihre Auswahl importiert wurde:
+
+\medskip
+
+\PYTHON{<class 'pandas.core.frame.DataFrame'>}
+
+\PYTHON{RangeIndex: 412 entries, 0 to 411}
+
+\PYTHON{Data columns (total 8 columns):}
+
+\PYTHON{OBJECTID      412 non-null int64}
+
+\PYTHON{GEN           412 non-null object}
+
+\PYTHON{BEZ           412 non-null object}
+
+\PYTHON{EWZ           412 non-null int64}
+
+\PYTHON{KFL           400 non-null float64}
+
+\PYTHON{death\_rate    412 non-null float64}
+
+\PYTHON{cases         412 non-null int64}
+
+\PYTHON{deaths        412 non-null int64}
+
+\PYTHON{dtypes: float64(2), int64(4), object(2)}
+
+\PYTHON{memory usage: 25.8+ KB}
+
+\PYTHON{None}
+
+\medskip
+
+\section{Index anlegen}
+
+Wenn Sie beim Prüfen der eingelesenen Daten auf die Spalte ganz links geachtet haben, werden Sie eine Spalte ohne Namen gesehen haben. Falls nicht definiert, legt Python bei DataFrames automatisch einen numerisch fortlaufenden Index an. Die Daten selbst haben aber schon einen eigenen Index: die Spalte OBJECTID. Um sie beim Importieren als Index zu verwenden, setzen Sie einfach im Import-Befehl den Index neu:
+
+\medskip
+
+\PYTHON{with sqlEngine.connect() as dbConnection:}
+
+\PYTHON{\qquad rki\_data\_index = pd.read\_sql\_table('rki\_daten', dbConnection, index\_col='OBJECTID')}
+
+\medskip
+
+Das Resultat können Sie mit \PYTHON{print(rki\_data\_index.head())} begutachten:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL02}
+	\caption{Die Spalte OBJECTID ist nun der Index.}
+\end{figure}
+
+
+\section{Datum parsen}
+
+Beim Einlesen von Datumsfeldern ist Pandas hinreichend flexibel, um sie automatisch zu erkennen und direkt in ein DateTime64-Objekt umzuwandeln. Bei unserem Beispiel ist das Datumsfeld aber nicht an ein bekanntes Format angelehnt, da zum einen zwischen dem Datum- und dem Zeiteintrag ein Komma steht, zum anderen steht am Ende zusätzlich der Hinweis ``Uhr''. Daher müssen Sie dieses Format von Hand eintragen, dann wird es auch erkannt:
+
+\medskip
+
+\PYTHON{rki\_format = '\%d.\%m.\%Y, \%H:\%M Uhr'}
+
+\PYTHON{with sqlEngine.connect() as dbConnection:}
+
+\PYTHON{\qquad rki\_data\_date = pd.read\_sql\_table('rki\_daten', dbConnection, parse\_dates\=\{'last\_update': \{'format': rki\_format\}\})}
+
+\medskip
+
+Mit den gewohnten Befehlen können Sie das Ergebnis auch sofort sehen:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL03}
+	\caption{Das Datum wird nun in einem ordentlichen Format angezeigt.}
+\end{figure}
+
+
+Bei diesem Datensatz ist das Datum nicht so wichtig, aber wenn Sie Zeitreihendaten bearbeiten, werden Zeitstempel sehr oft als Index eingesetzt.
+
+\section{Einschränkungen mit \PYTHON{where}-Klausel}
+
+Da nun alle Daten wie gewünscht in einem \PYTHON{DataFrame} sind, können Sie mit Ihnen arbeiten. Wie bei SQL stehen Ihnen viele Möglichkeiten zur Verfügung.
+
+Universell einsetzbar ist die \PYTHON{where}-Klausel von SQL, die sich genauso gut in Pandas abbilden lässt. Exemplarisch betrachten wir in dem Beispiel alle Datensätze, die das Bundesland Niedersachsen betreffen. Genau wie bei SQL müssen Sie dafür die betreffende Spalte einschränken, in diesem Fall den Wert mit dem String Niedersachsen vergleichen:
+
+\medskip
+
+\PYTHON{rki\_data\_niedersachsen = rki\_data[rki\_data['BL'] == 'Niedersachsen']}
+
+\PYTHON{print(rki\_data\_niedersachsen.head())}
+
+\medskip
+
+So haben Sie die Datensätze gefiltert:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL04}
+	\caption{Die Auswahl haben Sie auf Niedersachsen beschränkt.}
+\end{figure}
+
+
+Um die Daten mehrerer Bundesländer anzuzeigen, nutzen Sie den Vergleich mit einer Liste. Aber Sie implementieren die Liste als Filter, mit dem Sie anschließend einen neuen DataFrame erzeugen:
+
+\medskip
+
+\PYTHON{laender\_filter = rki\_data['BL'].isin(['Niedersachsen', 'Hamburg', 'Bremen'])}
+
+\PYTHON{rki\_data\_laender = rki\_data[laender\_filter]}
+
+\PYTHON{print(rki\_data\_laender.head(100))}
+
+\medskip
+
+Das Ergebnis sieht wie folgt aus (Bremen folgt weiter unten):
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL05}
+	\caption{Mehrere Bundesländer zeigen Sie über eine Liste an, die als Filter verwendet wird.}
+\end{figure}
+
+Abschließend sortieren Sie den letzten \PYTHON{DataFrame} noch absteigend nach der Einwohnerzahl der Städte. Das geht mit der Methode \PYTHON{sort\_values}: Sie geben als Parameter die Spalte Einwohnerzahl (\PYTHON{EWZ}) und die Art der Sortierung (absteigend, also \PYTHON{ascending=False}) mit, sowie den Hinweis, dass Zeilen ohne Einträge am Ende der Liste stehen sollen (\PYTHON{na\_position='last'}):
+
+\medskip
+
+\PYTHON{rki\_data\_laender\_sort = rki\_data\_laender.sort\_values(by=['EWZ'], ascending=False, na\_position='last')}
+
+\PYTHON{print(rki\_data\_laender\_sort.head(100))}
+
+\medskip
+
+Und so sieht das Ergebnis aus:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL06}
+	\caption{Die größten Städte kommen am Anfang.}
+\end{figure}
+
+\section{Distinct Values}
+
+Pandas kann Ihnen auch eine Übersicht aller enthaltenen Einträge geben. Sie wird als Liste ausgegeben und kann in einem zweiten Schritt gezählt werden:
+
+\medskip
+
+
+\PYTHON{rki\_data\_distinct = rki\_data['county'].unique()}
+
+\PYTHON{print(rki\_data\_distinct)}
+
+\PYTHON{}
+
+\PYTHON{distinct\_values = rki\_data['county'].nunique()}
+
+\PYTHON{print(distinct\_values)}
+
+\medskip
+
+
+Hier die Ausgabe der Liste:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL05}
+	\caption{Pandas erstellt eine Liste aller Landkreise.}
+\end{figure}
+
+
+\section{Spaltennamen ändern}
+
+Sie können die Spaltennamen ändern, wenn Sie viele Umformungen vornehmen möchten. Das ist vor allem dann wichtig, wenn Sie die Ergebnisse Ihrer Arbeit weitergeben wollen. Dafür gibt es den Befehl rename(), dem Sie ein Dictionary mit alten und neuen Werten übergeben. Achten Sie darauf, am Ende das inplace=True zu setzen, wodurch der existierende DataFrame geändert wird und kein weiterer DataFrame erzeugt werden muss:
+
+\medskip
+
+\PYTHON{rki\_data\_index.rename(columns = {'GEN': 'Name', 'BEZ': 'Bezeichner', 'EWZ': 'Einwohnerzahl', 'KFL': 'Fläche' }, inplace=True)}
+
+\PYTHON{print(rki\_data\_index.head(10))}
+
+\medskip
+
+
+Bleibt noch die Indexspalte, die wie folgt umbenannt wird:
+
+\medskip
+
+\PYTHON{rki\_data\_index.index.names = ['Index']}
+
+\PYTHON{print(rki\_data\_index.head())}
+
+\medskip
+
+
+Womit dann alles stimmt:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL08}
+	\caption{Die Ausgabe zeigt die neuen Spaltennamen samt neuen Indexnamen an.}
+\end{figure}
+
+
+
+\section{Daten speichern}
+
+Bis jetzt haben Sie zwar alle Daten bearbeitet, aber noch stehen sie nur im Arbeitsspeicher des Rechners. Pandas bietet eine Fülle von Ausgabeformaten an, von denen wir in diesem Beispiel SQL-Tabellen sowie Excel nutzen.
+
+Um die Daten in einer SQL-Tabelle zu speichern, die es noch gar nicht gibt, führen Sie den folgenden Befehl aus:
+
+\medskip
+
+\PYTHON{with sqlEngine.connect() as dbConnection:}
+
+\PYTHON{\qquad rki\_data\_index.to\_sql('rki\_results', dbConnection, if\_exists='fail')}
+
+\medskip
+
+Dadurch wird die Tabelle automatisch angelegt und mit Daten befüllt. Sie müssen vorher nicht extra eine leere Tabelle anlegen. Aber erwarten Sie bei komplexen Daten keine Wunder.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL09}
+	\caption{Für eine neue SQL-Tabelle müssen Sie vorher keine leere Tabelle anlegen.}
+\end{figure}
+
+Wenn Sie dieselbe Routine etwa am nächsten Tag erneut laufen lassen und neue Werte hinzufügen wollen, ändern Sie einfach das \PYTHON{fail} bei \PYTHON{if\_exists} in append und schon werden die Daten angehängt.
+
+Zum Speichern in Excel genügt es für den Anfang, der Methode \PYTHON{to\_excel} den Dateinamen zu übergeben, sodass sie im selben Verzeichnis erstellt wird:
+
+\medskip
+
+\PYTHON{rki\_excel = 'rki\_excel\_results.xlsx'}
+
+\PYTHON{rki\_data\_index.to\_excel(rki\_excel)}
+
+\medskip
+
+So sieht die Excel-Datei dann aus:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL10}
+	\caption{Eine einfache Ausgabe in Excel.}
+\end{figure}
+
+\section{Daten gruppieren}
+
+Mit Pandas ist das Gruppieren von Daten genauso einfach wie mit SQL. So gruppieren Sie nach Bundesland:
+
+\medskip
+
+\PYTHON{rki\_data\_group\_01 = rki\_data\_index.groupby('BL')}
+
+\PYTHON{print(rki\_data\_group\_01.head(100))}
+
+\medskip
+
+Und sehen:
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL11}
+	\caption{Die Landkreise Schleswig-Holsteins stehen nun ganz oben.}
+\end{figure}
+
+Weiter geht es mit einem Gruppieren nach Bundesländern und darin nach den Namen der Kreise. Wenn Sie die Ausgabe sortiert haben möchten, müssen Sie das Sortieren voranstellen:
+
+\medskip
+
+\PYTHON{rki\_data\_group\_02 = rki\_data\_index.sort\_values(['BL', 'Name'], ascending=True).groupby(['BL', 'Name'])}
+
+\PYTHON{print(rki\_data\_group\_02.head(100))}
+
+\medskip
+
+\section{Mit gruppierten Daten rechnen}
+
+Oft werden gruppierte Daten als Grundlage für weitere Berechnungen verwendet. Einfache Berechnungen wie etwa das Aufsummieren können mit simplen Befehlen durchgeführt werden. Hier etwa die Summe der Todesfälle je Bundesland:
+
+\medskip
+
+\PYTHON{rki\_data\_calc\_01 = rki\_data\_index.groupby('BL')['deaths'].sum()}
+
+\PYTHON{print(rki\_data\_calc\_01.head(16))}
+
+\medskip
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL12}
+	\caption{Der Durchschnitt der Todesfälle über alle Landkreise in den jeweiligen Bundesländern.}
+\end{figure}
+
+
+Sie können auch den Durchschnitt der Todesfälle über alle Landkreise in den jeweiligen Bundesländern berechnen. Das ist in diesem Fall ein wenig komplizierter, da Sie nicht einfach den Durchschnitt nehmen können. So müssen Sie zuerst nach Bundesland und Kreis gruppieren, die Summe der Todesfälle berechnen, den Index neu setzen, nochmal nach Bundesland alleine gruppieren – und dann erst den Durchschnitt berechnen:
+
+\medskip
+
+\PYTHON{rki\_data\_calc\_02 = rki\_data\_index.groupby(['BL', 
+'county'])['deaths'].sum().reset\_index().groupby(['BL']).mean()}
+
+\PYTHON{print(rki\_data\_calc\_02.head(100))}
+
+\medskip
+
+\section{Gruppierte Daten einschränken}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/SQL/pandasSQL13}
+	\caption{Die gruppierten Daten können Sie mit Filter weiter einschränken.}
+\end{figure}
+
+Nun geht es noch um das Einschränken gruppierter Daten. Dabei erstellen Sie zuerst einen Filter, in dem Sie nach den Bundesländern gruppieren, die Summe ihrer Einwohner berechnen und als Bedingung setzen, dass in den ausgegebenen Bundesländern mindestens 5 Millionen Einwohner leben. Anschließend legen Sie diesen Filter an den Ausgangs-DataFrame an und lassen so nur die Zeilen übrig, die den Filter überstehen:
+
+\medskip
+
+\PYTHON{rki\_data\_having = rki\_data\_index.groupby('BL')['Einwohnerzahl'].sum() > 5000000}
+
+\PYTHON{rki\_data\_having = rki\_data\_having.loc[rki\_data\_having.values==True]}
+
+\PYTHON{print(rki\_data\_having.head(50))}
+
+
+
+
+\section{Fazit}
+Pandas sind ein mächtiges Werkzeug. Bedenken Sie, dass fast jedes gezeigte Code-Beispiel vertieft werden kann. Dieser Artikel zeigt nur einen kleinen Teil der Möglichkeiten und soll Lust machen, Pandas selbst auszuprobieren. Im Netz finden Sie viele Tutorials und eine \HREF{https://pandas.pydata.org/docs/}{sehr gute Dokumentation}, am besten ist aber immer ein eigenes Projekt, bei dem diverse Fallstricke umgangen werden müssen.
+
+Wenn Sie die ersten Schritte gemeistert haben, kommen weitere Themen hinzu, etwa Funktionen oder Performance-Tuning. Und weil Python eine umfassende und leicht zu lernende Sprache ist, können Sie weitere Aspekte schnell in das Auswerten Ihrer Daten einbinden – Sie können Ihre Daten etwa durch aktuelle Informationen aus anderen Quellen anreichern.
+

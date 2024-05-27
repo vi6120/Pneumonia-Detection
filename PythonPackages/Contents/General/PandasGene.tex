@@ -1,0 +1,243 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasGene.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+% c't 7/2020 S. 138
+
+% Quelle: https://www.heise.de/select/ct/2020/7/2004419325818888553
+
+\chapter{Pandas Gene}
+
+\section{Datamining in sequenzierten Gendaten mit Pandas}
+
+Wer sein Genom sequenzieren lässt, bekommt die Rohdaten als CSV-Datei mit hunderttausenden Zeilen. Das Python-Framework ­Pandas ­beweist sich gerade dann als ­Schweizer ­Messer der ­Datenanalyse, wenn die Tabellen wie bei Gendaten zu groß für ­grafische Tabellen­kalkulationen wie Excel werden.
+	
+\section{Einführung}
+
+Sequenzierungsdienste fürs eigene Genom helfen bei der Ahnen­for­schung und das Risiko für manche erb­liche Krankheiten zu schätzen. Neben hübsch aufbereiteten Zusammenfassungen liefern die Anbieter auch Rohdaten, die sie als CSV-Dateien von circa 20 Megabyte Größe verschicken. So große Dateien verarbeiten Excel, LibreOffice und Konsorten nicht mehr in erträglicher Geschwindigkeit. Das Python-Framework Pandas dagegen setzt unter der Haube auf die effizienten Datenmodelle von Numpy und analysiert Tabellen dieser Größe daher in Sekundenbruchteilen.
+	
+Zwecks Analyse ihrer DNA haben c't-Redakteure Proben an mehrere Ahnenforschungs-Plattformen geschickt [1] und mir von jedem Anbieter einen Satz mit Rohdaten zur Auswertung ausgehändigt. Die Dateien nutzen leicht unterschiedliche Formate, mal kommasepariert, mal mit Tabs, mal mit getrennt gelisteten Allelen (eine Base von den Genen der Mutter, eine von denen des Vaters), mal mit beiden Basen als String aus zwei Großbuchstaben. Die Daten enthalten kein vollständiges Genom, sondern Zeilen mit SNPs, also den Basen interessanter Mutationen. Die Anbieter ordnen jedem SNP eine Bedeutung beispielsweise für ein Krankheitsrisiko zu. Zu einem Identifier für das SNP wie „rs4475691“ steht in den Daten jeweils die Position im Genom als Zahl (846808) und das Chromosom, in dem das Basenpaar vorkommt (Nummer 1). Damit Sie den in diesem Artikel erklärten Pandas-Code nachvollziehen können, ohne gleich Ihr Genom analysieren zu lassen, finden Sie auf GitHub CSV-Dateien im gleichen Format, aber mit künstlich erzeugten, zufälligen Angaben zu den Basen (siehe \textcolor{blue}{\url{ct.de/ybs2}}).
+	
+\section{Experimentierumgebung}
+
+Mit einem Jupyter-Notebook, ein Python-Interpreter im Browser, geht die Genanalyse leicht von der Hand, da es Pandas-Dataframes, die Tabellenobjekte des Frameworks, grafisch als Tabellen aufbereitet. Eine virtuelle Umgebung mit Jupyter und Pandas ist schnell eingerichtet, zum Beispiel unter Linux mit folgenden Kommandozeilenbefehlen:
+
+\medskip
+	
+\SHELL{mkdir PandasGenom}
+
+\SHELL{cd PandasGenom/}
+
+\SHELL{python3 -m venv env}
+
+\SHELL{source env/bin/activate}
+
+\SHELL{pip install pandas, jupyter}
+
+\SHELL{jupyter notebook}
+
+\medskip
+
+Der letzte Befehl öffnet ein Browserfenster mit einem Knopf zum Anlegen neuer Notebooks. Jupyter-Notebooks sind Textdokumente, in denen man neben Text auch in ``Zellen'' Code schreiben und mit Umschalt+Enter ausführen kann. Gibt der letzte Befehl einer Zelle etwas Darstellbares zurück, zeigt Jupyter diesen Wert unter der Zelle an. Steht beispielsweise in der letzten Zeile einer Zelle ein Pandas-Dataframe als Variable, zeigt Jupyter die Tabelle gekürzt an (die fünf ersten und letzten Zeilen).
+
+\begin{figure}
+
+\begin{center}
+	
+  \includegraphics[scale=0.7]{Pandas/Gene/Gene01}
+  
+ \caption[Pandas Dataframes in Jupyter]{In Jupyter-Notebooks pro­grammiert man ­Python im ­Browser. Pandas Dataframes zeigt Jupyter praktischer­weise als gekürzte Tabelle an.}
+\end{center} 
+\end{figure}	
+
+\section{CSVs einlesen}
+
+Die ersten Zeilen der ersten Zelle laden wie in Python-Skripten üblich per import die Bibliothek:
+	
+\medskip
+
+\PYTHON{import pandas as pd}
+
+\PYTHON{import os}
+
+\medskip
+
+Das Modul \FILE{os} dient lediglich dazu, den Pfad der Dateien zusammenzubauen:
+
+\medskip
+
+\PYTHON{ingo\_my\_heritage = pd.read\_csv(os.path.join("FakeGenome", "MyHeritage\_raw\_dna\_data\_fake.csv"),}
+
+\PYTHON{\qquad header=12, names=["rsid", "chromosome", "position", "result"], }
+
+\PYTHON{\qquad dtype={"rsid": str, "chromosome": str, "position": int, "result": str})}
+
+\medskip
+
+Ums Einlesen kümmert sich \PYTHON{pd.read\_csv()}. Der Parameter \PYTHON{header} teilt der Funktion mit, in welcher Zeile der Datei die Spaltenbeschriftungen stehen. Ein Nebeneffekt dieser Angabe ist, dass Pandas alle Zeilen davor ignoriert, was effektiv den Header abschneidet. Die Spaltennamen kann man nämlich mit einer Liste an names auch per Hand festlegen, falls die Datei keine zufriedenstellenden Spaltennamen liefert. Pandas bestimmt die Datentypen der Spalten normalerweise automatisch, arbeitet aber schneller, wenn man die Typen als Dictionary im Parameter dtype definiert. Die Keys im Dictionary entsprechen den bei names festgelegten Spaltennamen.
+	
+Die Daten von My Heritage fassen die Allele 1 und 2 im Schlüssel  \PYTHON{``result''} zusammen. Um sie in einzelne Spalten aufzuteilen, schneidet der folgende Code die Allele als Slice heraus:
+
+\medskip
+	
+\PYTHON{my\_heritage["{}allele1"] = my\_heritage["result"].str[:1]}
+
+\PYTHON{my\_heritage["{}allele2"] = my\_heritage["result"].str[1:]}
+
+\medskip
+
+My Heritage hat praktischerweise die Werte mit Komma getrennt, was \PYTHON{read\_csv()} als Standard annimmt. Für die tabulatorseparierten Daten von Ancestry muss man den Tab als Separator angeben: \PYTHON{sep="\t"}. Dafür enthält diese Datei eine schöne header-Zeile, was die Angabe der \PYTHON{names} spart:
+	
+\medskip
+	
+\PYTHON{ancestry = pd.read\_csv(os.path.join("FakeGenome", "{}AncestryDNA\_fake.txt"), }
+
+\PYTHON{\qquad sep="\t", header=18, dtype=\{}
+
+\PYTHON{\qquad \qquad "rsid": str, "chromosome": str, "position": int, "allele1": str, "allele2": str\})}
+
+\medskip
+
+Um auf die gleichen Spalten wie bei My Heritage zu kommen, braucht die Ancestry-Tabelle noch ein \PYTHON{result} kombiniert aus beiden Allelen:
+	
+\medskip
+
+\PYTHON{ancestry["result"] = ancestry["{}allele1"] + ancestry["{}allele2"]}
+
+\medskip
+
+Danach liegen beide Tabellen als Dataframe-Objekte mit den gleichen Spalten vor. Die Auswertung kann beginnen.
+	
+\section{Interessante Stellen}
+
+Jeder Anbieter scheint eine eigene Vorstellung davon zu haben, welche SNPs interessant sind (Spalte „rsid“). Ich habe mich gefragt, wie viel Überschneidung es dabei gibt. Pandas beantwortet diese Frage mit der Funktion \PYTHON{isin()}. Sie berechnet eine ganze Spalte an Wahrheitswerten. Ein \PYTHON{True} steht nur in den Zeilen, bei denen der Wert auch in der angegebenen Spalte vorkommt. \PYTHON{value\_counts()} zählt, wie häufig \PYTHON{True} und \PYTHON{False} in der Spalte vorkommen und listet die Zahlen auf:
+	
+\medskip
+
+\PYTHON{my\_heritage["rsid"].isin(ancestry["rsid"]).value\_counts()}
+
+\medskip
+
+Ergebnis: Die Anbieter sind sich nur bei einem Drittel der SNPs einig, dass diese interessant sind. 405.910 der von My ­Heritage ausgewählten SNPs kommen bei Ancestry gar nicht vor.
+	
+Eine Liste aller Zeilen, deren SNPs nur My Heritage misst, liefert die folgende Zeile:
+
+\medskip
+
+\PYTHON{my\_heritage[~my\_heritage["rsid"].isin(ancestry["rsid"])]}
+
+\medskip
+
+
+Sie verwendet die zuvor berechnete Spalte als Auswahlkriterium, allerdings kehrt die vorangestellte Tilde ~ den Wahrheitswert um. Übrig bleiben so nur die einzigartigen Zeilen.
+
+\begin{figure}
+\begin{center}	
+	\includegraphics{Pandas/Gene/Gene02}
+	
+	\caption[Messung von SNPs bei My Heritage und Ancestry]{Die Funktion \PYTHON{value\_counts()} berechnet ein Histogramme der Werte in einer Spalte. Hier zeigt sie, welche SNPs sowohl My Heritage als auch Ancestry messen.}
+  \end{center}	
+\end{figure}	
+	
+
+\section{Prüfvereinigung}
+
+Ein Kollege hat neben den Daten von Ancestry und My Heritage auch einen Datensatz von 23 And Me beigesteuert. Für die 171.012 SNPs, die alle drei Anbieter gemessen haben, wollte ich wissen, wie viele Unterschiede es gibt, da das auf Messfehler oder Mutationen der gemessenen Zelle hinweisen würde.
+	
+Für den Vergleich müssen die Daten aus den drei Dataframes in einen einzelnen zusammenfließen. Mit einem Index kann Pandas zuordnen, welche Zeilen zusammengehören und wo es fehlende Werte mit None belegen muss. \PYTHON{set\_index()} markiert eine Spalte als Index, wodurch ein join() möglich wird:
+
+\medskip
+
+
+\PYTHON{rsid\_indexed\_my\_heritage = my\_heritage.set\_index("rsid")}
+
+\PYTHON{rsid\_indexed\_ancestry = ancestry.set\_index("rsid")}
+
+\PYTHON{rsid\_indexed\_23andme = fake23andme.set\_index("rsid")}
+
+\medskip
+
+Danach fügt Pandas die Tabellen mit \PYTHON{.join()} klaglos zusammen, wobei \PYTHON{lsuffix="\_my\_heritage"} und \PYTHON{rsuffix="\_23andme"} dafür sorgen, dass Pandas Spalten mit ­gleichen Namen automatisch umbenennt:
+
+\medskip
+
+\PYTHON{joined\_df = rsid\_indexed\_my\_heritage.join(rsid\_indexed\_23andme, how="inner", lsuffix="\_my\_heritage",}
+
+\PYTHON{rsuffix="\_23andme").join(rsid\_indexed\_ancestry, how="inner")}
+
+\medskip
+
+Die Option how wählt zwischen den vier von SQL bekannten Join-Typen \PYTHON{"inner"}, \PYTHON{"left"}, \PYTHON{"right"} und \PYTHON{"outer"}. Für den Vergleich der Messwerte sind nur Zeilen interessant, die es bei beiden Anbietern gibt, weshalb ein Inner-Join gern alle Zeilen verwerfen darf, die nur einer der Anbieter kennt.
+	
+Den so erweiterten Dataframe ergänzt ein weiterer Join um die Daten von Ancestry. Dabei ist kein Suffix nötig, da sich keine Spaltennamen doppeln. Damit erkennbar bleibt, dass die ergänzten Daten von Ancestry stammen, benennt ein \PYTHON{.rename()} die Spaltennamen um:
+	
+\medskip
+
+\PYTHON{joined\_df = joined\_df.rename(columns=\{}
+
+\PYTHON{\qquad "chromosome": "chromosome\_ancestry", }
+
+\PYTHON{\qquad "position": "position\_ancestry", }
+
+\PYTHON{\qquad "result": "result\_ancestry",}
+
+\PYTHON{\qquad "{}allele1": "{}allele1\_ancestry", }
+
+\PYTHON{\qquad "{}allele2": "{}allele2\_ancestry"}
+
+\PYTHON{\})}
+
+\medskip
+
+
+Ein Problem beim Vergleich ergibt sich daraus, dass die Anbieter die beiden Allele unterschiedlich sortieren. Mal stehen sie alphabetisch sortiert mit A links, mal umgekehrt. Eine for-Schleife über die drei Anbieter sortiert die Basen ruckzuck per lambda-Funktion in der \PYTHON{result}-Spalte und ergänzt beim Y-Chromosom, das es nur einmal geben kann, kurzerhand den zweiten Wert durch Kopieren des ersten:
+
+\medskip
+	
+\PYTHON{for tester in ["\_my\_heritage", "\_ancestry", "\_23andme"]:}
+
+\PYTHON{\qquad joined\_df["result" + tester] = (joined\_df["allele1" + tester] + joined\_df["allele2" + tester]).apply(lambda x: x if len(x) < 2 or x < x[1] + x[0] else x[1] + x[0])}
+
+\PYTHON{\qquad joined\_df["result" + tester] = joined\_df["result" + tester].apply(lambda x: x + x if len(x) < 2 else x)}
+
+\medskip
+
+
+	Mit dieser Vorarbeit besteht der Test nur noch aus drei einzelnen Vergleichen mit ==, die Pandas aber mit \PYTHON{\&} statt wie bei Python sonst üblich mit \PYTHON{and} verknüpft haben möchte:
+	
+\medskip
+
+\PYTHON{joined\_df["allele\_match"] = (}
+
+\PYTHON{\qquad (joined\_df["result\_ancestry"] == joined\_df["result\_23andme"]) \& }
+
+\PYTHON{\qquad (joined\_df["result\_ancestry"] == joined\_df["result\_my\_heritage"]) \& }
+
+\PYTHON{\qquad (joined\_df["result\_23andme"] == joined\_df["result\_my\_heritage"]))}
+
+\medskip
+
+Das Histogramm (\PYTHON{value\_counts()} für die Spalte \PYTHON{allele\_match}) bescheinigt anschließend bei den zufälligen Daten überwiegend Abweichungen. Im echten Datensatz erlaubten sich die Anbieter jedoch keinen einzigen Fehler.
+	
+\section{Daten gebändigt}
+
+Das Beispiel zeigt anschaulich, wie die Arbeit mit Pandas aussehen kann. Weitere Inspirationen liefert das Jupyter-Notebook im Git-Repository zum Artikel. Dort finden Sie auch den Code zum Erzeugen der Zufallsdatensätze.
+	
+Pandas erweist sich gerade dann als nützlich, wenn die Tabellen wie bei den nalysierten Gendaten zu groß für grafische Tabellenkalkulationen werden. Dazu kommt, dass mit Pandas-Dataframes noch einiges mehr möglich ist, beispielsweise schicke Diagramme mit dem Framework Altair [2]. (pmk@ct.de)
+	
+\section{Literatur}
+
+\begin{itemize}
+  \item Arne Grävemeyer, Jan-Keno Janssen, Nicht nur für Ahnenforscher: DNA gibt persönliche Details preis, Das steckt in mir, c't 5/2020, S. 24
+  \item Pina Merkert, Plotexpress, Datenvisualisierung mit Python, c't 18/2019, S. 80
+\end{itemize}	

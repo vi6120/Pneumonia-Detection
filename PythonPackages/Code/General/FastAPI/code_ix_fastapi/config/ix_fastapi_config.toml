@@ -1,0 +1,20 @@
+
+[SETUP]
+env = "DEV"
+#env = "INT"
+#env = "PROD"
+
+
+[PROJECT]
+    [PROJECT.DEV]
+    host = '0.0.0.0'
+    port = 5000
+    protocol = 'http'
+    [PROJECT.INT]
+    host = 'int.test_server.de'
+    port = 5001
+    protocol = 'https'
+    [PROJECT.PROD]
+    host = 'rest.ix_fastapi_server.de'
+    port = 4999
+    protocol = 'https'

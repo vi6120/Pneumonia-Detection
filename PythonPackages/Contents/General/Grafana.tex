@@ -1,0 +1,192 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/Grafna.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%%%%%%%%%%%%%%%%
+
+% Quelle: 
+% https://www.heise.de/ratgeber/Daten-visualisieren-mit-Grafana-4407195.html
+% https://www.heise.de/news/Datenvisualisierung-Grafana-9-4-ueberarbeitet-Panels-und-Navigation-7532168.html
+% https://www.smarthome-tricks.de/grafana/6-1-grafana-anpassung-der-konfiguration/
+
+
+\chapter{Daten visualisieren mit Grafana}
+
+
+Grafana macht aus gesammelten Messwerten anschauliche Diagramme und verschickt auf Wunsch Alarme. Damit ist es für Admins wie Hausautomatisierer interessant.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Grafana/Grafana01}
+  \caption{Beispiel einer Grafana-Anwendung}
+\end{figure}
+
+
+Wenn man eine Server-Infrastruktur, das vernetzte Zuhause oder eine Industrieanlage überwacht, kommt man nicht umhin, Messwerte einzusammeln und in einer geeigneten Datenbank abzuspeichern. Für diesen Zweck haben Entwickler sogar spezialisierte Datenbanken entwickelt – InfluxDB ist einer der bekanntesten Vertreter. Wie die ersten Schritte mit InfluxDB gelingen, stellen wir im Artikel \HREF{https://www.heise.de/ratgeber/InfluxDB-Spezialisierte-Datenbank-fuer-Messwerte-und-Logging-4314271.html}{InfluxDB: Spezialisierte Datenbank für Messwerte und Logging} vor. Mit dem Datensammeln allein ist aber noch nicht viel gewonnen, erst eine grafische Auswertung macht Zahlen für Menschen begreifbar und hilft bei der Fehlersuche. Für diese Aufgabe hat die Webanwendung Grafana weite Verbreitung gefunden. Sie wird von \HREF{https://grafana.com}{Grafana Labs} als Open-Source-Projekt entwickelt; das Unternehmen verdient mit Support, Beratung und einigen Zusatzfeatures Geld.
+
+Der natürliche Weg für Software aus diesem Umfeld ist ein Docker-Container. Ein passendes Docker-Image stellt Grafana Labs bereit. Eine Grafana-Instanz könnte man für Windows, macOS und Linux durchaus als Programmpaket herunterladen und ausführen. Die Docker-Variante macht die Einrichtung aber viel einfacher: Voraussetzung ist ein Computer mit Windows, Linux oder macOS mit installiertem Docker und Docker-Compose. Wie man Docker aufspielt, erklärt \HREF{https://www.heise.de/ratgeber/Docker-einrichten-unter-Linux-Windows-macOS-4309355.html}{Docker einrichten unter Linux, Windows, macOS}.
+
+\section{Container-Beobachter}
+
+
+Zum Üben bringt Grafana einen Demo-Daten-Generator mit. Für ein anschauliches Dashboard mit Diagrammen braucht es aber realistische Daten. Als Beispielprojekt wird in diesem Artikel ein Server überwacht, auf dem Docker läuft. Messwerte wie Prozessorauslastung und Arbeitsspeicher-Füllstand landen dann in einer InfluxDB und Grafana zeigt sie an.
+
+Zum Einsatz kommen \HREF{https://www.heise.de/ratgeber/Grafische-Oberflaechen-fuer-Docker-4324105.html}{das kleine Werkzeug cAdvisor}, das Messwerte zusammenträgt, eine InfluxDB-Instanz, die sie speichert, und Grafana für die Visualisierung. Das klingt wesentlich komplizierter, als es ist. Windows-Nutzer müssen jetzt aber zu einer virtuellen Maschine mit Linux oder einem angemieteten Server greifen – unter Windows hat cAdvisor keinen Zugriff auf die Messwerte, weil Systempfade wie \SHELL{/sys} nicht existieren.
+
+Damit Sie schnell die Grafana-Oberfläche zu sehen bekommen, haben wir für das Zusammenspiel der \HREF{https://www.heise.de/thema/Containerisierung}{Container} eine Docker-Compose-Zusammenstellung vorbereitet, die nur noch gestartet werden muss. Auf dem Listing sehen Sie das Docker-Compose-File mit den beteiligten Containern:
+
+
+\begin{code}
+  \begin{lstlisting}    
+version: "3.6"
+services:
+  cadvisor:
+    image: google/cadvisor:latest
+    restart: unless-stopped
+    volumes:
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run:/var/run:ro
+    command: -storage_driver=influxdb :
+    .-storage_driver_db=cadvisor :
+    .-storage_driver_host=influx:8086
+  influx:
+    image: influxdb
+    restart: unless-stopped
+    environment:
+      - INFLUXDB_DB=cadvisor
+    volumes:
+      - ./data/influx:/var/lib/influxdb
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+  \end{lstlisting}
+
+  \caption{Konfifuration von influxdb und Grafana}
+\end{code}
+
+cAdvisor bekommt lesenden Zugriff auf \SHELL{/sys}, \SHELL{var/lib/docker} und \SHELL{/var/run} und den Auftrag, die extrahierten Messwerte in die InfluxDB zu schreiben. Grafana bekommt einen Datenordner und soll auf Port 3000 die Weboberfläche anzeigen. Abtippen müssen Sie das Compose-File nicht, es liegt bei GitHub zum Klonen bereit. Laden Sie den Versuchsaufbau über die Kommandozeile herunter:
+
+\medskip
+
+SHELL{git clone https://github.com/jamct/influx-logger}
+
+\medskip
+
+Wechseln Sie mit \SHELL{cd influx-logger} in das geladene Verzeichnis. Mit \SHELL{docker-compose up -d} fahren die Container hoch und beginnen mit ihrer Arbeit. Unter der Adresse \SHELL{<IP des Servers>:3000} im Browser antwortet jetzt Grafana.
+
+\section{Schnellstartanleitung}
+
+
+Beim ersten Start verlangt Grafana Benutzernamen und Kennwort. Mit \SHELL{admin} dürfen Sie sich anmelden und werden aufgefordert, ein neues Kennwort zu vergeben.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Grafana/Grafana02}
+  \caption{Bevor es ans Einrichten von Diagrammen geht, muss eine Datenquelle eingerichtet sein, zum Beispiel eine InfluxDB-Zeitreihendatenbank.}
+\end{figure}
+
+Bevor es ans Einrichten von Diagrammen geht, muss eine Datenquelle eingerichtet sein, zum Beispiel eine InfluxDB-Zeitreihendatenbank. Bevor es losgehen kann, brauchen Sie eine Datenquelle, also einen Adapter für die verwendete Datenbank. Klicken Sie auf \SHELL{Add data source} und wählen Sie \SHELL{InfluxDB}. In der ersten Zeile können Sie einen Namen vergeben, zum Beispiel \SHELL{Docker-Metriken}. Geben Sie dann unter \SHELL{URL} die Adresse der Datenbank an. Docker sorgt dafür, dass der Grafana-Container den InfluxDB-Container unter dem Hostnamen \SHELL{influx} findet (dieser Name ist in der Compose-Datei angegeben). Die Adresse lautet also: \SHELL{http://influx:8086}. Weiter unten im Formular unter \SHELL{Database} geben Sie \SHELL{cadvisor} ein. Dieser Name wurde ebenfalls in der Compose-Datei festgelegt. Jetzt ist die Datenquelle bereit für einen Test: Klicken Sie ganz unten auf \SHELL{Save \& Test}, Grafana meldet dann \SHELL{Data source is working}.
+
+
+Das erste Dashboard bauen Sie mit einem Klick auf das \SHELL{+} im linken Menü. Wählen Sie im Untermenü \SHELL{Dashboard} und dann \SHELL{Add Query}. Es öffnet sich ein auf den ersten Blick etwas verwirrender Dialog. Oben erscheint ein leeres Diagramm (Grafana nennt Diagrammkästen \SHELL{Panel}), darunter hinter dem Begriff \SHELL{Queries to} ein Dropdown-Menü für die zu verwendende Datenquelle. Wählen Sie hier die gerade angelegte Quelle \SHELL{Docker-Metriken}. Darunter befindet sich ein Baukasten für die InfluxDB-Abfrage, die der SQL-Syntax stark ähnelt. Grafana zeigt beim Klick auf die einzelnen Bausteine alle Optionen an. Klicken Sie auf \SHELL{select measurement}, um zu sehen, welche Messwertreihen in der Datenbank angelegt sind. Das erste Diagramm soll die Auslastung des Arbeitsspeichers anzeigen. Wählen Sie \SHELL{memory\_usage} aus. Daneben befindet sich der Block "WHERE", über den man genauer filtern kann – dazu später mehr. Oben sehen Sie jetzt bereits eine Vorschau des Diagramms.
+
+Im Abschnitt \SHELL{GROUP BY} wird festgelegt, in welchen Zeitabschnitten die Daten zu Mittelwerten zusammengefasst werden sollen. Voreingestellt ist \SHELL{time(\$\_interval)}. Klicken Sie auf den Inhalt der Klammern und probieren Sie die einzelnen Zeitabschnitte durch. Je größer der Wert, desto glatter wird das Diagramm - \SHELL{1m}, also eine Minute, sollte für einen Überblick über die Auslastung ausreichen.
+
+Die erste Abfrage ist fertig und Sie können sich an die optischen Feinheiten machen. Klicken Sie dazu links auf das zweite runde Icon, das ein Diagramm darstellt. Oben können Sie den Typ der Visualisierung ändern. \SHELL{Graph} ist voreingestellt und steht für Balken- oder Liniendiagramme. Der nächste Abschnitt ist selbsterklärend und erlaubt die Darstellung von Linien, Balken oder Punkten. Scrollen Sie weiter zum Abschnitt \SHELL{Axes}. In der ersten Spalte \SHELL{Left Y} für die Y-Achse sollte die \SHELL{Unit} umgestellt werden. Der Logging-Container speichert die Werte für den Arbeitsspeicher in Byte. Wählen Sie daher unter \SHELL{Data (Metric)} die Option \SHELL{bytes}. Grafana denkt mit und wählt ein zu den Werten passendes Präfix: Die Werte in der Vorschau oben erscheinen in \SHELL{MB}. Wenn Sie noch weiter scrollen, finden Sie den Abschnitt \SHELL{Legend}, der festlegt, welche Details als Legende angezeigt werden sollen.
+
+\section{Diagramm anzeigen und anpassen}
+
+Das erste Diagramm ist fertig und sollte gespeichert werden. Ganz oben rechts findet sich das Disketten-Symbol. Grafana fragt beim Speichern nach einer Beschreibung der Änderungen. Das ist vor allem in Mehrbenutzerumgebungen wichtig – Entwickler kennen das Konzept von Versionsverwaltungen wie Git. Mit dem Pfeil oben links gelangen Sie zurück in die Ansicht des neuen Dashboards. Das Diagramm können Sie jetzt per Drag-and-Drop verschieben und über die untere rechte Ecke in der Größe anpassen. Auch solche Änderungen müssen über die Diskette oben rechts gesichert werden. Daneben finden Sie den Button zum Anlegen weiterer Diagramme.
+
+Mit Ihrem ersten Diagramm können Sie aber bereits die Funktionsweise von Grafana kennenlernen. Oben rechts befindet sich der Auswahldialog für den anzuzeigenden Zeitbereich. Klicken Sie darauf und wählen zum Beispiel \SHELL{Today}. Da Ihr Logging-Versuchsaufbau erst wenige Minuten läuft, ist der Großteil des Diagramms leer. Zum Hereinzoomen klicken Sie einfach im Diagramm auf den gewünschten Anfangszeitpunkt und ziehen Sie mit gedrückter Maustaste bis zum Ende. Grafana ändert den ausgewählten Zeitbereich für das gesamte Dashboard - also für alle anderen Diagramme, die Sie noch ergänzen. Das macht das Erkennen von Zusammenhängen sehr einfach. Sehen Sie in einem Diagramm zum Beispiel einen auffälligen Wert beim Arbeitsspeicher, schneiden Sie den Bereich entsprechend zu, um zu sehen, ob zur gleichen Zeit etwa auch die Netzwerkkarte viele Daten übertragen hat. Mit der Lupe oben rechts zoomen Sie wieder heraus.
+
+\SHELL{Anmerkungen ins Diagramm schreiben}
+
+Wenn Sie den Grund für den Fehler gefunden haben, möchten Sie diesen möglicherweise gern im Diagramm notieren, damit Ihr Admininstratoren-Kollege nicht am nächsten Tag verwundert auf den gleichen Datenpunkt schaut und erneut mit der Fehlersuche beginnt. Grafana beherrscht dafür \SHELL{Annotations}. Ziehen Sie mit gedrückter Strg-Taste (Mac-Benutzer nutzen die Cmd-Taste) vom Beginn zum Ende des Ereignisses, das Sie kommentieren möchten. Hier können Sie einen Text eingeben und Tags hinzufügen (für diese Tags gibt es Möglichkeiten zur Integration in Bugtracking-Software, die den Rahmen dieses Artikels sprengen würden). Der markierte Bereich wird mit blau gestrichelten Linien gekennzeichnet. Fährt man mit der Maus über den blauen Balken an der x-Achse, kann man den hinterlegten Text auslesen.
+
+Bisher zeigt das Diagramm nur eine Messwertreihe für die gesamte Speicherauslastung an. Spannend wäre es aber, das nach Containern zu filtern. Klicken Sie zum Bearbeiten eines Diagramms auf das kleine Dreieck neben dem Titel, der noch \SHELL{Panel Title} lautet. Mit \SHELL{Edit} kommen Sie wieder in den bekannten Bearbeiten-Dialog. Bei der Gelegenheit können Sie dem Diagramm einen Namen geben: Klicken Sie auf das Zahnrad-Icon links und vergeben Sie einen Namen wie \SHELL{Arbeitsspeicher}.
+
+Um eine weitere Datenreihe einzufügen, klicken Sie links auf das Datenbank-Icon. Hier sehen Sie, dass die erste Datenreihe den Namen \SHELL{A} bekommen hat. Rechts könnten Sie mit \SHELL{Add Query} eine weitere einfügen. Um die nächste Abfrage nicht ganz von vorne einrichten zu müssen, ist es sinnvoll, Reihe A zu duplizieren. Der entsprechende Button, der zwei Dokumente darstellt, befindet sich rechts.
+
+In der neuen Abfrage B klicken Sie neben \SHELL{WHERE} auf das Plus und wählen Sie \SHELL{container\_name}. Das ist ein Tag, das der Logging-Container an seine Messwerte heftet. Grafana fügt ein Gleichheitszeichen ein und daneben den Block \SHELL{select tag value}. Wählen Sie aus dem Menü einen Container, zum Beispiel \SHELL{influx-logger\_grafana\_1}. Damit erfahren Sie, wie viel Arbeitsspeicher Ihre Grafana-Instanz selbst beansprucht. Im letzten Feld \SHELL{ALIAS BY} können Sie einen sprechenden Namen für den Messwert vergeben, der dann in der Legende angezeigt wird. Speichern nicht vergessen, bevor Sie zur Ansicht des Dashboards zurückkehren.
+
+\section{Schwellwerte definieren}
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Grafana/Grafana03}
+  \caption{Beim Zusammenbau der Datenabfrage unterstützt Grafana mit einem Baukasten.}
+\end{figure}
+
+Neben den Balken- oder Liniendiagrammen für Zeitreihen bringt Grafana auch Elemente für die Darstellung eines aktuellen Messwerts. Praktisch wäre es zum Beispiel, den aktuellen Arbeitsspeicherfüllstand groß anzuzeigen - mit einem leuchtend roten Hintergrund, wenn der Wert über einen Schwellwert steigt. Legen Sie ein neues Panel an (Button in der oberen Leiste). Klicken Sie auf \SHELL{Choose Visualization}. Eingefügt werden soll ein \SHELL{Singlestat} für den Arbeitsspeicher, darunter wählen Sie aus, welcher Wert angezeigt wird. Wechseln Sie von \SHELL{Average} auf \SHELL{Current} für den aktuellen Messwert statt eines Durchschnittswertes. Unter \SHELL{Unit} ist es wieder sinnvoll, auf \SHELL{bytes} unter \SHELL{Data (Metric)} umzustellen.
+
+Wechseln Sie in den Reiter für die Abfragen (Icon auf der linken Seite) und legen Sie wie oben beschrieben eine Abfrage für \SHELL{memory\_usage} an. Für die farbliche Hervorhebung wechseln Sie wieder auf den Reiter für die Visualisierung. In der zweiten Spalte aktivieren Sie unter \SHELL{Coloring} den bunten Hintergrund. Unter \SHELL{Thresholds} müssen die Schwellwerte für gelben und roten Hintergrund angegeben werden – und zwar in diesem Fall in Byte. Soll der Kasten ab 100 MByte gelb und ab 200 MByte rot werden, geben Sie \SHELL{100000000,200000000} in das Feld ein. Nach dem Abspeichern können Sie Ihr Werk auf dem Dashboard bestaunen.
+
+\section{Anzeige im Vollbild}
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Grafana/Grafana04}
+  \caption{Mehrere Grafana-Dashboards lassen sich zu Playlisten zusammenstellen. Diese kann Grafana zeitgesteuert abspielen.}
+\end{figure}
+
+
+Je nach Anwendungsgebiet werden Sie sich die Dashboards nicht allein ansehen wollen, sondern mit anderen teilen. Grafana ist darauf ausgelegt, im Vollbild auf unterschiedlich großen Bildschirmen zu laufen und passt die Größe der Elemente an den Bildschirm an. Für den Vollbild-Modus gibt es in der oberen Button-Leiste ein TV-Symbol. Mit einem Klick verschwindet die linke Menüleiste, mit einem weiteren sämtliche Steuerelemente. Mit ESC verlassen Sie diesen Modus wieder. Soll ein PC dauerhaft Grafana-Dashboards anzeigen, können Sie den Link kopieren und in den Autostart legen. Enthält die URL \SHELL{\&kiosk}, startet der Vollbild-Modus. Grafana kann auch Playlisten mit mehreren Dashboards nacheinander anzeigen - gedacht ist das für Bildschirme ohne Maus und Tastatur. Die Funktion \SHELL{Playlists} erreichen Sie über den Button für Dashboards (Symbol mit vier Quadraten) im linken Menü. Hier können Sie Listen anlegen und festlegen, wie lange eine Seite angezeigt werden soll.
+
+Außerdem ist es möglich, einzelne Diagramme (\SHELL{Panels}) in einem eigenen Fenster zu öffnen oder als Iframe in eine andere HTML-Seite einzubetten. Klicken Sie dazu neben dem Titel eines Diagramms auf den kleinen Pfeil. Hinter dem Menüpunkt \SHELL{Share} erfahren Sie den direkten Link und bekommen einen Iframe-Schnipsel zum Herauskopieren. Sollten Sie Grafana in einem Unternehmensnetz einsetzen, ist es jetzt an der Zeit, einen Nutzer anzulegen, der nur lesenden Zugriff auf die Diagramme bekommt. Den Dialog finden Sie hinter dem Zahnrad-Icon im linken Menü.
+
+\section{Alarme aktivieren}
+
+Die Möglichkeiten von Grafana sind damit noch nicht erschöpft. Einen Blick wert ist die Fähigkeit, Alarme beim Über- oder Unterschreiten von Schwellwerten zu versenden. Grafana kann sich zum Beispiel per Mail melden, über einen Messenger-Bot Alarm schlagen oder ein schon vorhandenes Bugtracking-System informieren. Einen solchen Alarmierungsweg richten Sie über das Glocken-Icon im linken Menü ein.
+
+Alle Feinheiten von Grafana lernen Sie am besten beim Experimentieren mit den eigenen Daten – die von cAdvisor gesammelten über die eigene Docker-Umgebung geben schon viel her. Die \HREF{http://docs.grafana.org/}{Online-Dokumentation von Grafana} beantwortet viele Fragen sehr anschaulich.
+
+\section{Datenvisualisierung: Grafana 9.4 überarbeitet Panels und Navigation}
+
+Neben der Query-Sprache TraceQL bringt Grafana ein erneuertes Panel-Design, eine aktualisierte Suche und Navigation sowie neue Authentifizierungsfeatures.
+
+Grafana ist in Version 9.4 erschienen. Das Softwareunternehmen Grafana Labs hat seinem Werkzeug für Datenvisualisierung und Monitoring unter anderem ein überarbeitetes Dashboard-Panel-Design und neue Features für Suche, Navigation und Authentifizierung spendiert. Zudem bietet das neue Release allen Grafana-Cloud-Usern Zugriff auf die neue Query-Sprache TraceQL für Distributed Tracing.
+
+TraceQL erschien Anfang Februar 2023 in \HREF{https://www.heise.de/news/Distributed-Tracing-Grafana-Tempo-2-0-praesentiert-eine-neue-Query-Sprache-7482169.html}{Grafana Tempo 2.0}, einem Open-Source-Backend für Distributed Tracing. Zu dem Zeitpunkt befand sich Grafana 9.4 noch in einer Beta-Version. Die Query-Sprache basiert auf LogQL – ebenfalls aus dem Hause Grafana Labs – sowie PromQL (Prometheus Query Language) und ist auf das Aufspüren von Traces ausgelegt. In der \HREF{https://grafana.com/docs/tempo/latest/traceql/?pg=blog&plcmt=body-txt}{Dokumentation} finden sich Beispiele für ihren Einsatz.
+
+\section{Neuerungen für Canvas- und Dashboard-Panels}
+
+Das neue Minor Release baut das mit Version 9.3 eingeführte Canvas Panel weiter aus. Damit lassen sich innerhalb des Grafana User Interface benutzerdefinierte Visualisierungen gestalten und Daten-Overlays erzeugen, die mit Standard-Panels nicht möglich wären. Canvas-Visualisierungen sind erweiterbare form-built Panels und erlauben das Platzieren von Elementen innerhalb statischer und dynamischer Layouts. Neu in Version 9.4 sind der Support für Data Links und die Möglichkeit, Pfeile hinzuzufügen.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Grafana/Grafana05}
+  \caption{Canvas Panel: In Grafana 9.4 lassen sich Pfeile verwenden, um Elemente zu verbinden.
+      (Bild: Grafana Labs)}
+\end{figure}
+
+Als Beta-Feature lässt sich das Canvas Panel in Grafana OSS, Grafana Cloud (Free, Pro und Advanced) und Grafana Enterprise verwenden.
+
+Den Panels im Grafana Dashboard widmet sich das neue Release ebenfalls. Durch das Hinzufügen und Verschieben von Schlüsselelementen sollen diese nun leichter zugänglich und besser verständlich sein. Zudem sind wichtige Komponenten nun im Header jedes Panels zu finden. Dieses Redesign ist als Preview-Feature in Grafana Cloud (Free, Pro, Advanced) sowie per Feature-Toggle (\SHELL{newPanelChromeUI}) in Grafana OSS und Grafana Enterprise verfügbar.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{Grafana/Grafana06}
+    \caption{Das Grafana-Dashboard erscheint als Preview-Feature in einem Redesign.   (Bild: Grafana Labs)}
+\end{figure}
+
+
+\section{Überarbeitete Navigation und Authentifizierung}
+
+Eine Keyboard-basierte Navigation und Suche hat in Grafana 9.4 Einzug gehalten. Mit dem Tastaturkürzel \SHELL{Strg/Cmd + K} erscheint die Befehlspalette, die Suche und Zugriff für alle Seiten und Dashboards bietet. Zu den neuen Optionen für die Authentifizierung zählen das Aktivieren eines automatischen Logins für SAML-Anbieter und das Verwenden OAuth-Anbieter-spezifischen Rollen-Mappings.
+    
+    Alle Details zu diesen und weiteren neuen Features sind in der \HREF{https://grafana.com/docs/grafana/latest/whatsnew/whats-new-in-v9-4/?pg=blog&plcmt=body-txt}{"What's New"-Dokumentation}, \HREF{https://github.com/grafana/grafana/blob/master/CHANGELOG.md}{im Changelog auf GitHub} und \HREF{https://grafana.com/blog/2023/02/28/grafana-9.4-release/}{in einem Blogeintrag von Grafana Labs} zu finden.
+
+\chapter{Further Readings}
+
+\begin{itemize}
+  \item \URL{https://www.heise.de/news/Datenvisualisierung-Grafana-9-4-ueberarbeitet-Panels-und-Navigation-7532168.html}
+  \item \URL{https://www.smarthome-tricks.de/grafana/6-1-grafana-anpassung-der-konfiguration}
+\end{itemize}
+

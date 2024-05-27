@@ -1,0 +1,11 @@
+\babel@toc {german}{}\relax 
+\babel@toc {german}{}\relax 
+\beamer@sectionintoc {1}{About Author}{4}{0}{1}
+\beamer@sectionintoc {2}{Programming as a Creative Activity}{7}{0}{2}
+\beamer@sectionintoc {3}{Limitation of Understanding Systems}{9}{0}{3}
+\beamer@sectionintoc {4}{Approaches to Fighting Complexity in Software Development}{12}{0}{4}
+\beamer@sectionintoc {5}{The Waterfall Model}{17}{0}{5}
+\beamer@sectionintoc {6}{Incremental Approach in Software Development}{21}{0}{6}
+\beamer@sectionintoc {7}{How to use this book}{24}{0}{7}
+\beamer@sectionintoc {8}{Conclusion}{28}{0}{8}
+\beamer@sectionintoc {9}{References}{30}{0}{9}

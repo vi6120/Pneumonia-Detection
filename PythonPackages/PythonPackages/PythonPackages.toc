@@ -1,0 +1,484 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Contents}{3}{chapter*.1}%
+\contentsline {chapter}{List of Figures}{13}{chapter*.2}%
+\contentsline {chapter}{Acronyms}{19}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}To Do}{21}{chapter.1}%
+\contentsline {part}{\numberline {I}Overview}{23}{part.1}%
+\contentsline {chapter}{\numberline {2}Frameworks and Libraries}{25}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Development Environment}{25}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Jupyter-Notebook}{25}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Frameworks}{25}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}TensorFlow}{25}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}TensorFlow Lite}{26}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}TensorRT}{26}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Keras}{26}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}PyTorch}{26}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Caffe}{27}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Caffe2}{27}{subsection.2.2.7}%
+\contentsline {subsection}{\numberline {2.2.8}Theano}{27}{subsection.2.2.8}%
+\contentsline {subsection}{\numberline {2.2.9}Apache MXNet}{27}{subsection.2.2.9}%
+\contentsline {subsection}{\numberline {2.2.10}CNTK}{27}{subsection.2.2.10}%
+\contentsline {subsection}{\numberline {2.2.11}Deeplearning4J}{27}{subsection.2.2.11}%
+\contentsline {subsection}{\numberline {2.2.12}Chainer}{27}{subsection.2.2.12}%
+\contentsline {subsection}{\numberline {2.2.13}FastAI}{27}{subsection.2.2.13}%
+\contentsline {section}{\numberline {2.3}General libraries}{28}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}NumPy}{28}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}SciPy}{28}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}pandas}{28}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}IPython}{28}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Matplotlib}{28}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}scikit-learn}{28}{subsection.2.3.6}%
+\contentsline {subsection}{\numberline {2.3.7}Scrapy}{29}{subsection.2.3.7}%
+\contentsline {subsection}{\numberline {2.3.8}NLTK}{29}{subsection.2.3.8}%
+\contentsline {subsection}{\numberline {2.3.9}Pattern}{29}{subsection.2.3.9}%
+\contentsline {subsection}{\numberline {2.3.10}Seaborn}{29}{subsection.2.3.10}%
+\contentsline {subsection}{\numberline {2.3.11}Bokeh}{29}{subsection.2.3.11}%
+\contentsline {subsection}{\numberline {2.3.12}basemap}{29}{subsection.2.3.12}%
+\contentsline {subsection}{\numberline {2.3.13}NetworkX}{29}{subsection.2.3.13}%
+\contentsline {subsection}{\numberline {2.3.14}LightGBM}{29}{subsection.2.3.14}%
+\contentsline {subsection}{\numberline {2.3.15}Eli5}{30}{subsection.2.3.15}%
+\contentsline {subsection}{\numberline {2.3.16}Mlpy - Machine Learning}{30}{subsection.2.3.16}%
+\contentsline {subsection}{\numberline {2.3.17}Statsmodels - Statistical Data Analysis}{30}{subsection.2.3.17}%
+\contentsline {section}{\numberline {2.4}Specialised Libraries}{30}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}OpenCV}{30}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}OpenVINO}{30}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Compute Unified Device Architecture (CUDA)}{30}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}OpenNN}{31}{subsection.2.4.4}%
+\contentsline {section}{\numberline {2.5}Special Libraries}{31}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}glob}{31}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}os}{31}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}PIL}{31}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}LCC15}{31}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}math}{31}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}cv2}{31}{subsection.2.5.6}%
+\contentsline {subsection}{\numberline {2.5.7}random}{31}{subsection.2.5.7}%
+\contentsline {subsection}{\numberline {2.5.8}pickle}{32}{subsection.2.5.8}%
+\contentsline {subsection}{\numberline {2.5.9}PyPI}{32}{subsection.2.5.9}%
+\contentsline {chapter}{\numberline {3}Libraries, Modules, and Frameworks}{33}{chapter.3}%
+\contentsline {section}{\numberline {3.1}TensorFlow Framework}{33}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}TensorFlow Use Case}{33}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}OpenCV}{34}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Application of OpenCV}{34}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Image Processing}{34}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}How does a computer read an image}{34}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}MediaPipe}{35}{section.3.3}%
+\contentsline {section}{\numberline {3.4}MediaPipe Applications}{35}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Hand Landmarks Detection}{35}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Face Detection}{36}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}MediaPipe Holistic}{36}{subsection.3.4.3}%
+\contentsline {section}{\numberline {3.5}Pyfirmata}{37}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Supporting Libraries}{37}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Pandas}{38}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Numpy}{38}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Matplotlib}{38}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Scikit-learn}{38}{subsection.3.6.4}%
+\contentsline {section}{\numberline {3.7}Important Libraries for Arduino Nano 33 BLE Sense}{38}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Tensor flow lite}{38}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}ArduCAM}{39}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}ADPS 9960}{39}{subsection.3.7.3}%
+\contentsline {chapter}{\numberline {4}Datenbanken und Modelle für das Maschinelle Lernen}{41}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Datenbanken}{42}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Datensatz MNIST}{42}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}CIFAR-10 und CIFAR-100}{44}{subsection.4.1.2}%
+\contentsline {subsubsection}{\nonumberline Datensatz \ac {cifar}-10}{44}{subsubsection*.12}%
+\contentsline {subsubsection}{\nonumberline Datensatz \ac {cifar}-100}{45}{subsubsection*.16}%
+\contentsline {subsection}{\numberline {4.1.3}Datensatz Fisher's Iris Data Set}{45}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Common Objects in Context - COCO}{49}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}ImageNet}{54}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.6}Visual Wake Words}{54}{subsection.4.1.6}%
+\contentsline {section}{\numberline {4.2}Modelle}{54}{section.4.2}%
+\contentsline {part}{\numberline {II}Python Packages}{55}{part.2}%
+\contentsline {chapter}{\numberline {5}Machine learning: Neural networks generate content}{57}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Create something new}{59}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Mutual performance monitoring}{59}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Training in rotation}{60}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Training of the discriminator}{60}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Training the generator}{62}{section.5.5}%
+\contentsline {section}{\numberline {5.6}From theory to practice}{62}{section.5.6}%
+\contentsline {section}{\numberline {5.7}The game structure}{64}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Improve step by step}{64}{section.5.8}%
+\contentsline {section}{\numberline {5.9}GAN-Zoo}{65}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Real or computer generated?}{66}{section.5.10}%
+\contentsline {chapter}{\numberline {6}Package \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Example}}}{67}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introduction}{67}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Description}{67}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Installation}{67}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Example - Manual}{67}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Example}{67}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Example - Version}{67}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Example - Files}{67}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Further Reading}{67}{section.6.8}%
+\contentsline {chapter}{\numberline {7}Data Analysis with Python: First Step with Pandas - Evaluating Football Data}{69}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introduction}{69}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Installation}{69}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Understand \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Series}}}{69}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Create \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-DataFrame}}}{70}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Select data}{71}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Integer}{72}{section.7.6}%
+\contentsline {section}{\numberline {7.7}Get soccer data}{72}{section.7.7}%
+\contentsline {section}{\numberline {7.8}Show info}{73}{section.7.8}%
+\contentsline {section}{\numberline {7.9}Goal statistics}{74}{section.7.9}%
+\contentsline {section}{\numberline {7.10}Format data}{74}{section.7.10}%
+\contentsline {section}{\numberline {7.11}Date}{75}{section.7.11}%
+\contentsline {chapter}{\numberline {8}Package \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Example}}}{77}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Introduction}{77}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Description}{77}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Installation}{77}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Example - Manual}{77}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Example}{77}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Example - Version}{77}{section.8.6}%
+\contentsline {section}{\numberline {8.7}Example - Files}{77}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Further Reading}{77}{section.8.8}%
+\contentsline {chapter}{\numberline {9}Barcode}{79}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Introduction to Barcode}{79}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}1-D Linear Bar Code}{79}{subsection.9.1.1}%
+\contentsline {subsubsection}{\nonumberline Identifying barcodes and their structure}{79}{subsubsection*.44}%
+\contentsline {section}{\numberline {9.2}Types of Barcodes}{80}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}UPC Code}{80}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}EAN Code}{80}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Code 128}{80}{subsection.9.2.3}%
+\contentsline {subsection}{\numberline {9.2.4}Code 39}{82}{subsection.9.2.4}%
+\contentsline {subsection}{\numberline {9.2.5}Extended Code 39}{82}{subsection.9.2.5}%
+\contentsline {subsection}{\numberline {9.2.6}Code 93}{82}{subsection.9.2.6}%
+\contentsline {subsection}{\numberline {9.2.7}Coda bar}{83}{subsection.9.2.7}%
+\contentsline {section}{\numberline {9.3}2-D Matrix Code}{83}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}QR-Code}{84}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}How QR-Code works Technically.}{84}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Basic steps How QR (Quick Response) Works.}{84}{subsection.9.3.3}%
+\contentsline {subsection}{\numberline {9.3.4}QR-Code Versions.}{85}{subsection.9.3.4}%
+\contentsline {subsection}{\numberline {9.3.5}Patterns In QR-Code.}{85}{subsection.9.3.5}%
+\contentsline {subsection}{\numberline {9.3.6}Versions and Data Density:}{86}{subsection.9.3.6}%
+\contentsline {subsection}{\numberline {9.3.7}Types of 2D-Code and their Features}{86}{subsection.9.3.7}%
+\contentsline {section}{\numberline {9.4}Software}{89}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Hardware}{89}{section.9.5}%
+\contentsline {section}{\numberline {9.6}function}{89}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Limitations}{89}{section.9.7}%
+\contentsline {section}{\numberline {9.8}output}{89}{section.9.8}%
+\contentsline {section}{\numberline {9.9}How to Run}{89}{section.9.9}%
+\contentsline {chapter}{\numberline {10}EasyOCR}{93}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Introduction}{93}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Description}{93}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Installation}{94}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Example}{94}{section.10.4}%
+\contentsline {subsubsection}{\nonumberline Sample Code ALDPR}{94}{subsubsection*.62}%
+\contentsline {subsubsection}{\nonumberline Example EasyOCR}{95}{subsubsection*.64}%
+\contentsline {section}{\numberline {10.5}Further Reading}{96}{section.10.5}%
+\contentsline {subsection}{\numberline {10.5.1}Advanced Tuning}{97}{subsection.10.5.1}%
+\contentsline {chapter}{\numberline {11}YOLO v5}{99}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Introduction}{99}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Description}{99}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Installation}{100}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Example}{100}{section.11.4}%
+\contentsline {subsubsection}{\nonumberline Sample training for YOLOv5}{100}{subsubsection*.68}%
+\contentsline {chapter}{\numberline {12}Description of the Python Package: Keras}{103}{chapter.12}%
+\contentsline {chapter}{\numberline {13}Description of the Python Package: NumPy}{107}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Functions:}{107}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Features:}{107}{section.13.2}%
+\contentsline {section}{\numberline {13.3}Applications:}{107}{section.13.3}%
+\contentsline {section}{\numberline {13.4}Installation}{107}{section.13.4}%
+\contentsline {section}{\numberline {13.5}Further Reading:}{108}{section.13.5}%
+\contentsline {chapter}{\numberline {14}Description of the Python Package: Matplotlib}{111}{chapter.14}%
+\contentsline {section}{\numberline {14.1}Functions:}{111}{section.14.1}%
+\contentsline {section}{\numberline {14.2}Features:}{111}{section.14.2}%
+\contentsline {section}{\numberline {14.3}Applications:}{111}{section.14.3}%
+\contentsline {section}{\numberline {14.4}Installation}{112}{section.14.4}%
+\contentsline {section}{\numberline {14.5}Further Reading:}{112}{section.14.5}%
+\contentsline {part}{\numberline {III}Add Ons}{115}{part.3}%
+\contentsline {chapter}{\numberline {15}Programmieren mit Python: Einfache grafische Oberfläche mit Tkinter erstellen}{117}{chapter.15}%
+\contentsline {section}{\numberline {15.1}Tk gegen Qt}{117}{section.15.1}%
+\contentsline {section}{\numberline {15.2}Erstes Fenster erstellen}{117}{section.15.2}%
+\contentsline {section}{\numberline {15.3}Hauptfenster erstellen}{119}{section.15.3}%
+\contentsline {section}{\numberline {15.4}Gitter erstellen}{120}{section.15.4}%
+\contentsline {section}{\numberline {15.5}Frame platzieren}{120}{section.15.5}%
+\contentsline {section}{\numberline {15.6}Widgets erstellen}{121}{section.15.6}%
+\contentsline {section}{\numberline {15.7}Beschreibungstext}{123}{section.15.7}%
+\contentsline {section}{\numberline {15.8}Labels}{123}{section.15.8}%
+\contentsline {section}{\numberline {15.9}Eingabefelder}{124}{section.15.9}%
+\contentsline {section}{\numberline {15.10}Button}{124}{section.15.10}%
+\contentsline {section}{\numberline {15.11}Kosmetik}{124}{section.15.11}%
+\contentsline {section}{\numberline {15.12}Button klickbar machen}{125}{section.15.12}%
+\contentsline {section}{\numberline {15.13}Fake-Browser und Login-Daten}{126}{section.15.13}%
+\contentsline {section}{\numberline {15.14}Fehlermeldung}{126}{section.15.14}%
+\contentsline {section}{\numberline {15.15}Korrekter Login}{127}{section.15.15}%
+\contentsline {section}{\numberline {15.16}Menüleiste erstellen}{128}{section.15.16}%
+\contentsline {section}{\numberline {15.17}Fazit}{129}{section.15.17}%
+\contentsline {chapter}{\numberline {16}Hello World ``Iris''}{131}{chapter.16}%
+\contentsline {section}{\numberline {16.1}Your First Machine Learning Project in Python Step-By-Step}{131}{section.16.1}%
+\contentsline {section}{\numberline {16.2}How Do You Start Machine Learning in Python?}{131}{section.16.2}%
+\contentsline {subsection}{\numberline {16.2.1}Python Can Be Intimidating When Getting Started}{131}{subsection.16.2.1}%
+\contentsline {subsection}{\numberline {16.2.2}Beginners Need A Small End-to-End Project}{131}{subsection.16.2.2}%
+\contentsline {subsection}{\numberline {16.2.3}Hello World of Machine Learning}{132}{subsection.16.2.3}%
+\contentsline {section}{\numberline {16.3}Machine Learning in Python: Step-By-Step Tutorial (start here)}{132}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Step 1: Downloading, Installing and Starting Python SciPy}{133}{section.16.4}%
+\contentsline {subsection}{\numberline {16.4.1}Install SciPy Libraries}{133}{subsection.16.4.1}%
+\contentsline {subsection}{\numberline {16.4.2}Start Python and Check Versions}{133}{subsection.16.4.2}%
+\contentsline {section}{\numberline {16.5}Step 2: Load The Data}{134}{section.16.5}%
+\contentsline {subsection}{\numberline {16.5.1}Import libraries}{135}{subsection.16.5.1}%
+\contentsline {subsection}{\numberline {16.5.2}Load Dataset}{135}{subsection.16.5.2}%
+\contentsline {section}{\numberline {16.6}Step 3: Summarize the Dataset}{135}{section.16.6}%
+\contentsline {subsection}{\numberline {16.6.1}Dimensions of Dataset}{136}{subsection.16.6.1}%
+\contentsline {subsection}{\numberline {16.6.2}Peek at the Data}{136}{subsection.16.6.2}%
+\contentsline {subsection}{\numberline {16.6.3}Statistical Summary}{137}{subsection.16.6.3}%
+\contentsline {subsection}{\numberline {16.6.4}Class Distribution}{137}{subsection.16.6.4}%
+\contentsline {subsection}{\numberline {16.6.5}Complete Example}{137}{subsection.16.6.5}%
+\contentsline {section}{\numberline {16.7}Step 4: Data Visualization}{137}{section.16.7}%
+\contentsline {subsection}{\numberline {16.7.1}Univariate Plots}{139}{subsection.16.7.1}%
+\contentsline {subsection}{\numberline {16.7.2}Multivariate Plots}{139}{subsection.16.7.2}%
+\contentsline {subsection}{\numberline {16.7.3}Complete Example}{141}{subsection.16.7.3}%
+\contentsline {section}{\numberline {16.8}Step 5: Evaluate Some Algorithms}{141}{section.16.8}%
+\contentsline {subsection}{\numberline {16.8.1}Create a Validation Dataset}{142}{subsection.16.8.1}%
+\contentsline {subsection}{\numberline {16.8.2}Test Harness}{143}{subsection.16.8.2}%
+\contentsline {subsection}{\numberline {16.8.3}Build Models}{143}{subsection.16.8.3}%
+\contentsline {subsection}{\numberline {16.8.4}Select Best Model}{143}{subsection.16.8.4}%
+\contentsline {subsection}{\numberline {16.8.5}Complete Example}{145}{subsection.16.8.5}%
+\contentsline {section}{\numberline {16.9}Step 6: Make Predictions}{145}{section.16.9}%
+\contentsline {subsection}{\numberline {16.9.1}Make Predictions}{145}{subsection.16.9.1}%
+\contentsline {subsection}{\numberline {16.9.2}Evaluate Predictions}{147}{subsection.16.9.2}%
+\contentsline {subsection}{\numberline {16.9.3}Complete Example}{147}{subsection.16.9.3}%
+\contentsline {section}{\numberline {16.10}You Can Do Machine Learning in Python}{147}{section.16.10}%
+\contentsline {section}{\numberline {16.11}Summary}{149}{section.16.11}%
+\contentsline {section}{\numberline {16.12}Your Next Step}{149}{section.16.12}%
+\contentsline {chapter}{\numberline {17}Datenanalyse mit Python: Erste Schritte mit Pandas – Fussballdaten auswerten}{151}{chapter.17}%
+\contentsline {section}{\numberline {17.1}Einleitung}{151}{section.17.1}%
+\contentsline {section}{\numberline {17.2}Installation}{151}{section.17.2}%
+\contentsline {section}{\numberline {17.3}\leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-Series}} verstehen}{151}{section.17.3}%
+\contentsline {section}{\numberline {17.4}\leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-DataFrame}} erstellen}{152}{section.17.4}%
+\contentsline {section}{\numberline {17.5}Daten auswählen}{153}{section.17.5}%
+\contentsline {section}{\numberline {17.6}Integer}{154}{section.17.6}%
+\contentsline {section}{\numberline {17.7}Fußball-Daten holen}{154}{section.17.7}%
+\contentsline {section}{\numberline {17.8}Infos anzeigen}{155}{section.17.8}%
+\contentsline {section}{\numberline {17.9}Tor-Statistiken}{156}{section.17.9}%
+\contentsline {section}{\numberline {17.10}Daten formatieren}{157}{section.17.10}%
+\contentsline {section}{\numberline {17.11}Datum}{158}{section.17.11}%
+\contentsline {chapter}{\numberline {18}Pandas Gene}{159}{chapter.18}%
+\contentsline {section}{\numberline {18.1}Datamining in sequenzierten Gendaten mit Pandas}{159}{section.18.1}%
+\contentsline {section}{\numberline {18.2}Einführung}{159}{section.18.2}%
+\contentsline {section}{\numberline {18.3}Experimentierumgebung}{159}{section.18.3}%
+\contentsline {section}{\numberline {18.4}CSVs einlesen}{160}{section.18.4}%
+\contentsline {section}{\numberline {18.5}Interessante Stellen}{161}{section.18.5}%
+\contentsline {section}{\numberline {18.6}Prüfvereinigung}{161}{section.18.6}%
+\contentsline {section}{\numberline {18.7}Daten gebändigt}{163}{section.18.7}%
+\contentsline {section}{\numberline {18.8}Literatur}{163}{section.18.8}%
+\contentsline {chapter}{\numberline {19}Datenvisualisierung mit Python}{165}{chapter.19}%
+\contentsline {section}{\numberline {19.1}Plotexpress}{165}{section.19.1}%
+\contentsline {section}{\numberline {19.2}Einführung}{165}{section.19.2}%
+\contentsline {section}{\numberline {19.3}Installation: Anaconda}{165}{section.19.3}%
+\contentsline {section}{\numberline {19.4}Installation: Pip}{166}{section.19.4}%
+\contentsline {section}{\numberline {19.5}Wie gebe ich Geld aus?}{166}{section.19.5}%
+\contentsline {section}{\numberline {19.6}Folgt das Gewicht dem Essen?}{168}{section.19.6}%
+\contentsline {section}{\numberline {19.7}Sind Kalorien und Gewicht überhaupt korreliert?}{171}{section.19.7}%
+\contentsline {section}{\numberline {19.8}Wöchentliche Durchschnitte korreliert?}{172}{section.19.8}%
+\contentsline {section}{\numberline {19.9}Schnelle Statistiken}{174}{section.19.9}%
+\contentsline {section}{\numberline {19.10}Wofür gebe ich Geld aus?}{174}{section.19.10}%
+\contentsline {section}{\numberline {19.11}Gewicht folgt Konsum?}{174}{section.19.11}%
+\contentsline {section}{\numberline {19.12}Tasks}{175}{section.19.12}%
+\contentsline {chapter}{\numberline {20}Welches Diagramm passt zu meinen Daten?}{177}{chapter.20}%
+\contentsline {section}{\numberline {20.1}Diagramm-Typen}{177}{section.20.1}%
+\contentsline {section}{\numberline {20.2}Kunst-Graph}{179}{section.20.2}%
+\contentsline {section}{\numberline {20.3}Datenformate}{180}{section.20.3}%
+\contentsline {section}{\numberline {20.4}JSON und GeoJSON}{180}{section.20.4}%
+\contentsline {chapter}{\numberline {21}Daten verarbeiten mit Python: Pandas-Bibliothek für SQL-Umsteiger}{183}{chapter.21}%
+\contentsline {section}{\numberline {21.1}Einleitung}{183}{section.21.1}%
+\contentsline {section}{\numberline {21.2}Datenquellen}{183}{section.21.2}%
+\contentsline {section}{\numberline {21.3}Spalten auswählen}{184}{section.21.3}%
+\contentsline {section}{\numberline {21.4}Index anlegen}{186}{section.21.4}%
+\contentsline {section}{\numberline {21.5}Datum parsen}{186}{section.21.5}%
+\contentsline {section}{\numberline {21.6}Einschränkungen mit \leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-where}}-Klausel}{188}{section.21.6}%
+\contentsline {section}{\numberline {21.7}Distinct Values}{189}{section.21.7}%
+\contentsline {section}{\numberline {21.8}Spaltennamen ändern}{189}{section.21.8}%
+\contentsline {section}{\numberline {21.9}Daten speichern}{190}{section.21.9}%
+\contentsline {section}{\numberline {21.10}Daten gruppieren}{190}{section.21.10}%
+\contentsline {section}{\numberline {21.11}Mit gruppierten Daten rechnen}{191}{section.21.11}%
+\contentsline {section}{\numberline {21.12}Gruppierte Daten einschränken}{192}{section.21.12}%
+\contentsline {section}{\numberline {21.13}Fazit}{192}{section.21.13}%
+\contentsline {chapter}{\numberline {22}Analyse von Open Data mit Pandas}{195}{chapter.22}%
+\contentsline {section}{\numberline {22.1}Einleitung}{195}{section.22.1}%
+\contentsline {section}{\numberline {22.2}Immer mehr freie Daten}{195}{section.22.2}%
+\contentsline {section}{\numberline {22.3}Blick auf Pandas}{195}{section.22.3}%
+\contentsline {section}{\numberline {22.4}Beliebige Datenquellen}{196}{section.22.4}%
+\contentsline {section}{\numberline {22.5}Wetterdaten für Deutschland}{196}{section.22.5}%
+\contentsline {section}{\numberline {22.6}Visualisierung der Daten}{198}{section.22.6}%
+\contentsline {section}{\numberline {22.7}Neue Erkenntnisse}{199}{section.22.7}%
+\contentsline {chapter}{\numberline {23}Datenqualität mit der Python-Bibliothek Great Expectations sichern}{201}{chapter.23}%
+\contentsline {section}{\numberline {23.1}Einleitung}{201}{section.23.1}%
+\contentsline {section}{\numberline {23.2}Wenn der Data Lake versumpft}{201}{section.23.2}%
+\contentsline {section}{\numberline {23.3}Schnellstart mit CVS und pandas}{202}{section.23.3}%
+\contentsline {section}{\numberline {23.4}Datenerkundung im Notebook}{203}{section.23.4}%
+\contentsline {section}{\numberline {23.5}Wie warm wird es in Brasilien?}{203}{section.23.5}%
+\contentsline {section}{\numberline {23.6}Was tun bei unerfüllten Erwartungen?}{205}{section.23.6}%
+\contentsline {section}{\numberline {23.7}Fazit}{207}{section.23.7}%
+\contentsline {section}{\numberline {23.8}Quellen}{208}{section.23.8}%
+\contentsline {chapter}{\numberline {24}Eingefangen -- Data Wrangling mit pandas}{209}{chapter.24}%
+\contentsline {section}{\numberline {24.1}Jupyter-Notebook als Arbeitsumgebung}{209}{section.24.1}%
+\contentsline {section}{\numberline {24.2}Daten mit pandas filtern}{215}{section.24.2}%
+\contentsline {section}{\numberline {24.3}Werte in DataFrames ersetzen}{218}{section.24.3}%
+\contentsline {section}{\numberline {24.4}Mit DataFrames rechnen}{222}{section.24.4}%
+\contentsline {section}{\numberline {24.5}Fazit}{224}{section.24.5}%
+\contentsline {chapter}{\numberline {25}Programmieren mit Python: Bedienoberfläche via PyQt erstellen}{225}{chapter.25}%
+\contentsline {section}{\numberline {25.1}PyQt gegen Pyside und Tkinter}{225}{section.25.1}%
+\contentsline {section}{\numberline {25.2}Hello World mit PyQt}{225}{section.25.2}%
+\contentsline {section}{\numberline {25.3}QApplication}{226}{section.25.3}%
+\contentsline {section}{\numberline {25.4}Hauptfenster erstellen}{226}{section.25.4}%
+\contentsline {section}{\numberline {25.5}Fenster aufrufen, Schleife starten}{226}{section.25.5}%
+\contentsline {section}{\numberline {25.6}Fenstertitel ändern}{228}{section.25.6}%
+\contentsline {section}{\numberline {25.7}Größe ändern und Fenster verschieben}{228}{section.25.7}%
+\contentsline {section}{\numberline {25.8}Login-Fenster erstellen}{229}{section.25.8}%
+\contentsline {section}{\numberline {25.9}Widgets hinzufügen}{232}{section.25.9}%
+\contentsline {section}{\numberline {25.10}Layout verwalten}{232}{section.25.10}%
+\contentsline {section}{\numberline {25.11}Widgets erstellen}{233}{section.25.11}%
+\contentsline {section}{\numberline {25.12}Elemente ausrichten}{234}{section.25.12}%
+\contentsline {section}{\numberline {25.13}Button klickbar machen}{236}{section.25.13}%
+\contentsline {section}{\numberline {25.14}Einloggen}{236}{section.25.14}%
+\contentsline {section}{\numberline {25.15}Menü hinzufügen}{238}{section.25.15}%
+\contentsline {section}{\numberline {25.16}Fazit}{240}{section.25.16}%
+\contentsline {chapter}{\numberline {26}GUI für Python: Bedienoberfläche per Drag-and-Drop mit dem Qt Designer erstellen}{241}{chapter.26}%
+\contentsline {section}{\numberline {26.1}Installation}{241}{section.26.1}%
+\contentsline {section}{\numberline {26.2}Erster Start}{241}{section.26.2}%
+\contentsline {section}{\numberline {26.3}Bedienoberfläche}{242}{section.26.3}%
+\contentsline {section}{\numberline {26.4}Hello World!}{243}{section.26.4}%
+\contentsline {section}{\numberline {26.5}Bedienoberfläche in Python integrieren}{243}{section.26.5}%
+\contentsline {section}{\numberline {26.6}pyuic5}{245}{section.26.6}%
+\contentsline {section}{\numberline {26.7}\leavevmode {\color {PythonColor}\texttt {\fontdimen 2\font =0.4em\fontdimen 3\font =0.2em\fontdimen 4\font =0.1em\fontdimen 7\font =0.1em\hyphenchar \font =`\-loadUi()}}}{247}{section.26.7}%
+\contentsline {section}{\numberline {26.8}Passendes Widget}{247}{section.26.8}%
+\contentsline {section}{\numberline {26.9}Login-Fenster erstellen}{248}{section.26.9}%
+\contentsline {section}{\numberline {26.10}Layout}{248}{section.26.10}%
+\contentsline {section}{\numberline {26.11}Widgets}{248}{section.26.11}%
+\contentsline {section}{\numberline {26.12}Button klickbar machen}{249}{section.26.12}%
+\contentsline {section}{\numberline {26.13}User-Agent}{250}{section.26.13}%
+\contentsline {section}{\numberline {26.14}Login-Daten}{251}{section.26.14}%
+\contentsline {section}{\numberline {26.15}Beschreibungstext ändern}{251}{section.26.15}%
+\contentsline {section}{\numberline {26.16}Menü hinzufügen}{251}{section.26.16}%
+\contentsline {section}{\numberline {26.17}Ausblick}{252}{section.26.17}%
+\contentsline {chapter}{\numberline {27}Programmieren mit Python: Schnittstellen entwickeln mit Pycharm und FastAPI}{253}{chapter.27}%
+\contentsline {section}{\numberline {27.1}Warum Pycharm?}{253}{section.27.1}%
+\contentsline {section}{\numberline {27.2}Warum FastAPI?}{254}{section.27.2}%
+\contentsline {section}{\numberline {27.3}Projekt in Pycharm einrichten}{254}{section.27.3}%
+\contentsline {section}{\numberline {27.4}Pakete installieren}{255}{section.27.4}%
+\contentsline {section}{\numberline {27.5}Tipps und Tricks mit Pycharm}{256}{section.27.5}%
+\contentsline {section}{\numberline {27.6}Daten pflegen mit FastAPI}{257}{section.27.6}%
+\contentsline {section}{\numberline {27.7}Aufbau des Projekts}{257}{section.27.7}%
+\contentsline {section}{\numberline {27.8}Hello World mit FastAPI}{257}{section.27.8}%
+\contentsline {section}{\numberline {27.9}Kein Coden ohne Testen}{259}{section.27.9}%
+\contentsline {section}{\numberline {27.10}Gegenstände mit FastAPI verwalten}{261}{section.27.10}%
+\contentsline {section}{\numberline {27.11}Listeneinträge zurückgeben}{262}{section.27.11}%
+\contentsline {section}{\numberline {27.12}Daten asynchron verarbeiten}{263}{section.27.12}%
+\contentsline {section}{\numberline {27.13}Testen, testen testen}{264}{section.27.13}%
+\contentsline {section}{\numberline {27.14}OpenAPI für den Item-Lebenszyklus}{266}{section.27.14}%
+\contentsline {section}{\numberline {27.15}Ausblick}{267}{section.27.15}%
+\contentsline {chapter}{\numberline {28}Gro{\ss }e Pandas}{269}{chapter.28}%
+\contentsline {section}{\numberline {28.1}Programmieren mit Python: Große Datenmengen verwalten mit vaex}{269}{section.28.1}%
+\contentsline {section}{\numberline {28.2}vaex im Einsatz}{269}{section.28.2}%
+\contentsline {section}{\numberline {28.3}Fazit}{270}{section.28.3}%
+\contentsline {section}{\numberline {28.4}Tasks}{270}{section.28.4}%
+\contentsline {chapter}{\numberline {29}Durchdacht in die Cloud}{271}{chapter.29}%
+\contentsline {section}{\numberline {29.1}Einführung}{271}{section.29.1}%
+\contentsline {section}{\numberline {29.2}Lift and Shift und andere Arten der Migration}{271}{section.29.2}%
+\contentsline {section}{\numberline {29.3}Vorteile der Datenbankmigration in die Cloud}{272}{section.29.3}%
+\contentsline {section}{\numberline {29.4}Auswahlkriterien für die richtige Datenbankplattform}{273}{section.29.4}%
+\contentsline {section}{\numberline {29.5}Tipps für die Auswahl der Cloud-Datenbank}{274}{section.29.5}%
+\contentsline {section}{\numberline {29.6}Nie ohne Strategie beginnen}{275}{section.29.6}%
+\contentsline {section}{\numberline {29.7}Die Deadline im Blick haben}{275}{section.29.7}%
+\contentsline {section}{\numberline {29.8}Was kommt zuerst?}{275}{section.29.8}%
+\contentsline {section}{\numberline {29.9}Fazit: Die Datenbankmigration beginnt im Kopf}{276}{section.29.9}%
+\contentsline {section}{\numberline {29.10}Tasks}{277}{section.29.10}%
+\contentsline {chapter}{\numberline {30}Cloud-Datenbanken der Hyperscaler}{279}{chapter.30}%
+\contentsline {section}{\numberline {30.1}Einleitung}{279}{section.30.1}%
+\contentsline {section}{\numberline {30.2}Auch für Anbieter praktisch}{280}{section.30.2}%
+\contentsline {section}{\numberline {30.3}AWS: der Platzhirsch}{280}{section.30.3}%
+\contentsline {section}{\numberline {30.4}AWS Redshift als Data Warehouse}{282}{section.30.4}%
+\contentsline {section}{\numberline {30.5}Key-Value Stores übernehmen}{282}{section.30.5}%
+\contentsline {section}{\numberline {30.6}Weitere Optionen}{282}{section.30.6}%
+\contentsline {section}{\numberline {30.7}Azure: Der ewige Zweite?}{283}{section.30.7}%
+\contentsline {section}{\numberline {30.8}Auch Open Source ist möglich}{284}{section.30.8}%
+\contentsline {section}{\numberline {30.9}Cosmos für In-Memory und Cache für Redis}{285}{section.30.9}%
+\contentsline {section}{\numberline {30.10}Auch Azure hilft bei der Migration}{285}{section.30.10}%
+\contentsline {section}{\numberline {30.11}Google: im Schatten von AWS und Azure}{286}{section.30.11}%
+\contentsline {section}{\numberline {30.12}PostgreSQL als Ersatz}{287}{section.30.12}%
+\contentsline {section}{\numberline {30.13}Noch weitere DB-Arten im Angebot}{287}{section.30.13}%
+\contentsline {section}{\numberline {30.14}Andere Datenbankanbieter in der Cloud}{288}{section.30.14}%
+\contentsline {section}{\numberline {30.15}Fazit}{288}{section.30.15}%
+\contentsline {section}{\numberline {30.16}Quellen}{290}{section.30.16}%
+\contentsline {section}{\numberline {30.17}Tasks}{290}{section.30.17}%
+\contentsline {chapter}{\numberline {31}Fünf Cloud-native SQL-Datenbanken}{291}{chapter.31}%
+\contentsline {section}{\numberline {31.1}Einführung}{291}{section.31.1}%
+\contentsline {section}{\numberline {31.2}Cloud-native Datenbanken existieren}{292}{section.31.2}%
+\contentsline {section}{\numberline {31.3}YugabyteDB: Sharding und viel Abstraktion}{292}{section.31.3}%
+\contentsline {section}{\numberline {31.4}Raft für den Konsens}{293}{section.31.4}%
+\contentsline {section}{\numberline {31.5}Gute Cloud-Integration}{294}{section.31.5}%
+\contentsline {section}{\numberline {31.6}Citus: auch PostgreSQL, aber anders}{294}{section.31.6}%
+\contentsline {section}{\numberline {31.7}Eigentlich angelegt wie ein Plug-in}{294}{section.31.7}%
+\contentsline {section}{\numberline {31.8}Für den Betrieb ist viel Handarbeit nötig}{296}{section.31.8}%
+\contentsline {section}{\numberline {31.9}Vitess: eigener Unterbau und MySQL zur Abwechslung}{296}{section.31.9}%
+\contentsline {section}{\numberline {31.10}Zentrale Gateway-Instanzen steuern den Zugriff}{297}{section.31.10}%
+\contentsline {section}{\numberline {31.11}TiDB: fit für OLTP, OLAP, HTAP und ACID}{298}{section.31.11}%
+\contentsline {section}{\numberline {31.12}Ordentlicher Bums in der Datenbank}{299}{section.31.12}%
+\contentsline {section}{\numberline {31.13}CockroachDB: komplexer Veteran}{299}{section.31.13}%
+\contentsline {section}{\numberline {31.14}Im Layer-Fahrstuhl nach unten}{300}{section.31.14}%
+\contentsline {section}{\numberline {31.15}Reif für den Cloud-Einsatz}{301}{section.31.15}%
+\contentsline {section}{\numberline {31.16}Fazit: heiter bis wolkig}{301}{section.31.16}%
+\contentsline {section}{\numberline {31.17}Quellen}{302}{section.31.17}%
+\contentsline {section}{\numberline {31.18}Tasks}{302}{section.31.18}%
+\contentsline {chapter}{\numberline {32}Datenbank: TimescaleDB 2.0 erfasst und analysiert große Zeitreihen}{303}{chapter.32}%
+\contentsline {section}{\numberline {32.1}Einführung}{303}{section.32.1}%
+\contentsline {section}{\numberline {32.2}Kontinuierliches Aggregieren über aktualisierte APIs}{303}{section.32.2}%
+\contentsline {section}{\numberline {32.3}Wieso eine eigene Datenbank für Zeitreihen?}{303}{section.32.3}%
+\contentsline {section}{\numberline {32.4}Weiterführende Hinweise}{304}{section.32.4}%
+\contentsline {chapter}{\numberline {33}How to Choose a Forecasting Model -- Decision tree to select a time-series methodology}{305}{chapter.33}%
+\contentsline {section}{\numberline {33.1}Key takeaways}{305}{section.33.1}%
+\contentsline {section}{\numberline {33.2}Introduction}{305}{section.33.2}%
+\contentsline {section}{\numberline {33.3}Step 1: Analytical problem framing}{306}{section.33.3}%
+\contentsline {section}{\numberline {33.4}Step 2: Data exploration and requirements}{306}{section.33.4}%
+\contentsline {section}{\numberline {33.5}Step 3: Choosing a model}{307}{section.33.5}%
+\contentsline {section}{\numberline {33.6}Step 4: Model performance and operations}{308}{section.33.6}%
+\contentsline {section}{\numberline {33.7}Conclusion}{308}{section.33.7}%
+\contentsline {section}{\numberline {33.8}References}{309}{section.33.8}%
+\contentsline {chapter}{\numberline {34}Image Filters with Python -- A concise computer vision project for building image filters using Python}{311}{chapter.34}%
+\contentsline {section}{\numberline {34.1}Starter code for Brightness and Contrast modifier with Python:}{311}{section.34.1}%
+\contentsline {section}{\numberline {34.2}Further development of the project with controllers:}{313}{section.34.2}%
+\contentsline {section}{\numberline {34.3}Conclusion:}{314}{section.34.3}%
+\contentsline {chapter}{\numberline {35}Reinforcement Learning mit Python: Wie eine KI lernt, ein Spiel zu gewinnen}{317}{chapter.35}%
+\contentsline {section}{\numberline {35.1}Gefrorener See}{317}{section.35.1}%
+\contentsline {section}{\numberline {35.2}Librarys installieren}{317}{section.35.2}%
+\contentsline {section}{\numberline {35.3}Policy}{319}{section.35.3}%
+\contentsline {section}{\numberline {35.4}Q-Learning}{321}{section.35.4}%
+\contentsline {section}{\numberline {35.5}Exploration vs. Exploitation}{321}{section.35.5}%
+\contentsline {section}{\numberline {35.6}Berechnung der Q-Werte}{322}{section.35.6}%
+\contentsline {section}{\numberline {35.7}Die Trainingsschleife}{323}{section.35.7}%
+\contentsline {section}{\numberline {35.8}Evaluierung}{324}{section.35.8}%
+\contentsline {section}{\numberline {35.9}Ausblick}{326}{section.35.9}%
+\contentsline {chapter}{\numberline {36}Machine learning: Neural networks generate content}{327}{chapter.36}%
+\contentsline {section}{\numberline {36.1}Create something new}{329}{section.36.1}%
+\contentsline {section}{\numberline {36.2}Mutual performance monitoring}{329}{section.36.2}%
+\contentsline {section}{\numberline {36.3}Training in rotation}{330}{section.36.3}%
+\contentsline {section}{\numberline {36.4}Training of the discriminator}{330}{section.36.4}%
+\contentsline {section}{\numberline {36.5}Training the generator}{332}{section.36.5}%
+\contentsline {section}{\numberline {36.6}From theory to practice}{332}{section.36.6}%
+\contentsline {section}{\numberline {36.7}The game structure}{334}{section.36.7}%
+\contentsline {section}{\numberline {36.8}Improve step by step}{334}{section.36.8}%
+\contentsline {section}{\numberline {36.9}GAN-Zoo}{335}{section.36.9}%
+\contentsline {section}{\numberline {36.10}Real or computer generated?}{336}{section.36.10}%
+\contentsline {chapter}{\numberline {37}Daten visualisieren mit Grafana}{337}{chapter.37}%
+\contentsline {section}{\numberline {37.1}Container-Beobachter}{337}{section.37.1}%
+\contentsline {section}{\numberline {37.2}Schnellstartanleitung}{339}{section.37.2}%
+\contentsline {section}{\numberline {37.3}Diagramm anzeigen und anpassen}{339}{section.37.3}%
+\contentsline {section}{\numberline {37.4}Schwellwerte definieren}{341}{section.37.4}%
+\contentsline {section}{\numberline {37.5}Anzeige im Vollbild}{342}{section.37.5}%
+\contentsline {section}{\numberline {37.6}Alarme aktivieren}{343}{section.37.6}%
+\contentsline {section}{\numberline {37.7}Datenvisualisierung: Grafana 9.4 überarbeitet Panels und Navigation}{343}{section.37.7}%
+\contentsline {section}{\numberline {37.8}Neuerungen für Canvas- und Dashboard-Panels}{343}{section.37.8}%
+\contentsline {section}{\numberline {37.9}Überarbeitete Navigation und Authentifizierung}{344}{section.37.9}%
+\contentsline {chapter}{\numberline {38}Further Readings}{345}{chapter.38}%
+\contentsline {chapter}{\numberline {39}Matplotlib für Einsteiger: So erzeugen Sie ganz einfach Diagramme mit Python}{347}{chapter.39}%
+\contentsline {section}{\numberline {39.1}Matplotlib einrichten}{347}{section.39.1}%
+\contentsline {section}{\numberline {39.2}Liniendiagrammen erzeugen}{348}{section.39.2}%
+\contentsline {section}{\numberline {39.3}Titel und Legenden rendern}{350}{section.39.3}%
+\contentsline {section}{\numberline {39.4}Tortendiagramme erzeugen}{351}{section.39.4}%
+\contentsline {section}{\numberline {39.5}Balkendiagramme rendern}{352}{section.39.5}%
+\contentsline {section}{\numberline {39.6}Funktionen und Histogramme}{353}{section.39.6}%
+\contentsline {section}{\numberline {39.7}Histogramme}{356}{section.39.7}%
+\contentsline {section}{\numberline {39.8}Literatur zu Matplotlib}{357}{section.39.8}%
+\contentsline {section}{\numberline {39.9}Fazit}{357}{section.39.9}%
+\contentsline {chapter}{\nonumberline Literaturverzeichnis}{359}{chapter*.263}%
+\contentsline {chapter}{Index}{363}{chapter*.263}%
+\contentsline {chapter}{Index}{363}{chapter*.263}%

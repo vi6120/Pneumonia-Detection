@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%
+%
+% $Autor: Wings $
+% $Datum: 2020-02-24 14:30:26Z $
+% $Pfad: PythonPackages/Contents/General/PandasQuality.tex $
+% $Version: 1792 $
+%
+% !TeX encoding = utf8
+% !TeX root = PythonPackages
+% !TeX TXS-program:bibliography = txs:///bibtex
+%
+%
+%%%%%%%%%%%%%%%
+
+% iX 1/2023 S.116
+
+% Quelle: https://www.heise.de/select/ix/2023/1/2221609242402606536
+
+\chapter{Datenqualität mit der Python-Bibliothek Great Expectations sichern}
+
+\section{Einleitung}
+
+Great Expectations ist eine umfangreiche Python-Bibliothek, die Data Scientists und Data Engineers bei der Sicherung der Datenqualität unterstützt. Die Software ist komplex, doch die Einstiegshürden sind niedrig. Selbst wer nur einfache Funktionen nutzt, profitiert vom Einsatz in Projekten mit unstrukturierten Daten aus Data Lakes. 
+
+\begin{itemize}
+  \item Mit der Python-Bibliothek Great Expectations lassen sich Erwartungen an Datensätze formulieren und validieren.
+  \item Durch ihren deklarativen Ansatz eignet sie sich auch für Domain-Experten ohne umfangreiche Programmierkenntnisse.
+  \item Im JSON-Format gespeicherte Validierungsergebnisse sind universell wiederverwendbar.
+  \item Dank Mechanismen zur Einbindung in Datenpipelines lassen sich Validierungen und Reaktionen auf Fehler automatisieren.
+\end{itemize}
+
+Data-Science- oder KI-Projekte sind nur dann erfolgreich, wenn die Qualität der Daten stimmt (siehe Kasten ``Wenn der Data Lake versumpft''). Die kontinuierliche Überwachung der Datenqualität ähnelt ein wenig den Testing-Ansätzen zur Sicherstellung der Codequalität in der klassischen Softwareentwicklung. Das Projekt Great Expectations (GE) orientiert sich an einigen dieser Best Practices aus dem Softwareengineering und adaptiert sie auf den Datenbereich. Great Expectations ist eine quelloffene Python Library mit umfangreichen Möglichkeiten zur Sicherstellung von Datenqualität, zur Dokumentation sowie zum Profiling von Daten. Mithilfe von Great Expectations lässt sich über die gesamte Datenverarbeitungskette ein Mindestmaß von Qualitätsanforderungen systematisch überprüfen und somit der Entstehung von Data Swamps entgegenwirken. 
+ 
+\section{Wenn der Data Lake versumpft}
+
+Viele der auf große Datenmengen ausgerichteten Infrastrukturen (Data Lakes), die in den letzten Jahren entstanden, verdanken ihren Erfolg zu wesentlichen Teilen der schemalosen Integration von Daten aus unterschiedlichsten Quellen. Schemalos bedeutet, dass Daten zunächst unabhängig von ihrer Struktur in Data Lakes geladen werden. Die Interpretation dieser Daten ist Aufgabe der Datenkonsumenten (Schema on Read). Dies ist ein Paradigmenwechsel im Vergleich zu dem bei relationalen Datenbanken und auch im Data Warehousing etablierten Konzept Schema on Write. Gemäß dem Motto „Viel hilft viel“ konnten Daten nun massenhaft und ohne Sicherung einer zuvor festgelegten Struktur in Data Lakes gekippt werden. Oft führte das dazu, dass in kürzester Zeit Unmengen schlecht dokumentierter Datensätze ohne klare Verantwortlichkeit anfielen. Diese Unübersichtlichkeit sowie das Fehlen qualitätssichernder Maßnahmen ließen Data Lakes mit der Zeit zu Data Swamps verkommen, in denen Datensätze schwer aufzufinden und nicht verlässlich sind.
+	
+Mit dem Anspruch vieler Unternehmen, durch datengetriebene Softwareentwicklung Entscheidungen zu automatisieren, wächst aber (wieder) der Bedarf an hochwertigen und verlässlichen Datenquellen, zum Beispiel wenn ein vorab auf den Daten trainiertes ML-Modell zur automatisierten Entscheidungsfindung verwendet wird. Die Datenqualität bestimmt maßgeblich den Erfolg derartiger datengetriebener Entscheidungen („Garbage in, Garbage out“). Neben dem Programmcode gibt es also eine weitere Quelle für unerwartetes oder fehlerhaftes Verhalten einer Software. Das Modelltraining kann wie erwartet funktionieren und das optimale Modell ausgeben – möglicherweise aber auf der Grundlage von Daten, die real existierende Objekte oder Tatsachen nur mangelhaft abbilden. Aus diesem Grund können durch Daten verursachte Fehler nicht mit etablierten Testansätzen aus dem Softwareengineering erkannt werden.
+	
+Derartige Abweichungen von der Realität können schon bestehen, wenn das Modell produktiv geht, oder auch erst später auftreten (Concept Drift). Bleiben sie an der Quelle unerkannt, so fallen sie oft erst viel zu spät am Ende einer Reihe vieler Verarbeitungsschritte über verschiedene Teams und Produkte hinweg auf. In einem solchen Worst-Case-Szenario müssen Datenkonsumenten wie Analysten oder Produktteams zunächst die Datenproduzenten ausfindig machen und sie auf den Fehler hinweisen. Der Entwicklungsprozess aller abhängigen Teams ist dann bis zur Behebung der Ursache stark beeinträchtigt.
+	
+Eine nur schwer zu überblickende Kaskade von Fehlern kann sich innerhalb kürzester Zeit über viele Datensätze hinweg propagieren. Sie zu beheben ist oft sehr komplex, zeitaufwendig und selbst wiederum fehleranfällig. Sind gar Kunden und Kundinnen von Fehlentscheidungen betroffen, so lässt sich dadurch entstandener Schaden in der Regel nicht mehr rückgängig machen. Mechanismen zur Sicherstellung von Datenqualität sollten also so früh wie möglich systematisch etabliert werden – möglichst vor der Bereitstellung von Daten, auf jeden Fall aber vor der Produktivierung automatisierter Entscheidungen.
+
+\section{ Schnellstart mit CVS und pandas}
+	
+Great Expectations (GE) eignet sich primär für tabellarische Datensätze, die als pandas- oder Spark-DataFrame einlesbar sind. Um auch Datenbanksysteme als Datenquelle zu verwenden, kommt der objektrelationale Mapper SQLAlchemy zum Einsatz. Die GE-Dokumentation liefert detaillierte Beispiele, wie sich nicht nur relationale Datenbanksysteme wie PostgreSQL und MySQL einbinden lassen, sondern auch Cloud-Datenbanken wie Redshift oder BigQuery. Auch lassen sich verschiedene Formate auf Cloud-Speichern als Datenquellen konfigurieren, etwa Databricks auf Azure oder pandas-DataFrames in einem S3-Speicher.
+	
+Erwartungen (Expectations) sind ein zentrales Element in GE, um Annahmen über den Inhalt oder die Struktur eines Datensatzes auszudrücken. Erwartungen lassen sich in GE entweder deklarativ in JSON-Syntax oder programmatisch per CLI oder Python-API vorgeben und später als JSON-Datei exportieren. Durch die Festlegung auf dieses generische Dateiformat ist man in der Lage, Erwartungen kontinuierlich zu erweitern, sie anzupassen und Änderungen in einem Versionskontrollsystem nachzuhalten.
+	
+Der deklarative Ansatz ermöglicht es auch Domänenexperten ohne ausgeprägte Programmierkenntnisse, Erwartungen intuitiv zu formulieren und auf diese Weise zur Sicherstellung von Datenqualität beizutragen. GE ermöglicht zudem eine explorative Herangehensweise bei der Festlegung von Erwartungen, indem man interaktiv mit pandas- oder Spark-DataFrames interagiert. So lassen sich innerhalb eines Notebooks Erwartungen ad hoc definieren, um diese anschließend zu überprüfen und unmittelbar zu verifizieren. Diese Möglichkeit wird im Folgenden vorgestellt. Voraussetzung ist lediglich ein Jupyter-Notebook. 
+	 
+\section{Datenerkundung im Notebook}
+	
+Als Beispiel dient ein Datensatz mit Wetterdaten aus Brasilien, der auf Kaggle verfügbar ist (siehe \URL{ix.de/zddp}). Er enthält Uhrzeiten, Temperaturmesswerte, Standorte und viele weitere Einträge. Ein  Auszug des Datensatzes ist in Abbildung 1 zu sehen. Die CSV-Datei ist sehr groß, für den Anfang genügen aber die ersten 10000 Zeilen. Nach dem Einlesen liefert die Methode \PYTHON{read\_csv} ein Objekt vom Typ    PandasDataset zurück -- einen pandas-DataFrame mit zusätzlichen, GE-spezifischen Funktionen:
+
+\begin{lstlisting}[language=Python]
+import great_expectations as ge
+ge_df = ge.read_csv("path/to/data.csv", nrows=10000)
+type(ge_df)
+\end{lstlisting}	
+	
+Zusätzlich zu den von pandas bereitgestellten Methoden von \PYTHON{DataFrame} bietet das PandasDataset weitere Funktionen, um Informationen über die Tabelle und die Spalten abzufragen, um Erwartungen zu definieren sowie vorab festgelegte Erwartungen zu validieren.
+	
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/Quality/PandasQuality01}
+	\caption{Der Kaggle-Datensatz im Beispiel zeigt Temperaturwerte aus verschiedenen Orten im Süden Brasiliens.}
+\end{figure}	
+	
+	
+	Einige Statistiken über den Datensatz vermitteln einen ersten Eindruck zum Aufbau (Listing 1). Nach den ersten Untersuchungen des Datensatzes ist es Zeit, die ersten Erwartungen zu definieren. Diese sollten lauten, dass besonders relevante Spalten erstens im Datensatz enthalten sein und zweitens keine fehlenden oder ungültigen Werte enthalten sollen. In der Spalte temp sollen fehlende Werte aber erlaubt sein (siehe die ersten vier Zeilen im Listing 2). Die Definition der Erwartungen funktioniert auf dem PandasDataset (und allen anderen GE-Datasets) ohne erneute Zuweisung, GE fügt die Erwartungen direkt der internen Datenstruktur hinzu.
+	
+\begin{code}	
+  \caption{Erste Erkundungen des Datensatzes}
+	
+\begin{lstlisting}[language=Python]
+ge_df.info()  # pandas function
+ge_df.get_column_nonnull_count(col)
+ge_df.get_column_quantiles(col, (.0, .25, .5, .75, 1.0))
+ge_df.describe()  # pandas function
+\end{lstlisting}
+\end{code}	
+	
+\begin{code}	
+  \caption{Definitionen erster Erwartungen an den Datensatz}
+	
+\begin{lstlisting}[language=Python]
+for col in ["station", "date", "hour", "temp"]:
+ge_df.expect_column_to_exist(col)  # (1)
+	
+for col in ["station", "date", "hour"]:
+ge_df.expect_column_values_to_not_be_null(col)  # (2)
+	
+ge_df.expect_column_values_to_be_between("temp", min_value=10.0, max_value=50.0)
+\end{lstlisting}
+\end{code}
+		
+\section{Wie warm wird es in Brasilien?}
+	
+Die Spalte temp enthält Temperaturmesswerte einer Wetterstation in Brasilien. Zu erwarten ist, dass diese zwischen $10^\circ C$ und $50^\circ C$ liegen. Die letzte Zeile im Listing 2 formuliert diese Erwartung. Durch diese Vorgabe ernennt sich der GE-Anwender gewissermaßen selbst zum Domänenexperten, der seine Kenntnisse als Erwartung an die Daten formuliert. ``Selbst in Brasilien, wo es sehr heiß werden kann, erwarte ich keine Temperatur über $50^\circ C$.'' Was jedoch, wenn ein Sensor bei einem Waldbrand höhere Werte meldet? Dieses Beispiel veranschaulicht, wie sorgfältig Erwartungen an die Daten formuliert werden sollten.
+	
+Die Spalte date enthält Datumswerte als Zeichenketten in der Form yyyy-MM-dd. Ein Wert innerhalb der Spalte hour entspricht der Stunde des Tages und ist gegeben als Zeichenkette im Format hh:mm, wobei die Minutenangabe immer ``00'' ist. Diese Erwartungen lassen sich durch Vorgabe des Datumsformats oder mit einem regulären Ausdruck festlegen (Listing 3).
+
+\begin{code}
+	
+	\caption{Erwartungen an die Datumsspalte}
+	
+\begin{lstlisting}[language=Python]
+	ge_df.expect_column_values_to_match_strftime_format("date", "%Y-%m-%d")
+	ge_df.expect_column_values_to_match_regex("hour", "^([01]?\\d|2[0-3]):00$")
+\end{lstlisting}
+\end{code}
+	
+Testweise können die festgelegten Erwartungen auf dem aktuellen Datensatz validiert werden, um zu sehen, ob diese dort erfüllt sind:
+
+\begin{lstlisting}[language=Python]
+ge_df.validate()
+\end{lstlisting}
+	
+Das Ergebnis zeigen die Listings 4 und 5. Wie erwartet sind die Werte der Spalte \PYTHON{hour} nicht null (\PYTHON{expect\_column\_values\_to\_not\_be\_null} in Listing 2). Die Validierung für diese Expectation auf  diesem Datensatz läuft also fehlerlos durch. Die Erwartung, dass der Temperatursensor nur Werte im Bereich   von 10 bis 50 Grad liefert, stellt sich allerdings als falsch heraus (Listing 5). Die Validierung findet
+    Werte außerhalb des definierten Intervalls von \PYTHON{GE(-9999.0)}. Der Grund könnte hier beispielsweise
+     ein defekter Sensor sein.
+ 
+
+
+\begin{code}
+  \caption{Validierungsergebnisse der Spalte hour}
+\begin{lstlisting}[language=Python]
+{
+	"success": true,
+	"exception_info": {
+		"raised_exception": false,
+		"exception_message": null,
+		"exception_traceback": null
+	},
+	"result": {
+		"element_count": 1000,
+		"unexpected_count": 0,
+		"unexpected_percent": 0.0,
+		"unexpected_percent_total": 0.0,
+		"partial_unexpected_list": []
+	},
+	"meta": {},
+	"expectation_config": {
+		"expectation_type": "expect_column_values_to_not_be_null",
+		"kwargs": {
+			"column": "hour",
+			"result_format": "BASIC"
+		},
+		"meta": {}
+	}
+},
+\end{lstlisting}
+\end{code}
+	
+\begin{code}
+  \caption{Fehlgeschlagene Validierung der Sensordaten}
+	
+\begin{lstlisting}[language=Python]
+{
+	"success": false,
+	"exception_info": {
+		"raised_exception": false,
+		"exception_message": null,
+		"exception_traceback": null
+	},
+	"result": {
+		"element_count": 1000,
+		"missing_count": 0,
+		"missing_percent": 0.0,
+		"unexpected_count": 11,
+		"unexpected_percent": 1.0999999999999999,
+		"unexpected_percent_total": 1.0999999999999999,
+		"unexpected_percent_nonmissing": 1.0999999999999999,
+		"partial_unexpected_list": [
+		-9999.0,
+		-9999.0,
+		...
+		-9999.0
+		]
+	},
+	"meta": {},
+	"expectation_config": {
+		"expectation_type": "expect_column_values_to_be_between",
+		"kwargs": {
+			"column": "temp",
+			"min_value": 10.0,
+			"max_value": 50.0,
+			"result_format": "BASIC"
+		},
+		"meta": {}
+	}
+}
+\end{lstlisting}
+\end{code}
+	
+	Ähnlich wie bei einem Test wird bei der Validierung ein Istzustand (Datensatz) mit einem vorab festgelegten Sollzustand (Expectation) abgeglichen. Eine Validierung kann vor jeder Änderung eines Datensatzes durchgeführt und als Voraussetzung für die Durchführung der Änderung festgelegt werden. Die auf dem obigen DataFrame \PYTHON{ge\_df} definierten Erwartungen fasst Great Expectations automatisch zu einer Expectation Suite zusammen. Diese lässt sich im JSON-Format exportieren, um später auf neuen Daten wiederverwendet zu werden. Sie sollte zusätzlich außerhalb des Notebooks, am besten in einem Versionskontrollsystem gespeichert werden.
+	
+\begin{lstlisting}[language=Python]
+	import json
+	with open('expectation_suite.json', 'w', encoding='utf-8') as f:
+	json.dump(ge_df.get_expectation_suite(), f)
+\end{lstlisting}
+
+	
+	Listing 6 zeigt einen Auszug der JSON-Datei. Dort finden sich die einzelnen vorher im Code spezifizierten Erwartungen wieder, im Beispiel dargestellt sind die Datumsspalten mit den Expectations \PYTHON{expect\_column\_to\_exist} und \PYTHON{expect\_column\_values\_to\_not\_be\_null}.
+	
+\begin{code}	
+	\caption{Expectations im JSON-Format}
+	
+\begin{lstlisting}[language=Python]
+...
+"expectations": [
+{
+	"expectation_type": "expect_column_to_exist",
+	"kwargs": {
+		"column": "date"
+	},
+	"meta": {}
+},
+...    
+\end{lstlisting}
+\end{code}	
+	
+Falls noch keine klare Vorstellung zur Erstellung der Expectation Suite vorhanden ist, bietet GE die Möglichkeit, Vorschläge für mögliche Expectations auf Basis der Daten automatisch abzuleiten. Dies ist durch einen Profiler möglich, der statistische Merkmale des Datensatzes auswertet (siehe \URL{ix.de/zddp}). Beispielsweise bewegt sich die Temperatur temp im obigen Datensatz immer zwischen $10^\circ C$ und $50^\circ C$. Entsprechend schlägt der Profiler eine Expectation \PYTHON{expect\_column\_values\_to\_be\_between("temp", min\_value=10.0, max\_value=50.0)} vor. Diese automatisch generierten Expectations sollten allerdings immer auf Sinnhaftigkeit überprüft und gegebenenfalls angepasst werden.
+
+
+
+\section{Was tun bei unerfüllten Erwartungen?}
+	
+Nachdem eine geeignete Menge von Erwartungen definiert wurde, stellt sich die Frage, wie mit Datensätzen umzugehen ist, die diese nicht erfüllen. Hierbei sind verschiedene Szenarien denkbar: Bei weniger kritischen Verletzungen könnte es genügen, eine Gruppe von Personen über die Auffälligkeit zu benachrichtigen. Die auffälligen Datensätze werden jedoch weiterverarbeitet. Im obigen Beispiel könnte dies eine erhöhte Temperatur sein, die durch einen Waldbrand ausgelöst wurde. Bei einer schwerwiegenderen Verletzung könnte man zusätzlich zu einer Benachrichtigung die betroffenen Datensätze aussortieren und in einen Quarantänebereich umleiten.
+
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{Pandas/Quality/PandasQuality02}
+	\caption{Great Expectations lässt sich als Validierungsinstanz in Datenpipelines einbinden. In diesem Beispiel sind die Verantwortlichkeiten von Data Engineers und Domänenexperten sauber getrennt.}
+\end{figure}
+
+
+
+	
+Dies wäre etwa dann der Fall, wenn ein Temperatursensor einen Wert übermittelt, der aus technischen Gründen unmöglich zu messen ist. Great Expectations selbst bietet keine offensichtliche Möglichkeit, eine derartige Strategie für den Umgang mit auffälligen oder fehlerhaften Datensätzen umzusetzen. In einem solchen Szenario muss Great Expectations innerhalb einer Datenpipeline eingebunden sein, die Strategien auf Basis der Validierungsergebnisse von Great Expectations implementiert (Abbildung 2). GE bietet dafür das Konzept der Checkpoints an. Alternativ lassen sich die Validierungsergebnisse auch langfristig in einer Datenbank persistieren, sodass andere Tools sie von dort konsumieren können.
+
+\section{Fazit}
+
+	
+Setzt man einen auf dem Python-Ökosystem basierenden Technologiestack mit pandas oder Spark voraus, bietet sich Great Expectations als einfach zu integrierende Lösung zur Sicherstellung von Datenqualität innerhalb von Datenpipelines an. Nach der Einbindung von GE lassen sich Annahmen auf Basis einer JSON-spezifizierten Suite validieren und sukzessive erweitern. Gerade während einer initialen Projektphase, die von hoher Unsicherheit hinsichtlich Tooling und Anforderungen geprägt ist, lässt sich GE – wie im obigen Beispiel beschrieben – mit minimalem Aufwand einsetzen und schrittweise gemäß den jeweiligen Ansprüchen ausbauen. Die Kernfunktionen von GE sind die Definition und die Validierung von Erwartungen auf Daten, die durch die Spark-Integration auch auf großen Datenmengen praktikabel sind.
+	
+	Wünschenswert wäre eine Möglichkeit zur Umsetzung komplexerer Strategien für den Umgang mit fehlerhaften Daten, beispielsweise basierend auf vorab festgelegten Schweregraden. Für komplexere Szenarien und die Einbindung in Datenpipelines bietet GE weiterführende Abstraktionen an, die eine tiefere Einarbeitung erfordern, aber umfangreich dokumentiert sind. Dank JSON-Export sind Validierungsergebnisse universell verwendbar. So lassen sich die Ergebnisse dauerhaft speichern und von weiteren Tools nutzen, etwa für Monitoring- oder Reportingzwecke. (ulw@ix.de)
+	
+\section{Quellen}
+
+Dokumentation von Great Expectations und Links zu weiteren Möglichkeiten der Bibliothek: ix.de/zddp
+	
+	

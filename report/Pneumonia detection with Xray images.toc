@@ -1,0 +1,167 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Contents}{i}{chapter*.1}%
+\contentsline {chapter}{List of Figures}{vii}{chapter*.2}%
+\contentsline {chapter}{List of Tables}{ix}{chapter*.3}%
+\contentsline {chapter}{Acronyms}{xi}{chapter*.3}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objective}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Problem description}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Problem statement}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Scope of problem statement}{3}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Challenges}{3}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Data Quality}{3}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Bias}{4}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Data consistency}{4}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Proposed approach}{4}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Domain Knowledge}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Medical imaging}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Image recognition}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}ImageNet}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Convulational Neural Network}{8}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Pooling Layer}{9}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Fully-Connected Layer}{10}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}CNN Training}{10}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Keras - Library}{10}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Visual studio}{11}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Installation}{11}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Requirements}{12}{subsection.2.6.2}%
+\contentsline {section}{\numberline {2.7}TensorFlow Lite}{13}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Understanding the Domain}{13}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Problem}{13}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Data acquisition}{13}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}Data quantity}{15}{subsection.2.8.3}%
+\contentsline {subsection}{\numberline {2.8.4}Data quality}{15}{subsection.2.8.4}%
+\contentsline {subsection}{\numberline {2.8.5}Data relevance}{15}{subsection.2.8.5}%
+\contentsline {subsection}{\numberline {2.8.6}Outliners and Anomalies}{16}{subsection.2.8.6}%
+\contentsline {chapter}{\numberline {3}Technical requirements}{17}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Software requirements}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Hardware requirements}{17}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Knowledge Discovery in Databases Process}{19}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Data Mining - Algorithms for Pneumonia detection}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Random Forest}{21}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Applications:}{21}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Relevance:}{21}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Hyperparameters:}{21}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Requirements:}{22}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Input:}{22}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}Output:}{22}{subsection.5.1.6}%
+\contentsline {section}{\numberline {5.2}Support Vector Machines (SVM)}{22}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Relevance:}{23}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Hyperparameters:}{23}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Requirements:}{23}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Input:}{23}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Output:}{23}{subsection.5.2.5}%
+\contentsline {section}{\numberline {5.3}Convolutional Neural Networks}{24}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Relevance:}{24}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Hyperparameters:}{24}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Requirements:}{24}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Input:}{25}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Output:}{25}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Examples for the Algorithms}{25}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Development}{29}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Database Description}{29}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Dataset Description}{29}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Mendeley Chest X-Ray Dataset}{29}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Kaggle Chest X-Ray Dataset}{32}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Data Selection}{33}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Data Preparation}{35}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Data Transformation}{35}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Data Mining}{36}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Data Training}{36}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Transfer Learning}{38}{subsection.6.6.2}%
+\contentsline {chapter}{\numberline {7}Python Package}{41}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Flask}{41}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Description}{41}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Installation}{41}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}Manual}{42}{subsection.7.1.3}%
+\contentsline {subsection}{\numberline {7.1.4}Example}{43}{subsection.7.1.4}%
+\contentsline {subsection}{\numberline {7.1.5}Features:}{43}{subsection.7.1.5}%
+\contentsline {subsection}{\numberline {7.1.6}Applications:}{44}{subsection.7.1.6}%
+\contentsline {subsection}{\numberline {7.1.7}Further Reading}{44}{subsection.7.1.7}%
+\contentsline {section}{\numberline {7.2}TensorFlow}{44}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Description}{44}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Installation}{45}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Manual}{45}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Example}{46}{subsection.7.2.4}%
+\contentsline {subsection}{\numberline {7.2.5}Features:}{46}{subsection.7.2.5}%
+\contentsline {subsection}{\numberline {7.2.6}Applications:}{47}{subsection.7.2.6}%
+\contentsline {subsection}{\numberline {7.2.7}Further Reading}{47}{subsection.7.2.7}%
+\contentsline {section}{\numberline {7.3}NumPy}{47}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Description}{47}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Installation}{47}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Manual}{48}{subsection.7.3.3}%
+\contentsline {subsection}{\numberline {7.3.4}Example}{49}{subsection.7.3.4}%
+\contentsline {subsubsection}{\nonumberline Code}{49}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Output}{49}{subsubsection*.23}%
+\contentsline {subsection}{\numberline {7.3.5}Features:}{49}{subsection.7.3.5}%
+\contentsline {subsection}{\numberline {7.3.6}Applications:}{49}{subsection.7.3.6}%
+\contentsline {subsection}{\numberline {7.3.7}Further Reading}{50}{subsection.7.3.7}%
+\contentsline {section}{\numberline {7.4}Matplotlib}{50}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Description}{50}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Installation}{50}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Manual}{51}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Example}{51}{subsection.7.4.4}%
+\contentsline {subsubsection}{\nonumberline Code:}{52}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline Output:}{52}{subsubsection*.28}%
+\contentsline {subsection}{\numberline {7.4.5}Features}{52}{subsection.7.4.5}%
+\contentsline {subsection}{\numberline {7.4.6}Applications}{53}{subsection.7.4.6}%
+\contentsline {subsection}{\numberline {7.4.7}Further Reading}{53}{subsection.7.4.7}%
+\contentsline {chapter}{\numberline {8}Development Environment: PyCharm}{55}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Version}{55}{section.8.1}%
+\contentsline {section}{\numberline {8.2}PyCharm Benefits}{55}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Main Functions}{55}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Subfunctions}{56}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Installation}{56}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Configuration}{56}{section.8.6}%
+\contentsline {subsection}{\numberline {8.6.1}General}{56}{subsection.8.6.1}%
+\contentsline {subsection}{\numberline {8.6.2}Special}{56}{subsection.8.6.2}%
+\contentsline {section}{\numberline {8.7}First Steps}{57}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Program "Hello World"}{57}{section.8.8}%
+\contentsline {subsection}{\numberline {8.8.1}Description}{57}{subsection.8.8.1}%
+\contentsline {subsection}{\numberline {8.8.2}Manual}{57}{subsection.8.8.2}%
+\contentsline {chapter}{\numberline {9}Monitoring and Evaluation}{59}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Monitoring of the Model}{59}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}Importance of updating the data}{59}{subsection.9.1.1}%
+\contentsline {subsection}{\numberline {9.1.2}Privacy is critical}{60}{subsection.9.1.2}%
+\contentsline {subsection}{\numberline {9.1.3}Robustness}{61}{subsection.9.1.3}%
+\contentsline {subsection}{\numberline {9.1.4}Monitoring in the KDD process}{61}{subsection.9.1.4}%
+\contentsline {section}{\numberline {9.2}Evaluation of Pneumonia Detection}{62}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Application}{64}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Result}{64}{subsection.9.2.2}%
+\contentsline {section}{\numberline {9.3}General}{65}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Testing}{69}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Function}{69}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Class}{70}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Parts}{70}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Automation}{71}{section.10.4}%
+\contentsline {section}{\numberline {10.5}Documentation}{72}{section.10.5}%
+\contentsline {chapter}{\numberline {11}Development to Deployment}{73}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Tools and Installation}{73}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Saving the Model}{75}{section.11.2}%
+\contentsline {section}{\numberline {11.3}File Structure}{76}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Loading Model}{76}{section.11.4}%
+\contentsline {section}{\numberline {11.5}Description Of Process}{77}{section.11.5}%
+\contentsline {chapter}{\numberline {12}Deployment}{79}{chapter.12}%
+\contentsline {section}{\numberline {12.1}User Interface}{79}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Work flow}{79}{section.12.2}%
+\contentsline {chapter}{\numberline {13}Monitoring the Model}{83}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Plan}{83}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Process Description}{83}{section.13.2}%
+\contentsline {section}{\numberline {13.3}New Data}{84}{section.13.3}%
+\contentsline {section}{\numberline {13.4}Checks}{84}{section.13.4}%
+\contentsline {section}{\numberline {13.5}Functions}{84}{section.13.5}%
+\contentsline {section}{\numberline {13.6}Program}{85}{section.13.6}%
+\contentsline {chapter}{\numberline {14}Programme Flow}{87}{chapter.14}%
+\contentsline {chapter}{\numberline {15}Application}{89}{chapter.15}%
+\contentsline {section}{\numberline {15.1}Operating System}{89}{section.15.1}%
+\contentsline {section}{\numberline {15.2}Constraints}{89}{section.15.2}%
+\contentsline {section}{\numberline {15.3}Input Data}{91}{section.15.3}%
+\contentsline {section}{\numberline {15.4}Conclusions}{91}{section.15.4}%
+\contentsline {chapter}{\numberline {16}Open Questions}{93}{chapter.16}%
+\contentsline {chapter}{\numberline {17}Conclusion}{95}{chapter.17}%
+\contentsline {section}{\numberline {17.1}Conclusion}{95}{section.17.1}%
+\contentsline {section}{\numberline {17.2}Next Step}{95}{section.17.2}%
+\contentsline {section}{\numberline {17.3}To Do}{97}{section.17.3}%
+\contentsline {section}{\numberline {17.4}Unanswered points}{98}{section.17.4}%
+\contentsline {chapter}{\numberline {A}Appendix}{99}{appendix.A}%

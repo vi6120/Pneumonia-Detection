@@ -1,0 +1,47 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces \textbf {Schematic Classification of infections in lungs.}\relax }}{2}{figure.caption.5}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces \textbf {X-ray Images 1) COVID-19, 2) viral pneumonia, 3) normal and 4) bacterial pneumonia.}\relax }}{5}{figure.caption.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces A CNN sequence to classify handwritten digits\relax }}{9}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Pooling Layer in CNN\relax }}{10}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces \textbf {TensorFlow Lite Workflow.}\relax }}{14}{figure.caption.12}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces \textbf {KDD Process Workflow}\relax }}{19}{figure.caption.15}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces \textbf {KDD approach flow chart}\relax }}{30}{figure.caption.16}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces \textbf {Chest X-ray of (a) Healthy person and (b) Pneumonia}\relax }}{31}{figure.caption.17}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces \textbf {Transfer learning architecture}\relax }}{38}{figure.caption.18}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces \textbf {Flask server}\relax }}{43}{figure.caption.19}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces \textbf {NumPy Output}\relax }}{49}{figure.caption.24}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces \textbf {Matplotlib Output}\relax }}{52}{figure.caption.29}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces \textbf {Flowchart for Data updating}\relax }}{60}{figure.caption.30}%
+\contentsline {figure}{\numberline {9.2}{\ignorespaces \textbf {Process monitoring flowchart}\relax }}{63}{figure.caption.31}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces pytest\relax }}{69}{figure.caption.32}%
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Predict Pneumonia\relax }}{70}{figure.caption.33}%
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Accuracy\relax }}{70}{figure.caption.34}%
+\contentsline {figure}{\numberline {10.4}{\ignorespaces model-loading\relax }}{71}{figure.caption.35}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {11.1}{\ignorespaces \textbf {Saving Model Architecture}\relax }}{75}{figure.caption.36}%
+\contentsline {figure}{\numberline {11.2}{\ignorespaces \textbf {Saving Model For Python Scrip}\relax }}{76}{figure.caption.37}%
+\contentsline {figure}{\numberline {11.3}{\ignorespaces \textbf {Loading The Model}\relax }}{77}{figure.caption.38}%
+\contentsline {figure}{\numberline {11.4}{\ignorespaces \textbf {Description Of Process}\relax }}{78}{figure.caption.39}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {12.1}{\ignorespaces \textbf {Road Map For Web App}\relax }}{80}{figure.caption.40}%
+\contentsline {figure}{\numberline {12.2}{\ignorespaces \textbf {Web Page}\relax }}{80}{figure.caption.41}%
+\contentsline {figure}{\numberline {12.3}{\ignorespaces \textbf {Result}\relax }}{80}{figure.caption.42}%
+\contentsline {figure}{\numberline {12.4}{\ignorespaces \textbf {Deployment approach flow chart}\relax }}{81}{figure.caption.43}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {15.1}{\ignorespaces \textbf {User Interface}\relax }}{90}{figure.caption.45}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

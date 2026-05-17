@@ -17,6 +17,9 @@ Ref: (Pneumonia Detection from Chest X-Ray Images using Transfer Learning) (http
 ### Tools/IDE
     VisualStudio
 
+
+## Project for Educational Purpose
+
 # Dataset
 ├── Name : Chest X-Ray Images (Pneumonia)
 ├── Link : [Dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia) , [Original Dataset](https://data.mendeley.com/datasets/rscbjbr9sj/2) <br>

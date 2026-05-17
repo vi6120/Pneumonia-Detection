@@ -13,15 +13,15 @@ app = Flask(__name__,template_folder='templates')
 UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
 
-def makePredictions(path):
-  '''
-  Method to predict if the image 
-  uploaded is healthy or pneumonic
-  '''
-  img = Image.open(path) # we open the image
-  img_d = img.resize((224,224))
-  # we resize the image for the model
-  rgbimg=None
+# def makePredictions(path):
+#   '''
+#   Method to predict if the image 
+#   uploaded is healthy or pneumonic
+#   '''
+#   img = Image.open(path) # we open the image
+#   img_d = img.resize((224,224))
+#   # we resize the image for the model
+#   rgbimg=None
   #We check if image is RGB or not
   if len(np.array(img_d).shape)<3:
     rgbimg = Image.new("RGB", img_d.size)
